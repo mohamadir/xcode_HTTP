@@ -34,7 +34,9 @@ struct Main: Codable{
                         print("*****************************")
                         let  groups2 = try JSONDecoder().decode(Main.self, from: data)
                         groups = groups2.data!
-                        completionBlock(groups)
+                        DispatchQueue.main.async {
+                            completionBlock(groups)
+                        }
                        // print(groups[0].id)
                     }
                     catch {

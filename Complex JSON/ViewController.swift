@@ -60,10 +60,18 @@ struct Book: Codable {
 
 
 
-class ViewController: UIViewController {
-
+class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+    
+    var myGrous: [TourGroup] = []
+    
+    @IBOutlet weak var tableView: UITableView!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView.delegate = self
+        tableView.dataSource = self
+        
         let fred = Person(name: "fred", age: 32, dog: Dog(name: "Spot", breed: .beagle))
         let mohamd = Person(name: "mohamd", age: 32, dog: Dog(name: "Spot", breed: .beagle))
         let abd = Person(name: "abd", age: 32, dog: Dog(name: "Spot", breed: .beagle))
@@ -101,9 +109,26 @@ class ViewController: UIViewController {
         print(book)
         let groupRequest = Main()
         groupRequest.getGroups(){ (output) in
-            print("&&&&&& \(output!.count)")
+            self.myGrous = output!
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+            print("&&&&&& \(self.myGrous.count)")
         }
+       
         // Do any additional setup after loading the view, typically from a nib.
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        print("hi \(myGrous.count)")
+        return self.myGrous.count
+    }
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = UITableViewCell(style: UITableViewCellStyle.default, reuseIdentifier: "cell")
+        cell.textLabel?.text = self.myGrous[indexPath.row].title
+    
+        return cell
+        
     }
 
     override func didReceiveMemoryWarning() {
