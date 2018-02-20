@@ -15,6 +15,7 @@
 		743A2096203C1B12008DF1AA /* Complex_JSONTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 743A2095203C1B12008DF1AA /* Complex_JSONTests.swift */; };
 		743A20A1203C1B12008DF1AA /* Complex_JSONUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 743A20A0203C1B12008DF1AA /* Complex_JSONUITests.swift */; };
 		743A20AF203C1C09008DF1AA /* json.txt in Resources */ = {isa = PBXBuildFile; fileRef = 743A20AE203C1C09008DF1AA /* json.txt */; };
+		743A20BE203C3A97008DF1AA /* GroupRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 743A20BD203C3A97008DF1AA /* GroupRequest.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +50,7 @@
 		743A20A0203C1B12008DF1AA /* Complex_JSONUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Complex_JSONUITests.swift; sourceTree = "<group>"; };
 		743A20A2203C1B12008DF1AA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		743A20AE203C1C09008DF1AA /* json.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = json.txt; path = ../../json.txt; sourceTree = "<group>"; };
+		743A20BD203C3A97008DF1AA /* GroupRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupRequest.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,6 +108,7 @@
 				743A2087203C1B12008DF1AA /* Assets.xcassets */,
 				743A2089203C1B12008DF1AA /* LaunchScreen.storyboard */,
 				743A208C203C1B12008DF1AA /* Info.plist */,
+				743A20BD203C3A97008DF1AA /* GroupRequest.swift */,
 			);
 			path = "Complex JSON";
 			sourceTree = "<group>";
@@ -263,6 +266,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				743A20BE203C3A97008DF1AA /* GroupRequest.swift in Sources */,
 				743A2083203C1B12008DF1AA /* ViewController.swift in Sources */,
 				743A2081203C1B12008DF1AA /* AppDelegate.swift in Sources */,
 			);
