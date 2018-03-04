@@ -13,6 +13,9 @@
 		74138E07204442FD00F37028 /* ChatCustomCellController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74138E06204442FD00F37028 /* ChatCustomCellController.swift */; };
 		741D2A0920429CBC00DB8975 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 741D2A0820429CBB00DB8975 /* GoogleService-Info.plist */; };
 		741D2A102042B40C00DB8975 /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 741D2A0F2042B40C00DB8975 /* DetailsViewController.swift */; };
+		742375082046DC0300B9A0C0 /* ApiRequests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742375072046DC0300B9A0C0 /* ApiRequests.swift */; };
+		7423757F20499FB600B9A0C0 /* PrivateChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7423757E20499FB600B9A0C0 /* PrivateChatViewController.swift */; };
+		74237583204BE0E100B9A0C0 /* PrivateChatMessageCelVc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74237582204BE0E100B9A0C0 /* PrivateChatMessageCelVc.swift */; };
 		743A2081203C1B12008DF1AA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 743A2080203C1B12008DF1AA /* AppDelegate.swift */; };
 		743A2083203C1B12008DF1AA /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 743A2082203C1B12008DF1AA /* ViewController.swift */; };
 		743A2086203C1B12008DF1AA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 743A2084203C1B12008DF1AA /* Main.storyboard */; };
@@ -74,6 +77,9 @@
 		7418AFCC203EB3C1007BBC3D /* ic_cross_white@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_cross_white@2x.png"; sourceTree = "<group>"; };
 		741D2A0820429CBB00DB8975 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../GoogleService-Info.plist"; sourceTree = "<group>"; };
 		741D2A0F2042B40C00DB8975 /* DetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
+		742375072046DC0300B9A0C0 /* ApiRequests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiRequests.swift; sourceTree = "<group>"; };
+		7423757E20499FB600B9A0C0 /* PrivateChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivateChatViewController.swift; sourceTree = "<group>"; };
+		74237582204BE0E100B9A0C0 /* PrivateChatMessageCelVc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivateChatMessageCelVc.swift; sourceTree = "<group>"; };
 		743A207D203C1B12008DF1AA /* Snapgroup.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Snapgroup.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		743A2080203C1B12008DF1AA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		743A2082203C1B12008DF1AA /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -132,6 +138,8 @@
 			children = (
 				74138E032044207700F37028 /* ChatViewController.swift */,
 				74138E06204442FD00F37028 /* ChatCustomCellController.swift */,
+				7423757E20499FB600B9A0C0 /* PrivateChatViewController.swift */,
+				74237582204BE0E100B9A0C0 /* PrivateChatMessageCelVc.swift */,
 			);
 			path = Chat;
 			sourceTree = "<group>";
@@ -201,6 +209,15 @@
 			path = TabBarDetails;
 			sourceTree = "<group>";
 		};
+		742375092046DE0200B9A0C0 /* ApiRequests */ = {
+			isa = PBXGroup;
+			children = (
+				742375072046DC0300B9A0C0 /* ApiRequests.swift */,
+				743A20BD203C3A97008DF1AA /* GroupRequest.swift */,
+			);
+			path = ApiRequests;
+			sourceTree = "<group>";
+		};
 		743A2074203C1B12008DF1AA = {
 			isa = PBXGroup;
 			children = (
@@ -226,6 +243,7 @@
 		743A207F203C1B12008DF1AA /* Complex JSON */ = {
 			isa = PBXGroup;
 			children = (
+				742375092046DE0200B9A0C0 /* ApiRequests */,
 				74138E052044211400F37028 /* Chat */,
 				741D2A0A2042B16A00DB8975 /* TabBarDetails */,
 				7418AFB7203EB3C1007BBC3D /* ImageSlideshow */,
@@ -243,7 +261,6 @@
 				743A2089203C1B12008DF1AA /* LaunchScreen.storyboard */,
 				743A208C203C1B12008DF1AA /* Info.plist */,
 				741D2A0820429CBB00DB8975 /* GoogleService-Info.plist */,
-				743A20BD203C3A97008DF1AA /* GroupRequest.swift */,
 			);
 			path = "Complex JSON";
 			sourceTree = "<group>";
@@ -366,6 +383,11 @@
 					743A207C203C1B12008DF1AA = {
 						CreatedOnToolsVersion = 9.2;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 					743A2090203C1B12008DF1AA = {
 						CreatedOnToolsVersion = 9.2;
@@ -516,11 +538,14 @@
 				743A2102203C6468008DF1AA /* GroupViewController.swift in Sources */,
 				74905905203DB5DA00C6B8C1 /* MainTabController.swift in Sources */,
 				749058FE203D605F00C6B8C1 /* CustomTableViewCell.swift in Sources */,
+				74237583204BE0E100B9A0C0 /* PrivateChatMessageCelVc.swift in Sources */,
 				74138E0220440E9D00F37028 /* MenuViewController.swift in Sources */,
 				74905901203D853200C6B8C1 /* DesignableView.swift in Sources */,
 				74905909203DB9DC00C6B8C1 /* HomeViewController.swift in Sources */,
 				743A20BE203C3A97008DF1AA /* GroupRequest.swift in Sources */,
+				7423757F20499FB600B9A0C0 /* PrivateChatViewController.swift in Sources */,
 				743A2083203C1B12008DF1AA /* ViewController.swift in Sources */,
+				742375082046DC0300B9A0C0 /* ApiRequests.swift in Sources */,
 				743A2081203C1B12008DF1AA /* AppDelegate.swift in Sources */,
 				74138E042044207700F37028 /* ChatViewController.swift in Sources */,
 				741D2A102042B40C00DB8975 /* DetailsViewController.swift in Sources */,
@@ -690,6 +715,7 @@
 			baseConfigurationReference = 22C8D6AA62C7371008E12410 /* Pods-Snapgroup.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = LC6QR4F3TB;
 				INFOPLIST_FILE = "Complex JSON/Info.plist";
@@ -697,6 +723,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Snapgroup.snap2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -707,6 +734,7 @@
 			baseConfigurationReference = 177A3BAF819CF79D7CB80D53 /* Pods-Snapgroup.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = LC6QR4F3TB;
 				INFOPLIST_FILE = "Complex JSON/Info.plist";
@@ -714,6 +742,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Snapgroup.snap2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

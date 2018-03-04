@@ -14,52 +14,8 @@ import SDWebImage
 import MRCountryPicker
 
 
-struct Group: Codable {
-    var title: String
-    var people: [Person]
-    
-    init(title: String, people: [Person])
-    {
-        self.title = title
-        self.people = people
-    }
-    
-    
-}
 
-struct Person: Codable {
-    var name: String
-    var age: Int
-    var dog: Dog
-}
-
-struct Dog: Codable {
-    var name: String
-    var breed: Breed
-    
-    
-    enum Breed: String, Codable {
-        case collie = "Collie"
-        case beagle = "Beagle"
-        case gret = "Gret"
-    }
-}
-
-
-struct Book: Codable {
-    var title: String
-    var author: String
-    var pageCount: Int
-    
-    // Provide explicit string values for properties names that don't match JSON keys.
-    enum CodingKeys: String, CodingKey {
-        case title
-        case author
-        case pageCount = "number_of_pages"
-    }
-}
-
-
+/***********************************************      Structrs     *************************************************************/
 
 struct MyVriables {
     static var currentGroup: TourGroup?
@@ -68,29 +24,61 @@ struct MyVriables {
 }
 
 
+struct CurrentMember: Codable{
+    var message: String?
+    var member: Member?
+    var profile: MemberProfile?
+    
+}
+
+struct Member: Codable{
+    var email: String?
+    var phone: String?
+    var id: Int?
+}
+struct MemberProfile: Codable{
+    var member_id: Int?
+    var first_name: String?
+    var last_name: String?
+    var email: String?
+    var gender: String?
+    var birth_date: String?
+    var profile_image: String?
+   
+    
+}
+
+struct Toy: Codable {
+    var name: String?
+    var last: String?
+}
+/***********************************************      VIEW CONTROLLER     *************************************************************/
 
 
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource ,  MRCountryPickerDelegate{
     
     // header views
     
-    @IBOutlet weak var chatHeaderStackView: UIStackView!
-    @IBOutlet weak var phoneNumberStackView: UIStackView!
-    
+   
     var PINCODE: String?
     var phoneNumber: String?
     
+    /********  VIEWS ***********/
     @IBOutlet weak var countryPicker: MRCountryPicker!
-    
     @IBOutlet weak var flagImageView: UIImageView!
-    
     @IBOutlet weak var chatImageView: UIImageView!
-    
-    
     @IBOutlet weak var countryPrefLable: UILabel!
+    @IBOutlet weak var chatHeaderStackView: UIStackView!
+    @IBOutlet weak var phoneNumberStackView: UIStackView!
+    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var phoneNumberFeild: UITextField!
+
+    
+    /******* VARIABLES *********/
+    
     var myGrous: [TourGroup] = []
     var currentGroup: TourGroup?
-    @IBOutlet weak var tableView: UITableView!
+    var currentMember: CurrentMember?
     let cellSpacingHeight: CGFloat = 5
     var whatIsCurrent: Int  = 0
     var hasLoadMore: Bool = true
@@ -99,7 +87,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     var page: Int = 1
     var groupImages: [GroupImage] = []
     var flagImage: UIImage?
-    @IBOutlet weak var phoneNumberFeild: UITextField!
+    var currentProfile: MemberProfile?
+    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -115,12 +104,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
     }
     
-    func countryPhoneCodePicker(_ picker: MRCountryPicker, didSelectCountryWithName name: String, countryCode: String, phoneCode: String, flag: UIImage) {
-        self.flagImageView.image = flag
-        self.countryPrefLable.text = phoneCode
-        self.countryPicker.isHidden = true
-        
-    }
+   
     
     
     
@@ -132,80 +116,59 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         phoneNumberFeild.keyboardType = .numberPad
         setCountryPicker()
         setChatTap()
+        setRefresher()
+        self.checkCurrentUser()
         DispatchQueue.main.async {
             self.getSwiftGroups(){ (output) in
-//
-//                self.myGrous = output!
-//
-//                print(self.myGrous)
-//
-//                    self.tableView.reloadData()
                 
             }
         }
-        
-        UserDefaults.standard.set("titelooooooooooosh", forKey: "title")
-      //  setUpNavigationItmes()
-        let fred = Person(name: "fred", age: 32, dog: Dog(name: "Spot", breed: .beagle))
-        let mohamd = Person(name: "mohamd", age: 32, dog: Dog(name: "Spot", breed: .beagle))
-        let abd = Person(name: "abd", age: 32, dog: Dog(name: "Spot", breed: .beagle))
-        let encoder = JSONEncoder()
-        self.setupNavigationBarItmes()
-        let data  = try! encoder.encode(fred)
-        print(data)
-        let person2: Person
-        let decoder = JSONDecoder()
-        person2 = try! decoder.decode(Person.self , from: data)
-        print(person2.age)
-        
-        
-        dbRererence = Database.database().reference()
-        dbRererence?.child("name").childByAutoId().setValue("Yarsh")
-        dbRererence?.child("name").childByAutoId().setValue("Rabil")
-        dbRererence?.child("name").childByAutoId().setValue("Mohamed")
 
+    }
+    func setRefresher(){
         refresher = UIRefreshControl()
         refresher.attributedTitle = NSAttributedString(string: "Pull to refresh")
         refresher.addTarget(self, action: #selector(refreshData), for: UIControlEvents.valueChanged)
-        tableView.addSubview(refresher)
+        self.tableView.addSubview(refresher)
         
-        
-        
-        let group = Group(title: "groupy", people: [fred,mohamd,abd])
-        let groupData = try! encoder.encode(group)
-        
-        let groupy = try! decoder.decode(Group.self, from: groupData)
-        
-      //  print(groupy)
-        
-        
-        let bookJsonText =
-        """
-        {
-          "title": "War of the Worlds",
-          "author": "H. G. Wells",
-          "publication_year": 2012,
-          "number_of_pages": 240
-        }
-        """
-        let bookData = bookJsonText.data(using: .utf8)!
-        let book = try! decoder.decode(Book.self, from: bookData)
-        
-        print(book)
-        
-//        let groupRequest = Main()
-//        groupRequest.getGroups(){ (output) in
-//            self.myGrous = output!
-//            DispatchQueue.main.async {
-//                self.tableView.reloadData()
-//            }
-//
-//            print("&&&&&& \(self.myGrous[0].image)")
-//        }
-//
-//
-        // Do any additional setup after loading the view, typically from a nib.
     }
+    
+    
+    
+    
+    func countryPhoneCodePicker(_ picker: MRCountryPicker, didSelectCountryWithName name: String, countryCode: String, phoneCode: String, flag: UIImage) {
+        self.flagImageView.image = flag
+        self.countryPrefLable.text = phoneCode
+        self.countryPicker.isHidden = true
+        
+    }
+    
+    
+    
+    func checkCurrentUser(){
+        print("hihihi")
+        let defaults = UserDefaults.standard
+        let id = defaults.integer(forKey: "member_id")
+        let first = defaults.string(forKey: "first_name")
+        let last = defaults.string(forKey: "last_name")
+        let email = defaults.string(forKey: "email")
+        let phone = defaults.string(forKey: "phone")
+        let isLogged = defaults.bool(forKey: "isLogged")
+        if isLogged == true{
+                   self.phoneNumberStackView.isHidden = true
+                   self.chatHeaderStackView.isHidden = false
+        }
+        print(id)
+        print(first)
+        print(last)
+        print(email)
+        print(isLogged)
+
+    //    let prfoile = MemberProfile(member_id: id)
+        
+        
+    }
+    
     
     func setChatTap(){
         let singleTap = UITapGestureRecognizer(target: self, action: Selector("chatTapped"))
@@ -253,29 +216,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             countryPicker.setLocale(countryCode)
         }
           countryPicker.setCountry(Locale.current.regionCode!)
-       // print(Locale.current.regionCode)
-
-        
-//        // set country by its code
-//        countryPicker.setCountry("SI")
-//
-//        // optionally set custom locale; defaults to system's locale
-//        countryPicker.setLocale("sl_SI")
-        
-        // set country by its name
-  
-    //    countryPicker.setCountryByName("Canada")
     }
     
-    //
-   func setUpNavigationItmes(){
-//        let filterButton = UIButton(type: .system)
-//        filterButton.addTarget(self, action: #selector(onClick), for: .touchUpInside)
-//        self.view.addSubview(filterButton)
-//        filterButton.setImage(#imageLiteral(resourceName: "filter"), for: .normal)
-//        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: filterButton)
     
-    }
     
     @IBAction func sendClick(_ sender: Any) {
         
@@ -286,7 +229,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         VerifyAlert.addAction(UIAlertAction(title: NSLocalizedString("Yes", comment: "Default action"), style: .`default`, handler: { _ in
             let params = ["phone": self.phoneNumber]
             
-            HTTP.POST("https://api.snapgroup.co.il/api/getregistercode", parameters: params) { response in
+            HTTP.POST(ApiRouts.RegisterCode, parameters: params) { response in
                 
                 if response.statusCode == 201 {
                     print ("successed")
@@ -305,7 +248,35 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                         let params = ["code": (textField?.text)!, "phone": "\(self.countryPrefLable.text!)\(self.phoneNumberFeild.text!)"]
                         HTTP.POST("https://api.snapgroup.co.il/api/register", parameters: params) { response in
                             //do things...
-                            print(response.description)
+                           
+                            
+                            do{
+                             let  member = try JSONDecoder().decode(CurrentMember.self, from: response.data)
+                                print(member)
+                                self.currentMember = member
+                                self.setToUserDefaults(value: true, key: "isLogged")
+                                self.setToUserDefaults(value: (self.currentMember?.profile?.member_id!)!, key: "member_id")
+                                self.setToUserDefaults(value: self.currentMember?.profile?.first_name , key: "first_name")
+                                self.setToUserDefaults(value: self.currentMember?.profile?.last_name, key: "last_name")
+                                self.setToUserDefaults(value: self.currentMember?.member?.email, key: "email")
+                                self.setToUserDefaults(value: self.currentMember?.member?.phone, key: "phone")
+                                self.currentProfile = self.currentMember?.profile!
+                                DispatchQueue.main.sync {
+                                    self.phoneNumberStackView.isHidden = true
+                                    self.chatHeaderStackView.isHidden = false
+                                }
+                              
+                                
+                          
+                            }
+                            catch {
+                                print("catch error")
+                                self.phoneNumberStackView.isHidden = false
+                                self.chatHeaderStackView.isHidden = true
+                                self.setToUserDefaults(value: false, key: "isLogged")
+
+                            }
+
                         }
                         
                         
@@ -324,15 +295,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 //do things...
             }
             
-            
-            // pin code dialog
-            
-            
-            // replace header
-            
-//            print("yes")
-//           self.phoneNumberStackView.isHidden = true
-//           self.chatHeaderStackView.isHidden = false
+          
             
         }))
         VerifyAlert.addAction(UIAlertAction(title: NSLocalizedString("No", comment: "Default action"), style: .`default`, handler: { _ in
@@ -344,13 +307,16 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         self.present(VerifyAlert, animated: true, completion: nil)
     }
     
+    
+    
+    
     // get groups reqeust: by page
     
     func getSwiftGroups(completionBlock: @escaping ([TourGroup]?) -> Void) -> Void {
         print("request PAGE = \(self.page)")
         let params = ["page": self.page]
         var groups: [TourGroup]?
-        HTTP.POST("https://api.snapgroup.co.il/api/getallgroups", parameters: params) { response in
+        HTTP.POST(ApiRouts.AllGroupsRequest, parameters: params) { response in
             //do things...
           //  print(response.description)
             let data = response.data
@@ -394,17 +360,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
     }
     
+
     
-    func setupNavigationBarItmes(){
-//        navigationController?.navigationBar.barTintColor = UIColor.white
-//        let titleImageView = UIImageView(image: #imageLiteral(resourceName: "new logo"))
-//        titleImageView.contentMode = .scaleAspectFit
-//        navigationItem.titleView = titleImageView
-        
-    }
-   
-    
-    // not needed
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
@@ -466,6 +423,21 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         return cell
         
     }
+    
+    func setToUserDefaults(value: Any?, key: String){
+        if value != nil {
+        let defaults = UserDefaults.standard
+        defaults.set(value!, forKey: key)
+        }
+        else{
+            let defaults = UserDefaults.standard
+            defaults.set("no value", forKey: key)
+        }
+
+        
+    }
+    
+    
     // tableview: selected row
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

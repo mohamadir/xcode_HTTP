@@ -31,7 +31,11 @@ struct Message: Codable{
 //
 //}
 
-
+struct ChatUser {
+    static var currentUser: Message?
+    
+    
+}
 class ChatViewController: UIViewController , UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet weak var chatTableView: UITableView!
@@ -76,7 +80,7 @@ class ChatViewController: UIViewController , UITableViewDelegate, UITableViewDat
                 urlString = (self.messages?[indexPath.row].image_path!)!
             }
             //  print(self.myGrous[indexPath.row].image!)
-            cell.userImage.layer.borderWidth = 1
+            cell.userImage.layer.borderWidth = 0
              cell.selectionStyle = .none
             cell.userImage.layer.masksToBounds = false
             cell.userImage.layer.cornerRadius = cell.userImage.frame.height/2
@@ -87,7 +91,7 @@ class ChatViewController: UIViewController , UITableViewDelegate, UITableViewDat
 
         }
         else {
-          
+          print("image not found")
         }
         
         return cell
@@ -125,7 +129,6 @@ class ChatViewController: UIViewController , UITableViewDelegate, UITableViewDat
             self.socket!.emit("subscribe", "member-74")
             
         }
-        
         socket!.on("member-74:member-channel") {data, ack in
             if let data2 = data[0] as? Dictionary<String, Any> {
                 if let messageClass = data2["messageClass"] as? Dictionary<String, Any> {
@@ -138,8 +141,7 @@ class ChatViewController: UIViewController , UITableViewDelegate, UITableViewDat
         
     
         socket!.onAny { (socEvent) in
-            
-            
+    
             if let status =  socEvent.items as? [SocketIOStatus] {
                 if let first = status.first {
                     switch first {
@@ -171,7 +173,12 @@ class ChatViewController: UIViewController , UITableViewDelegate, UITableViewDat
         
     }
     
-    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        ChatUser.currentUser = self.messages?[indexPath.row]
+        performSegue(withIdentifier: "privateChatSegue", sender: self)
+
+        print((ChatUser.currentUser?.sender_id!)!)
+    }
   
 }
 
