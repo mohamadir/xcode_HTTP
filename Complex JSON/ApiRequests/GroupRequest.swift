@@ -50,9 +50,8 @@ struct Main: Codable{
     // GET IMAGE REQUEST
     
     func  getGroupImages(id: Int,completionBlock: @escaping ([GroupImage]?) -> Void) -> Void {
-        print("====== REQUEST =========")
 
-        guard let url = URL(string: "https://api.snapgroup.co.il/api/groups/\(id)/images")  else { return }
+        guard let url = URL(string: "\(ApiRouts.Web)/api/groups/\(id)/images")  else { return }
         URLSession.shared.dataTask(with: url) { (data, response, error) in
             if error != nil {
                 print(error!.localizedDescription)
@@ -77,7 +76,7 @@ struct Main: Codable{
         let fileUrl = URL(fileURLWithPath: "/Users/snapmac/Downloads/leader.png")
         HTTP.POST("https://api.snapgroup.co.il/api/upload_single_image/Member/74/profile", parameters: ["single_image": Upload(fileUrl: fileUrl)]) { response in
             
-            print(response.description)
+           // print(response.description)
             //do things...
         }
     }
@@ -86,6 +85,15 @@ struct TourGroup: Codable {
     var id: Int?
     var title: String?
     var image: String?
+    var description: String?
+    var registration_end_date: String?
+    var start_date: String?
+    var end_date: String?
+    var group_leader_first_name: String?
+    var group_leader_last_name:  String?
+    var group_leader_image: String?
+    var is_company: Int?
+    var group_leader_company_name: String?
 }
 
 struct GroupImage: Codable {

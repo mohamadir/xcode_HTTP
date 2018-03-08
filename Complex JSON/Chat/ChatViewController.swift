@@ -10,8 +10,7 @@ import UIKit
 import SocketIO
 import SwiftHTTP
 import SDWebImage
-
-
+import AlamofireImage
 
 struct Message: Codable{
     var message: String?
@@ -19,8 +18,11 @@ struct Message: Codable{
     var sender_first_name: String?
     var sender_last_name: String?
     var image_path: String?
+    var opponent_id: Int?
     var read: Int?
     var total_unread_messages: Int?
+    var opponent_first_name: String?
+    var opponent_last_name: String?
     
    // var messageClass: MessageClass?
 }
@@ -39,15 +41,19 @@ struct ChatUser {
 class ChatViewController: UIViewController , UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet weak var chatTableView: UITableView!
-    var socket: SocketIOClient?
     var messages: [Message]? = []
+    var socket: SocketIOClient?
     var socketManager : SocketManager?
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.setNavigationBarHidden(true, animated: false)
 
         setUpSocket()
-        getConversations()
+        
+        self.reloadView()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.reloadView), name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
+
         chatTableView.delegate = self
         chatTableView.dataSource = self
         chatTableView.separatorStyle = .none
@@ -69,13 +75,30 @@ class ChatViewController: UIViewController , UITableViewDelegate, UITableViewDat
         return (self.messages?.count)!
     }
     
+    @objc func reloadView(){
+        print("VIEW APPEARED !!! ")
+        self.getConversations()
+
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        DispatchQueue.main.async {
+            self.setUpSocket()
+            self.messages = []
+            self.chatTableView.reloadData()
+            self.getConversations()
+        }
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "customChatCell") as! ChatCustomCellController
-        cell.userNameLbl.text = "\((self.messages?[indexPath.row].sender_first_name)!) \((self.messages?[indexPath.row].sender_last_name)!)"
+        cell.userNameLbl.text = "\((self.messages?[indexPath.row].opponent_first_name)!) \((self.messages?[indexPath.row].opponent_last_name)!)"
         cell.messageLbl.text = self.messages?[indexPath.row].message
-       print(self.messages?[indexPath.row].image_path)
+        if (self.messages?[indexPath.row].total_unread_messages!)! != 0 {
+            cell.budgesView.isHidden = false
+            cell.budgesCountLbl.text = String((self.messages?[indexPath.row].total_unread_messages!)!)
+        }
         if self.messages?[indexPath.row].image_path != nil {
-            var urlString = "https://api.snapgroup.co.il" + (self.messages?[indexPath.row].image_path)!
+            var urlString = ApiRouts.Web + (self.messages?[indexPath.row].image_path)!
             if self.messages?[indexPath.row].image_path?.contains("https") == true {
                 urlString = (self.messages?[indexPath.row].image_path!)!
             }
@@ -86,8 +109,20 @@ class ChatViewController: UIViewController , UITableViewDelegate, UITableViewDat
             cell.userImage.layer.cornerRadius = cell.userImage.frame.height/2
             cell.userImage.clipsToBounds = true
             var url = URL(string: urlString)
-            
-            cell.userImage.downloadedFrom(url: url!, contentMode: .scaleToFill)
+//            DispatchQueue.main.async {
+//                cell.userImage.downloadedFrom(url: url!, contentMode: .scaleToFill)
+//
+//            }
+            print(url!)
+            if self.messages?[indexPath.row].image_path?.contains("https") == true {
+                print("in IF ")
+                cell.userImage.downloadedFrom(url: url!, contentMode: .scaleToFill)
+            }
+            else{
+                print("in Else ")
+
+                cell.userImage.sd_setImage(with: url!, placeholderImage: UIImage(named: "default user"))
+            }
 
         }
         else {
@@ -98,7 +133,7 @@ class ChatViewController: UIViewController , UITableViewDelegate, UITableViewDat
         
     }
     func getConversations(){
-        HTTP.GET("https://dev.snapgroup.co.il/api/getprivatechatlist/74", parameters: []) { response in
+        HTTP.GET("\(ApiRouts.Web)/api/getprivatechatlist/74", parameters: []) { response in
             if let err = response.error {
                 print("error: \(err.localizedDescription)")
                 return //also notify app of failure as needed
@@ -106,7 +141,7 @@ class ChatViewController: UIViewController , UITableViewDelegate, UITableViewDat
             do{
                 let  data = try JSONDecoder().decode([Message].self, from: response.data)
             
-                 DispatchQueue.main.sync  {
+                DispatchQueue.main.sync {
                     self.messages = data
                     self.chatTableView.reloadData()
                 }
@@ -121,15 +156,17 @@ class ChatViewController: UIViewController , UITableViewDelegate, UITableViewDat
            // print("opt finished: \(response.description)")
         
     }
+   
     func setUpSocket(){
         print("----- ABED -----")
-       var  manager = SocketManager(socketURL: URL(string: "https://dev.snapgroup.co.il:3030/")!, config: [.log(true),.forcePolling(true)])
+       var  manager = SocketManager(socketURL: URL(string: ApiRouts.ChatServer)!, config: [.log(true),.forcePolling(true)])
         socket = manager.defaultSocket
         socket!.on(clientEvent: .connect) {data, ack in
             self.socket!.emit("subscribe", "member-74")
             
         }
         socket!.on("member-74:member-channel") {data, ack in
+            self.getConversations()
             if let data2 = data[0] as? Dictionary<String, Any> {
                 if let messageClass = data2["messageClass"] as? Dictionary<String, Any> {
                     print(messageClass)
@@ -176,8 +213,8 @@ class ChatViewController: UIViewController , UITableViewDelegate, UITableViewDat
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         ChatUser.currentUser = self.messages?[indexPath.row]
         performSegue(withIdentifier: "privateChatSegue", sender: self)
-
-        print((ChatUser.currentUser?.sender_id!)!)
+        self.socket?.disconnect()
+        print((ChatUser.currentUser)!)
     }
   
 }

@@ -16,5 +16,7 @@ pod 'ImageSlideshow', '~> 1.5'
 pod 'Alamofire', '~> 4.6'
 pod 'ImageSlideshow/Alamofire'
 pod 'MRCountryPicker', '~> 0.0.7'
+pod "ExpandableLabel"
+pod "Scrollable", '~> 2.0'
 
 end

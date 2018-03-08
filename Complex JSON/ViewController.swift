@@ -25,7 +25,7 @@ struct MyVriables {
 
 
 struct CurrentMember: Codable{
-    var message: String?
+    //var message: String?
     var member: Member?
     var profile: MemberProfile?
     
@@ -73,6 +73,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var phoneNumberFeild: UITextField!
 
+    @IBOutlet weak var filterView: UIView!
+    /********* CONSTRAINTS **********/
+    @IBOutlet weak var leadingConstraint: NSLayoutConstraint!
     
     /******* VARIABLES *********/
     
@@ -88,7 +91,22 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     var groupImages: [GroupImage] = []
     var flagImage: UIImage?
     var currentProfile: MemberProfile?
-    
+    var isFilterShowing: Bool = false
+    @IBAction func onFilterTapped(_ sender: Any) {
+        if isFilterShowing {
+            leadingConstraint.constant = -199
+            UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded();})
+
+        }
+        else{
+            
+            leadingConstraint.constant = 0
+            UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded();})
+
+        }
+        
+        isFilterShowing = !isFilterShowing
+    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -123,7 +141,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 
             }
         }
-
+        setFilterView()
+    }
+    func setFilterView(){
+        filterView.layer.shadowColor = UIColor.black.cgColor
+        filterView.layer.shadowOpacity = 0.5
+        filterView.layer.shadowOffset = CGSize.zero
+        filterView.layer.shadowRadius = 4
     }
     func setRefresher(){
         refresher = UIRefreshControl()
@@ -158,11 +182,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                    self.phoneNumberStackView.isHidden = true
                    self.chatHeaderStackView.isHidden = false
         }
-        print(id)
-        print(first)
-        print(last)
-        print(email)
-        print(isLogged)
+       
 
     //    let prfoile = MemberProfile(member_id: id)
         
@@ -246,16 +266,18 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                         print("PIN CODE : \((textField?.text)!)")
                         
                         let params = ["code": (textField?.text)!, "phone": "\(self.countryPrefLable.text!)\(self.phoneNumberFeild.text!)"]
-                        HTTP.POST("https://api.snapgroup.co.il/api/register", parameters: params) { response in
+                        HTTP.POST(ApiRouts.Register, parameters: params) { response in
                             //do things...
                            
-                            
+                            print(response.description)
                             do{
                              let  member = try JSONDecoder().decode(CurrentMember.self, from: response.data)
                                 print(member)
+                                
                                 self.currentMember = member
                                 self.setToUserDefaults(value: true, key: "isLogged")
-                                self.setToUserDefaults(value: (self.currentMember?.profile?.member_id!)!, key: "member_id")
+                                print(self.currentMember?.profile!)
+                                self.setToUserDefaults(value: self.currentMember?.profile?.member_id!, key: "member_id")
                                 self.setToUserDefaults(value: self.currentMember?.profile?.first_name , key: "first_name")
                                 self.setToUserDefaults(value: self.currentMember?.profile?.last_name, key: "last_name")
                                 self.setToUserDefaults(value: self.currentMember?.member?.email, key: "email")
@@ -317,6 +339,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let params = ["page": self.page]
         var groups: [TourGroup]?
         HTTP.POST(ApiRouts.AllGroupsRequest, parameters: params) { response in
+            print(ApiRouts.AllGroupsRequest)
             //do things...
           //  print(response.description)
             let data = response.data
@@ -406,15 +429,25 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "customCell") as! CustomTableViewCell
-        let urlString = "https://api.snapgroup.co.il" + (self.myGrous[indexPath.row].image)!
-        var url = URL(string: urlString)
+        if self.myGrous[indexPath.row].image != nil{
+        
+            do{
+                let urlString = try ApiRouts.Web + (self.myGrous[indexPath.row].image)!
+                var url = URL(string: urlString)
+                if url == nil {
+                }
+                else
+                {
+                    cell.imageosh.downloadedFrom(url: url! , contentMode: .scaleToFill)
+                }
+            }
+            catch{
+      
+            }
+        }
+
         cell.selectionStyle = .none
-        if url == nil {
-        }
-        else
-        {
-            cell.imageosh.downloadedFrom(url: url! , contentMode: .scaleToFill)
-        }
+       
         
         cell.groupLabel.text = self.myGrous[indexPath.row].title
         
@@ -441,8 +474,19 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     // tableview: selected row
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        performSegue(withIdentifier: "groupDetailsBar", sender: self)
+        
+        
+        if !self.isFilterShowing {
+                self.leadingConstraint.constant = -199
+                UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded();})
+                self.isFilterShowing = !self.isFilterShowing
+            }
+        
         MyVriables.currentGroup = self.myGrous[indexPath.row]
+        self.performSegue(withIdentifier: "groupDetailsBar", sender: self)
+        
+        
+       
         
     }
     
@@ -456,7 +500,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 
 }
 
-extension UIViewController {
+public extension UIViewController {
     func hideKeyboardWhenTappedAround() {
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
         tap.cancelsTouchesInView = false

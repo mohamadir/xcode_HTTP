@@ -6,6 +6,7 @@ PODS:
     - moa
   - Crashlytics (3.10.0):
     - Fabric (~> 1.7.3)
+  - ExpandableLabel (0.3.1)
   - Fabric (1.7.3)
   - Firebase/Core (4.9.0):
     - FirebaseAnalytics (= 4.0.9)
@@ -43,6 +44,7 @@ PODS:
     - nanopb/encode (= 0.3.8)
   - nanopb/decode (0.3.8)
   - nanopb/encode (0.3.8)
+  - Scrollable (2.0.1)
   - SDWebImage (4.3.0):
     - SDWebImage/Core (= 4.3.0)
   - SDWebImage/Core (4.3.0)
@@ -55,12 +57,14 @@ DEPENDENCIES:
   - Alamofire (~> 4.6)
   - Auk (~> 8.0)
   - Crashlytics (~> 3.10.0)
+  - ExpandableLabel
   - Firebase/Core
   - Firebase/Database
   - ImageSlideshow (~> 1.5)
   - ImageSlideshow/Alamofire
   - moa (~> 9.0)
   - MRCountryPicker (~> 0.0.7)
+  - Scrollable (~> 2.0)
   - SDWebImage (~> 4.0)
   - Socket.IO-Client-Swift (~> 13.1.0)
   - SwiftHTTP (~> 3.0.1)
@@ -70,6 +74,7 @@ SPEC CHECKSUMS:
   AlamofireImage: 2e784dc5d00f04903a52c1d169181469c805c3df
   Auk: 82be62a2cf650437fe745c81b12ac2440a0f682c
   Crashlytics: a989ef242b66605577a425733797f810bd2725eb
+  ExpandableLabel: a622f4ffb99d6a0bc36bd180ef7209540dc1b88e
   Fabric: bb495bb9a7a7677c6d03a1f8b83d95bc49b47e41
   Firebase: 632216af3ed7f31e3be34776947fdc7546cfb572
   FirebaseAnalytics: 388b630c15713f5dbf364071f5f3d6077fb52f4e
@@ -82,11 +87,12 @@ SPEC CHECKSUMS:
   moa: b73dc5e0efa1fad00711c4608e41b197f4d15b12
   MRCountryPicker: 75edb510153ef446ded70890bc02140a757961dc
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
+  Scrollable: dba6216e71841f516b2f7b826e05479e25b086ac
   SDWebImage: 6da6c8bca115addc4de8613362e1b15f66333825
   Socket.IO-Client-Swift: f22222913f29801e30ae0df712db663ec096edc2
   Starscream: f5da93fe6984c77b694366bf7299b7dc63a76f26
   SwiftHTTP: e94f1aa8cde58637dcc0100f6349de31a3337fde
 
-PODFILE CHECKSUM: 9e60acfee2126965209ce3f9dd2ef06e125741d2
+PODFILE CHECKSUM: 6b61cb07ec40ea4bd4e7ced29542ff4263b5ff2e
 
 COCOAPODS: 1.4.0

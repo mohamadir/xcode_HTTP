@@ -14,6 +14,8 @@ class ChatCustomCellController: UITableViewCell {
     @IBOutlet weak var messageLbl: UILabel!
     @IBOutlet weak var userNameLbl: UILabel!
     
+    @IBOutlet weak var budgesView: DesignableView!
+    @IBOutlet weak var budgesCountLbl: UILabel!
     
     @IBOutlet weak var userImage: UIImageView!
     

@@ -10,8 +10,11 @@ import UIKit
 
 class PrivateChatMessageCelVc: UITableViewCell {
 
-    @IBOutlet weak var messageLb: UILabel!
+    @IBOutlet weak var sentMessageView: DesignableView!
+    @IBOutlet weak var sentMessageLbl: UILabel!
     
+    @IBOutlet weak var recMessageView: DesignableView!
+    @IBOutlet weak var recMessageLbl: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
