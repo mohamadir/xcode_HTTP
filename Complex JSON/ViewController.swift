@@ -17,11 +17,6 @@ import MRCountryPicker
 
 /***********************************************      Structrs     *************************************************************/
 
-struct MyVriables {
-    static var currentGroup: TourGroup?
-    
-    
-}
 
 
 struct CurrentMember: Codable{
@@ -68,13 +63,15 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet weak var flagImageView: UIImageView!
     @IBOutlet weak var chatImageView: UIImageView!
     @IBOutlet weak var countryPrefLable: UILabel!
-    @IBOutlet weak var chatHeaderStackView: UIStackView!
-    @IBOutlet weak var phoneNumberStackView: UIStackView!
+    @IBOutlet weak var chatHeaderStackView: UIView!
+    @IBOutlet weak var phoneNumberStackView: UIView!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var phoneNumberFeild: UITextField!
 
     @IBOutlet weak var filterView: UIView!
     /********* CONSTRAINTS **********/
+  
+   
     @IBOutlet weak var leadingConstraint: NSLayoutConstraint!
     
     /******* VARIABLES *********/
@@ -476,11 +473,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         
-        if !self.isFilterShowing {
-                self.leadingConstraint.constant = -199
-                UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded();})
-                self.isFilterShowing = !self.isFilterShowing
-            }
+//        if !self.isFilterShowing {
+//                self.leadingConstraint.constant = -199
+//                UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded();})
+//                self.isFilterShowing = !self.isFilterShowing
+//            }
         
         MyVriables.currentGroup = self.myGrous[indexPath.row]
         self.performSegue(withIdentifier: "groupDetailsBar", sender: self)

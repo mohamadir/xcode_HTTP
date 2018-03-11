@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwiftHTTP
 extension UIView {
     
     // In order to create computed properties for extensions, we need a key to
@@ -40,6 +41,9 @@ extension UIView {
         self.addGestureRecognizer(tapGestureRecognizer)
     }
     
+    
+    
+    
     // Every time the user taps on the UIImageView, this function gets called,
     // which triggers the closure we stored
     @objc fileprivate func handleTapGesture(sender: UITapGestureRecognizer) {
@@ -51,8 +55,9 @@ extension UIView {
     }
     
 }
-class MenuViewController: UIViewController {
+class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UINavigationControllerDelegate{
 
+    @IBOutlet weak var docsImageView: UIImageView!
     @IBOutlet weak var groupNameLbl: UILabel!
     var singleGroup: TourGroup?
     var countdownTimer: Timer!
@@ -61,8 +66,11 @@ class MenuViewController: UIViewController {
     let formatter = DateFormatter()
     @IBOutlet weak var counterLbl: UILabel!
     
+    @IBOutlet weak var mapsView: UIControl!
     @IBOutlet weak var membersView: UIView!
     
+    @IBOutlet weak var docsView: UIView!
+   
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -74,15 +82,84 @@ class MenuViewController: UIViewController {
         membersView.addTapGestureRecognizer {
                self.performSegue(withIdentifier: "showMembers", sender: self)
         }
+        docsView.addTapGestureRecognizer {
+            print("hi")
+            self.uploadImageToServer()
+           
+           // self.uploadImageToServer()
+        }
+        mapsView.addTapGestureRecognizer {
+             self.performSegue(withIdentifier: "showTest", sender: self)
+        }
         startTimer()
         // Do any additional setup after loading the view.
     }
+    func uploadImageToServer(){
+        var myPickerController = UIImagePickerController()
+        myPickerController.delegate = self
+        myPickerController.sourceType = UIImagePickerControllerSourceType.photoLibrary
+        self.present(myPickerController, animated: true, completion: nil)
+        
+//        let fileUrl = URL(fileURLWithPath: "/Users/snapmac/Downloads/leader.png")
+//        HTTP.POST("https://api.snapgroup.co.il/api/upload_single_image/Member/74/profile", parameters: ["single_image": Upload(fileUrl: fileUrl)]) { response in
+//
+//            print(response.description)
+//            //do things...
+//        }
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        //var image: UIImage = (info[UIImagePickerControllerOriginalImage] as? UIImage)!
+        var urlosh: URL = (info[UIImagePickerControllerReferenceURL] as! URL)
+        let imageName = urlosh.lastPathComponent
+        let documentDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first as! String
+        let localPath = documentDirectory.appending(imageName)
+        
+        let fileUrl = URL(fileURLWithPath: localPath)
+
+        let image = info[UIImagePickerControllerOriginalImage] as! UIImage
+        let data = UIImagePNGRepresentation(image)
+            do{
+                try  data?.write(to: fileUrl, options: .atomic)
+                print("success to data")
+                
+            }catch {
+                print("error")
+            }
+            
+            let imageData = NSData(contentsOfFile: localPath)!
+            let photoURL = URL(fileURLWithPath: localPath)
+            
+            let imageWithData = UIImage(data: imageData as Data)!
+            // self.uploadImage(image: image)
+            print(photoURL)
+            print("before post ")
+            HTTP.POST("https://api.snapgroup.co.il/api/upload_single_image/Member/74/profile", parameters: ["single_image": Upload(fileUrl: photoURL)]) { response in
+                print("during post ")
+    
+                if let err = response.error {
+                    print("error: \(err.localizedDescription)")
+                    return //also notify app of failure as needed
+                }
+                print(response)
+                //do things...
+    
+            
+        }
+    
+        
+        
+        self.dismiss(animated: true, completion: nil)
+        
+    }
+    
     @objc func membersClick(){
         print("tapped")
         
     }
     func startTimer() {
         countdownTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateTime), userInfo: nil, repeats: true)
+        
     }
     
     @objc func updateTime() {
@@ -117,7 +194,13 @@ class MenuViewController: UIViewController {
         
     }
     
- 
+    func uploadImage(image: UIImage)
+    {
+        let imageData = UIImageJPEGRepresentation(image, 1)
+
+        if imageData == nil { return }
+        print(imageData)
+    }
     
     
     

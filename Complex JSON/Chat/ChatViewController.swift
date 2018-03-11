@@ -33,20 +33,20 @@ struct Message: Codable{
 //
 //}
 
-struct ChatUser {
-    static var currentUser: Message?
-    
-    
-}
+
 class ChatViewController: UIViewController , UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet weak var chatTableView: UITableView!
     var messages: [Message]? = []
     var socket: SocketIOClient?
     var socketManager : SocketManager?
+    override func viewWillDisappear(_ animated: Bool) {
+        self.navigationController?.setNavigationBarHidden(false, animated: false)
+
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationController?.setNavigationBarHidden(true, animated: false)
 
         setUpSocket()
         
@@ -81,6 +81,8 @@ class ChatViewController: UIViewController , UITableViewDelegate, UITableViewDat
 
     }
     override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
+
         DispatchQueue.main.async {
             self.setUpSocket()
             self.messages = []
@@ -116,7 +118,7 @@ class ChatViewController: UIViewController , UITableViewDelegate, UITableViewDat
             print(url!)
             if self.messages?[indexPath.row].image_path?.contains("https") == true {
                 print("in IF ")
-                cell.userImage.downloadedFrom(url: url!, contentMode: .scaleToFill)
+                cell.userImage.downloadedFrom(url: url!)
             }
             else{
                 print("in Else ")

@@ -26,7 +26,6 @@ class MembersViewController: UIViewController,UICollectionViewDelegate, UICollec
     @IBOutlet weak var membersCoView: UICollectionView!
     
     var isSearching = false
-    
     var singleGroup: TourGroup?
     var members: [GroupMember] = []
     var filterdMembers: [GroupMember] = []
@@ -61,19 +60,20 @@ class MembersViewController: UIViewController,UICollectionViewDelegate, UICollec
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = membersCoView.dequeueReusableCell(withReuseIdentifier: "memberCell", for: indexPath) as! MemberCollectionCell
         
-        cell.memberImage.layer.borderWidth = 0
-        cell.memberImage.layer.masksToBounds = false
-        cell.memberImage.layer.cornerRadius = cell.memberImage.frame.height/2
-        cell.memberImage.clipsToBounds = true
+//        cell.memberImage.layer.borderWidth = 0
+//        cell.memberImage.layer.masksToBounds = false
+//        cell.memberImage.layer.cornerRadius = cell.memberImage.frame.height/2
+//        cell.memberImage.clipsToBounds = true
         if self.filterdMembers[indexPath.row].path != nil {
         var urlString = ApiRouts.Web + (self.filterdMembers[indexPath.row].path)!
+            print(urlString)
         if self.filterdMembers[indexPath.row].path?.contains("https") == true {
             print("in IF ")
            urlString =  (self.filterdMembers[indexPath.row].path)!
         }
         var url = URL(string: urlString)
 
-        cell.memberImage.downloadedFrom(url: url!, contentMode: .scaleToFill)
+        cell.memberImage.downloadedFrom(url: url!)
         }
 
         cell.memberNameLbl.text = filterdMembers[indexPath.row].first_name! + " " + filterdMembers[indexPath.row].last_name!
@@ -122,6 +122,7 @@ class MembersViewController: UIViewController,UICollectionViewDelegate, UICollec
         }
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        GroupMembers.currentMemmber = self.members[indexPath.row]
         performSegue(withIdentifier: "showMemberModal", sender: self)
 
     }

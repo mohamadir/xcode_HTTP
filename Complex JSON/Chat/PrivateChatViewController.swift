@@ -36,16 +36,17 @@ extension UIColor {
 }
 
 
-class PrivateChatViewController: UIViewController  , UITableViewDelegate, UITableViewDataSource  {
+class PrivateChatViewController: UIViewController  , UITableViewDelegate, UITableViewDataSource , UITextFieldDelegate {
   
+    @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
     
     @IBOutlet weak var chatTableView: UITableView!
     
     @IBOutlet weak var usernamelb: UILabel!
-    
     @IBOutlet weak var userImage: UIImageView!
     var socket: SocketIOClient?
     var socketManager : SocketManager?
+    var originY : CGFloat?
 
     @IBOutlet weak var chatTextFeild: UITextField!
     var messageUser: Message?
@@ -60,6 +61,27 @@ class PrivateChatViewController: UIViewController  , UITableViewDelegate, UITabl
     @IBAction func onCloseTapped2(_ sender: Any) {
     }
     
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        moveTextField(textField, moveDistance: -250, up: true)
+    }
+    func textFieldDidEndEditing(_ textField: UITextField, reason: UITextFieldDidEndEditingReason) {
+        moveTextField(textField, moveDistance: -250, up: false)
+        
+    }
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    func moveTextField(_ textField: UITextField, moveDistance: Int, up: Bool) {
+        let moveDuration = 0.3
+        let movement: CGFloat = CGFloat(up ? moveDistance : -moveDistance)
+        
+        UIView.beginAnimations("animateTextField", context: nil)
+        UIView.setAnimationBeginsFromCurrentState(true)
+        UIView.setAnimationDuration(moveDuration)
+        self.view.frame = self.view.frame.offsetBy(dx: 0, dy: movement)
+        UIView.commitAnimations()
+    }
     
     
     override func viewDidLoad() {
@@ -75,8 +97,14 @@ class PrivateChatViewController: UIViewController  , UITableViewDelegate, UITabl
        // self.userImage.downloadedFrom(url: url!, contentMode: .scaleToFill)
         let border = CALayer()
         let width = CGFloat(0.6)
+        
       
-        border.borderColor = UIColor(named: "Primary")?.cgColor
+        if #available(iOS 11.0, *) {
+            border.borderColor = UIColor(named: "Primary")?.cgColor
+        } else {
+            // Fallback on earlier versions
+            border.borderColor = UIColor(rgb: 0xC1B46A).cgColor
+        }
 
         border.frame = CGRect(x: 0, y: self.chatTextFeild.frame.size.height - width, width:  self.chatTextFeild.frame.size.width, height: self.chatTextFeild.frame.size.height)
         
@@ -99,48 +127,132 @@ class PrivateChatViewController: UIViewController  , UITableViewDelegate, UITabl
         self.chatTableView.separatorStyle = .none
 
         myId = UserDefaults.standard.integer(forKey: "member_id")
-     
+        originY = self.view.frame.origin.y
         self.getHistoryConv()
         chatTableView.rowHeight = UITableViewAutomaticDimension
 
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
-        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-        view.addGestureRecognizer(tap)
+//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+//        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+//        view.addGestureRecognizer(tap)
         
 
         
     }
-    @objc func keyboardWillShow(notify: NSNotification) {
-        
-        if let keyboardSize = (notify.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-            
-            if self.view.frame.origin.y == 0 {
-                
-                self.view.frame.origin.y -= keyboardSize.height
-            }
-        }
+    @objc func keyboardWillShow(notification:NSNotification) {
+        adjustingHeight(show: true, notification: notification)
     }
     
-    @objc  func keyboardWillHide(notify: NSNotification) {
-        
-        if let keyboardSize = (notify.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-            
-            if self.view.frame.origin.y != 0 {
-                
-                self.view.frame.origin.y += keyboardSize.height
-            }
-        }
-    }
+   
     
+    @objc   func keyboardWillHide(notification:NSNotification) {
+        adjustingHeight(show: false, notification: notification)
+    }
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+
+    }
+    override func viewDidAppear(_ animated: Bool) {
+         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: (ChatUser.currentUser?.opponent_first_name!)! + " " + (ChatUser.currentUser?.opponent_last_name!)! , style:.plain, target:nil, action:nil)
+//        navigationController?.navigationBar.shadowImage = .none
+//        let nav = self.navigationController?.navigationBar
+//
+//        // 2
+//
+//        nav?.backgroundColor = UIColor.white
+//        // 3
+//        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
+//        imageView.contentMode = .scaleAspectFit
+//
+//
+//
+//        // 4
+//        let image = UIImage(named: "default user")
+//        imageView.image = image
+//
+//        // 5
+//        let label = UILabel(frame: CGRect(x: 0, y: 0, width: 40, height: 20))
+//
+//
+//      //  navigationItem.titleView = label
+////        navigationController?.navigationBar.backItem?.title = ""
+////        navigationItem.backBarButtonItem?.tintColor = UIColor(named: "Primary")
+////        navigationItem.backBarButtonItem?.title  = (ChatUser.currentUser?.opponent_first_name!)! + " " + (ChatUser.currentUser?.opponent_last_name!)!
+//        self.navigationItem.backBarButtonItem = UIBarButtonItem(title:"", style:.plain, target:nil, action:nil)
+
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        navigationController?.navigationBar.shadowImage = .none
+        let nav = self.navigationController?.navigationBar   
+        nav?.backgroundColor = UIColor.white
+        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
+        imageView.contentMode = .scaleAspectFit
+        imageView.layer.borderWidth = 0
+        imageView.layer.masksToBounds = false
+        imageView.layer.cornerRadius = imageView.frame.height/2
+        imageView.layer.borderWidth = 1
+        if #available(iOS 11.0, *) {
+            imageView.layer.borderColor = UIColor(named: "Primary")?.cgColor
+        } else {
+            // Fallback on earlier versions
+           
+            imageView.layer.borderColor =  UIColor(rgb: 0xC1B46A).cgColor
+
+        }
+        imageView.clipsToBounds = true
+        var urlString = ApiRouts.Web + (ChatUser.currentUser?.image_path)!
+        if (ChatUser.currentUser?.image_path)!.contains("http") {
+            urlString = (ChatUser.currentUser?.image_path)!
+        }
+        let url = URL(string: urlString)
+        imageView.downloadedFrom(url: url!)
+        navigationItem.titleView = imageView
+        navigationItem.titleView = imageView
+        print("view will appeard \((ChatUser.currentUser?.opponent_first_name!)! + " " + (ChatUser.currentUser?.opponent_last_name!)!)")
+        navigationItem.backBarButtonItem?.title = (ChatUser.currentUser?.opponent_first_name!)! + " " + (ChatUser.currentUser?.opponent_last_name!)!
+        navigationController?.navigationBar.backItem?.title = (ChatUser.currentUser?.opponent_first_name!)! + " " + (ChatUser.currentUser?.opponent_last_name!)!
+        if #available(iOS 11.0, *) {
+            navigationItem.backBarButtonItem?.tintColor = UIColor(named: "Primary")
+            navigationController?.navigationBar.tintColor = UIColor(named: "Primary")
+
+        } else {
+            //
+            // Fallback on earlier versions
+            navigationItem.backBarButtonItem?.tintColor = UIColor(rgb: 0xC1B46A)
+            navigationController?.navigationBar.tintColor = UIColor(rgb: 0xC1B46A)
+
+        }
+        
+        
+        //
+       
+
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+        self.resetMessages()
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+    }
     override  func dismissKeyboard() {
         view.endEditing(true)
     }
     
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        self.resetMessages()
+    func adjustingHeight(show:Bool, notification:NSNotification) {
+        // 1
+        var userInfo = notification.userInfo!
+        // 2
+        let keyboardFrame:CGRect = ((notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue)!
+        // 3
+        let animationDurarion = userInfo[UIKeyboardAnimationDurationUserInfoKey] as! TimeInterval
+        // 4
+        let changeInHeight = (keyboardFrame.height + 30) * (show ? 1 : -1)
+        //5
+        UIView.animate(withDuration: animationDurarion, animations: { () -> Void in
+            self.bottomConstraint.constant += changeInHeight
+        })
+        
     }
+    
     func resetMessages(){
         print("------ IN RESET MESSAGES ----- ")
         var oponent_id =  ChatUser.currentUser?.opponent_id!

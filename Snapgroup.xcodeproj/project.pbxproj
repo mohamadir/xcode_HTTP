@@ -27,6 +27,9 @@
 		743A20AF203C1C09008DF1AA /* json.txt in Resources */ = {isa = PBXBuildFile; fileRef = 743A20AE203C1C09008DF1AA /* json.txt */; };
 		743A20BE203C3A97008DF1AA /* GroupRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 743A20BD203C3A97008DF1AA /* GroupRequest.swift */; };
 		743A2102203C6468008DF1AA /* GroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 743A2101203C6468008DF1AA /* GroupViewController.swift */; };
+		74490C19205298D6007AD4FA /* CustomMarkerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74490C18205298D6007AD4FA /* CustomMarkerView.swift */; };
+		74490C1B20529E22007AD4FA /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74490C1A20529E22007AD4FA /* MapViewController.swift */; };
+		74490C1D2052B8F0007AD4FA /* KeyboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74490C1C2052B8F0007AD4FA /* KeyboardViewController.swift */; };
 		749058FE203D605F00C6B8C1 /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749058FD203D605F00C6B8C1 /* CustomTableViewCell.swift */; };
 		74905901203D853200C6B8C1 /* DesignableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74905900203D853200C6B8C1 /* DesignableView.swift */; };
 		74905903203D89E000C6B8C1 /* SignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74905902203D89E000C6B8C1 /* SignUpVC.swift */; };
@@ -35,6 +38,7 @@
 		74FBD106205009FD002D223A /* MembersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74FBD105205009FD002D223A /* MembersViewController.swift */; };
 		74FBD10A20514220002D223A /* MemberCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74FBD10920514220002D223A /* MemberCollectionCell.swift */; };
 		74FBD10C20518542002D223A /* MemberModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74FBD10B20518542002D223A /* MemberModalViewController.swift */; };
+		74FBD10E20528D2D002D223A /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74FBD10D20528D2D002D223A /* Models.swift */; };
 		D949C5C5B78AFB54C0E23DD4 /* Pods_Snapgroup.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4F2DA88D0C7A1EAE5A7D431 /* Pods_Snapgroup.framework */; };
 /* End PBXBuildFile section */
 
@@ -101,6 +105,9 @@
 		743A20AE203C1C09008DF1AA /* json.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = json.txt; path = ../../json.txt; sourceTree = "<group>"; };
 		743A20BD203C3A97008DF1AA /* GroupRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupRequest.swift; sourceTree = "<group>"; };
 		743A2101203C6468008DF1AA /* GroupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GroupViewController.swift; path = ../GroupViewController.swift; sourceTree = "<group>"; };
+		74490C18205298D6007AD4FA /* CustomMarkerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomMarkerView.swift; sourceTree = "<group>"; };
+		74490C1A20529E22007AD4FA /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		74490C1C2052B8F0007AD4FA /* KeyboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardViewController.swift; sourceTree = "<group>"; };
 		749058FD203D605F00C6B8C1 /* CustomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = "<group>"; };
 		74905900203D853200C6B8C1 /* DesignableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignableView.swift; sourceTree = "<group>"; };
 		74905902203D89E000C6B8C1 /* SignUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpVC.swift; sourceTree = "<group>"; };
@@ -109,6 +116,7 @@
 		74FBD105205009FD002D223A /* MembersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembersViewController.swift; sourceTree = "<group>"; };
 		74FBD10920514220002D223A /* MemberCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberCollectionCell.swift; sourceTree = "<group>"; };
 		74FBD10B20518542002D223A /* MemberModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberModalViewController.swift; sourceTree = "<group>"; };
+		74FBD10D20528D2D002D223A /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		89E7D6AE145D4989B1E4DBF6 /* Pods_Complex_JSON.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Complex_JSON.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4F2DA88D0C7A1EAE5A7D431 /* Pods_Snapgroup.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Snapgroup.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F44CD3C49D70D6E498CC6CF1 /* Pods-Complex JSON.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Complex JSON.release.xcconfig"; path = "Pods/Target Support Files/Pods-Complex JSON/Pods-Complex JSON.release.xcconfig"; sourceTree = "<group>"; };
@@ -217,19 +225,21 @@
 			path = TabBarDetails;
 			sourceTree = "<group>";
 		};
-		742375092046DE0200B9A0C0 /* ApiRequests */ = {
+		742375092046DE0200B9A0C0 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
 				742375072046DC0300B9A0C0 /* ApiRequests.swift */,
 				743A20BD203C3A97008DF1AA /* GroupRequest.swift */,
+				74FBD10D20528D2D002D223A /* Models.swift */,
 			);
-			path = ApiRequests;
+			path = Classes;
 			sourceTree = "<group>";
 		};
 		7428551D204FF14000637511 /* Test */ = {
 			isa = PBXGroup;
 			children = (
 				7428551E204FF16300637511 /* TestTabVc.swift */,
+				74490C1C2052B8F0007AD4FA /* KeyboardViewController.swift */,
 			);
 			path = Test;
 			sourceTree = "<group>";
@@ -259,9 +269,10 @@
 		743A207F203C1B12008DF1AA /* Complex JSON */ = {
 			isa = PBXGroup;
 			children = (
+				74490C17205298AA007AD4FA /* Map */,
 				74FBD104205009E0002D223A /* Members Page */,
 				7428551D204FF14000637511 /* Test */,
-				742375092046DE0200B9A0C0 /* ApiRequests */,
+				742375092046DE0200B9A0C0 /* Classes */,
 				74138E052044211400F37028 /* Chat */,
 				741D2A0A2042B16A00DB8975 /* TabBarDetails */,
 				7418AFB7203EB3C1007BBC3D /* ImageSlideshow */,
@@ -299,6 +310,15 @@
 				743A20A2203C1B12008DF1AA /* Info.plist */,
 			);
 			path = "Complex JSONUITests";
+			sourceTree = "<group>";
+		};
+		74490C17205298AA007AD4FA /* Map */ = {
+			isa = PBXGroup;
+			children = (
+				74490C18205298D6007AD4FA /* CustomMarkerView.swift */,
+				74490C1A20529E22007AD4FA /* MapViewController.swift */,
+			);
+			path = Map;
 			sourceTree = "<group>";
 		};
 		749058FF203D850300C6B8C1 /* IBDesignable */ = {
@@ -498,6 +518,7 @@
 				"${BUILT_PRODUCTS_DIR}/Socket.IO-Client-Swift/SocketIO.framework",
 				"${BUILT_PRODUCTS_DIR}/Starscream/Starscream.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftHTTP/SwiftHTTP.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyAvatar/SwiftyAvatar.framework",
 				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
 				"${BUILT_PRODUCTS_DIR}/moa/moa.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
@@ -516,6 +537,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SocketIO.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Starscream.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftHTTP.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyAvatar.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/moa.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
@@ -531,9 +553,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-Snapgroup/Pods-Snapgroup-resources.sh",
+				"${PODS_ROOT}/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Resources/GoogleMaps.bundle",
+				"${PODS_ROOT}/GooglePlacePicker/Frameworks/GooglePlacePicker.framework/Resources/GooglePlacePicker.bundle",
+				"${PODS_ROOT}/GooglePlaces/Frameworks/GooglePlaces.framework/Resources/GooglePlaces.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleMaps.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GooglePlacePicker.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GooglePlaces.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -571,14 +600,18 @@
 				74905905203DB5DA00C6B8C1 /* MainTabController.swift in Sources */,
 				749058FE203D605F00C6B8C1 /* CustomTableViewCell.swift in Sources */,
 				74237583204BE0E100B9A0C0 /* PrivateChatMessageCelVc.swift in Sources */,
+				74FBD10E20528D2D002D223A /* Models.swift in Sources */,
+				74490C1D2052B8F0007AD4FA /* KeyboardViewController.swift in Sources */,
 				74138E0220440E9D00F37028 /* MenuViewController.swift in Sources */,
 				74905901203D853200C6B8C1 /* DesignableView.swift in Sources */,
+				74490C1B20529E22007AD4FA /* MapViewController.swift in Sources */,
 				74905909203DB9DC00C6B8C1 /* HomeViewController.swift in Sources */,
 				743A20BE203C3A97008DF1AA /* GroupRequest.swift in Sources */,
 				74FBD106205009FD002D223A /* MembersViewController.swift in Sources */,
 				7423757F20499FB600B9A0C0 /* PrivateChatViewController.swift in Sources */,
 				74FBD10A20514220002D223A /* MemberCollectionCell.swift in Sources */,
 				743A2083203C1B12008DF1AA /* ViewController.swift in Sources */,
+				74490C19205298D6007AD4FA /* CustomMarkerView.swift in Sources */,
 				742375082046DC0300B9A0C0 /* ApiRequests.swift in Sources */,
 				7428551F204FF16300637511 /* TestTabVc.swift in Sources */,
 				743A2081203C1B12008DF1AA /* AppDelegate.swift in Sources */,
@@ -755,7 +788,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = LC6QR4F3TB;
 				INFOPLIST_FILE = "Complex JSON/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Snapgroup.snap2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -774,7 +807,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = LC6QR4F3TB;
 				INFOPLIST_FILE = "Complex JSON/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Snapgroup.snap2;
 				PRODUCT_NAME = "$(TARGET_NAME)";

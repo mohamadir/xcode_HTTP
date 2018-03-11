@@ -53,7 +53,7 @@ class DetailsViewController: UIViewController {
         super.viewWillAppear(animated)
         
         // Hide the navigation bar on the this view controller
-        self.navigationController?.isNavigationBarHidden = true
+     //   self.navigationController?.isNavigationBarHidden = true
     }
     
  
