@@ -17,7 +17,7 @@ struct privateChatMessage: Codable {
     var type: String?
     
 }
-extension UIColor {
+public extension UIColor {
     convenience init(red: Int, green: Int, blue: Int) {
         assert(red >= 0 && red <= 255, "Invalid red component")
         assert(green >= 0 && green <= 255, "Invalid green component")
@@ -62,13 +62,21 @@ class PrivateChatViewController: UIViewController  , UITableViewDelegate, UITabl
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
+        textField.becomeFirstResponder()
         moveTextField(textField, moveDistance: -250, up: true)
     }
+   
+    @available(iOS 10.0, *)
     func textFieldDidEndEditing(_ textField: UITextField, reason: UITextFieldDidEndEditingReason) {
         moveTextField(textField, moveDistance: -250, up: false)
         
     }
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if #available(iOS 10.0, *) {
+        } else {
+            moveTextField(textField, moveDistance: -250, up: false)
+            // or use some work around
+        }
         textField.resignFirstResponder()
         return true
     }
@@ -196,7 +204,7 @@ class PrivateChatViewController: UIViewController  , UITableViewDelegate, UITabl
         } else {
             // Fallback on earlier versions
            
-            imageView.layer.borderColor =  UIColor(rgb: 0xC1B46A).cgColor
+            imageView.layer.borderColor =  Colors.PrimaryColor.cgColor
 
         }
         imageView.clipsToBounds = true
@@ -218,8 +226,8 @@ class PrivateChatViewController: UIViewController  , UITableViewDelegate, UITabl
         } else {
             //
             // Fallback on earlier versions
-            navigationItem.backBarButtonItem?.tintColor = UIColor(rgb: 0xC1B46A)
-            navigationController?.navigationBar.tintColor = UIColor(rgb: 0xC1B46A)
+            navigationItem.backBarButtonItem?.tintColor = Colors.PrimaryColor
+            navigationController?.navigationBar.tintColor = Colors.PrimaryColor
 
         }
         

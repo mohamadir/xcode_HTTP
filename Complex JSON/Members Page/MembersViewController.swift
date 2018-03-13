@@ -80,7 +80,13 @@ class MembersViewController: UIViewController,UICollectionViewDelegate, UICollec
        
         return cell
     }
-    
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+        self.navigationController?.setNavigationBarHidden(false, animated: false)
+
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

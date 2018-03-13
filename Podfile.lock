@@ -1,28 +1,29 @@
 PODS:
-  - Alamofire (4.6.0)
+  - Alamofire (4.7.0)
   - AlamofireImage (3.3.0):
     - Alamofire (~> 4.5)
   - Auk (8.0.2):
     - moa
-  - Crashlytics (3.10.0):
-    - Fabric (~> 1.7.3)
-  - ExpandableLabel (0.3.1)
-  - Fabric (1.7.3)
-  - Firebase/Core (4.9.0):
-    - FirebaseAnalytics (= 4.0.9)
-    - FirebaseCore (= 4.0.15)
-  - Firebase/Database (4.9.0):
+  - BmoViewPager (4.0.5)
+  - Crashlytics (3.10.1):
+    - Fabric (~> 1.7.5)
+  - ExpandableLabel (0.4.0)
+  - Fabric (1.7.5)
+  - Firebase/Core (4.10.1):
+    - FirebaseAnalytics (= 4.1.0)
+    - FirebaseCore (= 4.0.17)
+  - Firebase/Database (4.10.1):
     - Firebase/Core
-    - FirebaseDatabase (= 4.1.4)
-  - FirebaseAnalytics (4.0.9):
+    - FirebaseDatabase (= 4.1.5)
+  - FirebaseAnalytics (4.1.0):
     - FirebaseCore (~> 4.0)
     - FirebaseInstanceID (~> 2.0)
     - GoogleToolboxForMac/NSData+zlib (~> 2.1)
     - nanopb (~> 0.3)
-  - FirebaseCore (4.0.15):
+  - FirebaseCore (4.0.17):
     - GoogleToolboxForMac/NSData+zlib (~> 2.1)
-  - FirebaseDatabase (4.1.4):
-    - FirebaseAnalytics (~> 4.0)
+  - FirebaseDatabase (4.1.5):
+    - FirebaseAnalytics (~> 4.1)
     - FirebaseCore (~> 4.0)
     - leveldb-library (~> 1.18)
   - FirebaseInstanceID (2.0.9):
@@ -54,19 +55,22 @@ PODS:
     - nanopb/encode (= 0.3.8)
   - nanopb/decode (0.3.8)
   - nanopb/encode (0.3.8)
+  - PageControl (1.0.1)
   - Scrollable (2.0.1)
-  - SDWebImage (4.3.0):
-    - SDWebImage/Core (= 4.3.0)
-  - SDWebImage/Core (4.3.0)
-  - Socket.IO-Client-Swift (13.1.1):
+  - SDWebImage (4.3.3):
+    - SDWebImage/Core (= 4.3.3)
+  - SDWebImage/Core (4.3.3)
+  - Socket.IO-Client-Swift (13.1.2):
     - Starscream (~> 3.0.2)
   - Starscream (3.0.4)
   - SwiftHTTP (3.0.1)
   - SwiftyAvatar (1.1.3)
+  - TabPageViewController (0.2.7)
 
 DEPENDENCIES:
   - Alamofire (~> 4.6)
   - Auk (~> 8.0)
+  - BmoViewPager (~> 4.0.0)
   - Crashlytics (~> 3.10.0)
   - ExpandableLabel
   - Firebase/Core
@@ -78,23 +82,26 @@ DEPENDENCIES:
   - ImageSlideshow/Alamofire
   - moa (~> 9.0)
   - MRCountryPicker (~> 0.0.7)
+  - PageControl
   - Scrollable (~> 2.0)
   - SDWebImage (~> 4.0)
   - Socket.IO-Client-Swift (~> 13.1.0)
   - SwiftHTTP (~> 3.0.1)
   - SwiftyAvatar (~> 1.1)
+  - TabPageViewController
 
 SPEC CHECKSUMS:
-  Alamofire: f41a599bd63041760b26d393ec1069d9d7b917f4
+  Alamofire: 907e0a98eb68cdb7f9d1f541a563d6ac5dc77b25
   AlamofireImage: 2e784dc5d00f04903a52c1d169181469c805c3df
   Auk: 82be62a2cf650437fe745c81b12ac2440a0f682c
-  Crashlytics: a989ef242b66605577a425733797f810bd2725eb
-  ExpandableLabel: a622f4ffb99d6a0bc36bd180ef7209540dc1b88e
-  Fabric: bb495bb9a7a7677c6d03a1f8b83d95bc49b47e41
-  Firebase: 632216af3ed7f31e3be34776947fdc7546cfb572
-  FirebaseAnalytics: 388b630c15713f5dbf364071f5f3d6077fb52f4e
-  FirebaseCore: 3bd047463058fa6b5d312c97502c52e45401cdfb
-  FirebaseDatabase: de4446507ccd3257fca37d16f40e1540324571fd
+  BmoViewPager: 1bbba2f3d9bad4e255b0e397dc035e9a0c434eb5
+  Crashlytics: aee1a064cbbf99b32efa3f056a5f458d846bc8ff
+  ExpandableLabel: 5f5f61fbf71433000cd7c3290617e6fcccb72c86
+  Fabric: ae7146a5f505ea370a1e44820b4b1dc8890e2890
+  Firebase: 92c6ba593e32db0defde464a9adc981d5cb49f97
+  FirebaseAnalytics: 3dfae28d4a5e06f86c4fae830efc2ad3fadb19bc
+  FirebaseCore: 872307b001bbefda1dfa0dbfffa50a6919023d4a
+  FirebaseDatabase: 5f0bc6134c5c237cf55f9e1249d406770a75eafd
   FirebaseInstanceID: d2058a35e9bebda1b6dd42486b84917bde552a9d
   GoogleMaps: 42f91c68b7fa2f84d5c86597b18ceb99f5414c7f
   GooglePlacePicker: e4488625effb006f59de49e14b7a603e463e4261
@@ -105,13 +112,15 @@ SPEC CHECKSUMS:
   moa: b73dc5e0efa1fad00711c4608e41b197f4d15b12
   MRCountryPicker: 75edb510153ef446ded70890bc02140a757961dc
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
+  PageControl: fbe258f0e874c30c30b867278fa04f9fd3381844
   Scrollable: dba6216e71841f516b2f7b826e05479e25b086ac
-  SDWebImage: 6da6c8bca115addc4de8613362e1b15f66333825
-  Socket.IO-Client-Swift: f22222913f29801e30ae0df712db663ec096edc2
+  SDWebImage: de4d90b5bff3571eae7bd16202b1f43135409fa5
+  Socket.IO-Client-Swift: 010d2f464bdd1849b859c0cd0500d68194401ac8
   Starscream: f5da93fe6984c77b694366bf7299b7dc63a76f26
   SwiftHTTP: e94f1aa8cde58637dcc0100f6349de31a3337fde
   SwiftyAvatar: 33aecda825c91851cac2aabd06b33f3698b2414c
+  TabPageViewController: c37a1257a50c2b50712dde61bf499768eee95b67
 
-PODFILE CHECKSUM: 0ccffc85993f831c8cad39ec99afbdd0757459e9
+PODFILE CHECKSUM: c34ba55fd8119164769961259a49608428ec9732
 
 COCOAPODS: 1.4.0

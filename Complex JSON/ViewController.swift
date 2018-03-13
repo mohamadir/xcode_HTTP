@@ -18,35 +18,6 @@ import MRCountryPicker
 /***********************************************      Structrs     *************************************************************/
 
 
-
-struct CurrentMember: Codable{
-    //var message: String?
-    var member: Member?
-    var profile: MemberProfile?
-    
-}
-
-struct Member: Codable{
-    var email: String?
-    var phone: String?
-    var id: Int?
-}
-struct MemberProfile: Codable{
-    var member_id: Int?
-    var first_name: String?
-    var last_name: String?
-    var email: String?
-    var gender: String?
-    var birth_date: String?
-    var profile_image: String?
-   
-    
-}
-
-struct Toy: Codable {
-    var name: String?
-    var last: String?
-}
 /***********************************************      VIEW CONTROLLER     *************************************************************/
 
 

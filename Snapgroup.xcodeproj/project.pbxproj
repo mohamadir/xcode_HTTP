@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		16BA129EB0461C5FBC00EEE2 /* Pods_Complex_JSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89E7D6AE145D4989B1E4DBF6 /* Pods_Complex_JSON.framework */; };
+		7404F38220569F220017762F /* ItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7404F38120569F220017762F /* ItemViewController.swift */; };
 		74138E0220440E9D00F37028 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74138E0120440E9D00F37028 /* MenuViewController.swift */; };
 		74138E042044207700F37028 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74138E032044207700F37028 /* ChatViewController.swift */; };
 		74138E07204442FD00F37028 /* ChatCustomCellController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74138E06204442FD00F37028 /* ChatCustomCellController.swift */; };
@@ -30,11 +31,14 @@
 		74490C19205298D6007AD4FA /* CustomMarkerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74490C18205298D6007AD4FA /* CustomMarkerView.swift */; };
 		74490C1B20529E22007AD4FA /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74490C1A20529E22007AD4FA /* MapViewController.swift */; };
 		74490C1D2052B8F0007AD4FA /* KeyboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74490C1C2052B8F0007AD4FA /* KeyboardViewController.swift */; };
+		74730C4F205666680091D657 /* ItineraryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74730C4E205666680091D657 /* ItineraryViewController.swift */; };
 		749058FE203D605F00C6B8C1 /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749058FD203D605F00C6B8C1 /* CustomTableViewCell.swift */; };
 		74905901203D853200C6B8C1 /* DesignableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74905900203D853200C6B8C1 /* DesignableView.swift */; };
 		74905903203D89E000C6B8C1 /* SignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74905902203D89E000C6B8C1 /* SignUpVC.swift */; };
 		74905905203DB5DA00C6B8C1 /* MainTabController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74905904203DB5DA00C6B8C1 /* MainTabController.swift */; };
 		74905909203DB9DC00C6B8C1 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74905908203DB9DC00C6B8C1 /* HomeViewController.swift */; };
+		74B3CDF0205538F700440EB0 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B3CDEF205538F700440EB0 /* Colors.swift */; };
+		74B3CDF32055692B00440EB0 /* ServicesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B3CDF22055692B00440EB0 /* ServicesViewController.swift */; };
 		74FBD106205009FD002D223A /* MembersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74FBD105205009FD002D223A /* MembersViewController.swift */; };
 		74FBD10A20514220002D223A /* MemberCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74FBD10920514220002D223A /* MemberCollectionCell.swift */; };
 		74FBD10C20518542002D223A /* MemberModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74FBD10B20518542002D223A /* MemberModalViewController.swift */; };
@@ -63,6 +67,7 @@
 		177A3BAF819CF79D7CB80D53 /* Pods-Snapgroup.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Snapgroup.release.xcconfig"; path = "Pods/Target Support Files/Pods-Snapgroup/Pods-Snapgroup.release.xcconfig"; sourceTree = "<group>"; };
 		22C8D6AA62C7371008E12410 /* Pods-Snapgroup.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Snapgroup.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Snapgroup/Pods-Snapgroup.debug.xcconfig"; sourceTree = "<group>"; };
 		4CF86BF3C56B0D575EA7CC1C /* Pods-Complex JSON.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Complex JSON.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Complex JSON/Pods-Complex JSON.debug.xcconfig"; sourceTree = "<group>"; };
+		7404F38120569F220017762F /* ItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemViewController.swift; sourceTree = "<group>"; };
 		74138E0120440E9D00F37028 /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 		74138E032044207700F37028 /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		74138E06204442FD00F37028 /* ChatCustomCellController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatCustomCellController.swift; sourceTree = "<group>"; };
@@ -108,11 +113,14 @@
 		74490C18205298D6007AD4FA /* CustomMarkerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomMarkerView.swift; sourceTree = "<group>"; };
 		74490C1A20529E22007AD4FA /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		74490C1C2052B8F0007AD4FA /* KeyboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardViewController.swift; sourceTree = "<group>"; };
+		74730C4E205666680091D657 /* ItineraryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItineraryViewController.swift; sourceTree = "<group>"; };
 		749058FD203D605F00C6B8C1 /* CustomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = "<group>"; };
 		74905900203D853200C6B8C1 /* DesignableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignableView.swift; sourceTree = "<group>"; };
 		74905902203D89E000C6B8C1 /* SignUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpVC.swift; sourceTree = "<group>"; };
 		74905904203DB5DA00C6B8C1 /* MainTabController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabController.swift; sourceTree = "<group>"; };
 		74905908203DB9DC00C6B8C1 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = HomeViewController.swift; path = ../HomeViewController.swift; sourceTree = "<group>"; };
+		74B3CDEF205538F700440EB0 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		74B3CDF22055692B00440EB0 /* ServicesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServicesViewController.swift; sourceTree = "<group>"; };
 		74FBD105205009FD002D223A /* MembersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembersViewController.swift; sourceTree = "<group>"; };
 		74FBD10920514220002D223A /* MemberCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberCollectionCell.swift; sourceTree = "<group>"; };
 		74FBD10B20518542002D223A /* MemberModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberModalViewController.swift; sourceTree = "<group>"; };
@@ -231,6 +239,7 @@
 				742375072046DC0300B9A0C0 /* ApiRequests.swift */,
 				743A20BD203C3A97008DF1AA /* GroupRequest.swift */,
 				74FBD10D20528D2D002D223A /* Models.swift */,
+				74B3CDEF205538F700440EB0 /* Colors.swift */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -269,6 +278,8 @@
 		743A207F203C1B12008DF1AA /* Complex JSON */ = {
 			isa = PBXGroup;
 			children = (
+				74730C4D2056662E0091D657 /* Itinerary */,
+				74B3CDF12055691C00440EB0 /* Services */,
 				74490C17205298AA007AD4FA /* Map */,
 				74FBD104205009E0002D223A /* Members Page */,
 				7428551D204FF14000637511 /* Test */,
@@ -321,12 +332,29 @@
 			path = Map;
 			sourceTree = "<group>";
 		};
+		74730C4D2056662E0091D657 /* Itinerary */ = {
+			isa = PBXGroup;
+			children = (
+				74730C4E205666680091D657 /* ItineraryViewController.swift */,
+				7404F38120569F220017762F /* ItemViewController.swift */,
+			);
+			path = Itinerary;
+			sourceTree = "<group>";
+		};
 		749058FF203D850300C6B8C1 /* IBDesignable */ = {
 			isa = PBXGroup;
 			children = (
 				74905900203D853200C6B8C1 /* DesignableView.swift */,
 			);
 			path = IBDesignable;
+			sourceTree = "<group>";
+		};
+		74B3CDF12055691C00440EB0 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				74B3CDF22055692B00440EB0 /* ServicesViewController.swift */,
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 		74FBD104205009E0002D223A /* Members Page */ = {
@@ -509,10 +537,12 @@
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/AlamofireImage/AlamofireImage.framework",
 				"${BUILT_PRODUCTS_DIR}/Auk/Auk.framework",
+				"${BUILT_PRODUCTS_DIR}/BmoViewPager/BmoViewPager.framework",
 				"${BUILT_PRODUCTS_DIR}/ExpandableLabel/ExpandableLabel.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
 				"${BUILT_PRODUCTS_DIR}/ImageSlideshow/ImageSlideshow.framework",
 				"${BUILT_PRODUCTS_DIR}/MRCountryPicker/MRCountryPicker.framework",
+				"${BUILT_PRODUCTS_DIR}/PageControl/PageControl.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 				"${BUILT_PRODUCTS_DIR}/Scrollable/Scrollable.framework",
 				"${BUILT_PRODUCTS_DIR}/Socket.IO-Client-Swift/SocketIO.framework",
@@ -528,10 +558,12 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AlamofireImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Auk.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BmoViewPager.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ExpandableLabel.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ImageSlideshow.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MRCountryPicker.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PageControl.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Scrollable.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SocketIO.framework",
@@ -600,8 +632,10 @@
 				74905905203DB5DA00C6B8C1 /* MainTabController.swift in Sources */,
 				749058FE203D605F00C6B8C1 /* CustomTableViewCell.swift in Sources */,
 				74237583204BE0E100B9A0C0 /* PrivateChatMessageCelVc.swift in Sources */,
+				74B3CDF0205538F700440EB0 /* Colors.swift in Sources */,
 				74FBD10E20528D2D002D223A /* Models.swift in Sources */,
 				74490C1D2052B8F0007AD4FA /* KeyboardViewController.swift in Sources */,
+				74730C4F205666680091D657 /* ItineraryViewController.swift in Sources */,
 				74138E0220440E9D00F37028 /* MenuViewController.swift in Sources */,
 				74905901203D853200C6B8C1 /* DesignableView.swift in Sources */,
 				74490C1B20529E22007AD4FA /* MapViewController.swift in Sources */,
@@ -609,9 +643,11 @@
 				743A20BE203C3A97008DF1AA /* GroupRequest.swift in Sources */,
 				74FBD106205009FD002D223A /* MembersViewController.swift in Sources */,
 				7423757F20499FB600B9A0C0 /* PrivateChatViewController.swift in Sources */,
+				74B3CDF32055692B00440EB0 /* ServicesViewController.swift in Sources */,
 				74FBD10A20514220002D223A /* MemberCollectionCell.swift in Sources */,
 				743A2083203C1B12008DF1AA /* ViewController.swift in Sources */,
 				74490C19205298D6007AD4FA /* CustomMarkerView.swift in Sources */,
+				7404F38220569F220017762F /* ItemViewController.swift in Sources */,
 				742375082046DC0300B9A0C0 /* ApiRequests.swift in Sources */,
 				7428551F204FF16300637511 /* TestTabVc.swift in Sources */,
 				743A2081203C1B12008DF1AA /* AppDelegate.swift in Sources */,
@@ -788,7 +824,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = LC6QR4F3TB;
 				INFOPLIST_FILE = "Complex JSON/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Snapgroup.snap2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -807,7 +843,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = LC6QR4F3TB;
 				INFOPLIST_FILE = "Complex JSON/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Snapgroup.snap2;
 				PRODUCT_NAME = "$(TARGET_NAME)";

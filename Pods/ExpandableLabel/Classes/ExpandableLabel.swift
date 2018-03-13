@@ -124,19 +124,19 @@ open class ExpandableLabel: UILabel {
         commonInit()
     }
     
-    override init(frame: CGRect) {
+    public override init(frame: CGRect) {
         super.init(frame: frame)
         self.commonInit()
     }
     
-    init() {
+    public init() {
         super.init(frame: .zero)
     }
     
     fileprivate func commonInit() {
         self.isUserInteractionEnabled = true
         self.lineBreakMode = .byClipping
-        self.numberOfLines = 3
+        self.collapsedNumberOfLines = numberOfLines
         self.expandedAttributedLink = nil
         self.collapsedAttributedLink = NSAttributedString(string: "More", attributes: [.font: UIFont.boldSystemFont(ofSize: font.pointSize)])
         self.ellipsis = NSAttributedString(string: "...")

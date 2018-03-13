@@ -37,11 +37,24 @@ class KeyboardViewController: UIViewController,UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
         moveTextField(textField, moveDistance: -250, up: true)
     }
+    
+    @available(iOS 10.0, *)
     func textFieldDidEndEditing(_ textField: UITextField, reason: UITextFieldDidEndEditingReason) {
         moveTextField(textField, moveDistance: -250, up: false)
 
     }
+    
+    
+   
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        print("end end end end end " )
+        if #available(iOS 10.0, *) {
+            // use the feature only available in iOS 9
+            // for ex. UIStackView
+        } else {
+            moveTextField(textField, moveDistance: -250, up: true)
+            // or use some work around
+        }
         textField.resignFirstResponder()
         return true
     }

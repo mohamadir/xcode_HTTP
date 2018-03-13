@@ -57,7 +57,6 @@ extension UIView {
 }
 class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UINavigationControllerDelegate{
 
-    @IBOutlet weak var docsImageView: UIImageView!
     @IBOutlet weak var groupNameLbl: UILabel!
     var singleGroup: TourGroup?
     var countdownTimer: Timer!
@@ -65,12 +64,12 @@ class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UI
     let date = Date()
     let formatter = DateFormatter()
     @IBOutlet weak var counterLbl: UILabel!
-    
     @IBOutlet weak var mapsView: UIControl!
-    @IBOutlet weak var membersView: UIView!
     
+    @IBOutlet weak var membersView: UIControl!
     @IBOutlet weak var docsView: UIView!
-   
+    @IBOutlet weak var servicesView: UIView!
+    @IBOutlet weak var itineraryView: UIView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -90,6 +89,12 @@ class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UI
         }
         mapsView.addTapGestureRecognizer {
              self.performSegue(withIdentifier: "showTest", sender: self)
+        }
+        servicesView.addTapGestureRecognizer {
+            self.performSegue(withIdentifier: "showServices", sender: self)
+        }
+        itineraryView.addTapGestureRecognizer {
+             self.performSegue(withIdentifier: "showPlanSegue", sender: self)
         }
         startTimer()
         // Do any additional setup after loading the view.

@@ -22,5 +22,7 @@ pod 'SwiftyAvatar', '~> 1.1'
 pod 'GooglePlaces'
 pod 'GooglePlacePicker'
 pod 'GoogleMaps'
- 
+pod 'TabPageViewController'
+pod 'PageControl'
+pod 'BmoViewPager', '~> 4.0.0'
 end
