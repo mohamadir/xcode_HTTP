@@ -8,6 +8,7 @@
 
 import UIKit
 import SDWebImage
+import GoneVisible
 class ItemViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
   
     
@@ -20,8 +21,17 @@ class ItemViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBOutlet weak var dateLbl: UILabel!
     @IBOutlet weak var descriptionLbl: UILabel!
     
+    // services views
+    
+    @IBOutlet weak var hotelsView: UIView!
+    @IBOutlet weak var activitiesView: UIView!
+    @IBOutlet weak var restaurantView: UIView!
     @IBOutlet weak var transportsView: UIView!
     @IBOutlet weak var tourGuideView: UIView!
+    @IBOutlet weak var placesViews: UIView!
+    @IBOutlet weak var stackServices: UIStackView!
+    
+    
     // variabls
     public var number: Int = 0
     public var daynNumber: Int = 0
@@ -30,7 +40,7 @@ class ItemViewController: UIViewController, UITableViewDelegate, UITableViewData
     public var dayDescription: String = ""
     public var dayTitle: String = ""
     
-   
+    public var currentDay: Day?
     override func viewDidLoad() {
         super.viewDidLoad()
        dayNumberLbl.text = "\(number)"
@@ -38,8 +48,14 @@ class ItemViewController: UIViewController, UITableViewDelegate, UITableViewData
        descriptionLbl.text = dayDescription
         dateLbl.text = date
         dayTitleLb.text = dayTitle
-        tourGuideView.frame.size.height = 0
-        transportsView.frame.size.height = 0
+        print(self.currentDay!)
+        setHiddenServices()
+        
+        
+//        tourGuideView.gone()
+//        transportsView.gone()
+        
+//        activitiesView.gone()
         if dayImagePath == nil || dayImagePath == "" {
             
         }
@@ -60,7 +76,46 @@ class ItemViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
     
-    
+    func setHiddenServices() {
+        let hotelInStack = stackServices.arrangedSubviews[0]
+        let resturantInStack = stackServices.arrangedSubviews[1]
+        let activitiesInStack = stackServices.arrangedSubviews[2]
+        let placesInStack = stackServices.arrangedSubviews[3]
+        let transportsInStack = stackServices.arrangedSubviews[4]
+        let tourInStack = stackServices.arrangedSubviews[5]
+        
+        if self.currentDay?.activities?.count == 0 {
+            activitiesInStack.isHidden = true
+        }
+        else{
+            
+        }
+        if self.currentDay?.restaurants?.count == 0 {
+            resturantInStack.isHidden = true
+        }else{
+            
+        }
+        if self.currentDay?.hotels?.count == 0 {
+            hotelInStack.isHidden = true
+        }else{
+            
+        }
+        if self.currentDay?.places?.count == 0 {
+            placesInStack.isHidden = true
+        }else{
+            
+        }
+        if self.currentDay?.tour_guides?.count == 0 {
+            tourInStack.isHidden = true
+        }else{
+            
+        }
+        if self.currentDay?.transports?.count == 0 {
+            transportsInStack.isHidden = true
+        }else{
+            
+        }
+    }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 0
     }

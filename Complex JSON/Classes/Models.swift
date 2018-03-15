@@ -91,7 +91,7 @@ struct Day: Codable{
     var images: [DayImage]?
     var description: String?
     var sleep_location: String?
-    var hotles: [Hotels]?
+    var hotels: [Hotels]?
     var restaurants: [Restaurants]?
     var tour_guides: [TourGuide]?
     var places: [Places]?
@@ -109,7 +109,7 @@ struct DayImage: Codable {
 struct Hotels: Codable {
     var id: Int?
     var website: String?
-    var hotel_translations: Hotel?
+    var hotel_translations: [Hotel]?
 }
 
 struct Hotel: Codable{

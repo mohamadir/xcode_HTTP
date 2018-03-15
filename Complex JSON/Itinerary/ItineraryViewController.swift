@@ -136,6 +136,7 @@ class ItineraryViewController: UIViewController, BmoViewPagerDelegate, BmoViewPa
         vc.dayDescription = self.planDays[page].description!
         vc.dayTitle = self.planDays[page].title!
         vc.date = self.planDays[page].date!
+        vc.currentDay = self.planDays[page]
         if self.planDays[page].images?.count != 0 {
             vc.dayImagePath = (self.planDays[page].images?[0].path!)!
             print(vc.dayImagePath)
