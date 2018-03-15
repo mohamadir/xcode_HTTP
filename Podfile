@@ -25,4 +25,5 @@ pod 'GoogleMaps'
 pod 'TabPageViewController'
 pod 'PageControl'
 pod 'BmoViewPager', '~> 4.0.0'
+pod "GoneVisible"
 end

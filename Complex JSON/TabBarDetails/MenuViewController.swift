@@ -66,6 +66,7 @@ class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UI
     @IBOutlet weak var counterLbl: UILabel!
     @IBOutlet weak var mapsView: UIControl!
     
+    @IBOutlet weak var votesView: UIControl!
     @IBOutlet weak var membersView: UIControl!
     @IBOutlet weak var docsView: UIView!
     @IBOutlet weak var servicesView: UIView!
@@ -80,6 +81,9 @@ class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UI
      //   self.membersTp.addTarget(self, action: #selector(membersClick), for: .touchUpInside)
         membersView.addTapGestureRecognizer {
                self.performSegue(withIdentifier: "showMembers", sender: self)
+        }
+        votesView.addTapGestureRecognizer {
+            self.performSegue(withIdentifier: "showScroll", sender: self)
         }
         docsView.addTapGestureRecognizer {
             print("hi")

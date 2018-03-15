@@ -7,7 +7,7 @@
 //
 
 import Foundation
-
+// ********************************    CURRENT OPJECT *****************************
 struct MyVriables {
     static var currentGroup: TourGroup?
 }
@@ -21,6 +21,8 @@ struct GroupMembers{
     
 }
 
+
+// ********************************    Group Model *****************************
 struct TourGroup: Codable {
     var id: Int?
     var title: String?
@@ -43,6 +45,7 @@ struct GroupImage: Codable {
 
 
 
+// ********************************     Member Model       *****************************
 
 struct CurrentMember: Codable{
     //var message: String?
@@ -73,6 +76,8 @@ struct Toy: Codable {
     var last: String?
 }
 
+// ********************************    Itinerary  Model     *****************************
+
 struct PlanDays: Codable{
     var days: [Day]?
 }
@@ -81,9 +86,95 @@ struct Day: Codable{
     var id: Int?
     var group_id: Int?
     var day_number: Int?
+    var date: String?
     var title: String?
+    var images: [DayImage]?
     var description: String?
     var sleep_location: String?
+    var hotles: [Hotels]?
+    var restaurants: [Restaurants]?
+    var tour_guides: [TourGuide]?
+    var places: [Places]?
+    var transports: [Transports]?
+    var activities: [Activities]?
 }
+
+struct DayImage: Codable {
+    var id : Int?
+    var path: String?
+}
+
+
+// hotel
+struct Hotels: Codable {
+    var id: Int?
+    var website: String?
+    var hotel_translations: Hotel?
+}
+
+struct Hotel: Codable{
+    var id: Int?
+    var name: String?
+}
+
+// restaurants
+
+struct Restaurants: Codable{
+    var id: Int?
+    var restaurant_translations: [Restaurant]?
+}
+
+struct Restaurant: Codable{
+    var id: Int?
+    var restaurant_translations: [RestaurantTranslations]?
+}
+struct RestaurantTranslations: Codable{
+    var id: Int?
+    var name: String?
+}
+
+
+
+// tour guides
+struct TourGuides: Codable{
+    var id: Int?
+    var tour_guide_translations: [TourGuide]?
+}
+struct TourGuide: Codable{
+    var id: Int?
+    var tour_guide_translations: [TourGuideTranslation]?
+}
+
+struct TourGuideTranslation: Codable{
+    var id: Int?
+    var first_name: String?
+    var last_name: String?
+    
+}
+
+
+// places
+struct Places: Codable{
+    var id: Int?
+    var name: String?
+}
+
+// transports
+
+struct Transports: Codable{
+    var id: Int?
+    var company_name: String?
+}
+
+// Activities
+struct Activities: Codable{
+    var id: Int?
+    var name: String?
+}
+
+
+
+
+
 
 

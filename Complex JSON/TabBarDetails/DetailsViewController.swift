@@ -42,7 +42,6 @@ class DetailsViewController: UIViewController {
     @IBOutlet weak var showMoreButton: UIButton!
     var isCollapsed: Bool = false
     
-    @IBOutlet weak var containerScroll: UIScrollView!
     
     @IBOutlet weak var groupLeaderImageView: UIImageView!
     
@@ -51,12 +50,13 @@ class DetailsViewController: UIViewController {
     @IBOutlet weak var tripDurationLbl: UILabel!
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
+
         // Hide the navigation bar on the this view controller
      //   self.navigationController?.isNavigationBarHidden = true
     }
     
- 
+    
     @IBAction func backTapped(_ sender: Any) {
         self.navigationController?.popViewController(animated: true)
     }
@@ -69,14 +69,13 @@ class DetailsViewController: UIViewController {
         self.singleGroup  = MyVriables.currentGroup!
 
         let groupRequest = Main()
-        Scrollable.createContentView(containerScroll)
 
 //        titleLabel.text = singleGroup?.title
         groupTitleLb.text = singleGroup?.title
         setGroupLeader()
 
         setTripTimeDuration(startDate: (singleGroup?.start_date)!, endDate: (singleGroup?.end_date)!)
-        
+        self.descriptionLbl.numberOfLines = 3
         descriptionLbl.text = singleGroup?.description
         slideShow.activityIndicator = DefaultActivityIndicator()
         slideShow.circular = false

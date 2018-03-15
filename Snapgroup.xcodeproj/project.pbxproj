@@ -39,6 +39,8 @@
 		74905909203DB9DC00C6B8C1 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74905908203DB9DC00C6B8C1 /* HomeViewController.swift */; };
 		74B3CDF0205538F700440EB0 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B3CDEF205538F700440EB0 /* Colors.swift */; };
 		74B3CDF32055692B00440EB0 /* ServicesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B3CDF22055692B00440EB0 /* ServicesViewController.swift */; };
+		74F7AAA120580D1F00E66DF8 /* ScrollTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F7AAA020580D1F00E66DF8 /* ScrollTestViewController.swift */; };
+		74F7AAA320595D6B00E66DF8 /* ItineraryServiceViewControllerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F7AAA220595D6B00E66DF8 /* ItineraryServiceViewControllerCell.swift */; };
 		74FBD106205009FD002D223A /* MembersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74FBD105205009FD002D223A /* MembersViewController.swift */; };
 		74FBD10A20514220002D223A /* MemberCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74FBD10920514220002D223A /* MemberCollectionCell.swift */; };
 		74FBD10C20518542002D223A /* MemberModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74FBD10B20518542002D223A /* MemberModalViewController.swift */; };
@@ -121,6 +123,8 @@
 		74905908203DB9DC00C6B8C1 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = HomeViewController.swift; path = ../HomeViewController.swift; sourceTree = "<group>"; };
 		74B3CDEF205538F700440EB0 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		74B3CDF22055692B00440EB0 /* ServicesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServicesViewController.swift; sourceTree = "<group>"; };
+		74F7AAA020580D1F00E66DF8 /* ScrollTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollTestViewController.swift; sourceTree = "<group>"; };
+		74F7AAA220595D6B00E66DF8 /* ItineraryServiceViewControllerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItineraryServiceViewControllerCell.swift; sourceTree = "<group>"; };
 		74FBD105205009FD002D223A /* MembersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembersViewController.swift; sourceTree = "<group>"; };
 		74FBD10920514220002D223A /* MemberCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberCollectionCell.swift; sourceTree = "<group>"; };
 		74FBD10B20518542002D223A /* MemberModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberModalViewController.swift; sourceTree = "<group>"; };
@@ -249,6 +253,7 @@
 			children = (
 				7428551E204FF16300637511 /* TestTabVc.swift */,
 				74490C1C2052B8F0007AD4FA /* KeyboardViewController.swift */,
+				74F7AAA020580D1F00E66DF8 /* ScrollTestViewController.swift */,
 			);
 			path = Test;
 			sourceTree = "<group>";
@@ -337,6 +342,7 @@
 			children = (
 				74730C4E205666680091D657 /* ItineraryViewController.swift */,
 				7404F38120569F220017762F /* ItemViewController.swift */,
+				74F7AAA220595D6B00E66DF8 /* ItineraryServiceViewControllerCell.swift */,
 			);
 			path = Itinerary;
 			sourceTree = "<group>";
@@ -539,6 +545,7 @@
 				"${BUILT_PRODUCTS_DIR}/Auk/Auk.framework",
 				"${BUILT_PRODUCTS_DIR}/BmoViewPager/BmoViewPager.framework",
 				"${BUILT_PRODUCTS_DIR}/ExpandableLabel/ExpandableLabel.framework",
+				"${BUILT_PRODUCTS_DIR}/GoneVisible/GoneVisible.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
 				"${BUILT_PRODUCTS_DIR}/ImageSlideshow/ImageSlideshow.framework",
 				"${BUILT_PRODUCTS_DIR}/MRCountryPicker/MRCountryPicker.framework",
@@ -560,6 +567,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Auk.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BmoViewPager.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ExpandableLabel.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoneVisible.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ImageSlideshow.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MRCountryPicker.framework",
@@ -628,6 +636,7 @@
 			files = (
 				74905903203D89E000C6B8C1 /* SignUpVC.swift in Sources */,
 				74138E07204442FD00F37028 /* ChatCustomCellController.swift in Sources */,
+				74F7AAA120580D1F00E66DF8 /* ScrollTestViewController.swift in Sources */,
 				743A2102203C6468008DF1AA /* GroupViewController.swift in Sources */,
 				74905905203DB5DA00C6B8C1 /* MainTabController.swift in Sources */,
 				749058FE203D605F00C6B8C1 /* CustomTableViewCell.swift in Sources */,
@@ -653,6 +662,7 @@
 				743A2081203C1B12008DF1AA /* AppDelegate.swift in Sources */,
 				74138E042044207700F37028 /* ChatViewController.swift in Sources */,
 				74FBD10C20518542002D223A /* MemberModalViewController.swift in Sources */,
+				74F7AAA320595D6B00E66DF8 /* ItineraryServiceViewControllerCell.swift in Sources */,
 				741D2A102042B40C00DB8975 /* DetailsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

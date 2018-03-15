@@ -128,7 +128,7 @@ class MembersViewController: UIViewController,UICollectionViewDelegate, UICollec
         }
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        GroupMembers.currentMemmber = self.members[indexPath.row]
+        GroupMembers.currentMemmber = self.filterdMembers[indexPath.row]
         performSegue(withIdentifier: "showMemberModal", sender: self)
 
     }

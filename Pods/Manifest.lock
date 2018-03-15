@@ -28,6 +28,7 @@ PODS:
     - leveldb-library (~> 1.18)
   - FirebaseInstanceID (2.0.9):
     - FirebaseCore (~> 4.0)
+  - GoneVisible (1.1.0)
   - GoogleMaps (2.6.0):
     - GoogleMaps/Maps (= 2.6.0)
   - GoogleMaps/Base (2.6.0)
@@ -75,6 +76,7 @@ DEPENDENCIES:
   - ExpandableLabel
   - Firebase/Core
   - Firebase/Database
+  - GoneVisible
   - GoogleMaps
   - GooglePlacePicker
   - GooglePlaces
@@ -103,6 +105,7 @@ SPEC CHECKSUMS:
   FirebaseCore: 872307b001bbefda1dfa0dbfffa50a6919023d4a
   FirebaseDatabase: 5f0bc6134c5c237cf55f9e1249d406770a75eafd
   FirebaseInstanceID: d2058a35e9bebda1b6dd42486b84917bde552a9d
+  GoneVisible: 952032fe1d6d322f66d385f1dcaf5d578c01c3c8
   GoogleMaps: 42f91c68b7fa2f84d5c86597b18ceb99f5414c7f
   GooglePlacePicker: e4488625effb006f59de49e14b7a603e463e4261
   GooglePlaces: f6ddf33b75cef69e888907d9947c57198ed845f3
@@ -121,6 +124,6 @@ SPEC CHECKSUMS:
   SwiftyAvatar: 33aecda825c91851cac2aabd06b33f3698b2414c
   TabPageViewController: c37a1257a50c2b50712dde61bf499768eee95b67
 
-PODFILE CHECKSUM: c34ba55fd8119164769961259a49608428ec9732
+PODFILE CHECKSUM: e5c4c1842d1643510dbd5fa1bee32f9ecbed95e1
 
 COCOAPODS: 1.4.0

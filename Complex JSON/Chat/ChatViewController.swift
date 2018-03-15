@@ -110,6 +110,7 @@ class ChatViewController: UIViewController , UITableViewDelegate, UITableViewDat
             cell.userImage.layer.masksToBounds = false
             cell.userImage.layer.cornerRadius = cell.userImage.frame.height/2
             cell.userImage.clipsToBounds = true
+            
             var url = URL(string: urlString)
 //            DispatchQueue.main.async {
 //                cell.userImage.downloadedFrom(url: url!, contentMode: .scaleToFill)
