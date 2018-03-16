@@ -113,16 +113,17 @@
 		743A20A2203C1B12008DF1AA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		743A20AE203C1C09008DF1AA /* json.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = json.txt; path = ../../json.txt; sourceTree = "<group>"; };
 		743A20BD203C3A97008DF1AA /* GroupRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupRequest.swift; sourceTree = "<group>"; };
-		743A2101203C6468008DF1AA /* GroupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GroupViewController.swift; path = ../GroupViewController.swift; sourceTree = "<group>"; };
+		743A2101203C6468008DF1AA /* GroupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupViewController.swift; sourceTree = "<group>"; };
 		74490C18205298D6007AD4FA /* CustomMarkerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomMarkerView.swift; sourceTree = "<group>"; };
 		74490C1A20529E22007AD4FA /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		74490C1C2052B8F0007AD4FA /* KeyboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardViewController.swift; sourceTree = "<group>"; };
+		746D27FE205C022C001832F6 /* Snapgroup.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Snapgroup.entitlements; sourceTree = "<group>"; };
 		74730C4E205666680091D657 /* ItineraryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItineraryViewController.swift; sourceTree = "<group>"; };
 		749058FD203D605F00C6B8C1 /* CustomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = "<group>"; };
 		74905900203D853200C6B8C1 /* DesignableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignableView.swift; sourceTree = "<group>"; };
 		74905902203D89E000C6B8C1 /* SignUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpVC.swift; sourceTree = "<group>"; };
 		74905904203DB5DA00C6B8C1 /* MainTabController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabController.swift; sourceTree = "<group>"; };
-		74905908203DB9DC00C6B8C1 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = HomeViewController.swift; path = ../HomeViewController.swift; sourceTree = "<group>"; };
+		74905908203DB9DC00C6B8C1 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		74B3CDEF205538F700440EB0 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		74B3CDF22055692B00440EB0 /* ServicesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServicesViewController.swift; sourceTree = "<group>"; };
 		74F7AAA020580D1F00E66DF8 /* ScrollTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollTestViewController.swift; sourceTree = "<group>"; };
@@ -232,13 +233,13 @@
 			path = Assets;
 			sourceTree = "<group>";
 		};
-		741D2A0A2042B16A00DB8975 /* TabBarDetails */ = {
+		741D2A0A2042B16A00DB8975 /* Group Menu Tabs */ = {
 			isa = PBXGroup;
 			children = (
 				741D2A0F2042B40C00DB8975 /* DetailsViewController.swift */,
 				74138E0120440E9D00F37028 /* MenuViewController.swift */,
 			);
-			path = TabBarDetails;
+			path = "Group Menu Tabs";
 			sourceTree = "<group>";
 		};
 		742375092046DE0200B9A0C0 /* Classes */ = {
@@ -265,6 +266,7 @@
 		743A2074203C1B12008DF1AA = {
 			isa = PBXGroup;
 			children = (
+				746D27FE205C022C001832F6 /* Snapgroup.entitlements */,
 				743A207F203C1B12008DF1AA /* Complex JSON */,
 				743A2094203C1B12008DF1AA /* Complex JSONTests */,
 				743A209F203C1B12008DF1AA /* Complex JSONUITests */,
@@ -287,6 +289,7 @@
 		743A207F203C1B12008DF1AA /* Complex JSON */ = {
 			isa = PBXGroup;
 			children = (
+				74B9BCF8205C2504005A0C60 /* Group List */,
 				74F7AAE0205BE69600E66DF8 /* Documents */,
 				74730C4D2056662E0091D657 /* Itinerary */,
 				74B3CDF12055691C00440EB0 /* Services */,
@@ -295,15 +298,12 @@
 				7428551D204FF14000637511 /* Test */,
 				742375092046DE0200B9A0C0 /* Classes */,
 				74138E052044211400F37028 /* Chat */,
-				741D2A0A2042B16A00DB8975 /* TabBarDetails */,
+				741D2A0A2042B16A00DB8975 /* Group Menu Tabs */,
 				7418AFB7203EB3C1007BBC3D /* ImageSlideshow */,
 				749058FF203D850300C6B8C1 /* IBDesignable */,
 				743A2080203C1B12008DF1AA /* AppDelegate.swift */,
-				74905908203DB9DC00C6B8C1 /* HomeViewController.swift */,
-				743A2082203C1B12008DF1AA /* ViewController.swift */,
-				749058FD203D605F00C6B8C1 /* CustomTableViewCell.swift */,
-				743A2101203C6468008DF1AA /* GroupViewController.swift */,
 				743A20AE203C1C09008DF1AA /* json.txt */,
+				743A2082203C1B12008DF1AA /* ViewController.swift */,
 				743A2084203C1B12008DF1AA /* Main.storyboard */,
 				74905904203DB5DA00C6B8C1 /* MainTabController.swift */,
 				74905902203D89E000C6B8C1 /* SignUpVC.swift */,
@@ -367,6 +367,16 @@
 				74B3CDF22055692B00440EB0 /* ServicesViewController.swift */,
 			);
 			path = Services;
+			sourceTree = "<group>";
+		};
+		74B9BCF8205C2504005A0C60 /* Group List */ = {
+			isa = PBXGroup;
+			children = (
+				74905908203DB9DC00C6B8C1 /* HomeViewController.swift */,
+				749058FD203D605F00C6B8C1 /* CustomTableViewCell.swift */,
+				743A2101203C6468008DF1AA /* GroupViewController.swift */,
+			);
+			path = "Group List";
 			sourceTree = "<group>";
 		};
 		74F7AAE0205BE69600E66DF8 /* Documents */ = {
@@ -483,6 +493,12 @@
 							com.apple.BackgroundModes = {
 								enabled = 1;
 							};
+							com.apple.DataProtection = {
+								enabled = 0;
+							};
+							com.apple.InterAppAudio = {
+								enabled = 0;
+							};
 						};
 					};
 					743A2090203C1B12008DF1AA = {
@@ -554,11 +570,10 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-Snapgroup/Pods-Snapgroup-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/ARSLineProgress/ARSLineProgress.framework",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/AlamofireImage/AlamofireImage.framework",
 				"${BUILT_PRODUCTS_DIR}/Auk/Auk.framework",
-				"${BUILT_PRODUCTS_DIR}/BSGridCollectionViewLayout/BSGridCollectionViewLayout.framework",
-				"${BUILT_PRODUCTS_DIR}/BSImagePicker/BSImagePicker.framework",
 				"${BUILT_PRODUCTS_DIR}/BmoViewPager/BmoViewPager.framework",
 				"${BUILT_PRODUCTS_DIR}/ExpandableLabel/ExpandableLabel.framework",
 				"${BUILT_PRODUCTS_DIR}/GoneVisible/GoneVisible.framework",
@@ -572,19 +587,16 @@
 				"${BUILT_PRODUCTS_DIR}/Starscream/Starscream.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftHTTP/SwiftHTTP.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyAvatar/SwiftyAvatar.framework",
-				"${BUILT_PRODUCTS_DIR}/TLPhotoPicker/TLPhotoPicker.framework",
-				"${BUILT_PRODUCTS_DIR}/UIImageViewModeScaleAspect/UIImageViewModeScaleAspect.framework",
 				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
 				"${BUILT_PRODUCTS_DIR}/moa/moa.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ARSLineProgress.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AlamofireImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Auk.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BSGridCollectionViewLayout.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BSImagePicker.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BmoViewPager.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ExpandableLabel.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoneVisible.framework",
@@ -598,8 +610,6 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Starscream.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftHTTP.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyAvatar.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TLPhotoPicker.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/UIImageViewModeScaleAspect.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/moa.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",

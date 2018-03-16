@@ -26,7 +26,6 @@ pod 'TabPageViewController'
 pod 'PageControl'
 pod 'BmoViewPager', '~> 4.0.0'
 pod "GoneVisible"
-pod "BSImagePicker", "~> 2.4"
-pod "TLPhotoPicker"
+pod 'ARSLineProgress', '~> 2.0'
 
 end

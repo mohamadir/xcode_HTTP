@@ -8,6 +8,11 @@
 
 import UIKit
 import SwiftHTTP
+import ARSLineProgress
+
+struct ImageServer: Codable {
+    var image: GroupImage?
+}
 class DocsViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
     
@@ -21,7 +26,7 @@ class DocsViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     @IBAction func Pick(_ sender: Any) {
        let controller = UIImagePickerController()
         controller.delegate = self
-        controller.sourceType = .photoLibrary
+        controller.sourceType = .savedPhotosAlbum
         present(controller, animated: true, completion: nil)
 
     }
@@ -32,18 +37,20 @@ class DocsViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     }
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         let image = info[UIImagePickerControllerImageURL] as! URL
+        ARSLineProgress.show()
         
+        dismiss(animated: true, completion: nil)
         HTTP.POST("https://api.snapgroup.co.il/api/upload_single_image/Member/74/profile", parameters: ["single_image": Upload(fileUrl: image.absoluteURL)]) { response in
+            ARSLineProgress.hide()
             
-            
-            if let data2 = response.data as? Dictionary<String, Any> {
-                if let messageClass = data2["image"] as? Dictionary<String, Any> {
-                    print(messageClass)
-                    print(messageClass["path"]!)
-                }
+            let data = response.data
+            do {
+                let  image2 = try JSONDecoder().decode(ImageServer.self, from: data)
+                print(image2.image?.path)
+            }catch let error {
+                print(error)
             }
-            
-            print(response.description)
+            print(response.data)
             print(response.data.description)
             if response.error != nil {
                 print(response.error)
@@ -51,7 +58,6 @@ class DocsViewController: UIViewController, UIImagePickerControllerDelegate, UIN
             //do things...
            
         }
-        dismiss(animated: true, completion: nil)
 
     }
     

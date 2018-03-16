@@ -30,12 +30,15 @@ struct TourGroup: Codable {
     var description: String?
     var registration_end_date: String?
     var start_date: String?
+    var target_members: Int?
+    var max_members: Int?
     var end_date: String?
     var group_leader_first_name: String?
     var group_leader_last_name:  String?
     var group_leader_image: String?
     var is_company: Int?
     var group_leader_company_name: String?
+    var group_leader_company_image: String?
 }
 
 struct GroupImage: Codable {

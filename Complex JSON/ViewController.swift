@@ -406,14 +406,64 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 }
                 else
                 {
-                    cell.imageosh.downloadedFrom(url: url! , contentMode: .scaleToFill)
+                    cell.imageosh.sd_setImage(with: url!, placeholderImage: UIImage(named: "Group Placeholder"), completed: nil)
+                //    cell.imageosh.sd_setImage(with: url!, completed: nil)
                 }
             }
             catch{
       
             }
         }
+        print(getStartDate(date: self.myGrous[indexPath.row].start_date!))
+        cell.startDayLbl.text = getStartDate(date: self.myGrous[indexPath.row].start_date!)
+        cell.totalDaysLbl.text = "\(getTotalDays(start: self.myGrous[indexPath.row].start_date!, end: self.myGrous[indexPath.row].end_date!))"
+        if self.myGrous[indexPath.row].max_members != nil{
+        cell.totalMembersLbl.text = "\(self.myGrous[indexPath.row].max_members!)"
+        }else{
+            cell.totalMembersLbl.text = "\(self.myGrous[indexPath.row].target_members!)"
 
+        }
+        // if company
+        if self.myGrous[indexPath.row].is_company == 0 {
+            cell.groupLeaderLbl.text = self.myGrous[indexPath.row].group_leader_first_name! + " " + self.myGrous[indexPath.row].group_leader_last_name!
+          
+            if self.myGrous[indexPath.row].group_leader_image != nil{
+            do{
+                let urlString = try ApiRouts.Web + (self.myGrous[indexPath.row].group_leader_image)!
+                var url = URL(string: urlString)
+                if url == nil {
+                }else {
+                    cell.groupLeaderImageView.sd_setImage(with: url!, placeholderImage: UIImage(named: "default user"), completed: nil)
+                }
+                }
+            catch let error{
+                
+                }
+            
+        }
+            
+        } // if just group leader
+        else{
+            if self.myGrous[indexPath.row].group_leader_company_image != nil{
+
+                    do{
+                    let urlString = try ApiRouts.Web + (self.myGrous[indexPath.row].group_leader_company_image)!
+                    var url = URL(string: urlString)
+                        cell.groupLeaderImageView.layer.borderWidth = 0
+                        cell.groupLeaderImageView.layer.masksToBounds = false
+                        cell.groupLeaderImageView.layer.cornerRadius = cell.groupLeaderImageView.frame.height/2
+                        cell.groupLeaderImageView.clipsToBounds = true
+                    if url == nil {
+                    }else {
+                        cell.groupLeaderImageView.sd_setImage(with: url!, placeholderImage: UIImage(named: "default user"), completed: nil)
+                    }
+                    }catch {
+                        
+                    }
+            }
+            
+              cell.groupLeaderLbl.text =   self.myGrous[indexPath.row].group_leader_company_name!
+        }
         cell.selectionStyle = .none
        
         
@@ -465,7 +515,62 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
 
+    func getStartDate(date: String) -> String{
+        let monthString: String = getMonthName(month: date[5...6])
+        let day: String = date[8...9]
+        return """
+               \(day)
+               \(monthString)
+               """
+    }
 
+    // months from numbers to string
+    func getMonthName(month: String) -> String{
+        switch month {
+        case "01":
+            return "Jan"
+        case "02":
+            return "Feb"
+        case "03":
+            return "Mar"
+        case "04":
+            return "Apr"
+        case "05":
+            return "Jun"
+        case "06":
+            return "Jul"
+        case "07":
+            return "Aug"
+        case "08":
+            return "Sep"
+        case "09":
+            return "Oct"
+        case "10":
+            return "Nov"
+        case "11":
+            return "Dec"
+        case "12":
+            return "Feb"
+        default:
+            return "null"
+        }
+    }
+    // get the total days between two dates
+    func getTotalDays(start: String,end: String) -> String{
+        // format the start date
+        let startDateFormatter = DateFormatter()
+        startDateFormatter.dateFormat = "yyyy-MM-dd"
+        let startDate = startDateFormatter.date(from: start)!
+        
+        // format the end date
+        let endDateFormatter = DateFormatter()
+        endDateFormatter.dateFormat = "yyyy-MM-dd"
+        let endDate = endDateFormatter.date(from: end)!
+        
+        var days = Calendar.current.dateComponents([.day], from: startDate, to: endDate).day! as? Int
+        return "\(days!)"
+    }
+    
 }
 
 public extension UIViewController {
