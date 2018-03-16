@@ -24,6 +24,7 @@ class MembersViewController: UIViewController,UICollectionViewDelegate, UICollec
     
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var membersCoView: UICollectionView!
+    @IBOutlet weak var membersCountLbl: UILabel!
     
     var isSearching = false
     var singleGroup: TourGroup?
@@ -111,6 +112,10 @@ class MembersViewController: UIViewController,UICollectionViewDelegate, UICollec
         HTTP.GET(ApiRouts.Web+"/api/group/\((self.singleGroup?.id!)!)/74/members", parameters: ["hello": "world", "param2": "value2"]) { response in
             if let err = response.error {
                 print("error: \(err.localizedDescription)")
+                DispatchQueue.main.sync {
+                    // add to table view
+                    self.membersCountLbl.text = "Members (0)"
+                }
                 return //also notify app of failure as needed
             }
             do{
@@ -118,6 +123,9 @@ class MembersViewController: UIViewController,UICollectionViewDelegate, UICollec
                 self.filterdMembers = self.members
                 DispatchQueue.main.sync {
                     // add to table view
+                        // add to table view
+                        self.membersCountLbl.text = "Members (\(self.members.count))"
+                  
                     self.membersCoView.reloadData()
                 }
               

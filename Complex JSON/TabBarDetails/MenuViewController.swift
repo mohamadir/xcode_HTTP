@@ -100,6 +100,10 @@ class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UI
         itineraryView.addTapGestureRecognizer {
              self.performSegue(withIdentifier: "showPlanSegue", sender: self)
         }
+        docsView.addTapGestureRecognizer {
+            self.performSegue(withIdentifier: "showDocs", sender: self)
+
+        }
         startTimer()
         // Do any additional setup after loading the view.
     }

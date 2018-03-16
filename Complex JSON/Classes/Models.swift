@@ -126,7 +126,8 @@ struct Restaurants: Codable{
 
 struct Restaurant: Codable{
     var id: Int?
-    var restaurant_translations: [RestaurantTranslations]?
+    var name: String?
+  //  var restaurant_translations: [RestaurantTranslations]?
 }
 struct RestaurantTranslations: Codable{
     var id: Int?

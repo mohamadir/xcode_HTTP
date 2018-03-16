@@ -31,6 +31,13 @@ class ItemViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBOutlet weak var placesViews: UIView!
     @IBOutlet weak var stackServices: UIStackView!
     
+    // services labels views
+    @IBOutlet weak var hotelsLabel: UILabel!
+    @IBOutlet weak var restLabel: UILabel!
+    @IBOutlet weak var activitiesLbl: UILabel!
+    @IBOutlet weak var placesLbl: UILabel!
+    @IBOutlet weak var transportsLbl: UILabel!
+    @IBOutlet weak var toursLbl: UILabel!
     
     // variabls
     public var number: Int = 0
@@ -88,32 +95,84 @@ class ItemViewController: UIViewController, UITableViewDelegate, UITableViewData
             activitiesInStack.isHidden = true
         }
         else{
-            
+            var str: String = ""
+            for act in (self.currentDay?.activities!)! {
+                str.append("\((describing: act.name!)) ")
+            }
+            activitiesLbl.text = str
         }
         if self.currentDay?.restaurants?.count == 0 {
             resturantInStack.isHidden = true
         }else{
-            
+            var str: String = ""
+            for (i,act) in (self.currentDay?.restaurants!)!.enumerated() {
+                if i !=  ((self.currentDay?.restaurants!)!.count - 1) {
+                    str.append("\((act.restaurant_translations?[0].name!)!) ,")
+                }else{
+                    str.append("\((act.restaurant_translations?[0].name!)!)")
+                }
+            }
+            restLabel.text = str
         }
         if self.currentDay?.hotels?.count == 0 {
             hotelInStack.isHidden = true
         }else{
-            
+            var str: String = ""
+            for (i,act) in (self.currentDay?.hotels!)!.enumerated() {
+                if i !=  ((self.currentDay?.hotels!)!.count - 1) {
+                    str.append("\((act.hotel_translations?[0].name!)!) ,")
+                }else{
+                    str.append("\((act.hotel_translations?[0].name!)!)")
+                }
+
+                
+            }
+            hotelsLabel.text = str
         }
         if self.currentDay?.places?.count == 0 {
             placesInStack.isHidden = true
         }else{
-            
+            var str: String = ""
+            for (i,act) in (self.currentDay?.places!)!.enumerated() {
+                if i !=  ((self.currentDay?.places!)!.count - 1) {
+                        str.append("\((describing: act.name!)) ,")
+                    
+                }else{
+                    str.append("\((describing: act.name!))")
+                }
+              
+            }
+            placesLbl.text = str
         }
         if self.currentDay?.tour_guides?.count == 0 {
             tourInStack.isHidden = true
         }else{
-            
+            var str: String = ""
+            for (i,act) in (self.currentDay?.tour_guides!)!.enumerated() {
+                
+                if i !=  ((self.currentDay?.tour_guides!)!.count - 1) {
+                    str.append("\((act.tour_guide_translations?[0].first_name!)!) \((act.tour_guide_translations?[0].last_name!)!) ,")
+
+                }else{
+                    str.append("\((act.tour_guide_translations?[0].first_name!)!) \((act.tour_guide_translations?[0].last_name!)!)")
+                }
+                
+            }
+            toursLbl.text = str
         }
         if self.currentDay?.transports?.count == 0 {
             transportsInStack.isHidden = true
         }else{
-            
+            var str: String = ""
+            for (i,act) in (self.currentDay?.transports!)!.enumerated() {
+                if i !=  ((self.currentDay?.transports!)!.count - 1) {
+                    str.append("\((describing: act.company_name!)) ,")
+
+                }else{
+                    str.append("\((describing: act.company_name!))")
+                }
+            }
+            transportsLbl.text = str
         }
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

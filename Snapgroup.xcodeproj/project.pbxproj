@@ -41,6 +41,8 @@
 		74B3CDF32055692B00440EB0 /* ServicesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B3CDF22055692B00440EB0 /* ServicesViewController.swift */; };
 		74F7AAA120580D1F00E66DF8 /* ScrollTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F7AAA020580D1F00E66DF8 /* ScrollTestViewController.swift */; };
 		74F7AAA320595D6B00E66DF8 /* ItineraryServiceViewControllerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F7AAA220595D6B00E66DF8 /* ItineraryServiceViewControllerCell.swift */; };
+		74F7AAA5205A976400E66DF8 /* GroupMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F7AAA4205A976400E66DF8 /* GroupMapViewController.swift */; };
+		74F7AAE2205BE6AA00E66DF8 /* DocsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F7AAE1205BE6AA00E66DF8 /* DocsViewController.swift */; };
 		74FBD106205009FD002D223A /* MembersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74FBD105205009FD002D223A /* MembersViewController.swift */; };
 		74FBD10A20514220002D223A /* MemberCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74FBD10920514220002D223A /* MemberCollectionCell.swift */; };
 		74FBD10C20518542002D223A /* MemberModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74FBD10B20518542002D223A /* MemberModalViewController.swift */; };
@@ -125,6 +127,8 @@
 		74B3CDF22055692B00440EB0 /* ServicesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServicesViewController.swift; sourceTree = "<group>"; };
 		74F7AAA020580D1F00E66DF8 /* ScrollTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollTestViewController.swift; sourceTree = "<group>"; };
 		74F7AAA220595D6B00E66DF8 /* ItineraryServiceViewControllerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItineraryServiceViewControllerCell.swift; sourceTree = "<group>"; };
+		74F7AAA4205A976400E66DF8 /* GroupMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupMapViewController.swift; sourceTree = "<group>"; };
+		74F7AAE1205BE6AA00E66DF8 /* DocsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocsViewController.swift; sourceTree = "<group>"; };
 		74FBD105205009FD002D223A /* MembersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembersViewController.swift; sourceTree = "<group>"; };
 		74FBD10920514220002D223A /* MemberCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberCollectionCell.swift; sourceTree = "<group>"; };
 		74FBD10B20518542002D223A /* MemberModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberModalViewController.swift; sourceTree = "<group>"; };
@@ -283,6 +287,7 @@
 		743A207F203C1B12008DF1AA /* Complex JSON */ = {
 			isa = PBXGroup;
 			children = (
+				74F7AAE0205BE69600E66DF8 /* Documents */,
 				74730C4D2056662E0091D657 /* Itinerary */,
 				74B3CDF12055691C00440EB0 /* Services */,
 				74490C17205298AA007AD4FA /* Map */,
@@ -333,6 +338,7 @@
 			children = (
 				74490C18205298D6007AD4FA /* CustomMarkerView.swift */,
 				74490C1A20529E22007AD4FA /* MapViewController.swift */,
+				74F7AAA4205A976400E66DF8 /* GroupMapViewController.swift */,
 			);
 			path = Map;
 			sourceTree = "<group>";
@@ -361,6 +367,14 @@
 				74B3CDF22055692B00440EB0 /* ServicesViewController.swift */,
 			);
 			path = Services;
+			sourceTree = "<group>";
+		};
+		74F7AAE0205BE69600E66DF8 /* Documents */ = {
+			isa = PBXGroup;
+			children = (
+				74F7AAE1205BE6AA00E66DF8 /* DocsViewController.swift */,
+			);
+			path = Documents;
 			sourceTree = "<group>";
 		};
 		74FBD104205009E0002D223A /* Members Page */ = {
@@ -543,6 +557,8 @@
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/AlamofireImage/AlamofireImage.framework",
 				"${BUILT_PRODUCTS_DIR}/Auk/Auk.framework",
+				"${BUILT_PRODUCTS_DIR}/BSGridCollectionViewLayout/BSGridCollectionViewLayout.framework",
+				"${BUILT_PRODUCTS_DIR}/BSImagePicker/BSImagePicker.framework",
 				"${BUILT_PRODUCTS_DIR}/BmoViewPager/BmoViewPager.framework",
 				"${BUILT_PRODUCTS_DIR}/ExpandableLabel/ExpandableLabel.framework",
 				"${BUILT_PRODUCTS_DIR}/GoneVisible/GoneVisible.framework",
@@ -556,6 +572,8 @@
 				"${BUILT_PRODUCTS_DIR}/Starscream/Starscream.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftHTTP/SwiftHTTP.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyAvatar/SwiftyAvatar.framework",
+				"${BUILT_PRODUCTS_DIR}/TLPhotoPicker/TLPhotoPicker.framework",
+				"${BUILT_PRODUCTS_DIR}/UIImageViewModeScaleAspect/UIImageViewModeScaleAspect.framework",
 				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
 				"${BUILT_PRODUCTS_DIR}/moa/moa.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
@@ -565,6 +583,8 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AlamofireImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Auk.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BSGridCollectionViewLayout.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BSImagePicker.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BmoViewPager.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ExpandableLabel.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoneVisible.framework",
@@ -578,6 +598,8 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Starscream.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftHTTP.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyAvatar.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TLPhotoPicker.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/UIImageViewModeScaleAspect.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/moa.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
@@ -660,6 +682,8 @@
 				742375082046DC0300B9A0C0 /* ApiRequests.swift in Sources */,
 				7428551F204FF16300637511 /* TestTabVc.swift in Sources */,
 				743A2081203C1B12008DF1AA /* AppDelegate.swift in Sources */,
+				74F7AAA5205A976400E66DF8 /* GroupMapViewController.swift in Sources */,
+				74F7AAE2205BE6AA00E66DF8 /* DocsViewController.swift in Sources */,
 				74138E042044207700F37028 /* ChatViewController.swift in Sources */,
 				74FBD10C20518542002D223A /* MemberModalViewController.swift in Sources */,
 				74F7AAA320595D6B00E66DF8 /* ItineraryServiceViewControllerCell.swift in Sources */,
