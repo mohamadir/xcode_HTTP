@@ -50,6 +50,7 @@ PODS:
     - ImageSlideshow/Core
   - ImageSlideshow/Core (1.5.1)
   - leveldb-library (1.20)
+  - M13Checkbox (3.2.2)
   - moa (9.0.2)
   - MRCountryPicker (0.0.7)
   - nanopb (0.3.8):
@@ -84,6 +85,7 @@ DEPENDENCIES:
   - GooglePlaces
   - ImageSlideshow (~> 1.5)
   - ImageSlideshow/Alamofire
+  - M13Checkbox
   - moa (~> 9.0)
   - MRCountryPicker (~> 0.0.7)
   - PageControl
@@ -115,6 +117,7 @@ SPEC CHECKSUMS:
   GoogleToolboxForMac: 2501e2ad72a52eb3dfe7bd9aee7dad11b858bd20
   ImageSlideshow: ae3de479b8c70dc751142d21573f5a28dbb97d4d
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
+  M13Checkbox: a8c2491cfbbca10797925fd0b9154a782bf40d89
   moa: b73dc5e0efa1fad00711c4608e41b197f4d15b12
   MRCountryPicker: 75edb510153ef446ded70890bc02140a757961dc
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
@@ -127,6 +130,6 @@ SPEC CHECKSUMS:
   SwiftyAvatar: 33aecda825c91851cac2aabd06b33f3698b2414c
   TabPageViewController: c37a1257a50c2b50712dde61bf499768eee95b67
 
-PODFILE CHECKSUM: 3338c4d30eb9b8fe8fda62449e87aae20bb0872d
+PODFILE CHECKSUM: a6ef1abdd3b9ebd5191c658105e0e38c1b45e565
 
 COCOAPODS: 1.4.0

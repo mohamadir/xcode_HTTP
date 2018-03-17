@@ -71,6 +71,7 @@ class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UI
     @IBOutlet weak var docsView: UIView!
     @IBOutlet weak var servicesView: UIView!
     @IBOutlet weak var itineraryView: UIView!
+    @IBOutlet weak var checkListView: UIControl!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -104,6 +105,11 @@ class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UI
             self.performSegue(withIdentifier: "showDocs", sender: self)
 
         }
+        checkListView.addTapGestureRecognizer {
+            self.performSegue(withIdentifier: "showCheckList", sender: self)
+
+        }
+        
         startTimer()
         // Do any additional setup after loading the view.
     }

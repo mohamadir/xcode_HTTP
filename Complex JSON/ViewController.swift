@@ -39,10 +39,15 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var phoneNumberFeild: UITextField!
 
+    @IBOutlet weak var menuButton: UIButton!
     @IBOutlet weak var filterView: UIView!
+    
+    @IBOutlet weak var memberMenuView: UIView!
+    
     /********* CONSTRAINTS **********/
   
-   
+    @IBOutlet weak var memberLeadingConstraints: NSLayoutConstraint!
+    
     @IBOutlet weak var leadingConstraint: NSLayoutConstraint!
     
     /******* VARIABLES *********/
@@ -60,6 +65,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     var flagImage: UIImage?
     var currentProfile: MemberProfile?
     var isFilterShowing: Bool = false
+    var isMemberMenuShowing: Bool = false
     @IBAction func onFilterTapped(_ sender: Any) {
         if isFilterShowing {
             leadingConstraint.constant = -199
@@ -67,7 +73,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 
         }
         else{
-            
+            if isMemberMenuShowing {
+                menuButton.setImage(UIImage(named: "hamburger"), for: .normal)
+                UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded();})
+                memberLeadingConstraints.constant = 190
+                isMemberMenuShowing = !isMemberMenuShowing
+                UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded();})
+            }
             leadingConstraint.constant = 0
             UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded();})
 
@@ -110,12 +122,20 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             }
         }
         setFilterView()
+        setMemberMenuView()
     }
     func setFilterView(){
         filterView.layer.shadowColor = UIColor.black.cgColor
         filterView.layer.shadowOpacity = 0.5
         filterView.layer.shadowOffset = CGSize.zero
         filterView.layer.shadowRadius = 4
+    }
+    
+    func setMemberMenuView(){
+        memberMenuView.layer.shadowColor = UIColor.black.cgColor
+        memberMenuView.layer.shadowOpacity = 0.5
+        memberMenuView.layer.shadowOffset = CGSize.zero
+        memberMenuView.layer.shadowRadius = 4
     }
     func setRefresher(){
         refresher = UIRefreshControl()
@@ -127,6 +147,27 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     
     
+    @IBAction func memberMenuTapped(_ sender: Any) {
+        if isMemberMenuShowing {
+             menuButton.setImage(UIImage(named: "hamburger"), for: .normal)
+            UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded();})
+            memberLeadingConstraints.constant = 190
+            UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded();})
+        } else {
+            if isFilterShowing {
+                leadingConstraint.constant = -199
+                isFilterShowing = !isFilterShowing
+                 UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded();})
+            }
+            
+            menuButton.setImage(UIImage(named: "arrow right"), for: .normal)
+            UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded();})
+            memberLeadingConstraints.constant = 0
+            UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded();})
+        }
+     
+        isMemberMenuShowing = !isMemberMenuShowing
+    }
     
     func countryPhoneCodePicker(_ picker: MRCountryPicker, didSelectCountryWithName name: String, countryCode: String, phoneCode: String, flag: UIImage) {
         self.flagImageView.image = flag

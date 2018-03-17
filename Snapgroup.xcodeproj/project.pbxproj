@@ -39,6 +39,7 @@
 		74905909203DB9DC00C6B8C1 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74905908203DB9DC00C6B8C1 /* HomeViewController.swift */; };
 		74B3CDF0205538F700440EB0 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B3CDEF205538F700440EB0 /* Colors.swift */; };
 		74B3CDF32055692B00440EB0 /* ServicesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B3CDF22055692B00440EB0 /* ServicesViewController.swift */; };
+		74B9BCFB205CF82D005A0C60 /* CheckListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B9BCFA205CF82D005A0C60 /* CheckListViewController.swift */; };
 		74F7AAA120580D1F00E66DF8 /* ScrollTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F7AAA020580D1F00E66DF8 /* ScrollTestViewController.swift */; };
 		74F7AAA320595D6B00E66DF8 /* ItineraryServiceViewControllerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F7AAA220595D6B00E66DF8 /* ItineraryServiceViewControllerCell.swift */; };
 		74F7AAA5205A976400E66DF8 /* GroupMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F7AAA4205A976400E66DF8 /* GroupMapViewController.swift */; };
@@ -126,6 +127,7 @@
 		74905908203DB9DC00C6B8C1 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		74B3CDEF205538F700440EB0 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		74B3CDF22055692B00440EB0 /* ServicesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServicesViewController.swift; sourceTree = "<group>"; };
+		74B9BCFA205CF82D005A0C60 /* CheckListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckListViewController.swift; sourceTree = "<group>"; };
 		74F7AAA020580D1F00E66DF8 /* ScrollTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollTestViewController.swift; sourceTree = "<group>"; };
 		74F7AAA220595D6B00E66DF8 /* ItineraryServiceViewControllerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItineraryServiceViewControllerCell.swift; sourceTree = "<group>"; };
 		74F7AAA4205A976400E66DF8 /* GroupMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupMapViewController.swift; sourceTree = "<group>"; };
@@ -289,6 +291,7 @@
 		743A207F203C1B12008DF1AA /* Complex JSON */ = {
 			isa = PBXGroup;
 			children = (
+				74B9BCF9205CF815005A0C60 /* Check List */,
 				74B9BCF8205C2504005A0C60 /* Group List */,
 				74F7AAE0205BE69600E66DF8 /* Documents */,
 				74730C4D2056662E0091D657 /* Itinerary */,
@@ -377,6 +380,14 @@
 				743A2101203C6468008DF1AA /* GroupViewController.swift */,
 			);
 			path = "Group List";
+			sourceTree = "<group>";
+		};
+		74B9BCF9205CF815005A0C60 /* Check List */ = {
+			isa = PBXGroup;
+			children = (
+				74B9BCFA205CF82D005A0C60 /* CheckListViewController.swift */,
+			);
+			path = "Check List";
 			sourceTree = "<group>";
 		};
 		74F7AAE0205BE69600E66DF8 /* Documents */ = {
@@ -579,6 +590,7 @@
 				"${BUILT_PRODUCTS_DIR}/GoneVisible/GoneVisible.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
 				"${BUILT_PRODUCTS_DIR}/ImageSlideshow/ImageSlideshow.framework",
+				"${BUILT_PRODUCTS_DIR}/M13Checkbox/M13Checkbox.framework",
 				"${BUILT_PRODUCTS_DIR}/MRCountryPicker/MRCountryPicker.framework",
 				"${BUILT_PRODUCTS_DIR}/PageControl/PageControl.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
@@ -602,6 +614,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoneVisible.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ImageSlideshow.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/M13Checkbox.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MRCountryPicker.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PageControl.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
@@ -688,6 +701,7 @@
 				74FBD10A20514220002D223A /* MemberCollectionCell.swift in Sources */,
 				743A2083203C1B12008DF1AA /* ViewController.swift in Sources */,
 				74490C19205298D6007AD4FA /* CustomMarkerView.swift in Sources */,
+				74B9BCFB205CF82D005A0C60 /* CheckListViewController.swift in Sources */,
 				7404F38220569F220017762F /* ItemViewController.swift in Sources */,
 				742375082046DC0300B9A0C0 /* ApiRequests.swift in Sources */,
 				7428551F204FF16300637511 /* TestTabVc.swift in Sources */,
