@@ -70,6 +70,7 @@ class ChatViewController: UIViewController , UITableViewDelegate, UITableViewDat
         navigationController?.popViewController(animated: true)
                 dismiss(animated: true, completion: nil)
                 self.socket!.disconnect()
+        
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return (self.messages?.count)!

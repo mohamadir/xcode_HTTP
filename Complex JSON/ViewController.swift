@@ -12,6 +12,7 @@ import Crashlytics
 import SwiftHTTP
 import SDWebImage
 import MRCountryPicker
+import ARSLineProgress
 
 
 
@@ -21,11 +22,11 @@ import MRCountryPicker
 /***********************************************      VIEW CONTROLLER     *************************************************************/
 
 
-class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource ,  MRCountryPickerDelegate{
+class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource ,  MRCountryPickerDelegate , UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     // header views
     
-   
+
     var PINCODE: String?
     var phoneNumber: String?
     
@@ -38,11 +39,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet weak var phoneNumberStackView: UIView!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var phoneNumberFeild: UITextField!
-
+    @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var menuButton: UIButton!
     @IBOutlet weak var filterView: UIView!
-    
     @IBOutlet weak var memberMenuView: UIView!
+    @IBOutlet weak var memberNameLbl: UILabel!
+    @IBOutlet weak var memberPhoneLbl: UILabel!
+    @IBOutlet weak var memberGenderLbl: UILabel!
     
     /********* CONSTRAINTS **********/
   
@@ -51,7 +54,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet weak var leadingConstraint: NSLayoutConstraint!
     
     /******* VARIABLES *********/
-    
+    var menuIcon: String = "iMenuIcon"
     var myGrous: [TourGroup] = []
     var currentGroup: TourGroup?
     var currentMember: CurrentMember?
@@ -74,7 +77,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
         else{
             if isMemberMenuShowing {
-                menuButton.setImage(UIImage(named: "hamburger"), for: .normal)
+                menuButton.setImage(UIImage(named: menuIcon), for: .normal)
                 UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded();})
                 memberLeadingConstraints.constant = 190
                 isMemberMenuShowing = !isMemberMenuShowing
@@ -145,11 +148,60 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
     }
     
+    @IBAction func changePhotoTapped(_ sender: Any) {
+        let controller = UIImagePickerController()
+        controller.delegate = self
+        controller.sourceType = .photoLibrary
+        present(controller, animated: true, completion: nil)
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        print("cancled")
+        dismiss(animated: true, completion: nil)
+        
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        let image = info[UIImagePickerControllerImageURL] as! URL
+        ARSLineProgress.show()
+        
+        dismiss(animated: true, completion: nil)
+        HTTP.POST("https://api.snapgroup.co.il/api/upload_single_image/Member/74/profile", parameters: ["single_image": Upload(fileUrl: image.absoluteURL)]) { response in
+            ARSLineProgress.hide()
+            
+            let data = response.data
+            do {
+                let  image2 = try JSONDecoder().decode(ImageServer.self, from: data)
+                print(image2.image?.path)
+                self.setToUserDefaults(value: image2.image?.path, key: "profile_image")
+              try  DispatchQueue.main.sync {
+                self.profileImageView.layer.borderWidth = 0
+                self.profileImageView.layer.masksToBounds = false
+                
+               self.profileImageView.layer.cornerRadius = self.profileImageView.frame.height/2
+                self.profileImageView.clipsToBounds = true
+                    let urlString = try ApiRouts.Web + (image2.image?.path)!
+                    var url = URL(string: urlString)
+                    self.profileImageView.sd_setImage(with: url!, completed: nil)
+                }
+            }catch let error {
+                print(error)
+            }
+            print(response.data)
+            print(response.data.description)
+            if response.error != nil {
+                print(response.error)
+            }
+            //do things...
+            
+        }
+        
+    }
     
     
     @IBAction func memberMenuTapped(_ sender: Any) {
         if isMemberMenuShowing {
-             menuButton.setImage(UIImage(named: "hamburger"), for: .normal)
+             menuButton.setImage(UIImage(named: menuIcon), for: .normal)
             UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded();})
             memberLeadingConstraints.constant = 190
             UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded();})
@@ -186,10 +238,44 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let last = defaults.string(forKey: "last_name")
         let email = defaults.string(forKey: "email")
         let phone = defaults.string(forKey: "phone")
+        let profile_image = defaults.string(forKey: "profile_image")
+        let gender = defaults.string(forKey: "gender")
+
         let isLogged = defaults.bool(forKey: "isLogged")
         if isLogged == true{
-                   self.phoneNumberStackView.isHidden = true
-                   self.chatHeaderStackView.isHidden = false
+            
+                self.phoneNumberStackView.isHidden = true
+                self.chatHeaderStackView.isHidden = false
+                self.profileImageView.layer.borderWidth = 0
+                self.profileImageView.layer.masksToBounds = false
+                self.profileImageView.layer.cornerRadius = self.profileImageView.frame.height/2
+                self.profileImageView.clipsToBounds = true
+            
+            if first != nil && last != nil {
+                self.memberNameLbl.text = (first)! + " " + (last)!
+            }
+            
+            if phone != nil {
+                self.memberPhoneLbl.text = (phone)!
+            }
+            if gender != nil {
+                if (gender)! == "male" {
+                    self.memberGenderLbl.text = "Male"
+                }else {
+                    self.memberGenderLbl.text = "Female"
+
+                }
+            }
+            
+            if profile_image != nil {
+                let urlString = try ApiRouts.Web + (profile_image)!
+                var url = URL(string: urlString)
+                if url != nil {
+                    self.profileImageView.sd_setImage(with: url!, completed: nil)
+                }
+                
+            }
+            
         }
        
 
@@ -291,10 +377,15 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                                 self.setToUserDefaults(value: self.currentMember?.profile?.last_name, key: "last_name")
                                 self.setToUserDefaults(value: self.currentMember?.member?.email, key: "email")
                                 self.setToUserDefaults(value: self.currentMember?.member?.phone, key: "phone")
+                                self.setToUserDefaults(value: self.currentMember?.profile?.gender, key: "gender")
+                                self.setToUserDefaults(value: self.currentMember?.profile?.profile_image, key: "profile_image")
+
                                 self.currentProfile = self.currentMember?.profile!
                                 DispatchQueue.main.sync {
-                                    self.phoneNumberStackView.isHidden = true
-                                    self.chatHeaderStackView.isHidden = false
+                                    self.checkCurrentUser()
+//                                    self.phoneNumberStackView.isHidden = true
+//                                    self.chatHeaderStackView.isHidden = false
+//                                }
                                 }
                               
                                 
@@ -535,14 +626,23 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         
-//        if !self.isFilterShowing {
-//                self.leadingConstraint.constant = -199
-//                UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded();})
-//                self.isFilterShowing = !self.isFilterShowing
-//            }
-        
-        MyVriables.currentGroup = self.myGrous[indexPath.row]
-        self.performSegue(withIdentifier: "groupDetailsBar", sender: self)
+        if self.isFilterShowing {
+                self.leadingConstraint.constant = -199
+                UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded();})
+                self.isFilterShowing = !self.isFilterShowing
+            }
+       else  if isMemberMenuShowing {
+            menuButton.setImage(UIImage(named: menuIcon), for: .normal)
+            UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded();})
+            memberLeadingConstraints.constant = 190
+            isMemberMenuShowing = !isMemberMenuShowing
+            UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded();})
+        }
+        else {
+            MyVriables.currentGroup = self.myGrous[indexPath.row]
+            self.performSegue(withIdentifier: "groupDetailsBar", sender: self)
+            
+        }
         
         
        
@@ -607,7 +707,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let endDateFormatter = DateFormatter()
         endDateFormatter.dateFormat = "yyyy-MM-dd"
         let endDate = endDateFormatter.date(from: end)!
-        
+
         var days = Calendar.current.dateComponents([.day], from: startDate, to: endDate).day! as? Int
         return "\(days!)"
     }

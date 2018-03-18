@@ -18,6 +18,7 @@ class ItineraryViewController: UIViewController, BmoViewPagerDelegate, BmoViewPa
     var rotationAngle: CGFloat!
     var array: [Int] = [1,2,3,4,5]
     var singleGroup: TourGroup?
+    
     @IBOutlet weak var bmoPageViewer: BmoViewPager!
     var planDays: [Day] = []
     var pickerData: [String] = ["1","2","3"]

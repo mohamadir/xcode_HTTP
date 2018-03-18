@@ -15,9 +15,8 @@ class ApiRouts{
  static let OpenGroups: String = "\(Api)/filter/open"
  static let RegisterCode: String = "\(Api)/getregistercode"
  static let Register: String = "\(Api)/register"
-    
 // private chat
-    static let HistoryConversation: String = "\(Api)/getprivatemessages/" // .../myId/opponentid
+ static let HistoryConversation: String = "\(Api)/getprivatemessages/" // .../myId/opponentid
     
 }
 

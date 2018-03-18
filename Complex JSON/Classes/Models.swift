@@ -100,6 +100,7 @@ struct Day: Codable{
     var places: [Places]?
     var transports: [Transports]?
     var activities: [Activities]?
+    var locations: [dayLocation]?
 }
 
 struct DayImage: Codable {
@@ -175,6 +176,18 @@ struct Activities: Codable{
     var id: Int?
     var name: String?
 }
+
+// Locations
+
+struct dayLocation: Codable{
+    var id: Int?
+    var day_id: Int?
+    var location: String?
+    var lat: String?
+    var long: String?
+    var title: String?
+}
+
 
 
 
