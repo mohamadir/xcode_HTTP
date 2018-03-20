@@ -71,12 +71,24 @@ class DetailsViewController: UIViewController {
         let groupRequest = Main()
 
 //        titleLabel.text = singleGroup?.title
-        groupTitleLb.text = singleGroup?.title
+        if singleGroup?.translations?.count != 0 {
+             groupTitleLb.text = singleGroup?.translations?[0].title
+            descriptionLbl.text = singleGroup?.translations?[0].description
+
+        }else{
+            if singleGroup?.title != nil {
+              groupTitleLb.text = singleGroup?.title
+            }
+            if singleGroup?.description != nil {
+                groupTitleLb.text = singleGroup?.description
+            }
+        }
+
         setGroupLeader()
 
         setTripTimeDuration(startDate: (singleGroup?.start_date)!, endDate: (singleGroup?.end_date)!)
         self.descriptionLbl.numberOfLines = 3
-        descriptionLbl.text = singleGroup?.description
+        
         slideShow.activityIndicator = DefaultActivityIndicator()
         slideShow.circular = false
         slideShow.zoomEnabled = true
@@ -91,7 +103,7 @@ class DetailsViewController: UIViewController {
             
                 print("%%% \(self.groupImages.count)")
                 var images2: [InputSource] = []
-            print("group : \(self.singleGroup?.title!) images: \(self.groupImages)")
+         //   print("group : \(self.singleGroup?.title!) images: \(self.groupImages)")
 
                   // var images2: [InputSource]?
                 for image in self.groupImages {

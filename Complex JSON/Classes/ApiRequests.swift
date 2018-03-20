@@ -11,7 +11,7 @@ class ApiRouts{
  static let Web: String = "http://api.snapgroup.co.il"
  static let ChatServer: String = "\(Web):3030/"
  static let Api: String  = "https://api.snapgroup.co.il/api"
- static let AllGroupsRequest: String = "\(Api)/getallgroups"
+ static let AllGroupsRequest: String = "\(Api)/groups"
  static let OpenGroups: String = "\(Api)/filter/open"
  static let RegisterCode: String = "\(Api)/getregistercode"
  static let Register: String = "\(Api)/register"

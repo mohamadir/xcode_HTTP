@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "22296601F31BD0A2FDD753CA947E7A28"
+               BlueprintIdentifier = "664B1AB2AB7B8D8BE2B63AA537D81E27"
                BlueprintName = "Scrollable"
                ReferencedContainer = "container:Pods.xcodeproj"
                BuildableName = "Scrollable.framework">

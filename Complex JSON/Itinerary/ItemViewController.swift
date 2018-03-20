@@ -107,9 +107,9 @@ class ItemViewController: UIViewController, UITableViewDelegate, UITableViewData
             var str: String = ""
             for (i,act) in (self.currentDay?.restaurants!)!.enumerated() {
                 if i !=  ((self.currentDay?.restaurants!)!.count - 1) {
-                    str.append("\((act.restaurant_translations?[0].name!)!) ,")
+                    str.append("\((act.translations?[0].name!)!) ,")
                 }else{
-                    str.append("\((act.restaurant_translations?[0].name!)!)")
+                    str.append("\((act.translations?[0].name!)!)")
                 }
             }
             restLabel.text = str
@@ -120,9 +120,9 @@ class ItemViewController: UIViewController, UITableViewDelegate, UITableViewData
             var str: String = ""
             for (i,act) in (self.currentDay?.hotels!)!.enumerated() {
                 if i !=  ((self.currentDay?.hotels!)!.count - 1) {
-                    str.append("\((act.hotel_translations?[0].name!)!) ,")
+                    str.append("\((act.translations?[0].name!)!) ,")
                 }else{
-                    str.append("\((act.hotel_translations?[0].name!)!)")
+                    str.append("\((act.translations?[0].name!)!)")
                 }
 
                 
@@ -151,10 +151,10 @@ class ItemViewController: UIViewController, UITableViewDelegate, UITableViewData
             for (i,act) in (self.currentDay?.tour_guides!)!.enumerated() {
                 
                 if i !=  ((self.currentDay?.tour_guides!)!.count - 1) {
-                    str.append("\((act.tour_guide_translations?[0].first_name!)!) \((act.tour_guide_translations?[0].last_name!)!) ,")
+                    str.append("\((act.translations?[0].first_name!)!) \((act.translations?[0].last_name!)!) ,")
 
                 }else{
-                    str.append("\((act.tour_guide_translations?[0].first_name!)!) \((act.tour_guide_translations?[0].last_name!)!)")
+                    str.append("\((act.translations?[0].first_name!)!) \((act.translations?[0].last_name!)!)")
                 }
                 
             }

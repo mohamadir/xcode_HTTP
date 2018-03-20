@@ -76,7 +76,13 @@ class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UI
     override func viewDidLoad() {
         super.viewDidLoad()
         self.singleGroup  = MyVriables.currentGroup!
-        self.groupNameLbl.text = singleGroup?.title
+        if singleGroup?.translations?.count == 0 {
+            self.groupNameLbl.text = singleGroup?.title
+        }
+        else {
+            self.groupNameLbl.text = singleGroup?.translations?[0].title
+
+        }
         self.groupNameLbl.numberOfLines = 0
         self.groupNameLbl.lineBreakMode = .byWordWrapping
      //   self.membersTp.addTarget(self, action: #selector(membersClick), for: .touchUpInside)

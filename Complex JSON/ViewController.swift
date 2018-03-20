@@ -118,6 +118,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         setCountryPicker()
         setChatTap()
         setRefresher()
+       
         self.checkCurrentUser()
         DispatchQueue.main.async {
             self.getSwiftGroups(){ (output) in
@@ -438,14 +439,15 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         print("request PAGE = \(self.page)")
         let params = ["page": self.page]
         var groups: [TourGroup]?
-        HTTP.POST(ApiRouts.AllGroupsRequest, parameters: params) { response in
+        HTTP.GET(ApiRouts.AllGroupsRequest + "?page=\(self.page)") { response in
             print(ApiRouts.AllGroupsRequest)
             //do things...
           //  print(response.description)
             let data = response.data
+//            print(response)
+
             do {
                 let  groups2 = try JSONDecoder().decode(Main.self, from: data)
-                
                 groups = groups2.data!
                 if groups?.count == 0 {
                     self.hasLoadMore = false
@@ -461,7 +463,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                     self.refresher.endRefreshing()
                     self.page += 1
                 }
-                
+
                 DispatchQueue.main.async {
                     completionBlock(groups)
                 }
@@ -598,9 +600,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
         cell.selectionStyle = .none
        
-        
-        cell.groupLabel.text = self.myGrous[indexPath.row].title
-        
+        if self.myGrous[indexPath.row].translations?.count != 0 {
+            cell.groupLabel.text = self.myGrous[indexPath.row].translations?[0].title
+
+        }else{
+            cell.groupLabel.text = self.myGrous[indexPath.row].title
+        }
         
         
         return cell

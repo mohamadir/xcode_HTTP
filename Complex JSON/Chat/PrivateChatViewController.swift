@@ -97,6 +97,7 @@ class PrivateChatViewController: UIViewController  , UITableViewDelegate, UITabl
         setSocket()
         self.messageUser = ChatUser.currentUser!
         self.userImage.layer.borderWidth = 0
+        chatTextFeild.autocorrectionType = .no
         self.userImage.layer.masksToBounds = false
         self.userImage.layer.cornerRadius = userImage.frame.height/2
        userImage.clipsToBounds = true
@@ -105,6 +106,10 @@ class PrivateChatViewController: UIViewController  , UITableViewDelegate, UITabl
        // self.userImage.downloadedFrom(url: url!, contentMode: .scaleToFill)
         let border = CALayer()
         let width = CGFloat(0.6)
+        if #available(iOS 10, *) {
+            // Disables the password autoFill accessory view.
+            chatTextFeild.textContentType = UITextContentType("")
+        }
         
       
         if #available(iOS 11.0, *) {

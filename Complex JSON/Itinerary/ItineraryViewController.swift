@@ -88,7 +88,7 @@ class ItineraryViewController: UIViewController, BmoViewPagerDelegate, BmoViewPa
         daysPicker.transform = CGAffineTransform(rotationAngle: rotationAngle )
      //   var y = daysPicker.frame.origin.y
 //
-        daysPicker.frame = CGRect(x: 0 , y: 60, width: view.frame.width , height: 45)
+        daysPicker.frame = CGRect(x: 0 , y: 80, width: view.frame.width , height: 45)
 //        let shadowPath = UIBezierPath()
 //        shadowPath.move(to: CGPoint(x: daysPicker.bounds.origin.y, y: daysPicker.frame.size.width))
 //        shadowPath.addLine(to: CGPoint(x: daysPicker.bounds.height / 2, y: daysPicker.bounds.width + 7.0))
@@ -134,9 +134,9 @@ class ItineraryViewController: UIViewController, BmoViewPagerDelegate, BmoViewPa
         print("im here datasource")
         let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "DayPlan") as! ItemViewController
         vc.number = self.planDays[page].day_number!
-        vc.dayDescription = self.planDays[page].description!
-        vc.dayTitle = self.planDays[page].title!
-        vc.date = self.planDays[page].date!
+        vc.dayDescription = (self.planDays[page] != nil && self.planDays[page].description != nil)  ? self.planDays[page].description! : "לא קיים תיאור עבור יום זה"
+        vc.dayTitle = (self.planDays[page] != nil && self.planDays[page].title != nil)  ? self.planDays[page].title! : "לא קיים תיאור עבור יום זה"
+        vc.date = (self.planDays[page] != nil && self.planDays[page].date != nil)  ? self.planDays[page].date! : "לא קיים תיאור עבור יום זה"
         vc.currentDay = self.planDays[page]
         if self.planDays[page].images?.count != 0 {
             vc.dayImagePath = (self.planDays[page].images?[0].path!)!

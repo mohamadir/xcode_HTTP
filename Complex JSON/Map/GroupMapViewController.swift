@@ -51,7 +51,7 @@ class GroupMapViewController: UIViewController , GMSMapViewDelegate, CLLocationM
         
         
         // MARKER ICON
-        markcon = resizeImage(image: UIImage(named: "member marker")!, targetSize: CGSize(width: 44.0, height: 50.0))
+        markcon = resizeImage(image: UIImage(named: "map marker")!, targetSize: CGSize(width: 44.0, height: 50.0))
        
         
         // ADD MARKERS TO MAP
@@ -66,13 +66,35 @@ class GroupMapViewController: UIViewController , GMSMapViewDelegate, CLLocationM
 
     func fitAllMarkers() {
         var bounds = GMSCoordinateBounds()
-        
+ 
+
+       //  let path = GMSMutablePath()
+      let   path = GMSMutablePath(path: GMSPath())
         for marker in markerList {
             bounds = bounds.includingCoordinate(marker.position)
+            path.add(marker.position)
+
         }
+     
         
+        
+        let polyline = GMSPolyline(path: path)
+        polyline.strokeColor = UIColor(named: "Primary")!
+        polyline.strokeWidth = 3.0
+     //   polyline.spans = [GMSStyleSpan(color: .red)]
+        polyline.geodesic = true
+       // let polyline = GMSPolyline(path: path)
+//        let solidRed = GMSStrokeStyle.solidColor(.red)
+//        let redYellow =
+//            GMSStrokeStyle.gradient(from: .red, to: .yellow)
+//        polyline.spans = [GMSStyleSpan(style: solidRed),
+//                          GMSStyleSpan(style: solidRed),
+//                          GMSStyleSpan(style: redYellow)]
+//
+        polyline.map = googleMaps
         googleMaps.animate(with: GMSCameraUpdate.fit(bounds))
     }
+    
     func createMarker(titleMarker: String , iconMarker: UIImage, lat: CLLocationDegrees, long: CLLocationDegrees){
         let marker = GMSMarker()
         marker.position = CLLocationCoordinate2DMake(lat, long)
@@ -122,7 +144,7 @@ class GroupMapViewController: UIViewController , GMSMapViewDelegate, CLLocationM
                 DispatchQueue.main.sync {
                     for day in self.mapDays {
                         for loc in day.locations! {
-                            self.createMarker(titleMarker: loc.title!, iconMarker: self.markcon, lat: CLLocationDegrees((loc.lat! as NSString).floatValue), long: CLLocationDegrees((loc.long! as NSString).floatValue))
+                            self.createMarker(titleMarker: loc.title != nil ? loc.title! : "", iconMarker: self.markcon, lat: CLLocationDegrees((loc.lat! as NSString).floatValue), long: CLLocationDegrees((loc.long! as NSString).floatValue))
                         }
                     }
                     ARSLineProgress.hide()

@@ -39,6 +39,15 @@ struct TourGroup: Codable {
     var is_company: Int?
     var group_leader_company_name: String?
     var group_leader_company_image: String?
+    var translations: [GroupTranslation]?
+}
+struct GroupTranslation: Codable {
+    var locale: String?
+    var title: String?
+    var description: String?
+    var origin: String?
+    var destination: String?
+    
 }
 
 struct GroupImage: Codable {
@@ -113,7 +122,7 @@ struct DayImage: Codable {
 struct Hotels: Codable {
     var id: Int?
     var website: String?
-    var hotel_translations: [Hotel]?
+    var translations: [Hotel]?
 }
 
 struct Hotel: Codable{
@@ -125,7 +134,7 @@ struct Hotel: Codable{
 
 struct Restaurants: Codable{
     var id: Int?
-    var restaurant_translations: [Restaurant]?
+    var translations: [Restaurant]?
 }
 
 struct Restaurant: Codable{
@@ -143,11 +152,11 @@ struct RestaurantTranslations: Codable{
 // tour guides
 struct TourGuides: Codable{
     var id: Int?
-    var tour_guide_translations: [TourGuide]?
+    var translations: [TourGuide]?
 }
 struct TourGuide: Codable{
     var id: Int?
-    var tour_guide_translations: [TourGuideTranslation]?
+    var translations: [TourGuideTranslation]?
 }
 
 struct TourGuideTranslation: Codable{

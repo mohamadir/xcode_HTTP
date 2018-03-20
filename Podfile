@@ -27,5 +27,6 @@ pod 'PageControl'
 pod 'BmoViewPager', '~> 4.0.0'
 pod "GoneVisible"
 pod 'ARSLineProgress', '~> 2.0'
+pod 'YNExpandableCell'
 pod 'M13Checkbox'
 end
