@@ -240,13 +240,13 @@
 			path = Assets;
 			sourceTree = "<group>";
 		};
-		741D2A0A2042B16A00DB8975 /* Group Menu Tabs */ = {
+		741D2A0A2042B16A00DB8975 /* Group Member Tabs */ = {
 			isa = PBXGroup;
 			children = (
 				741D2A0F2042B40C00DB8975 /* DetailsViewController.swift */,
 				74138E0120440E9D00F37028 /* MenuViewController.swift */,
 			);
-			path = "Group Menu Tabs";
+			path = "Group Member Tabs";
 			sourceTree = "<group>";
 		};
 		742375092046DE0200B9A0C0 /* Classes */ = {
@@ -307,7 +307,7 @@
 				7428551D204FF14000637511 /* Test */,
 				742375092046DE0200B9A0C0 /* Classes */,
 				74138E052044211400F37028 /* Chat */,
-				741D2A0A2042B16A00DB8975 /* Group Menu Tabs */,
+				741D2A0A2042B16A00DB8975 /* Group Member Tabs */,
 				7418AFB7203EB3C1007BBC3D /* ImageSlideshow */,
 				749058FF203D850300C6B8C1 /* IBDesignable */,
 				743A2080203C1B12008DF1AA /* AppDelegate.swift */,
@@ -623,6 +623,7 @@
 				"${BUILT_PRODUCTS_DIR}/Starscream/Starscream.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftHTTP/SwiftHTTP.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyAvatar/SwiftyAvatar.framework",
+				"${BUILT_PRODUCTS_DIR}/Toast-Swift/Toast_Swift.framework",
 				"${BUILT_PRODUCTS_DIR}/YNExpandableCell/YNExpandableCell.framework",
 				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
 				"${BUILT_PRODUCTS_DIR}/moa/moa.framework",
@@ -648,6 +649,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Starscream.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftHTTP.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyAvatar.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Toast_Swift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/YNExpandableCell.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/moa.framework",

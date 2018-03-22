@@ -95,8 +95,10 @@ class DetailsViewController: UIViewController {
         slideShow.activityIndicator = DefaultActivityIndicator()
         slideShow.circular = false
         slideShow.zoomEnabled = true
-        calculateRegisterDate(date: (singleGroup?.registration_end_date)!)
-       // slideShow.draggingEnabled = false
+        if singleGroup?.registration_end_date != nil{
+            calculateRegisterDate(date: (singleGroup?.registration_end_date)!)
+        }
+        // slideShow.draggingEnabled = false
         slideShow.isMultipleTouchEnabled = false
         slideShow.pageControlPosition = .insideScrollView
 //        slideShow.pageControlPosition = .custom(padding: CGFloat(12))

@@ -29,4 +29,5 @@ pod "GoneVisible"
 pod 'ARSLineProgress', '~> 2.0'
 pod 'YNExpandableCell'
 pod 'M13Checkbox'
+pod 'Toast-Swift', '~> 3.0.1'
 end
