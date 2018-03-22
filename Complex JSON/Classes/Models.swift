@@ -36,10 +36,15 @@ struct TourGroup: Codable {
     var group_leader_first_name: String?
     var group_leader_last_name:  String?
     var group_leader_image: String?
+    var group_leader_email: String?
     var is_company: Int?
     var group_leader_company_name: String?
     var group_leader_company_image: String?
     var translations: [GroupTranslation]?
+    var group_leader_birth_date: String?
+    var group_leader_about: String?
+    var group_leader_gender: String?
+    
 }
 struct GroupTranslation: Codable {
     var locale: String?
