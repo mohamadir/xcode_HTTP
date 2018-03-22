@@ -10,6 +10,7 @@ import Foundation
 // ********************************    CURRENT OPJECT *****************************
 struct MyVriables {
     static var currentGroup: TourGroup?
+    static var isMember: Bool = false
 }
 
 struct ChatUser {
@@ -18,7 +19,6 @@ struct ChatUser {
 
 struct GroupMembers{
     static var currentMemmber: GroupMember?
-    
 }
 
 
@@ -28,6 +28,8 @@ struct TourGroup: Codable {
     var title: String?
     var image: String?
     var description: String?
+    var open: Bool?
+    var role: String?
     var registration_end_date: String?
     var start_date: String?
     var target_members: Int?

@@ -13,11 +13,7 @@ import SwiftHTTP
 import SDWebImage
 import MRCountryPicker
 import ARSLineProgress
-
-
-
-/***********************************************      Structrs     *************************************************************/
-
+import Toast_Swift
 
 /***********************************************      VIEW CONTROLLER     *************************************************************/
 
@@ -47,6 +43,23 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet weak var memberPhoneLbl: UILabel!
     @IBOutlet weak var memberGenderLbl: UILabel!
     
+    /********* Filter Buttons **********/
+    @IBOutlet weak var myGroupsBt: UIButton!
+    @IBOutlet weak var managamentBt: UIButton!
+    @IBOutlet weak var publicGroupsbt: UIButton!
+    @IBOutlet weak var oneDayBt: UIButton!
+    @IBOutlet weak var multiDaysBt: UIButton!
+    @IBOutlet weak var createdSortBt: UIButton!
+    @IBOutlet weak var allGroupsBt: UIButton!
+    
+    /****** Sort Buttons ************/
+    
+    @IBOutlet weak var DepratureSortBt: UIButton!
+    @IBOutlet weak var totalDaysBt: UIButton!
+    
+    
+   
+    
     /********* CONSTRAINTS **********/
   
     @IBOutlet weak var memberLeadingConstraints: NSLayoutConstraint!
@@ -64,10 +77,17 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     var refresher: UIRefreshControl!
     var dbRererence: DatabaseReference?
     var page: Int = 1
+    var standart_sort: String = "created_at&order=desc"
     var groupImages: [GroupImage] = []
     var flagImage: UIImage?
     var currentProfile: MemberProfile?
     var isFilterShowing: Bool = false
+    
+    // sort & filter variables
+    var filter: String = "no-filter"
+    var sort: String = ""
+    var isLogged: Bool = false
+    var id: Int = -1
     var isMemberMenuShowing: Bool = false
     @IBAction func onFilterTapped(_ sender: Any) {
         if isFilterShowing {
@@ -120,11 +140,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         setRefresher()
        
         self.checkCurrentUser()
-        DispatchQueue.main.async {
-            self.getSwiftGroups(){ (output) in
-                
-            }
-        }
+       
         setFilterView()
         setMemberMenuView()
     }
@@ -169,7 +185,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         dismiss(animated: true, completion: nil)
         HTTP.POST("https://api.snapgroup.co.il/api/upload_single_image/Member/74/profile", parameters: ["single_image": Upload(fileUrl: image.absoluteURL)]) { response in
             ARSLineProgress.hide()
-            
             let data = response.data
             do {
                 let  image2 = try JSONDecoder().decode(ImageServer.self, from: data)
@@ -241,10 +256,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let phone = defaults.string(forKey: "phone")
         let profile_image = defaults.string(forKey: "profile_image")
         let gender = defaults.string(forKey: "gender")
-
+        
         let isLogged = defaults.bool(forKey: "isLogged")
         if isLogged == true{
-            
+                self.isLogged = true
+                self.id = id
                 self.phoneNumberStackView.isHidden = true
                 self.chatHeaderStackView.isHidden = false
                 self.profileImageView.layer.borderWidth = 0
@@ -277,6 +293,16 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 
             }
             
+            self.sort = standart_sort
+            self.myGroupsBt.setTitleColor(UIColor(named: "Primary"), for: .normal)
+            self.hasLoadMore = true
+            self.getGroupsByFilter()
+            
+            
+        }else{
+            
+          self.getSwiftGroups()
+            
         }
        
 
@@ -306,11 +332,18 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         print("refresh is loading")
         self.page = 1
         self.myGrous = []
+        self.hasLoadMore = true
         self.tableView.reloadData()
-        DispatchQueue.main.async {
-            self.getSwiftGroups(){ (output) in
-            }
+        if self.isLogged {
+            ARSLineProgress.show()
+                self.getGroupsByFilter()
+            
+        }else{
+            
+                self.getSwiftGroups()
+            
         }
+        
         
     }
     
@@ -342,6 +375,16 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         self.phoneNumber = "\(self.countryPrefLable.text!)\(self.phoneNumberFeild.text!)"
         
         let VerifyAlert = UIAlertController(title: "Verify", message: "is this is your phone number? \n \(self.countryPrefLable.text!)\(self.phoneNumberFeild.text!)", preferredStyle: .alert)
+        if self.countryPrefLable.text! == "+972" {
+            if self.phoneNumberFeild.text!.count > 4 && self.phoneNumberFeild.text![0...0] == "0" {
+                self.phoneNumberFeild.text!.remove(at: self.phoneNumberFeild.text!.startIndex)
+               self.phoneNumber = "\(self.countryPrefLable.text!)\(self.phoneNumberFeild.text!)"
+                print("yes im inside \(self.phoneNumber)")
+
+               
+            }
+        }
+        
         VerifyAlert.addAction(UIAlertAction(title: NSLocalizedString("Yes", comment: "Default action"), style: .`default`, handler: { _ in
             let params = ["phone": self.phoneNumber]
             
@@ -360,8 +403,15 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                         let textField = PinAlert?.textFields![0] // Force unwrapping because we know it exists.
                         self.PINCODE = textField?.text
                         print("PIN CODE : \((textField?.text)!)")
-                        
-                        let params = ["code": (textField?.text)!, "phone": "\(self.countryPrefLable.text!)\(self.phoneNumberFeild.text!)"]
+                        var params: [String: Any] = [:]
+                       
+//                        if self.countryPrefLable.text![0...4] == "+972" {
+//                            if self.countryPrefLable.text![5]
+//                             params = ["code": (textField?.text)!, "phone": "\(self.countryPrefLable.text!)\(self.phoneNumberFeild.text!)"]
+//                        }else{
+//                             params = ["code": (textField?.text)!, "phone": "\(self.countryPrefLable.text!)\(self.phoneNumberFeild.text!)"]
+//                        }
+                       params = ["code": (textField?.text)!, "phone": "\(self.countryPrefLable.text!)\(self.phoneNumberFeild.text!)"]
                         HTTP.POST(ApiRouts.Register, parameters: params) { response in
                             //do things...
                            
@@ -380,15 +430,18 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                                 self.setToUserDefaults(value: self.currentMember?.member?.phone, key: "phone")
                                 self.setToUserDefaults(value: self.currentMember?.profile?.gender, key: "gender")
                                 self.setToUserDefaults(value: self.currentMember?.profile?.profile_image, key: "profile_image")
-
+                                
                                 self.currentProfile = self.currentMember?.profile!
                                 DispatchQueue.main.sync {
+                                    self.myGrous = []
+                                    self.page = 1
+                                    self.tableView.reloadData()
                                     self.checkCurrentUser()
 //                                    self.phoneNumberStackView.isHidden = true
 //                                    self.chatHeaderStackView.isHidden = false
 //                                }
                                 }
-                              
+                                MyVriables.isMember = true
                                 
                           
                             }
@@ -435,7 +488,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     // get groups reqeust: by page
     
-    func getSwiftGroups(completionBlock: @escaping ([TourGroup]?) -> Void) -> Void {
+    func getSwiftGroups(){
         print("request PAGE = \(self.page)")
         let params = ["page": self.page]
         var groups: [TourGroup]?
@@ -464,13 +517,76 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                     self.page += 1
                 }
 
-                DispatchQueue.main.async {
-                    completionBlock(groups)
-                }
               //  print(self.myGrous.count)
             }
             catch {
                 
+            }
+            
+        }
+    }
+    
+    func getGroupsByFilter() {
+        print("request PAGE = \(self.page)")
+        ARSLineProgress.show()
+
+        var groups: [TourGroup]?
+        let withoutFilter = "/api/groups/members/\(self.id)?page=\(self.page)&sort=\(self.sort)"
+        let withRole = "/api/groups/members/\(self.id)?page=\(self.page)&role=group_leader&sort=\(self.sort)"
+        let withFilter = "/api/groups?member_id=\(self.id)&page=\(self.page)&filter=\(self.filter)&sort=\(self.sort)"
+        let allGroupsFilter = "/api/groups?member_id=\(self.id)&page=\(self.page)&sort=\(self.sort)"
+
+        var lastFilter: String
+        if filter == "all" {
+            lastFilter = allGroupsFilter
+        }
+        if filter == "leader" {
+            lastFilter = withRole
+        }
+        else if filter == "no-filter" {
+            lastFilter = withoutFilter
+        }else{
+            lastFilter = withFilter
+        }
+        print("------------- \(lastFilter)  Page: \(self.page)")
+        HTTP.GET(ApiRouts.Web+lastFilter) { response in
+            if ARSLineProgress.shown == true {
+                ARSLineProgress.hide()
+            }
+            if let error = response.error {
+                print(error)
+            }
+            let data = response.data
+            
+            do {
+                
+                let  groups2 = try JSONDecoder().decode(Main.self, from: data)
+                groups = groups2.data!
+                if groups?.count == 0 {
+
+                    print("has Load more is false now  because goups count is : \(groups?.count)")
+                    self.hasLoadMore = false
+                    return
+                }
+                DispatchQueue.main.sync {
+                    for group in groups! {
+                        if !self.myGrous.contains(where: { (tGroup) -> Bool in
+                            return tGroup.id == group.id
+                        }) {
+                            self.myGrous.append(group)
+                        }
+                    }
+                    //   self.myGrous = groups!
+                    self.tableView.reloadData()
+                    if self.refresher.isRefreshing{
+                        self.refresher.endRefreshing()
+                    }
+                    self.page += 1
+                }
+            }
+            catch let error  {
+                print("im in catch \(error)")
+
             }
             
         }
@@ -510,12 +626,16 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         let lastitem =  self.myGrous.count - 1
         if indexPath.row == lastitem && hasLoadMore == true{
-            
-            DispatchQueue.main.async {
-                self.getSwiftGroups(){ (output) in
-                    
-                }
+            if isLogged {
+                print("is Logged - has Loaded More true")
+                self.getGroupsByFilter()
+                
+            }else{
+                print("Not  Logged - has Loaded More false")
+                self.getSwiftGroups()
+                
             }
+           
         }
     }
     
@@ -548,14 +668,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
       
             }
         }
-        print(getStartDate(date: self.myGrous[indexPath.row].start_date!))
         cell.startDayLbl.text = getStartDate(date: self.myGrous[indexPath.row].start_date!)
         cell.totalDaysLbl.text = "\(getTotalDays(start: self.myGrous[indexPath.row].start_date!, end: self.myGrous[indexPath.row].end_date!))"
         if self.myGrous[indexPath.row].max_members != nil{
         cell.totalMembersLbl.text = "\(self.myGrous[indexPath.row].max_members!)"
         }else{
-            cell.totalMembersLbl.text = "\(self.myGrous[indexPath.row].target_members!)"
-
+            if self.myGrous[indexPath.row].target_members != nil {
+                cell.totalMembersLbl.text = "\(self.myGrous[indexPath.row].target_members!)"
+            }
         }
         // if company
         if self.myGrous[indexPath.row].is_company == 0 {
@@ -707,7 +827,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let startDateFormatter = DateFormatter()
         startDateFormatter.dateFormat = "yyyy-MM-dd"
         let startDate = startDateFormatter.date(from: start)!
-        
         // format the end date
         let endDateFormatter = DateFormatter()
         endDateFormatter.dateFormat = "yyyy-MM-dd"
@@ -717,6 +836,131 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         return "\(days!)"
     }
     
+    
+    func closeFilterSlide(){
+        leadingConstraint.constant = -199
+        isFilterShowing = !isFilterShowing
+        UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded();})
+    }
+    func showToast(_ message: String,_ duration: Double){
+        var style = ToastStyle()
+        // this is just one of many style options
+        style.messageColor = .white
+        // present the toast with the new style
+        self.view.makeToast(message, duration: duration, position: .bottom, style: style)
+    }
+    
+    
+    /********* Filter Click Actions **********/
+    
+    @IBAction func myGroupsTapped(_ sender: Any) {
+        self.managamentBt.setTitleColor(UIColor.black, for: .normal)
+        self.publicGroupsbt.setTitleColor(UIColor.black, for: .normal)
+        self.multiDaysBt.setTitleColor(UIColor.black, for: .normal)
+        self.myGroupsBt.setTitleColor(UIColor(named: "Primary"), for: .normal)
+        self.allGroupsBt.setTitleColor(UIColor.black, for: .normal)
+        self.oneDayBt.setTitleColor(UIColor.black, for: .normal)
+        self.closeFilterSlide()
+        sort = standart_sort
+        filter = "no-filter"
+        showToast("My Message", 3.0)
+        self.refreshData()
+        
+        
+    }
+   
+    @IBAction func managamentTapped(_ sender: Any) {
+        self.myGroupsBt.setTitleColor(UIColor.black, for: .normal)
+        self.publicGroupsbt.setTitleColor(UIColor.black, for: .normal)
+        self.multiDaysBt.setTitleColor(UIColor.black, for: .normal)
+        self.managamentBt.setTitleColor(UIColor(named: "Primary"), for: .normal)
+        self.allGroupsBt.setTitleColor(UIColor.black, for: .normal)
+        self.oneDayBt.setTitleColor(UIColor.black, for: .normal)
+       self.closeFilterSlide()
+        filter = "leader"
+        sort = "created_at&order=desc"
+        self.refreshData()
+    }
+    
+    @IBAction func allgroupsTouchOut(_ sender: Any) {
+    print("allgroups touch ")
+    }
+    
+    @IBAction func publicTapped(_ sender: Any) {
+        self.myGroupsBt.setTitleColor(UIColor.black, for: .normal)
+        self.managamentBt.setTitleColor(UIColor.black, for: .normal)
+        self.multiDaysBt.setTitleColor(UIColor.black, for: .normal)
+        self.publicGroupsbt.setTitleColor(UIColor(named: "Primary"), for: .normal)
+        self.allGroupsBt.setTitleColor(UIColor.black, for: .normal)
+        self.oneDayBt.setTitleColor(UIColor.black, for: .normal)
+        self.closeFilterSlide()
+        filter = "open"
+        sort = "created_at&order=desc"
+        self.refreshData()
+    }
+    
+    @IBAction func allGroupsTapped(_ sender: Any) {
+        self.myGroupsBt.setTitleColor(UIColor.black, for: .normal)
+        self.managamentBt.setTitleColor(UIColor.black, for: .normal)
+        self.multiDaysBt.setTitleColor(UIColor.black, for: .normal)
+        self.allGroupsBt.setTitleColor(UIColor(named: "Primary"), for: .normal)
+        self.publicGroupsbt.setTitleColor(UIColor.black, for: .normal)
+        self.oneDayBt.setTitleColor(UIColor.black, for: .normal)
+        self.closeFilterSlide()
+        filter = "all"
+        sort = "created_at&order=desc"
+        self.refreshData()
+    }
+    
+    @IBAction func oneDayTapped(_ sender: Any) {
+        self.myGroupsBt.setTitleColor(UIColor.black, for: .normal)
+        self.managamentBt.setTitleColor(UIColor.black, for: .normal)
+        self.multiDaysBt.setTitleColor(UIColor.black, for: .normal)
+        self.oneDayBt.setTitleColor(UIColor(named: "Primary"), for: .normal)
+        self.publicGroupsbt.setTitleColor(UIColor.black, for: .normal)
+        self.allGroupsBt.setTitleColor(UIColor.black, for: .normal)
+        self.closeFilterSlide()
+        filter = "day"
+        sort = "created_at&order=desc"
+        self.refreshData()
+    }
+    @IBAction func multiDaysTapped(_ sender: Any) {
+        self.myGroupsBt.setTitleColor(UIColor.black, for: .normal)
+        self.managamentBt.setTitleColor(UIColor.black, for: .normal)
+        self.oneDayBt.setTitleColor(UIColor.black, for: .normal)
+        self.multiDaysBt.setTitleColor(UIColor(named: "Primary"), for: .normal)
+        self.publicGroupsbt.setTitleColor(UIColor.black, for: .normal)
+        self.allGroupsBt.setTitleColor(UIColor.black, for: .normal)
+        self.closeFilterSlide()
+        filter = "days"
+        sort = "created_at&order=desc"
+        self.refreshData()
+        
+    }
+    /********* Sort Click Actions **********/
+
+    @IBAction func createdSortTapped(_ sender: Any) {
+        
+    }
+    @IBAction func departureTapped(_ sender: Any) {
+        
+    }
+    
+    @IBAction func totalTapped(_ sender: Any) {
+        
+    }
+    
+    /********* Clear Filter Action **********/
+
+    @IBAction func clearFilterTapped(_ sender: Any) {
+        
+    }
+    
+    @IBAction func onBackTapped(_ sender: Any) {
+        
+    }
+    
+   
 }
 
 public extension UIViewController {

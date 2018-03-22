@@ -177,6 +177,9 @@ class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UI
         self.dismiss(animated: true, completion: nil)
         
     }
+    @IBAction func onBackPressed(_ sender: Any) {
+        self.navigationController?.popViewController(animated: true)
+    }
     
     @objc func membersClick(){
         print("tapped")

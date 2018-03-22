@@ -69,6 +69,7 @@ PODS:
   - SwiftHTTP (3.0.1)
   - SwiftyAvatar (1.1.3)
   - TabPageViewController (0.2.7)
+  - Toast-Swift (3.0.1)
   - YNExpandableCell (1.1.0)
 
 DEPENDENCIES:
@@ -96,6 +97,7 @@ DEPENDENCIES:
   - SwiftHTTP (~> 3.0.1)
   - SwiftyAvatar (~> 1.1)
   - TabPageViewController
+  - Toast-Swift (~> 3.0.1)
   - YNExpandableCell
 
 SPEC CHECKSUMS:
@@ -131,8 +133,9 @@ SPEC CHECKSUMS:
   SwiftHTTP: e94f1aa8cde58637dcc0100f6349de31a3337fde
   SwiftyAvatar: 33aecda825c91851cac2aabd06b33f3698b2414c
   TabPageViewController: c37a1257a50c2b50712dde61bf499768eee95b67
+  Toast-Swift: ba0b01b095aada709d915f9beb1d38184a2721c3
   YNExpandableCell: 47bf7cff721aa535c0e9e1163bf22b5573441bb4
 
-PODFILE CHECKSUM: 669f26f8fb33cb25436fb1ea877fa665b56820aa
+PODFILE CHECKSUM: 488c88619ec87b90dbbffaffb119150a618b6e82
 
 COCOAPODS: 1.4.0
