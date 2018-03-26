@@ -50,6 +50,8 @@
 		74FBD10E20528D2D002D223A /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74FBD10D20528D2D002D223A /* Models.swift */; };
 		7E23D824206112B100A7F061 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7E23D823206112B100A7F061 /* GoogleService-Info.plist */; };
 		7E23D826206112F200A7F061 /* json.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7E23D825206112F200A7F061 /* json.txt */; };
+		7E8C18AC20679A01002DF261 /* checkListCustomCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E8C18AB20679A01002DF261 /* checkListCustomCell.xib */; };
+		7E8C18AE20679A4E002DF261 /* checkListCustomCellController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E8C18AD20679A4E002DF261 /* checkListCustomCellController.swift */; };
 		7ED26F97206116FF002836C5 /* GroupLeaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ED26F96206116FF002836C5 /* GroupLeaderViewController.swift */; };
 		7ED26F99206279B4002836C5 /* CheckListItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ED26F98206279B3002836C5 /* CheckListItemCell.swift */; };
 /* End PBXBuildFile section */
@@ -141,6 +143,8 @@
 		74FBD10D20528D2D002D223A /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		7E23D823206112B100A7F061 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		7E23D825206112F200A7F061 /* json.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = json.txt; path = ../../../../Downloads/json.txt; sourceTree = "<group>"; };
+		7E8C18AB20679A01002DF261 /* checkListCustomCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = checkListCustomCell.xib; sourceTree = "<group>"; };
+		7E8C18AD20679A4E002DF261 /* checkListCustomCellController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = checkListCustomCellController.swift; sourceTree = "<group>"; };
 		7ED26F96206116FF002836C5 /* GroupLeaderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupLeaderViewController.swift; sourceTree = "<group>"; };
 		7ED26F98206279B3002836C5 /* CheckListItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckListItemCell.swift; sourceTree = "<group>"; };
 		BFC926532938AF6EA3EC8ACC /* Pods_Snapgroup.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Snapgroup.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -403,6 +407,8 @@
 			children = (
 				74B9BCFA205CF82D005A0C60 /* CheckListViewController.swift */,
 				7ED26F98206279B3002836C5 /* CheckListItemCell.swift */,
+				7E8C18AB20679A01002DF261 /* checkListCustomCell.xib */,
+				7E8C18AD20679A4E002DF261 /* checkListCustomCellController.swift */,
 			);
 			path = "Check List";
 			sourceTree = "<group>";
@@ -576,6 +582,7 @@
 				743A208B203C1B12008DF1AA /* LaunchScreen.storyboard in Resources */,
 				7E23D824206112B100A7F061 /* GoogleService-Info.plist in Resources */,
 				743A2088203C1B12008DF1AA /* Assets.xcassets in Resources */,
+				7E8C18AC20679A01002DF261 /* checkListCustomCell.xib in Resources */,
 				743A2086203C1B12008DF1AA /* Main.storyboard in Resources */,
 				7E23D826206112F200A7F061 /* json.txt in Resources */,
 			);
@@ -712,6 +719,7 @@
 				74F7AAA120580D1F00E66DF8 /* ScrollTestViewController.swift in Sources */,
 				7ED26F97206116FF002836C5 /* GroupLeaderViewController.swift in Sources */,
 				743A2102203C6468008DF1AA /* GroupViewController.swift in Sources */,
+				7E8C18AE20679A4E002DF261 /* checkListCustomCellController.swift in Sources */,
 				74905905203DB5DA00C6B8C1 /* MainTabController.swift in Sources */,
 				749058FE203D605F00C6B8C1 /* CustomTableViewCell.swift in Sources */,
 				74237583204BE0E100B9A0C0 /* PrivateChatMessageCelVc.swift in Sources */,

@@ -679,7 +679,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
         // if company
         if self.myGrous[indexPath.row].is_company == 0 {
-            cell.groupLeaderLbl.text = self.myGrous[indexPath.row].group_leader_first_name! + " " + self.myGrous[indexPath.row].group_leader_last_name!
+            if self.myGrous[indexPath.row].group_leader_first_name != nil &&  self.myGrous[indexPath.row].group_leader_last_name != nil{
+                 cell.groupLeaderLbl.text = self.myGrous[indexPath.row].group_leader_first_name! + " " + self.myGrous[indexPath.row].group_leader_last_name!
+            }
+            else {
+                cell.groupLeaderLbl.text = "No name"
+            }
+           
           
             if self.myGrous[indexPath.row].group_leader_image != nil{
             do{

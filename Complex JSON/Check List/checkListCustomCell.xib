@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="checkListCustomCellController" customModule="Snapgroup" customModuleProvider="target">
+            <connections>
+                <outlet property="itemLabel" destination="gMw-fP-yNA" id="A0e-1Z-oex"/>
+                <outlet property="itemSwitch" destination="Vd5-C0-c0H" id="Ks9-2f-sli"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" restorationIdentifier="checkItem" id="iN0-l3-epB" customClass="CheckListItemCellC">
+            <rect key="frame" x="0.0" y="0.0" width="441" height="72"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hoZ-ka-Ymz">
+                    <rect key="frame" x="0.0" y="0.0" width="441" height="72"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Passport" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gMw-fP-yNA">
+                            <rect key="frame" x="8" y="26" width="346" height="21"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="346" id="01Q-l5-BJf"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Vd5-C0-c0H">
+                            <rect key="frame" x="386" y="21" width="49" height="31"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="47" id="zRI-HL-KTj"/>
+                            </constraints>
+                            <color key="onTintColor" name="Primary"/>
+                        </switch>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="gMw-fP-yNA" firstAttribute="leading" secondItem="hoZ-ka-Ymz" secondAttribute="leading" constant="8" id="0Ls-NP-zQs"/>
+                        <constraint firstAttribute="bottom" secondItem="gMw-fP-yNA" secondAttribute="bottom" constant="25" id="C7i-Lb-N8k"/>
+                        <constraint firstAttribute="trailing" secondItem="Vd5-C0-c0H" secondAttribute="trailing" constant="8" id="QCI-xT-GrN"/>
+                        <constraint firstAttribute="bottom" secondItem="Vd5-C0-c0H" secondAttribute="bottom" constant="20" id="UPr-nK-t7I"/>
+                        <constraint firstItem="gMw-fP-yNA" firstAttribute="top" secondItem="hoZ-ka-Ymz" secondAttribute="top" constant="26" id="eKX-RP-13I"/>
+                        <constraint firstItem="Vd5-C0-c0H" firstAttribute="top" secondItem="hoZ-ka-Ymz" secondAttribute="top" constant="21" id="yOf-QY-I1w"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="hoZ-ka-Ymz" firstAttribute="bottom" secondItem="vUN-kp-3ea" secondAttribute="bottom" id="4Yo-q5-enS"/>
+                <constraint firstItem="hoZ-ka-Ymz" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="Fux-86-0F2"/>
+                <constraint firstItem="hoZ-ka-Ymz" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="c95-Of-ZAu"/>
+                <constraint firstItem="hoZ-ka-Ymz" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="gFH-WD-nHZ"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <point key="canvasLocation" x="-101.5" y="-357"/>
+        </view>
+    </objects>
+    <resources>
+        <namedColor name="Primary">
+            <color red="0.75700002908706665" green="0.70599997043609619" blue="0.41600000858306885" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+    </resources>
+</document>
