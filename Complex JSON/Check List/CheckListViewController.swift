@@ -12,25 +12,10 @@ import UIKit
 import SwiftHTTP
 
 
-struct GroupCheckList: Codable{
-    
-    var item: String?
-    var required : Bool?
-    var id : Int?
-    var checked : Bool?
-    
-    init(item : String? , required : Bool? , id : Int? , checked : Bool?)
-    {
-        self.item = item
-        self.required = required
-        self.id = id
-        self.checked = checked
-    }
-}
+
 
 class CheckListViewController: UIViewController , UITableViewDelegate, UITableViewDataSource {
      var check_list: [GroupCheckList]?
-    var names = ["hosen","mohmd","abd","hosen","mohmd","abd","hosen","mohmd","abd","hosen","mohmd","abd"]
     typealias sectionType = [(HeaderVew: UIView, height: CGFloat)]
     let sectionTitleArray = ["Required","Recomnded"]
     // Data Array
@@ -40,6 +25,7 @@ class CheckListViewController: UIViewController , UITableViewDelegate, UITableVi
     var dataArray2 : [GroupCheckList] = []
     var dataArrayGroup: [[GroupCheckList]] = []
     var globalSection: Int = -1
+    
     var globalRow: Int = -1
     var sectionItemArray: [(HeaderVew: UIView, height: CGFloat)] = Array()
     
@@ -223,10 +209,9 @@ class CheckListViewController: UIViewController , UITableViewDelegate, UITableVi
     
     func setCheckedTrue(id : Int,checked : String)
     {
-        let defaults = UserDefaults.standard
-        let id = defaults.integer(forKey: "member_id")
-        print(ApiRouts.Web+"/api/checklist/\(id)?member_id=92&group_id=70&checked=\(checked)")
-        HTTP.PUT(ApiRouts.Web+"/api/checklist/\(id)?member_id=92&group_id=\((MyVriables.currentGroup?.id!)!)&checked=\(checked)", parameters: ["hello": "world", "param2": "value2"])
+        let myId =  (MyVriables.currentMember?.id!)!
+        print("5555"+ApiRouts.Web+"/api/checklist/\(id)?member_id=\(myId)&group_id=70&checked=\(checked)")
+        HTTP.PUT(ApiRouts.Web+"/api/checklist/\(id)?member_id=\(myId)&group_id=\((MyVriables.currentGroup?.id!)!)&checked=\(checked)", parameters: ["hello": "world", "param2": "value2"])
         {
             response in
             if let err = response.error {
