@@ -31,7 +31,6 @@ class DetailsViewController: UIViewController {
     
     @IBOutlet weak var leftToJoinLbl: UILabel!
     
-    @IBOutlet weak var groupLeaderView: UIView!
     let cvv: ViewController  = ViewController()
      var groupImages: [GroupImage] = []
     @IBOutlet weak var scrollView: UIScrollView!
@@ -70,9 +69,7 @@ class DetailsViewController: UIViewController {
         self.singleGroup  = MyVriables.currentGroup!
 
         let groupRequest = Main()
-        groupLeaderView.addTapGestureRecognizer {
-            self.performSegue(withIdentifier:"leaderSegue", sender: self)
-        }
+
 //        titleLabel.text = singleGroup?.title
         if singleGroup?.translations?.count != 0 {
              groupTitleLb.text = singleGroup?.translations?[0].title

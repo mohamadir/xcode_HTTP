@@ -62,7 +62,12 @@ class ItineraryViewController: UIViewController, BmoViewPagerDelegate, BmoViewPa
         label.textAlignment = .center
         label.font = UIFont(name:"HelveticaNeue-Bold" , size: 12)
         label.text = "Day\n\(self.planDays[row].day_number!)"
-        label.textColor = UIColor(named: "Primary")
+        if #available(iOS 11.0, *) {
+            label.textColor = UIColor(named: "Primary")
+        } else {
+            // Fallback on earlier versions
+            label.textColor = Colors.PrimaryColor
+        }
         label.transform =  CGAffineTransform(rotationAngle:  ( 90 * (.pi/180) ) )
 
         view.addSubview(label)

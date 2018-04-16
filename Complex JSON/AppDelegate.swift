@@ -9,10 +9,12 @@
 import UIKit
 import UserNotifications
 import Firebase
+import FirebaseMessaging
+import FirebaseInstanceID
 import GoogleMaps
 import GooglePlaces
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUserNotificationCenterDelegate {
 
     var window: UIWindow?
 
@@ -21,11 +23,48 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
 //        UNUserNotificationCenter.current().delegate = self
         
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { (isGranted, err) in
+            
+            if err != nil {
+                print("Firebase Error: \(err)")
+            }else {
+                print("Successful Authorization")
+                
+                UNUserNotificationCenter.current().delegate = self
+
+                Messaging.messaging().delegate = self
+                DispatchQueue.main.async {
+                    UIApplication.shared.registerForRemoteNotifications()
+                }
+            
+                Messaging.messaging().subscribe(toTopic: "/topics/CHAT-77")
+            }
+            
+            
+        }
+        FirebaseApp.configure()
+
+        
         // AIzaSyDv9JFsM6elRHpluMelqZZvLBoRBL6JK6I
         GMSServices.provideAPIKey("AIzaSyDv9JFsM6elRHpluMelqZZvLBoRBL6JK6I")
         GMSPlacesClient.provideAPIKey("AIzaSyDv9JFsM6elRHpluMelqZZvLBoRBL6JK6I")
-        FirebaseApp.configure()
+        
         return true
+    }
+    
+    func ConnectToFcm(){
+        Messaging.messaging().shouldEstablishDirectChannel = true
+        
+        if let token = InstanceID.instanceID().token() {
+            print("DCS: " + token)
+        }
+        
+    }
+    
+    func messaging(_ messaging: Messaging, didRefreshRegistrationToken fcmToken: String) {
+        let newToken = InstanceID.instanceID().token()
+        
+        ConnectToFcm()
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
@@ -34,6 +73,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
+        Messaging.messaging().shouldEstablishDirectChannel = false
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
     }
@@ -43,13 +83,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
+        ConnectToFcm()
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
-
+   
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        
+        UIApplication.shared.applicationIconBadgeNumber += 1
+        print("Notificationnnn")
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "Snapgroup.Snap2"), object: nil)
+    }
 }
 
 //extension AppDelegate: UNUserNotificationCenterDelegate {

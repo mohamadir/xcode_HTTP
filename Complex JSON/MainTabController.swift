@@ -25,14 +25,24 @@ class MainTabController: UITabBarController{
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        print("from the Main")
+
         // self.tabBar.itmes?[i].image = UIIMage...
         
         let isOpen = MyVriables.currentGroup?.open!
         let role = MyVriables.currentGroup?.role
         // check availbality
-        self.tabBar.tintColor = UIColor(named: "Primary")
-        self.tabBar.unselectedItemTintColor = UIColor.gray
+        if #available(iOS 11.0, *) {
+            self.tabBar.tintColor = UIColor(named: "Primary")
+        } else {
+             self.tabBar.tintColor = Colors.PrimaryColor
+            // Fallback on earlier versions
+        }
+        if #available(iOS 10.0, *) {
+            self.tabBar.unselectedItemTintColor = UIColor.gray
+        } else {
+            // Fallback on earlier versions
+        }
         self.tabBar.backgroundColor = UIColor.white
         var isGroupAvailable: Bool?
         if MyVriables.currentGroup?.registration_end_date != nil {
@@ -48,6 +58,7 @@ class MainTabController: UITabBarController{
                     print("role = nil and is open ")
                     self.tabBar.items?[1].image = UIImage(named: "join group")
                     self.tabBar.items?[1].title = "Join"
+                    MyVriables.roleStatus = "observer"
                     //
                     
                 }else{
@@ -60,18 +71,22 @@ class MainTabController: UITabBarController{
                 print("role = member")
                 self.tabBar.items?[1].image = UIImage(named: "joined")
                 self.tabBar.items?[1].title = "Joined"
+                MyVriables.roleStatus = "member"
+
                 // leave group
 
             } else if role! == "group_leader" {
                 print("role = group leader")
                 self.tabBar.items?[1].accessibilityElementsHidden = true
-
+                MyVriables.roleStatus = "group_leader"
                 // hide item bar
 
             } else if role! == "observer" {
                 print("role = observer")
                 self.tabBar.items?[1].image = UIImage(named: "join group")
                 self.tabBar.items?[1].title = "Join"
+                MyVriables.roleStatus = "observer"
+
 
 
             }
@@ -102,5 +117,12 @@ class MainTabController: UITabBarController{
         else{
             return true
         }
+    }
+    
+    
+    public func changeToJoin(){
+        self.tabBar.items?[1].image = UIImage(named: "joined")
+        self.tabBar.items?[1].title = "Joined"
+        MyVriables.roleStatus = "member"
     }
 }

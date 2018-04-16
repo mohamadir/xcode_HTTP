@@ -38,6 +38,7 @@ class DocsViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         let image = info[UIImagePickerControllerImageURL] as! URL
+        
         ARSLineProgress.show()
         
         dismiss(animated: true, completion: nil)

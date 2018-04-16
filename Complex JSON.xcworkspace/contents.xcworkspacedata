@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:AuthKey_5DGZZ6KJ9Y.p8">
+   </FileRef>
+   <FileRef
       location = "group:/Users/snapmac/Documents/Complex JSON/Snapgroup.xcodeproj">
    </FileRef>
    <FileRef
