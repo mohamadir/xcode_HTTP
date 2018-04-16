@@ -267,6 +267,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 self.profileImageView.layer.masksToBounds = false
                 self.profileImageView.layer.cornerRadius = self.profileImageView.frame.height/2
                 self.profileImageView.clipsToBounds = true
+                MyVriables.currentMember = Member(email: email, phone: phone, id: id)
+            
             
             if first != nil && last != nil {
                 self.memberNameLbl.text = (first)! + " " + (last)!

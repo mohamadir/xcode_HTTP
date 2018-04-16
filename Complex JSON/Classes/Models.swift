@@ -11,6 +11,7 @@ import Foundation
 struct MyVriables {
     static var currentGroup: TourGroup?
     static var isMember: Bool = false
+    static var currentMember: Member?
 }
 
 struct ChatUser {
@@ -202,6 +203,24 @@ struct dayLocation: Codable{
     var lat: String?
     var long: String?
     var title: String?
+}
+
+/// checklist
+
+struct GroupCheckList: Codable{
+    
+    var item: String?
+    var required : Bool?
+    var id : Int?
+    var checked : Bool?
+    
+    init(item : String? , required : Bool? , id : Int? , checked : Bool?)
+    {
+        self.item = item
+        self.required = required
+        self.id = id
+        self.checked = checked
+    }
 }
 
 
