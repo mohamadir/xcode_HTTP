@@ -2,7 +2,7 @@ platform :ios, '10.0'
 
 target 'Snapgroup' do
 
-    use_frameworks!
+ use_frameworks!
 
 pod 'moa', '~> 9.0'
 pod 'Auk', '~> 8.0'
@@ -30,4 +30,6 @@ pod 'ARSLineProgress', '~> 2.0'
 pod 'YNExpandableCell'
 pod 'M13Checkbox'
 pod 'Toast-Swift', '~> 3.0.1'
+pod 'SkyFloatingLabelTextField', '~> 3.0'
+pod 'Firebase/Messaging'
 end

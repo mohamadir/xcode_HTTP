@@ -42,7 +42,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet weak var memberNameLbl: UILabel!
     @IBOutlet weak var memberPhoneLbl: UILabel!
     @IBOutlet weak var memberGenderLbl: UILabel!
-    
+    @IBOutlet weak var notificationsImageView: UIImageView!
     /********* Filter Buttons **********/
     @IBOutlet weak var myGroupsBt: UIButton!
     @IBOutlet weak var managamentBt: UIButton!
@@ -131,12 +131,15 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        NSLog("roleStatus",  "hihihi")
+
         tableView.delegate = self
         tableView.dataSource = self
         self.hideKeyboardWhenTappedAround()
         phoneNumberFeild.keyboardType = .numberPad
         setCountryPicker()
         setChatTap()
+        setNotificationTap()
         setRefresher()
        
         self.checkCurrentUser()
@@ -179,7 +182,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        let image = info[UIImagePickerControllerImageURL] as! URL
+        var image: URL
+        if #available(iOS 11.0, *) {
+             image = info[UIImagePickerControllerImageURL] as! URL
+        } else {
+            // Fallback on earlier versions
+            image = info[UIImagePickerControllerReferenceURL] as! URL
+            
+        }
         ARSLineProgress.show()
         
         dismiss(animated: true, completion: nil)
@@ -267,8 +277,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 self.profileImageView.layer.masksToBounds = false
                 self.profileImageView.layer.cornerRadius = self.profileImageView.frame.height/2
                 self.profileImageView.clipsToBounds = true
-                MyVriables.currentMember = Member(email: email, phone: phone, id: id)
-            
             
             if first != nil && last != nil {
                 self.memberNameLbl.text = (first)! + " " + (last)!
@@ -296,7 +304,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             }
             
             self.sort = standart_sort
-            self.myGroupsBt.setTitleColor(UIColor(named: "Primary"), for: .normal)
+            if #available(iOS 11.0, *) {
+                self.myGroupsBt.setTitleColor(UIColor(named: "Primary"), for: .normal)
+            } else {
+                // Fallback on earlier versions
+                self.myGroupsBt.setTitleColor(Colors.PrimaryColor, for: .normal)
+            }
             self.hasLoadMore = true
             self.getGroupsByFilter()
             
@@ -327,8 +340,16 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 
     }
     
-    
-   
+    func setNotificationTap(){
+        let singleTap = UITapGestureRecognizer(target: self, action: Selector("notificationsTepped"))
+        notificationsImageView.isUserInteractionEnabled = true
+    notificationsImageView.addGestureRecognizer(singleTap)
+    }
+    @objc func notificationsTepped(){
+        performSegue(withIdentifier: "showNotifications", sender: self)
+        
+
+    }
     
     @objc func refreshData(){
         print("refresh is loading")
@@ -416,7 +437,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                        params = ["code": (textField?.text)!, "phone": "\(self.countryPrefLable.text!)\(self.phoneNumberFeild.text!)"]
                         HTTP.POST(ApiRouts.Register, parameters: params) { response in
                             //do things...
-                           
+                            if response.error != nil {
+                                print(response.error)
+                                return
+                            }
                             print(response.description)
                             do{
                              let  member = try JSONDecoder().decode(CurrentMember.self, from: response.data)
@@ -424,7 +448,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                                 
                                 self.currentMember = member
                                 self.setToUserDefaults(value: true, key: "isLogged")
-                                print(self.currentMember?.profile!)
+                              //  print(self.currentMember?.profile!)
                                 self.setToUserDefaults(value: self.currentMember?.profile?.member_id!, key: "member_id")
                                 self.setToUserDefaults(value: self.currentMember?.profile?.first_name , key: "first_name")
                                 self.setToUserDefaults(value: self.currentMember?.profile?.last_name, key: "last_name")
@@ -564,12 +588,17 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 
                 let  groups2 = try JSONDecoder().decode(Main.self, from: data)
                 groups = groups2.data!
+                
+                
                 if groups?.count == 0 {
 
                     print("has Load more is false now  because goups count is : \(groups?.count)")
                     self.hasLoadMore = false
                     return
                 }
+                
+                
+                
                 DispatchQueue.main.sync {
                     for group in groups! {
                         if !self.myGrous.contains(where: { (tGroup) -> Bool in
@@ -681,13 +710,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
         // if company
         if self.myGrous[indexPath.row].is_company == 0 {
-            if self.myGrous[indexPath.row].group_leader_first_name != nil &&  self.myGrous[indexPath.row].group_leader_last_name != nil{
-                 cell.groupLeaderLbl.text = self.myGrous[indexPath.row].group_leader_first_name! + " " + self.myGrous[indexPath.row].group_leader_last_name!
-            }
-            else {
-                cell.groupLeaderLbl.text = "No name"
-            }
-           
+            cell.groupLeaderLbl.text = self.myGrous[indexPath.row].group_leader_first_name! + " " + self.myGrous[indexPath.row].group_leader_last_name!
           
             if self.myGrous[indexPath.row].group_leader_image != nil{
             do{
@@ -865,7 +888,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         self.managamentBt.setTitleColor(UIColor.black, for: .normal)
         self.publicGroupsbt.setTitleColor(UIColor.black, for: .normal)
         self.multiDaysBt.setTitleColor(UIColor.black, for: .normal)
-        self.myGroupsBt.setTitleColor(UIColor(named: "Primary"), for: .normal)
+        if #available(iOS 11.0, *) {
+            self.myGroupsBt.setTitleColor(UIColor(named: "Primary"), for: .normal)
+        } else {
+            // Fallback on earlier versions
+            self.myGroupsBt.setTitleColor(Colors.PrimaryColor, for: .normal)
+        }
         self.allGroupsBt.setTitleColor(UIColor.black, for: .normal)
         self.oneDayBt.setTitleColor(UIColor.black, for: .normal)
         self.closeFilterSlide()
@@ -876,12 +904,19 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         
     }
-   
+  
+    
     @IBAction func managamentTapped(_ sender: Any) {
         self.myGroupsBt.setTitleColor(UIColor.black, for: .normal)
         self.publicGroupsbt.setTitleColor(UIColor.black, for: .normal)
         self.multiDaysBt.setTitleColor(UIColor.black, for: .normal)
-        self.managamentBt.setTitleColor(UIColor(named: "Primary"), for: .normal)
+        if #available(iOS 11.0, *) {
+            self.managamentBt.setTitleColor(UIColor(named: "Primary"), for: .normal)
+        } else {
+            // Fallback on earlier versions
+            self.managamentBt.setTitleColor(Colors.PrimaryColor, for: .normal)
+        }
+        
         self.allGroupsBt.setTitleColor(UIColor.black, for: .normal)
         self.oneDayBt.setTitleColor(UIColor.black, for: .normal)
        self.closeFilterSlide()
@@ -898,7 +933,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         self.myGroupsBt.setTitleColor(UIColor.black, for: .normal)
         self.managamentBt.setTitleColor(UIColor.black, for: .normal)
         self.multiDaysBt.setTitleColor(UIColor.black, for: .normal)
-        self.publicGroupsbt.setTitleColor(UIColor(named: "Primary"), for: .normal)
+        if #available(iOS 11.0, *) {
+            self.publicGroupsbt.setTitleColor(UIColor(named: "Primary"), for: .normal)
+        } else {
+            // Fallback on earlier versions
+            self.publicGroupsbt.setTitleColor(Colors.PrimaryColor, for: .normal)
+        }
         self.allGroupsBt.setTitleColor(UIColor.black, for: .normal)
         self.oneDayBt.setTitleColor(UIColor.black, for: .normal)
         self.closeFilterSlide()
@@ -911,7 +951,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         self.myGroupsBt.setTitleColor(UIColor.black, for: .normal)
         self.managamentBt.setTitleColor(UIColor.black, for: .normal)
         self.multiDaysBt.setTitleColor(UIColor.black, for: .normal)
-        self.allGroupsBt.setTitleColor(UIColor(named: "Primary"), for: .normal)
+        if #available(iOS 11.0, *) {
+            self.allGroupsBt.setTitleColor(UIColor(named: "Primary"), for: .normal)
+        } else {
+            // Fallback on earlier versions
+            self.allGroupsBt.setTitleColor(Colors.PrimaryColor, for: .normal)
+        }
         self.publicGroupsbt.setTitleColor(UIColor.black, for: .normal)
         self.oneDayBt.setTitleColor(UIColor.black, for: .normal)
         self.closeFilterSlide()
@@ -924,7 +969,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         self.myGroupsBt.setTitleColor(UIColor.black, for: .normal)
         self.managamentBt.setTitleColor(UIColor.black, for: .normal)
         self.multiDaysBt.setTitleColor(UIColor.black, for: .normal)
-        self.oneDayBt.setTitleColor(UIColor(named: "Primary"), for: .normal)
+        if #available(iOS 11.0, *) {
+            self.oneDayBt.setTitleColor(UIColor(named: "Primary"), for: .normal)
+        } else {
+            // Fallback on earlier versions
+            self.oneDayBt.setTitleColor(Colors.PrimaryColor, for: .normal)
+        }
         self.publicGroupsbt.setTitleColor(UIColor.black, for: .normal)
         self.allGroupsBt.setTitleColor(UIColor.black, for: .normal)
         self.closeFilterSlide()
@@ -936,7 +986,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         self.myGroupsBt.setTitleColor(UIColor.black, for: .normal)
         self.managamentBt.setTitleColor(UIColor.black, for: .normal)
         self.oneDayBt.setTitleColor(UIColor.black, for: .normal)
-        self.multiDaysBt.setTitleColor(UIColor(named: "Primary"), for: .normal)
+        if #available(iOS 11.0, *) {
+            self.multiDaysBt.setTitleColor(UIColor(named: "Primary"), for: .normal)
+        } else {
+            // Fallback on earlier versions
+            self.multiDaysBt.setTitleColor(Colors.PrimaryColor, for: .normal)
+        }
         self.publicGroupsbt.setTitleColor(UIColor.black, for: .normal)
         self.allGroupsBt.setTitleColor(UIColor.black, for: .normal)
         self.closeFilterSlide()

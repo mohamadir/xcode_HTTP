@@ -56,6 +56,7 @@ extension UIView {
     
 }
 class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UINavigationControllerDelegate{
+
     @IBOutlet weak var groupNameLbl: UILabel!
     var singleGroup: TourGroup?
     var countdownTimer: Timer!
@@ -65,7 +66,6 @@ class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UI
     @IBOutlet weak var counterLbl: UILabel!
     @IBOutlet weak var mapsView: UIControl!
     
-    @IBOutlet weak var leaderView: UIControl!
     @IBOutlet weak var votesView: UIControl!
     @IBOutlet weak var membersView: UIControl!
     @IBOutlet weak var docsView: UIView!
@@ -83,17 +83,11 @@ class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UI
             self.groupNameLbl.text = singleGroup?.translations?[0].title
 
         }
-        getGroupMenu()
         self.groupNameLbl.numberOfLines = 0
         self.groupNameLbl.lineBreakMode = .byWordWrapping
      //   self.membersTp.addTarget(self, action: #selector(membersClick), for: .touchUpInside)
         membersView.addTapGestureRecognizer {
                self.performSegue(withIdentifier: "showMembers", sender: self)
-        }
-        leaderView.addTapGestureRecognizer {
-            self.performSegue(withIdentifier: "showLeaderSegue", sender: self)
-            
-            
         }
         votesView.addTapGestureRecognizer {
             self.performSegue(withIdentifier: "showScroll", sender: self)
@@ -218,19 +212,6 @@ class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UI
  
     
     
-    func getGroupMenu(){
-        print(ApiRouts.Web+"/api/groups/\((MyVriables.currentGroup?.id!)!)/activetools")
-        HTTP.GET(ApiRouts.Web+"/api/groups/\((MyVriables.currentGroup?.id!)!)/activetools", parameters: ["hello": "world", "param2": "value2"])
-        { response in
-            if let err = response.error {
-                print("error: \(err.localizedDescription)")
-                return //also notify app of failure as needed
-            }
-            print(response)
-        }
-        
-        
-    }
     
     
     func timeFormatted(_ totalSeconds: Int) -> String {
