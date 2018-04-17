@@ -49,6 +49,8 @@ struct TourGroup: Codable {
     var group_leader_about: String?
     var group_leader_gender: String?
     var translations: [GroupTranslation]?
+    var group_tools: GroupTools?
+    
 }
 struct GroupTranslation: Codable {
     var locale: String?
@@ -56,6 +58,19 @@ struct GroupTranslation: Codable {
     var description: String?
     var origin: String?
     var destination: String?
+    
+}
+struct GroupTools: Codable {
+    var itinerary: Bool?
+    var map: Bool?
+    var members: Bool?
+    var chat: Bool?
+    var documents: Bool?
+    var checklist: Bool?
+    var services: Bool?
+    var group_leader: Bool?
+    var rooming_list: Bool?
+    var voting: Bool?
     
 }
 

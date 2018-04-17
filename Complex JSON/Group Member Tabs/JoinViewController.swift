@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwiftHTTP
 import SkyFloatingLabelTextField
 class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDataSource{
    
@@ -73,9 +74,19 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
     }
     
     @IBAction func leaveGroup(_ sender: Any) {
-        
-        
-        
+        print(ApiRouts.Web + "/api/groups/\((MyVriables.currentGroup?.id!)!)/members/\((MyVriables.currentMember?.id!)!)/leave")
+        HTTP.DELETE(ApiRouts.Web + "/api/groups/\((MyVriables.currentGroup?.id!)!)/members/\((MyVriables.currentMember?.id!)!)/leave") { response in
+            //do things...
+            if response.error != nil {
+                print("errory \(response.error)")
+                return
+            }else{
+                print("descc "+response.description)
+            }
+        }
+    }
+    
+    func leaveGroupRequest(){
         
     }
     func changeStatusTo(type: String){

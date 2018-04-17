@@ -36,6 +36,7 @@ class DetailsViewController: UIViewController {
     @IBOutlet weak var scrollView: UIScrollView!
     var singleGroup: TourGroup?
     
+    @IBOutlet weak var placeHoolderImageView: UIImageView!
     @IBOutlet weak var slideShow: ImageSlideshow!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var descriptionLbl: UILabel!
@@ -104,6 +105,9 @@ class DetailsViewController: UIViewController {
             self.groupImages = output!
             
                 print("%%% \(self.groupImages.count)")
+            if self.groupImages.count != 0 {
+                self.placeHoolderImageView.isHidden = true
+            }
                 var images2: [InputSource] = []
          //   print("group : \(self.singleGroup?.title!) images: \(self.groupImages)")
 

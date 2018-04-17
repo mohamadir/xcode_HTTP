@@ -36,9 +36,9 @@ class ExpandableHeaderView: UITableViewHeaderFooterView {
     }
     override func layoutSubviews() {
         super.layoutSubviews()
-        self.textLabel?.textColor = UIColor.white
-    
-        self.contentView.backgroundColor = UIColor.darkGray
+       self.textLabel?.textColor = UIColor.black
+        self.textLabel?.font = UIFont.boldSystemFont(ofSize: 16.0)
+        self.contentView.backgroundColor = UIColor.white
     }
     
     

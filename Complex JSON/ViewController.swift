@@ -687,6 +687,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
             do{
                 let urlString = try ApiRouts.Web + (self.myGrous[indexPath.row].image)!
+                if self.myGrous[indexPath.row].image != nil{
+                    print(urlString)
+                }
                 var url = URL(string: urlString)
                 if url == nil {
                 }
@@ -697,8 +700,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 }
             }
             catch{
+                cell.imageosh.image = UIImage(named: "Group Placeholder")
       
             }
+        } else {
+            cell.imageosh.image = UIImage(named: "Group Placeholder")
         }
         cell.startDayLbl.text = getStartDate(date: self.myGrous[indexPath.row].start_date!)
         cell.totalDaysLbl.text = "\(getTotalDays(start: self.myGrous[indexPath.row].start_date!, end: self.myGrous[indexPath.row].end_date!))"

@@ -1721,7 +1721,7 @@
                                             <constraint firstItem="G3e-yU-cTM" firstAttribute="top" secondItem="SJg-JP-orw" secondAttribute="top" constant="14" id="jgM-we-wfE"/>
                                         </constraints>
                                     </view>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Tfi-To-FSR" userLabel="Payments View" customClass="UIControl">
+                                    <view alpha="0.29999999999999999" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Tfi-To-FSR" userLabel="Payments View" customClass="UIControl">
                                         <rect key="frame" x="86" y="0.0" width="85" height="90"/>
                                         <subviews>
                                             <view alpha="0.80000001192092896" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oqE-nG-RsD" userLabel="line seperator">
@@ -1931,6 +1931,7 @@
                         <outlet property="leaderView" destination="IkR-8W-pib" id="Yas-Wo-mpt"/>
                         <outlet property="mapsView" destination="zMY-WO-uzV" id="ULr-rh-3Kd"/>
                         <outlet property="membersView" destination="WJI-g9-UT5" id="MlN-dH-pUY"/>
+                        <outlet property="roomlistView" destination="EJi-Hp-mVj" id="FCc-wK-PPB"/>
                         <outlet property="servicesView" destination="SJg-JP-orw" id="jeg-B8-kz3"/>
                         <outlet property="votesView" destination="4p2-ou-CE4" id="B7p-GF-1ze"/>
                         <segue destination="tg3-Kn-sCK" kind="show" identifier="showMembers" id="1kW-an-3Pf"/>
@@ -2944,6 +2945,9 @@
                                             <constraint firstAttribute="height" constant="260" id="Jhw-1c-YjV"/>
                                         </constraints>
                                     </view>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Group Placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="fJc-mB-Y02">
+                                        <rect key="frame" x="0.0" y="53" width="375" height="260"/>
+                                    </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Group leader" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zzu-61-nWn">
                                         <rect key="frame" x="8" y="536" width="208" height="17"/>
                                         <constraints>
@@ -3004,6 +3008,7 @@
                                     <constraint firstItem="WPr-mG-aeY" firstAttribute="leading" secondItem="lSU-VL-MN0" secondAttribute="leading" id="7CZ-mb-oLR"/>
                                     <constraint firstAttribute="bottom" secondItem="WCa-Es-xye" secondAttribute="bottom" constant="67" id="7Of-s4-tgt"/>
                                     <constraint firstItem="AgY-uI-8Ht" firstAttribute="leading" secondItem="3O1-U7-xAS" secondAttribute="leading" id="7bM-lA-tdT"/>
+                                    <constraint firstItem="fJc-mB-Y02" firstAttribute="top" secondItem="lSU-VL-MN0" secondAttribute="bottom" constant="8" id="9YI-S1-sQx"/>
                                     <constraint firstItem="WoP-JA-DPi" firstAttribute="top" secondItem="WPr-mG-aeY" secondAttribute="bottom" id="ACL-d1-Qs8"/>
                                     <constraint firstItem="mgY-QU-M0P" firstAttribute="leading" secondItem="WCa-Es-xye" secondAttribute="leading" id="Avg-Cz-hoc"/>
                                     <constraint firstItem="AgY-uI-8Ht" firstAttribute="trailing" secondItem="WoP-JA-DPi" secondAttribute="trailing" id="AxD-Pa-Zc0"/>
@@ -3018,8 +3023,11 @@
                                     <constraint firstItem="zzu-61-nWn" firstAttribute="top" secondItem="Tee-sS-16n" secondAttribute="bottom" constant="39" id="SyI-dH-rXq"/>
                                     <constraint firstAttribute="trailing" secondItem="WPr-mG-aeY" secondAttribute="trailing" id="U1E-9j-z9W"/>
                                     <constraint firstItem="AgY-uI-8Ht" firstAttribute="leading" secondItem="zzu-61-nWn" secondAttribute="leading" id="U6i-Ed-Oy5"/>
+                                    <constraint firstAttribute="trailing" secondItem="fJc-mB-Y02" secondAttribute="trailing" id="Xpl-ZJ-fNO"/>
                                     <constraint firstItem="WPr-mG-aeY" firstAttribute="centerX" secondItem="Vyo-el-Mlg" secondAttribute="centerX" id="Z5v-nZ-UUp"/>
+                                    <constraint firstItem="fJc-mB-Y02" firstAttribute="leading" secondItem="Vyo-el-Mlg" secondAttribute="leading" id="ZtO-6H-XN2"/>
                                     <constraint firstItem="AgY-uI-8Ht" firstAttribute="top" secondItem="3O1-U7-xAS" secondAttribute="bottom" constant="5" id="b5w-h2-n24"/>
+                                    <constraint firstItem="WoP-JA-DPi" firstAttribute="top" secondItem="fJc-mB-Y02" secondAttribute="bottom" id="chH-9E-g4l"/>
                                     <constraint firstItem="lSU-VL-MN0" firstAttribute="leading" secondItem="Vyo-el-Mlg" secondAttribute="leading" id="d9P-a6-I9f"/>
                                     <constraint firstItem="zzu-61-nWn" firstAttribute="leading" secondItem="3OC-vX-VeS" secondAttribute="leading" id="do8-cj-H2J"/>
                                     <constraint firstAttribute="bottom" secondItem="3OC-vX-VeS" secondAttribute="bottom" constant="51" id="o9H-AG-ZkT"/>
@@ -3050,6 +3058,7 @@
                         <outlet property="groupLeaderNameLbl" destination="mgY-QU-M0P" id="4bG-a7-ezm"/>
                         <outlet property="groupTitleLb" destination="f9A-em-zVN" id="xP7-2U-3sG"/>
                         <outlet property="leftToJoinLbl" destination="RM7-ic-ltU" id="G7m-fU-8te"/>
+                        <outlet property="placeHoolderImageView" destination="fJc-mB-Y02" id="G8K-Im-eO1"/>
                         <outlet property="showMoreButton" destination="Tee-sS-16n" id="zfr-Zm-99b"/>
                         <outlet property="slideShow" destination="WPr-mG-aeY" id="Emg-0v-xCL"/>
                         <outlet property="tripDurationLbl" destination="TGu-h1-NYm" id="Gxp-C7-rQr"/>
@@ -3058,7 +3067,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kh9-yU-0dR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2746" y="-125"/>
+            <point key="canvasLocation" x="2744.8000000000002" y="-125.61576354679804"/>
         </scene>
         <!--Join View Controller-->
         <scene sceneID="mhF-49-6HR">
@@ -4285,9 +4294,6 @@
         <namedColor name="Chat Me">
             <color red="0.80000001190000003" green="0.76499998570000005" blue="0.52899998429999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
-        <namedColor name="Chat Me">
-            <color red="0.80000001192092896" green="0.76499998569488525" blue="0.52899998426437378" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
         <namedColor name="Chat Partner">
             <color red="0.93300002813339233" green="0.93300002813339233" blue="0.93300002813339233" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
@@ -4296,6 +4302,6 @@
         </namedColor>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Oa6-RX-pQd"/>
+        <segue reference="od4-7X-TI6"/>
     </inferredMetricsTieBreakers>
 </document>

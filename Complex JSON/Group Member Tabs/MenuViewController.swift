@@ -63,9 +63,9 @@ class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UI
     var totalTime = 60
     let date = Date()
     let formatter = DateFormatter()
+    @IBOutlet weak var roomlistView: UIControl!
     @IBOutlet weak var counterLbl: UILabel!
     @IBOutlet weak var mapsView: UIControl!
-    
     @IBOutlet weak var leaderView: UIControl!
     @IBOutlet weak var votesView: UIControl!
     @IBOutlet weak var membersView: UIControl!
@@ -74,6 +74,7 @@ class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UI
     @IBOutlet weak var itineraryView: UIView!
     @IBOutlet weak var checkListView: UIControl!
     
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.singleGroup  = MyVriables.currentGroup!
@@ -84,45 +85,144 @@ class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UI
             self.groupNameLbl.text = singleGroup?.translations?[0].title
 
         }
+        setAlphaView()
+        calculateRegisterDate( date : "2018-04-18")
+
+        print("group tools \((self.singleGroup?.group_tools?.chat!)!)")
         self.groupNameLbl.numberOfLines = 0
         self.groupNameLbl.lineBreakMode = .byWordWrapping
      //   self.membersTp.addTarget(self, action: #selector(membersClick), for: .touchUpInside)
         membersView.addTapGestureRecognizer {
-               self.performSegue(withIdentifier: "showMembers", sender: self)
+            if (self.singleGroup?.group_tools?.members!)! == true
+            {
+                self.performSegue(withIdentifier: "showMembers", sender: self)
+            }
+        
         }
         votesView.addTapGestureRecognizer {
-            self.performSegue(withIdentifier: "showScroll", sender: self)
+            if (self.singleGroup?.group_tools?.voting!)! == true
+            {
+                self.performSegue(withIdentifier: "showScroll", sender: self)
+            }
+
         }
         docsView.addTapGestureRecognizer {
+            if (self.singleGroup?.group_tools?.documents!)! == true
+            {
+                    self.uploadImageToServer()
+            }
             print("hi")
-            self.uploadImageToServer()
+        
            
            // self.uploadImageToServer()
         }
         mapsView.addTapGestureRecognizer {
-             self.performSegue(withIdentifier: "showTest", sender: self)
+            if (self.singleGroup?.group_tools?.map!)! == true
+            {
+                 self.performSegue(withIdentifier: "showTest", sender: self)
+            }
+            
         }
         servicesView.addTapGestureRecognizer {
-            self.performSegue(withIdentifier: "showServices", sender: self)
+            if (self.singleGroup?.group_tools?.services!)! == true
+            {
+                self.performSegue(withIdentifier: "showServices", sender: self)
+            }
+            
         }
         itineraryView.addTapGestureRecognizer {
-             self.performSegue(withIdentifier: "showPlanSegue", sender: self)
+            
+            if (self.singleGroup?.group_tools?.itinerary!)! == true
+            {
+                self.performSegue(withIdentifier: "showPlanSegue", sender: self)
+            }
         }
         docsView.addTapGestureRecognizer {
-            self.performSegue(withIdentifier: "showDocs", sender: self)
+            if (self.singleGroup?.group_tools?.documents!)! == true
+            {
+                 self.performSegue(withIdentifier: "showDocs", sender: self)
+            }
+           
 
         }
         checkListView.addTapGestureRecognizer {
-            self.performSegue(withIdentifier: "showCheckList", sender: self)
+            if (self.singleGroup?.group_tools?.checklist!)! == true
+            {
+                 self.performSegue(withIdentifier: "showCheckList", sender: self)
+            }
+           
 
         }
         leaderView.addTapGestureRecognizer {
-            self.performSegue(withIdentifier: "showLeaderSegue", sender: self)
-
+            if (self.singleGroup?.group_tools?.group_leader!)! == true
+            {
+                self.performSegue(withIdentifier: "showLeaderSegue", sender: self)
+            }
         }
         
         startTimer()
         // Do any additional setup after loading the view.
+    }
+    func calculateRegisterDate(date: String)
+    {
+        let currentDate = Date()
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        print("DDDAAATTEEE: "+formatter.string(from: currentDate))
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        let date2 = dateFormatter.date(from: date)!
+        print("REG END DATE: "+dateFormatter.string(from: date2))
+        var days = Calendar.current.dateComponents([.day], from: currentDate, to: date2).day! as? Int
+        var hours = Calendar.current.dateComponents([.day,.hour,.minute,.month], from: currentDate, to: date2).hour! as? Int
+        var mintus = Calendar.current.dateComponents([.day,.hour,.minute,.month], from: currentDate, to: date2).minute! as? Int
+        var seconds = Calendar.current.dateComponents([.day,.second,.hour,.minute,.month], from: currentDate, to: date2).second! as? Int
+        print("days: \(days!) , hours: \(hours!)")
+        if days! < 0 || hours! < 0 {
+            print("Closed")
+        }
+        else{
+            print("\(days!) d' \(hours!) h'  and \(mintus!) mintus and \(seconds!) sec to join")
+        }
+        
+        //   print(date)
+    }
+    func setAlphaView()
+    {
+        if (self.singleGroup?.group_tools?.voting!)! == false
+        {
+              self.votesView.alpha = 0.3
+        }
+        if (self.singleGroup?.group_tools?.rooming_list!)! == false
+        {
+            self.roomlistView.alpha = 0.3
+        }
+        if (self.singleGroup?.group_tools?.group_leader!)! == false
+        {
+            self.leaderView.alpha = 0.3
+        }
+        if (self.singleGroup?.group_tools?.itinerary!)! == false
+        {
+            self.itineraryView.alpha = 0.3
+        }
+        if (self.singleGroup?.group_tools?.map!)! == false
+        {
+            self.mapsView.alpha = 0.3
+        }
+        if (self.singleGroup?.group_tools?.documents!)! == false
+        {
+            self.docsView.alpha = 0.3
+        }
+        if (self.singleGroup?.group_tools?.checklist!)! == false
+        {
+            self.checkListView.alpha = 0.3
+        }
+        if (self.singleGroup?.group_tools?.services!)! == false
+        {
+            self.servicesView.alpha = 0.3
+        }
+        
+        
     }
     func uploadImageToServer(){
         var myPickerController = UIImagePickerController()

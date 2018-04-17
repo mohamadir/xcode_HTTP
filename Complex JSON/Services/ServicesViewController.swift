@@ -9,7 +9,8 @@
 import UIKit
 
 class ServicesViewController: UIViewController, UITableViewDelegate, UITableViewDataSource , ExpandableHeaderViewDelegate{
-    var sections = [Section(genre: "Animation", movies: ["leon king" , "the incredibles"], expanded: false ), Section(genre: "Animation", movies: ["leon king" , "the incredibles"], expanded: false )]
+    var sections =
+        [Section(genre: "Animation", movies: ["leon king" , "the incredibles"], expanded: false ), Section(genre: "Animation", movies: ["leon king" , "the incredibles"], expanded: false )]
     @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad() {
@@ -46,6 +47,8 @@ class ServicesViewController: UIViewController, UITableViewDelegate, UITableView
         return header
         
     }
+
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "labelCell")!
         cell.textLabel?.text = sections[indexPath.section].movies[indexPath.row]
