@@ -66,6 +66,7 @@ class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UI
     @IBOutlet weak var counterLbl: UILabel!
     @IBOutlet weak var mapsView: UIControl!
     
+    @IBOutlet weak var leaderView: UIControl!
     @IBOutlet weak var votesView: UIControl!
     @IBOutlet weak var membersView: UIControl!
     @IBOutlet weak var docsView: UIView!
@@ -113,6 +114,10 @@ class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UI
         }
         checkListView.addTapGestureRecognizer {
             self.performSegue(withIdentifier: "showCheckList", sender: self)
+
+        }
+        leaderView.addTapGestureRecognizer {
+            self.performSegue(withIdentifier: "showLeaderSegue", sender: self)
 
         }
         

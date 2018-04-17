@@ -42,6 +42,9 @@
 		74905905203DB5DA00C6B8C1 /* MainTabController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74905904203DB5DA00C6B8C1 /* MainTabController.swift */; };
 		74905909203DB9DC00C6B8C1 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74905908203DB9DC00C6B8C1 /* HomeViewController.swift */; };
 		749D0F622067A27800C424D7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 749D0F612067A27800C424D7 /* GoogleService-Info.plist */; };
+		74A5A4392085D2DB00A97052 /* CheckListItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A5A4382085D2DB00A97052 /* CheckListItemCell.swift */; };
+		74A5A43B2085D31A00A97052 /* checkListCustomCellController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A5A43A2085D31A00A97052 /* checkListCustomCellController.swift */; };
+		74A5A43E2085D64900A97052 /* GroupLeaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A5A43D2085D64900A97052 /* GroupLeaderViewController.swift */; };
 		74B3CDF0205538F700440EB0 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B3CDEF205538F700440EB0 /* Colors.swift */; };
 		74B3CDF32055692B00440EB0 /* ServicesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B3CDF22055692B00440EB0 /* ServicesViewController.swift */; };
 		74B9BCFB205CF82D005A0C60 /* CheckListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B9BCFA205CF82D005A0C60 /* CheckListViewController.swift */; };
@@ -134,6 +137,9 @@
 		74905904203DB5DA00C6B8C1 /* MainTabController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabController.swift; sourceTree = "<group>"; };
 		74905908203DB9DC00C6B8C1 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		749D0F612067A27800C424D7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../snapgroup 5 certs/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		74A5A4382085D2DB00A97052 /* CheckListItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckListItemCell.swift; sourceTree = "<group>"; };
+		74A5A43A2085D31A00A97052 /* checkListCustomCellController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = checkListCustomCellController.swift; sourceTree = "<group>"; };
+		74A5A43D2085D64900A97052 /* GroupLeaderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupLeaderViewController.swift; sourceTree = "<group>"; };
 		74B3CDEF205538F700440EB0 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		74B3CDF22055692B00440EB0 /* ServicesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServicesViewController.swift; sourceTree = "<group>"; };
 		74B9BCFA205CF82D005A0C60 /* CheckListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckListViewController.swift; sourceTree = "<group>"; };
@@ -302,6 +308,7 @@
 		743A207F203C1B12008DF1AA /* Complex JSON */ = {
 			isa = PBXGroup;
 			children = (
+				74A5A43C2085D63000A97052 /* Group Leader */,
 				746E9F362077B99F009B3258 /* Member Inbox */,
 				74B9BCF9205CF815005A0C60 /* Check List */,
 				74B9BCF8205C2504005A0C60 /* Group List */,
@@ -394,6 +401,14 @@
 			path = IBDesignable;
 			sourceTree = "<group>";
 		};
+		74A5A43C2085D63000A97052 /* Group Leader */ = {
+			isa = PBXGroup;
+			children = (
+				74A5A43D2085D64900A97052 /* GroupLeaderViewController.swift */,
+			);
+			path = "Group Leader";
+			sourceTree = "<group>";
+		};
 		74B3CDF12055691C00440EB0 /* Services */ = {
 			isa = PBXGroup;
 			children = (
@@ -417,6 +432,8 @@
 			isa = PBXGroup;
 			children = (
 				74B9BCFA205CF82D005A0C60 /* CheckListViewController.swift */,
+				74A5A4382085D2DB00A97052 /* CheckListItemCell.swift */,
+				74A5A43A2085D31A00A97052 /* checkListCustomCellController.swift */,
 			);
 			path = "Check List";
 			sourceTree = "<group>";
@@ -723,12 +740,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				74A5A4392085D2DB00A97052 /* CheckListItemCell.swift in Sources */,
 				74905903203D89E000C6B8C1 /* SignUpVC.swift in Sources */,
 				74138E07204442FD00F37028 /* ChatCustomCellController.swift in Sources */,
 				74F7AAA120580D1F00E66DF8 /* ScrollTestViewController.swift in Sources */,
 				743A2102203C6468008DF1AA /* GroupViewController.swift in Sources */,
 				74905905203DB5DA00C6B8C1 /* MainTabController.swift in Sources */,
 				749058FE203D605F00C6B8C1 /* CustomTableViewCell.swift in Sources */,
+				74A5A43B2085D31A00A97052 /* checkListCustomCellController.swift in Sources */,
 				74237583204BE0E100B9A0C0 /* PrivateChatMessageCelVc.swift in Sources */,
 				74B3CDF0205538F700440EB0 /* Colors.swift in Sources */,
 				74FBD10E20528D2D002D223A /* Models.swift in Sources */,
@@ -754,6 +773,7 @@
 				742375082046DC0300B9A0C0 /* ApiRequests.swift in Sources */,
 				7428551F204FF16300637511 /* TestTabVc.swift in Sources */,
 				743A2081203C1B12008DF1AA /* AppDelegate.swift in Sources */,
+				74A5A43E2085D64900A97052 /* GroupLeaderViewController.swift in Sources */,
 				74F7AAA5205A976400E66DF8 /* GroupMapViewController.swift in Sources */,
 				746E9F382077B9CB009B3258 /* MemberInboxViewController.swift in Sources */,
 				74F7AAE2205BE6AA00E66DF8 /* DocsViewController.swift in Sources */,
