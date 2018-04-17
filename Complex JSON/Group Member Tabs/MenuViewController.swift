@@ -81,7 +81,7 @@ class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UI
     var secondsLeft: Int?
    
     override func viewWillAppear(_ animated: Bool) {
-        startSecdule( date : "2018-04-18")
+        calculateRegisterDate( date : "2018-04-18")
     }
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -178,6 +178,7 @@ class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UI
         var minute: Int
         var second: Int
         var  day: Int
+        print("secoooond \(self.secondsLeft!)")
         self.secondsLeft = self.secondsLeft! - 1
         
         if secondsLeft! == 0  || secondsLeft! < 0{
@@ -185,11 +186,12 @@ class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UI
             
         }
         else {
-            print("TICK Tick")
+           
             hour = secondsLeft! / 3600
             minute = (secondsLeft! % 3600) / 60
             second = (secondsLeft! % 3600) % 60
             day = ( secondsLeft! / 3600) / 24
+            print("time in days \(day) and hour \(hour) and min \(minute) and sec \(second)")
             if(day > 0){
                 hour = (secondsLeft! / 3600) % (day * 24)
             }
@@ -200,7 +202,8 @@ class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UI
         }
         
     }
-    func startSecdule(date: String){
+    func calculateRegisterDate(date: String)
+    {
         let currentDate = Date()
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
@@ -217,25 +220,12 @@ class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UI
         var hourstoSecs = hours! * 60 * 60
         var daysToSecs = days! * 24 * 60 * 60
         var allSec = minToSecs + hourstoSecs + daysToSecs + seconds!
-        
+        daysLbl.text = String(format: "%02d", days!)
+        minLbl.text = String(format: "%02d", mintus!)
+        secLbl.text = String(format: "%02d", seconds!)
+        hoursLbl.text = String(format: "%02d", hours!)
         self.secondsLeft = allSec
         self.timer1  = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.runScheduledTask), userInfo: nil, repeats: true)
-    }
-    func calculateRegisterDate(date: String)
-    {
-        let currentDate = Date()
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd"
-        print("DDDAAATTEEE: "+formatter.string(from: currentDate))
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        let date2 = dateFormatter.date(from: date)!
-        print("REG END DATE: "+dateFormatter.string(from: date2))
-        var days = Calendar.current.dateComponents([.day], from: currentDate, to: date2).day! as? Int
-        var hours = Calendar.current.dateComponents([.day,.hour,.minute,.month], from: currentDate, to: date2).hour! as? Int
-        var mintus = Calendar.current.dateComponents([.day,.hour,.minute,.month], from: currentDate, to: date2).minute! as? Int
-        var seconds = Calendar.current.dateComponents([.day,.second,.hour,.minute,.month], from: currentDate, to: date2).second! as? Int
-    
         print("days: \(days!) , hours: \(hours!)")
         if days! < 0 || hours! < 0 {
             print("Closed")

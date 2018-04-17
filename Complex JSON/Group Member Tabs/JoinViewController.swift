@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwiftHTTP
 import SkyFloatingLabelTextField
 class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDataSource{
    
@@ -61,7 +62,32 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
     }
     
     @IBAction func joinGroup(_ sender: Any) {
-        changeStatusTo(type: "member")
+        if MyVriables.roleStatus == "observer" {
+            changeStatusTo(type: "member")
+        }
+        else {
+            changeStatusTo(type: "observer")
+
+        }
+
+
+    }
+    
+    @IBAction func leaveGroup(_ sender: Any) {
+        print(ApiRouts.Web + "/api/groups/\((MyVriables.currentGroup?.id!)!)/members/\((MyVriables.currentMember?.id!)!)/leave")
+        HTTP.DELETE(ApiRouts.Web + "/api/groups/\((MyVriables.currentGroup?.id!)!)/members/\((MyVriables.currentMember?.id!)!)/leave") { response in
+            //do things...
+            if response.error != nil {
+                print("errory \(response.error)")
+                return
+            }else{
+                print("descc "+response.description)
+            }
+        }
+    }
+    
+    func leaveGroupRequest(){
+        
     }
     func changeStatusTo(type: String){
         if type == "member" {
@@ -72,6 +98,12 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
         }
         if type == "observer" {
             MyVriables.roleStatus = "observer"
+            self.tabBarController?.tabBar.items![1].image = UIImage(named: "join group")
+            self.tabBarController?.tabBar.items![1].title = "Join"
+            self.tabBarController?.selectedIndex = 0
+        }
+        if type == "null" {
+            MyVriables.roleStatus = "null"
             self.tabBarController?.tabBar.items![1].image = UIImage(named: "join group")
             self.tabBarController?.tabBar.items![1].title = "Join"
             self.tabBarController?.selectedIndex = 0

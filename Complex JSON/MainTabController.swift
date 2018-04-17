@@ -63,7 +63,6 @@ class MainTabController: UITabBarController{
                     
                 }else{
                     print("role = nil and is close ")
-                    
                     viewControllers?.remove(at: 1)
                     // closed group - cannot enter group
                 }
