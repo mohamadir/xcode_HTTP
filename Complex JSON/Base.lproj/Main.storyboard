@@ -1,28 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="rxx-0h-zrQ">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="rxx-0h-zrQ">
     <device id="retina5_9" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
-    <customFonts key="customFonts">
-        <array key="ArialBold.ttf">
-            <string>Arial-BoldMT</string>
-        </array>
-        <array key="Kailasa.ttc">
-            <string>Kailasa</string>
-        </array>
-        <array key="KohinoorBangla.ttc">
-            <string>KohinoorBangla-Regular</string>
-        </array>
-    </customFonts>
     <scenes>
         <!--Member Inbox View Controller-->
         <scene sceneID="dG2-tt-J2P">
@@ -1985,8 +1974,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Mpv-Rc-Jdv">
-                                <rect key="frame" x="0.0" y="64" width="375" height="559"/>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Mpv-Rc-Jdv">
+                                <rect key="frame" x="0.0" y="88" width="375" height="641"/>
                             </mapView>
                             <searchBar contentMode="redraw" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xhN-3T-qBA">
                                 <rect key="frame" x="0.0" y="95" width="375" height="56"/>
@@ -2033,7 +2022,7 @@
                                                 </constraints>
                                             </imageView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qdm-Ks-99B">
-                                                <rect key="frame" x="20" y="269" width="340" height="21"/>
+                                                <rect key="frame" x="20" y="269" width="340" height="20.333333333333314"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
@@ -3135,14 +3124,14 @@
                                                     <userDefinedRuntimeAttribute type="number" keyPath="lineHeight">
                                                         <real key="value" value="2"/>
                                                     </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="string" keyPath="selectedTitle" value="Last Name"/>
+                                                    <userDefinedRuntimeAttribute type="string" keyPath="selectedTitle" value="Last Name2"/>
                                                     <userDefinedRuntimeAttribute type="color" keyPath="selectedTitleColor">
                                                         <color key="value" red="0.60897893140000003" green="0.57035565700000002" blue="0.3413752619" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     </userDefinedRuntimeAttribute>
                                                     <userDefinedRuntimeAttribute type="color" keyPath="selectedLineColor">
                                                         <color key="value" name="Primary"/>
                                                     </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="string" keyPath="placeholder" value="Last name"/>
+                                                    <userDefinedRuntimeAttribute type="string" keyPath="placeholder" value="Last name2"/>
                                                 </userDefinedRuntimeAttributes>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2L9-OX-6GP" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
@@ -4227,15 +4216,6 @@
         </namedColor>
         <namedColor name="Chat Partner">
             <color red="0.93300002813339233" green="0.93300002813339233" blue="0.93300002813339233" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
-        <namedColor name="Primary">
-            <color red="0.75700002909999997" green="0.70599997039999995" blue="0.41600000860000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
-        <namedColor name="Primary">
-            <color red="0.75700002908706665" green="0.70599997043609619" blue="0.41600000858306885" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
-        <namedColor name="Primary">
-            <color red="0.75700002909999997" green="0.70599997039999995" blue="0.41600000860000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="Primary">
             <color red="0.75700002909999997" green="0.70599997039999995" blue="0.41600000860000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

@@ -24,7 +24,6 @@
 		743A208B203C1B12008DF1AA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 743A2089203C1B12008DF1AA /* LaunchScreen.storyboard */; };
 		743A2096203C1B12008DF1AA /* Complex_JSONTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 743A2095203C1B12008DF1AA /* Complex_JSONTests.swift */; };
 		743A20A1203C1B12008DF1AA /* Complex_JSONUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 743A20A0203C1B12008DF1AA /* Complex_JSONUITests.swift */; };
-		743A20AF203C1C09008DF1AA /* json.txt in Resources */ = {isa = PBXBuildFile; fileRef = 743A20AE203C1C09008DF1AA /* json.txt */; };
 		743A20BE203C3A97008DF1AA /* GroupRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 743A20BD203C3A97008DF1AA /* GroupRequest.swift */; };
 		743A2102203C6468008DF1AA /* GroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 743A2101203C6468008DF1AA /* GroupViewController.swift */; };
 		7443303F2063EC7400D4073F /* JoinViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7443303E2063EC7400D4073F /* JoinViewController.swift */; };
@@ -118,7 +117,6 @@
 		743A209C203C1B12008DF1AA /* SnapgroupUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SnapgroupUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		743A20A0203C1B12008DF1AA /* Complex_JSONUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Complex_JSONUITests.swift; sourceTree = "<group>"; };
 		743A20A2203C1B12008DF1AA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		743A20AE203C1C09008DF1AA /* json.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = json.txt; path = ../../json.txt; sourceTree = "<group>"; };
 		743A20BD203C3A97008DF1AA /* GroupRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupRequest.swift; sourceTree = "<group>"; };
 		743A2101203C6468008DF1AA /* GroupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupViewController.swift; sourceTree = "<group>"; };
 		7443303E2063EC7400D4073F /* JoinViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinViewController.swift; sourceTree = "<group>"; };
@@ -324,7 +322,6 @@
 				7418AFB7203EB3C1007BBC3D /* ImageSlideshow */,
 				749058FF203D850300C6B8C1 /* IBDesignable */,
 				743A2080203C1B12008DF1AA /* AppDelegate.swift */,
-				743A20AE203C1C09008DF1AA /* json.txt */,
 				743A2082203C1B12008DF1AA /* ViewController.swift */,
 				743A2084203C1B12008DF1AA /* Main.storyboard */,
 				74905904203DB5DA00C6B8C1 /* MainTabController.swift */,
@@ -602,7 +599,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				743A20AF203C1C09008DF1AA /* json.txt in Resources */,
 				743A208B203C1B12008DF1AA /* LaunchScreen.storyboard in Resources */,
 				749D0F622067A27800C424D7 /* GoogleService-Info.plist in Resources */,
 				743A2088203C1B12008DF1AA /* Assets.xcassets in Resources */,
