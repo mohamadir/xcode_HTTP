@@ -1710,7 +1710,7 @@
                                             <constraint firstItem="G3e-yU-cTM" firstAttribute="top" secondItem="SJg-JP-orw" secondAttribute="top" constant="14" id="jgM-we-wfE"/>
                                         </constraints>
                                     </view>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Tfi-To-FSR" userLabel="Payments View" customClass="UIControl">
+                                    <view alpha="0.29999999999999999" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Tfi-To-FSR" userLabel="Payments View" customClass="UIControl">
                                         <rect key="frame" x="86" y="0.0" width="85" height="90"/>
                                         <subviews>
                                             <view alpha="0.80000001192092896" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oqE-nG-RsD" userLabel="line seperator">
@@ -1920,6 +1920,7 @@
                         <outlet property="leaderView" destination="IkR-8W-pib" id="Yas-Wo-mpt"/>
                         <outlet property="mapsView" destination="zMY-WO-uzV" id="ULr-rh-3Kd"/>
                         <outlet property="membersView" destination="WJI-g9-UT5" id="MlN-dH-pUY"/>
+                        <outlet property="roomlistView" destination="EJi-Hp-mVj" id="FCc-wK-PPB"/>
                         <outlet property="servicesView" destination="SJg-JP-orw" id="jeg-B8-kz3"/>
                         <outlet property="votesView" destination="4p2-ou-CE4" id="B7p-GF-1ze"/>
                         <segue destination="tg3-Kn-sCK" kind="show" identifier="showMembers" id="1kW-an-3Pf"/>
