@@ -61,7 +61,15 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
     }
     
     @IBAction func joinGroup(_ sender: Any) {
-        changeStatusTo(type: "member")
+        if MyVriables.roleStatus == "observer" {
+            changeStatusTo(type: "member")
+        }
+        else {
+            changeStatusTo(type: "observer")
+
+        }
+
+
     }
     func changeStatusTo(type: String){
         if type == "member" {
