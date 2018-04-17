@@ -17,6 +17,9 @@ class ServicesViewController: UIViewController, UITableViewDelegate, UITableView
         // Do any additional setup after loading the view.
     }
 
+    @IBAction func onBack(_ sender: Any) {
+        navigationController?.popViewController(animated: true)
+    }
     func numberOfSections(in tableView: UITableView) -> Int {
         return sections.count
     }

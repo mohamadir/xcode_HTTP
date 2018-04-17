@@ -2691,10 +2691,23 @@
                                     <outlet property="delegate" destination="IRA-qq-6MP" id="tqH-Io-6Cu"/>
                                 </connections>
                             </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GTf-hD-euQ">
+                                <rect key="frame" x="10" y="98" width="35" height="24"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="24" id="GpK-nU-ZAu"/>
+                                    <constraint firstAttribute="width" constant="35" id="glk-pC-DY1"/>
+                                </constraints>
+                                <state key="normal" image="back icon"/>
+                                <connections>
+                                    <action selector="onBack:" destination="IRA-qq-6MP" eventType="touchUpInside" id="Dj5-gh-kdY"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="GTf-hD-euQ" firstAttribute="top" secondItem="dM7-x9-T4v" secondAttribute="top" constant="10" id="IYB-cU-i1x"/>
                             <constraint firstItem="Fqg-CX-dee" firstAttribute="bottom" secondItem="dM7-x9-T4v" secondAttribute="bottom" id="KwB-kz-AaN"/>
+                            <constraint firstItem="GTf-hD-euQ" firstAttribute="leading" secondItem="dM7-x9-T4v" secondAttribute="leading" constant="10" id="OnQ-6l-JBR"/>
                             <constraint firstItem="Fqg-CX-dee" firstAttribute="leading" secondItem="dM7-x9-T4v" secondAttribute="leading" id="Y6a-L0-xfm"/>
                             <constraint firstItem="Fqg-CX-dee" firstAttribute="trailing" secondItem="dM7-x9-T4v" secondAttribute="trailing" id="g4n-DZ-dXz"/>
                             <constraint firstItem="Fqg-CX-dee" firstAttribute="top" secondItem="dM7-x9-T4v" secondAttribute="top" constant="54" id="jiE-Rg-72G"/>
