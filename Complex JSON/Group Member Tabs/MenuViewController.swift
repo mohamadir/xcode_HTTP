@@ -86,6 +86,10 @@ class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UI
     override func viewWillDisappear(_ animated: Bool) {
         timer1.invalidate()
     }
+    override func viewDidDisappear(_ animated: Bool) {
+        timer1.invalidate()
+
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         self.singleGroup  = MyVriables.currentGroup!
@@ -223,17 +227,19 @@ class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UI
         var hourstoSecs = hours! * 60 * 60
         var daysToSecs = days! * 24 * 60 * 60
         var allSec = minToSecs + hourstoSecs + daysToSecs + seconds!
-        daysLbl.text = String(format: "%02d", days!)
-        minLbl.text = String(format: "%02d", mintus!)
-        secLbl.text = String(format: "%02d", seconds!)
-        hoursLbl.text = String(format: "%02d", hours!)
-        self.secondsLeft = allSec
-        self.timer1  = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.runScheduledTask), userInfo: nil, repeats: true)
+     
         print("days: \(days!) , hours: \(hours!)")
         if days! < 0 || hours! < 0 {
             print("Closed")
         }
         else{
+            daysLbl.text = String(format: "%02d", days!)
+            minLbl.text = String(format: "%02d", mintus!)
+            secLbl.text = String(format: "%02d", seconds!)
+            hoursLbl.text = String(format: "%02d", hours!)
+            self.secondsLeft = allSec
+            
+            self.timer1  = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.runScheduledTask), userInfo: nil, repeats: true)
             print("\(days!) d' \(hours!) h'  and \(mintus!) mintus and \(seconds!) sec to join")
         }
         
