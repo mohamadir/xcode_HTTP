@@ -73,8 +73,16 @@ class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UI
     @IBOutlet weak var servicesView: UIView!
     @IBOutlet weak var itineraryView: UIView!
     @IBOutlet weak var checkListView: UIControl!
-    
-
+    @IBOutlet weak var daysLbl: UILabel!
+    @IBOutlet weak var hoursLbl: UILabel!
+    @IBOutlet weak var minLbl: UILabel!
+    @IBOutlet weak var secLbl: UILabel!
+    var timer1 = Timer()
+    var secondsLeft: Int?
+   
+    override func viewWillAppear(_ animated: Bool) {
+        startSecdule( date : "2018-04-18")
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         self.singleGroup  = MyVriables.currentGroup!
@@ -86,7 +94,9 @@ class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UI
 
         }
         setAlphaView()
-        calculateRegisterDate( date : "2018-04-18")
+        
+        
+      
 
         print("group tools \((self.singleGroup?.group_tools?.chat!)!)")
         self.groupNameLbl.numberOfLines = 0
@@ -163,6 +173,54 @@ class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UI
         startTimer()
         // Do any additional setup after loading the view.
     }
+    @objc func runScheduledTask(_ runningTimer: Timer) {
+        var hour: Int
+        var minute: Int
+        var second: Int
+        var  day: Int
+        self.secondsLeft = self.secondsLeft! - 1
+        
+        if secondsLeft! == 0  || secondsLeft! < 0{
+            timer1.invalidate()
+            
+        }
+        else {
+            print("TICK Tick")
+            hour = secondsLeft! / 3600
+            minute = (secondsLeft! % 3600) / 60
+            second = (secondsLeft! % 3600) % 60
+            day = ( secondsLeft! / 3600) / 24
+            if(day > 0){
+                hour = (secondsLeft! / 3600) % (day * 24)
+            }
+            daysLbl.text = String(format: "%02d", day)
+            minLbl.text = String(format: "%02d", minute)
+            secLbl.text = String(format: "%02d", second)
+            hoursLbl.text = String(format: "%02d", hour)
+        }
+        
+    }
+    func startSecdule(date: String){
+        let currentDate = Date()
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        print("DDDAAATTEEE: "+formatter.string(from: currentDate))
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        let date2 = dateFormatter.date(from: date)!
+        print("REG END DATE: "+dateFormatter.string(from: date2))
+        var days = Calendar.current.dateComponents([.day], from: currentDate, to: date2).day! as? Int
+        var hours = Calendar.current.dateComponents([.day,.hour,.minute,.month], from: currentDate, to: date2).hour! as? Int
+        var mintus = Calendar.current.dateComponents([.day,.hour,.minute,.month], from: currentDate, to: date2).minute! as? Int
+        var seconds = Calendar.current.dateComponents([.day,.second,.hour,.minute,.month], from: currentDate, to: date2).second! as? Int
+        var minToSecs = mintus! * 60
+        var hourstoSecs = hours! * 60 * 60
+        var daysToSecs = days! * 24 * 60 * 60
+        var allSec = minToSecs + hourstoSecs + daysToSecs + seconds!
+        
+        self.secondsLeft = allSec
+        self.timer1  = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.runScheduledTask), userInfo: nil, repeats: true)
+    }
     func calculateRegisterDate(date: String)
     {
         let currentDate = Date()
@@ -177,6 +235,7 @@ class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UI
         var hours = Calendar.current.dateComponents([.day,.hour,.minute,.month], from: currentDate, to: date2).hour! as? Int
         var mintus = Calendar.current.dateComponents([.day,.hour,.minute,.month], from: currentDate, to: date2).minute! as? Int
         var seconds = Calendar.current.dateComponents([.day,.second,.hour,.minute,.month], from: currentDate, to: date2).second! as? Int
+    
         print("days: \(days!) , hours: \(hours!)")
         if days! < 0 || hours! < 0 {
             print("Closed")
