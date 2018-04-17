@@ -796,16 +796,37 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded();})
         }
         else {
-            MyVriables.currentGroup = self.myGrous[indexPath.row]
-            self.performSegue(withIdentifier: "groupDetailsBar", sender: self)
             
+            let isOpen : Bool = self.myGrous[indexPath.row].open!
+            var role : String? = self.myGrous[indexPath.row].role
+            if role == nil {
+                role = "null"
+            }
+            print("\(role!) \(isOpen)")
+
+            if role!  == "null" {
+                if isOpen {
+                    MyVriables.currentGroup = self.myGrous[indexPath.row]
+                    self.performSegue(withIdentifier: "groupDetailsBar", sender: self)
+                }else {
+                    showCloseAlert()
+                }
+            }else{
+                MyVriables.currentGroup = self.myGrous[indexPath.row]
+                self.performSegue(withIdentifier: "groupDetailsBar", sender: self)
+            }
         }
         
         
-       
+        
         
     }
-    
+    func showCloseAlert(){
+        let alert = UIAlertController(title: "Closed group, please contact the group leader in order to join this group.", message: nil, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
+        self.present(alert, animated: true)
+    }
+
     // height for each section
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {

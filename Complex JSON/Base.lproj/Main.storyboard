@@ -2702,10 +2702,23 @@
                                     <outlet property="delegate" destination="IRA-qq-6MP" id="tqH-Io-6Cu"/>
                                 </connections>
                             </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GTf-hD-euQ">
+                                <rect key="frame" x="10" y="98" width="35" height="24"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="24" id="GpK-nU-ZAu"/>
+                                    <constraint firstAttribute="width" constant="35" id="glk-pC-DY1"/>
+                                </constraints>
+                                <state key="normal" image="back icon"/>
+                                <connections>
+                                    <action selector="onBack:" destination="IRA-qq-6MP" eventType="touchUpInside" id="Dj5-gh-kdY"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="GTf-hD-euQ" firstAttribute="top" secondItem="dM7-x9-T4v" secondAttribute="top" constant="10" id="IYB-cU-i1x"/>
                             <constraint firstItem="Fqg-CX-dee" firstAttribute="bottom" secondItem="dM7-x9-T4v" secondAttribute="bottom" id="KwB-kz-AaN"/>
+                            <constraint firstItem="GTf-hD-euQ" firstAttribute="leading" secondItem="dM7-x9-T4v" secondAttribute="leading" constant="10" id="OnQ-6l-JBR"/>
                             <constraint firstItem="Fqg-CX-dee" firstAttribute="leading" secondItem="dM7-x9-T4v" secondAttribute="leading" id="Y6a-L0-xfm"/>
                             <constraint firstItem="Fqg-CX-dee" firstAttribute="trailing" secondItem="dM7-x9-T4v" secondAttribute="trailing" id="g4n-DZ-dXz"/>
                             <constraint firstItem="Fqg-CX-dee" firstAttribute="top" secondItem="dM7-x9-T4v" secondAttribute="top" constant="54" id="jiE-Rg-72G"/>
@@ -3060,7 +3073,49 @@
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="y19-mR-vBE" userLabel="Member View">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="642"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You are now a member of this group, do you want to leave group ?" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9dF-H3-M96">
+                                                <rect key="frame" x="34" y="108" width="307" height="118"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="118" id="GMG-fu-0pC"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="snap logo" translatesAutoresizingMaskIntoConstraints="NO" id="hx4-UF-98e">
+                                                <rect key="frame" x="118" y="53" width="139" height="47"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="47" id="M7u-oq-Ojh"/>
+                                                    <constraint firstAttribute="width" constant="139" id="WFw-fh-Izj"/>
+                                                </constraints>
+                                            </imageView>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UUq-jf-iZY">
+                                                <rect key="frame" x="97" y="261" width="180" height="47"/>
+                                                <color key="backgroundColor" name="Chat Me"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="180" id="Qy1-Gb-Aca"/>
+                                                    <constraint firstAttribute="height" constant="47" id="eV0-bP-JEf"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
+                                                <state key="normal" title="Leave group">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="leaveGroup:" destination="DdA-kE-bl1" eventType="touchUpInside" id="b0B-o9-f6X"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstItem="9dF-H3-M96" firstAttribute="top" secondItem="hx4-UF-98e" secondAttribute="bottom" constant="8" id="5S5-MF-1Gi"/>
+                                            <constraint firstItem="UUq-jf-iZY" firstAttribute="centerX" secondItem="y19-mR-vBE" secondAttribute="centerX" id="MAc-9X-b24"/>
+                                            <constraint firstItem="UUq-jf-iZY" firstAttribute="top" secondItem="9dF-H3-M96" secondAttribute="bottom" constant="35" id="SgH-2I-HRQ"/>
+                                            <constraint firstItem="9dF-H3-M96" firstAttribute="leading" secondItem="y19-mR-vBE" secondAttribute="leading" constant="34" id="U8t-Ws-YP2"/>
+                                            <constraint firstItem="hx4-UF-98e" firstAttribute="centerX" secondItem="y19-mR-vBE" secondAttribute="centerX" id="k0z-D7-UO6"/>
+                                            <constraint firstItem="hx4-UF-98e" firstAttribute="top" secondItem="y19-mR-vBE" secondAttribute="top" constant="53" id="wjh-pL-IMj"/>
+                                            <constraint firstAttribute="trailing" secondItem="9dF-H3-M96" secondAttribute="trailing" constant="34" id="xHf-DH-0FR"/>
+                                        </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rZ9-Np-v0V" userLabel="Observer View">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="642"/>
@@ -3248,6 +3303,11 @@
                                     <constraint firstItem="y19-mR-vBE" firstAttribute="top" secondItem="DxF-Mh-OWz" secondAttribute="top" id="fuR-VB-w2u"/>
                                     <constraint firstAttribute="trailing" secondItem="y19-mR-vBE" secondAttribute="trailing" id="t2p-dU-UUs"/>
                                 </constraints>
+                                <variation key="default">
+                                    <mask key="subviews">
+                                        <exclude reference="rZ9-Np-v0V"/>
+                                    </mask>
+                                </variation>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -4222,6 +4282,9 @@
         <image name="transport icon" width="230" height="215"/>
         <image name="twitter" width="16" height="16"/>
         <image name="voting" width="230" height="215"/>
+        <namedColor name="Chat Me">
+            <color red="0.80000001190000003" green="0.76499998570000005" blue="0.52899998429999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <namedColor name="Chat Me">
             <color red="0.80000001192092896" green="0.76499998569488525" blue="0.52899998426437378" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

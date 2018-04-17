@@ -71,6 +71,13 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
 
 
     }
+    
+    @IBAction func leaveGroup(_ sender: Any) {
+        
+        
+        
+        
+    }
     func changeStatusTo(type: String){
         if type == "member" {
             MyVriables.roleStatus = "member"
@@ -80,6 +87,12 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
         }
         if type == "observer" {
             MyVriables.roleStatus = "observer"
+            self.tabBarController?.tabBar.items![1].image = UIImage(named: "join group")
+            self.tabBarController?.tabBar.items![1].title = "Join"
+            self.tabBarController?.selectedIndex = 0
+        }
+        if type == "null" {
+            MyVriables.roleStatus = "null"
             self.tabBarController?.tabBar.items![1].image = UIImage(named: "join group")
             self.tabBarController?.tabBar.items![1].title = "Join"
             self.tabBarController?.selectedIndex = 0
