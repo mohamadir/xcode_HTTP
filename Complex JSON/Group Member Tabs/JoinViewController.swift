@@ -45,6 +45,7 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
     func setObserverPage(){
         
         let defaults = UserDefaults.standard
+
         let id = defaults.integer(forKey: "member_id")
         let first = defaults.string(forKey: "first_name")
         let last = defaults.string(forKey: "last_name")
