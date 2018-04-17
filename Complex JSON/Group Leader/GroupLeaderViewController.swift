@@ -9,7 +9,8 @@
 import UIKit
 import SDWebImage
 class GroupLeaderViewController: UIViewController {
-    // hi hi 
+    // hi hi
+    //bye bye
     @IBOutlet weak var leaderImageview: UIImageView!
     var singleGroup: TourGroup?
     @IBOutlet weak var leadeAboutLbl: UILabel!
