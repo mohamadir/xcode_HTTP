@@ -13,6 +13,7 @@ struct MyVriables {
     static var isMember: Bool = false
     static var currentMember: Member?
     static var roleStatus: String = ""
+    static var shouldRefresh: Bool = false
     
 }
 

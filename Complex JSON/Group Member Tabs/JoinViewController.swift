@@ -9,9 +9,12 @@
 import UIKit
 import SwiftHTTP
 import SkyFloatingLabelTextField
+import Toast_Swift
 class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDataSource{
    
     
+    @IBOutlet weak var lastNameTextFeild: SkyFloatingLabelTextField!
+    @IBOutlet weak var firstNameTextFeild: SkyFloatingLabelTextField!
     var gender: String = "Male"
     @IBOutlet weak var genderPicker: UIPickerView!
     @IBOutlet weak var phoneTextFeild: SkyFloatingLabelTextField!
@@ -23,6 +26,15 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
     
       
     }
+    func showToast(_ message: String,_ duration: Double){
+        var style = ToastStyle()
+        // this is just one of many style options
+        style.messageColor = .white
+        // present the toast with the new style
+        self.view.makeToast(message, duration: duration, position: .bottom, style: style)
+    }
+    
+    
     override func viewWillAppear(_ animated: Bool) {
         print("roleStatus" +  MyVriables.roleStatus)
         if MyVriables.roleStatus == "member" {
@@ -54,7 +66,8 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
         let phone = defaults.string(forKey: "phone")
         
         self.phoneTextFeild.text = phone
-        
+        self.firstNameTextFeild.text = first
+        self.lastNameTextFeild.text = last
         self.phoneTextFeild.isEnabled = false
     }
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -63,7 +76,7 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
     
     @IBAction func joinGroup(_ sender: Any) {
         if MyVriables.roleStatus == "observer" {
-            changeStatusTo(type: "member")
+            joinGroupRequest()
         }
         else {
             changeStatusTo(type: "observer")
@@ -72,6 +85,24 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
 
 
     }
+    func joinGroupRequest(){
+        print(ApiRouts.Web + "/api/groups/join/\((MyVriables.currentGroup?.id!)!)/\((MyVriables.currentMember?.id!)!)/member")
+        HTTP.POST(ApiRouts.Web + "/api/groups/join/\((MyVriables.currentGroup?.id!)!)/\((MyVriables.currentMember?.id!)!)/member", parameters: []) { response in
+            if response.error != nil {
+                print("errory \(response.error)")
+                
+                return
+            }else{
+                DispatchQueue.main.sync {
+                    MyVriables.shouldRefresh = true
+                    self.showToast("You'v left the group successfully", 0.3)
+                    self.changeStatusTo(type: "member")
+                }
+                print("descc "+response.description)
+        
+            }
+        }
+    }
     
     @IBAction func leaveGroup(_ sender: Any) {
         print(ApiRouts.Web + "/api/groups/\((MyVriables.currentGroup?.id!)!)/members/\((MyVriables.currentMember?.id!)!)/leave")
@@ -79,15 +110,23 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
             //do things...
             if response.error != nil {
                 print("errory \(response.error)")
+                
                 return
             }else{
                 print("descc "+response.description)
+                DispatchQueue.main.sync {
+                    self.showToast("You'v joind the group successfully", 0.3)
+                    self.leaveGroupRequest()
+                }
             }
         }
     }
     
+    
     func leaveGroupRequest(){
-        
+        print("LEAVE GROUP REQUEST PRESSED")
+        MyVriables.shouldRefresh = true
+        self.navigationController?.popViewController(animated: true)
     }
     func changeStatusTo(type: String){
         if type == "member" {

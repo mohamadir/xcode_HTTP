@@ -13,6 +13,8 @@ import FirebaseMessaging
 import FirebaseInstanceID
 import GoogleMaps
 import GooglePlaces
+
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUserNotificationCenterDelegate {
 
@@ -22,7 +24,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
 //        UNUserNotificationCenter.current().delegate = self
-        
+        FirebaseApp.configure()
+
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { (isGranted, err) in
             
             if err != nil {
@@ -32,22 +35,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
                 
                 UNUserNotificationCenter.current().delegate = self
 
-                Messaging.messaging().delegate = self
                 DispatchQueue.main.async {
+                    Messaging.messaging().delegate = self
                     UIApplication.shared.registerForRemoteNotifications()
+                    Messaging.messaging().subscribe(toTopic: "/topics/mohamed")
+
                 }
-            
-                Messaging.messaging().subscribe(toTopic: "/topics/CHAT-77")
+                print("subscribed to topic")
+
             }
             
             
         }
-        FirebaseApp.configure()
+        
+        
+        
 
         
         // AIzaSyDv9JFsM6elRHpluMelqZZvLBoRBL6JK6I
-        GMSServices.provideAPIKey("AIzaSyDv9JFsM6elRHpluMelqZZvLBoRBL6JK6I")
-        GMSPlacesClient.provideAPIKey("AIzaSyDv9JFsM6elRHpluMelqZZvLBoRBL6JK6I")
+        // AIzaSyDmGEPxVxdVhfUgFXMQ5L-2nJ3QeRs_XUg
+        GMSServices.provideAPIKey("AIzaSyDmGEPxVxdVhfUgFXMQ5L-2nJ3QeRs_XUg")
+        GMSPlacesClient.provideAPIKey("AIzaSyDmGEPxVxdVhfUgFXMQ5L-2nJ3QeRs_XUg")
         
         return true
     }
@@ -58,6 +66,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
         if let token = InstanceID.instanceID().token() {
             print("DCS: " + token)
         }
+        
         
     }
     
@@ -96,6 +105,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
         UIApplication.shared.applicationIconBadgeNumber += 1
         print("Notificationnnn")
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "Snapgroup.Snap2"), object: nil)
+    }
+    
+    func messaging(_ messaging: Messaging, didReceive remoteMessage: MessagingRemoteMessage) {
+        print("notification remoteMessage")
+    }
+    
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) {
+        print("Notificationnnn didReceiveRemoteNotification")
+
     }
 }
 

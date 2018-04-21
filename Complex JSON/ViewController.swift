@@ -115,7 +115,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         super.viewWillAppear(animated)
         
         // Hide the navigation bar on the this view controller
+        
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
+        if MyVriables.shouldRefresh {
+            refreshList()
+            MyVriables.shouldRefresh = false
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -927,12 +932,30 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         self.closeFilterSlide()
         sort = standart_sort
         filter = "no-filter"
-        showToast("My Message", 3.0)
+       // showToast("My Message", 3.0)
         self.refreshData()
         
         
+        
     }
-  
+    func refreshList(){
+        self.managamentBt.setTitleColor(UIColor.black, for: .normal)
+        self.publicGroupsbt.setTitleColor(UIColor.black, for: .normal)
+        self.multiDaysBt.setTitleColor(UIColor.black, for: .normal)
+        if #available(iOS 11.0, *) {
+            self.myGroupsBt.setTitleColor(UIColor(named: "Primary"), for: .normal)
+        } else {
+            // Fallback on earlier versions
+            self.myGroupsBt.setTitleColor(Colors.PrimaryColor, for: .normal)
+        }
+        self.allGroupsBt.setTitleColor(UIColor.black, for: .normal)
+        self.oneDayBt.setTitleColor(UIColor.black, for: .normal)
+        self.closeFilterSlide()
+        sort = standart_sort
+        filter = "no-filter"
+       // showToast("My Message", 3.0)
+        self.refreshData()
+    }
     
     @IBAction func managamentTapped(_ sender: Any) {
         self.myGroupsBt.setTitleColor(UIColor.black, for: .normal)
@@ -952,6 +975,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         sort = "created_at&order=desc"
         self.refreshData()
     }
+    
+    
     
     @IBAction func allgroupsTouchOut(_ sender: Any) {
     print("allgroups touch ")

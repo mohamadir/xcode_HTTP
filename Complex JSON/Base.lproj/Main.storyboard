@@ -1,17 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="rxx-0h-zrQ">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="rxx-0h-zrQ">
     <device id="retina5_9" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <array key="ArialBold.ttf">
+            <string>Arial-BoldMT</string>
+        </array>
+        <array key="Kailasa.ttc">
+            <string>Kailasa</string>
+        </array>
+        <array key="KohinoorBangla.ttc">
+            <string>KohinoorBangla-Regular</string>
+        </array>
+    </customFonts>
     <scenes>
         <!--Member Inbox View Controller-->
         <scene sceneID="dG2-tt-J2P">
@@ -3277,7 +3288,7 @@
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rZ9-Np-v0V" userLabel="Observer View">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="521"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="642"/>
                                         <subviews>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="snap logo" translatesAutoresizingMaskIntoConstraints="NO" id="K4Z-Dr-iyB">
                                                 <rect key="frame" x="92" y="27" width="175" height="58"/>
@@ -3328,7 +3339,7 @@
                                                 </userDefinedRuntimeAttributes>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="97K-ma-2w0" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
-                                                <rect key="frame" x="20" y="221" width="335" height="43"/>
+                                                <rect key="frame" x="20" y="221" width="335" height="42.666666666666686"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="color" keyPath="lineColor">
@@ -3349,18 +3360,18 @@
                                                     <userDefinedRuntimeAttribute type="number" keyPath="lineHeight">
                                                         <real key="value" value="2"/>
                                                     </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="string" keyPath="selectedTitle" value="Last Name23"/>
+                                                    <userDefinedRuntimeAttribute type="string" keyPath="selectedTitle" value="Last Name"/>
                                                     <userDefinedRuntimeAttribute type="color" keyPath="selectedTitleColor">
                                                         <color key="value" red="0.60897893140000003" green="0.57035565700000002" blue="0.3413752619" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     </userDefinedRuntimeAttribute>
                                                     <userDefinedRuntimeAttribute type="color" keyPath="selectedLineColor">
                                                         <color key="value" name="Primary"/>
                                                     </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="string" keyPath="placeholder" value="Last name23"/>
+                                                    <userDefinedRuntimeAttribute type="string" keyPath="placeholder" value="Last name"/>
                                                 </userDefinedRuntimeAttributes>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2L9-OX-6GP" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
-                                                <rect key="frame" x="20" y="300" width="335" height="43"/>
+                                                <rect key="frame" x="20" y="299.66666666666669" width="335" height="43"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="42.670000000000002" id="z8B-mo-r41"/>
@@ -3397,7 +3408,7 @@
                                                 </userDefinedRuntimeAttributes>
                                             </view>
                                             <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="E69-k1-cLW">
-                                                <rect key="frame" x="88" y="366" width="200" height="106"/>
+                                                <rect key="frame" x="88" y="365.66666666666669" width="200" height="106"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="106" id="EKF-CA-RjY"/>
                                                     <constraint firstAttribute="width" constant="200" id="Ekp-jo-fCv"/>
@@ -3408,7 +3419,7 @@
                                                 </connections>
                                             </pickerView>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W0h-TU-I3K">
-                                                <rect key="frame" x="98" y="514" width="180" height="47"/>
+                                                <rect key="frame" x="98" y="513.66666666666663" width="180" height="47"/>
                                                 <color key="backgroundColor" name="Chat Me"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="180" id="fcm-vS-7Zo"/>
@@ -3446,9 +3457,15 @@
                                             <constraint firstItem="enW-jH-ctV" firstAttribute="leading" secondItem="rZ9-Np-v0V" secondAttribute="leading" constant="20" id="sf8-TU-7LC"/>
                                             <constraint firstItem="2PD-w5-EIj" firstAttribute="centerX" secondItem="rZ9-Np-v0V" secondAttribute="centerX" id="urY-ax-g8N"/>
                                             <constraint firstItem="97K-ma-2w0" firstAttribute="leading" secondItem="rZ9-Np-v0V" secondAttribute="leading" constant="20" id="wS8-Ww-jHN"/>
+                                            <constraint firstItem="W0h-TU-I3K" firstAttribute="top" secondItem="2L9-OX-6GP" secondAttribute="bottom" constant="171" id="wU9-zp-Pl2"/>
                                             <constraint firstAttribute="trailing" secondItem="enW-jH-ctV" secondAttribute="trailing" constant="20" id="x11-Rd-WUp"/>
                                             <constraint firstAttribute="trailing" secondItem="2L9-OX-6GP" secondAttribute="trailing" constant="20" id="yHC-uw-Bgr"/>
                                         </constraints>
+                                        <variation key="default">
+                                            <mask key="subviews">
+                                                <exclude reference="E69-k1-cLW"/>
+                                            </mask>
+                                        </variation>
                                     </view>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -3462,11 +3479,6 @@
                                     <constraint firstItem="y19-mR-vBE" firstAttribute="top" secondItem="DxF-Mh-OWz" secondAttribute="top" id="fuR-VB-w2u"/>
                                     <constraint firstAttribute="trailing" secondItem="y19-mR-vBE" secondAttribute="trailing" id="t2p-dU-UUs"/>
                                 </constraints>
-                                <variation key="default">
-                                    <mask key="subviews">
-                                        <exclude reference="rZ9-Np-v0V"/>
-                                    </mask>
-                                </variation>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -3487,7 +3499,9 @@
                         </userDefinedRuntimeAttributes>
                     </tabBarItem>
                     <connections>
+                        <outlet property="firstNameTextFeild" destination="enW-jH-ctV" id="5Sm-73-f3q"/>
                         <outlet property="genderPicker" destination="E69-k1-cLW" id="jC1-5f-v3f"/>
+                        <outlet property="lastNameTextFeild" destination="97K-ma-2w0" id="ro3-Ug-oB4"/>
                         <outlet property="memberView" destination="y19-mR-vBE" id="GeF-aU-4zH"/>
                         <outlet property="observerView" destination="rZ9-Np-v0V" id="qrY-8G-wHh"/>
                         <outlet property="phoneTextFeild" destination="2L9-OX-6GP" id="mwj-ZI-1qo"/>
