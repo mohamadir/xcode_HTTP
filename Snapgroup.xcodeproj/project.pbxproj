@@ -55,6 +55,10 @@
 		74FBD10A20514220002D223A /* MemberCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74FBD10920514220002D223A /* MemberCollectionCell.swift */; };
 		74FBD10C20518542002D223A /* MemberModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74FBD10B20518542002D223A /* MemberModalViewController.swift */; };
 		74FBD10E20528D2D002D223A /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74FBD10D20528D2D002D223A /* Models.swift */; };
+		7EFC9580208C848A00A89CF2 /* DestinationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EFC957C208C848800A89CF2 /* DestinationData.swift */; };
+		7EFC9581208C848A00A89CF2 /* DefaultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EFC957D208C848900A89CF2 /* DefaultCell.swift */; };
+		7EFC9582208C848A00A89CF2 /* ExpandingTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EFC957E208C848900A89CF2 /* ExpandingTVC.swift */; };
+		7EFC9583208C848A00A89CF2 /* ExpansionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EFC957F208C848A00A89CF2 /* ExpansionCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -151,6 +155,10 @@
 		74FBD10920514220002D223A /* MemberCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberCollectionCell.swift; sourceTree = "<group>"; };
 		74FBD10B20518542002D223A /* MemberModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberModalViewController.swift; sourceTree = "<group>"; };
 		74FBD10D20528D2D002D223A /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
+		7EFC957C208C848800A89CF2 /* DestinationData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DestinationData.swift; path = "../../../../../Downloads/Expanding-TableView-master/ExpandingTableView/DestinationData.swift"; sourceTree = "<group>"; };
+		7EFC957D208C848900A89CF2 /* DefaultCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DefaultCell.swift; path = "../../../../../Downloads/Expanding-TableView-master/ExpandingTableView/DefaultCell.swift"; sourceTree = "<group>"; };
+		7EFC957E208C848900A89CF2 /* ExpandingTVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ExpandingTVC.swift; path = "../../../../../Downloads/Expanding-TableView-master/ExpandingTableView/ExpandingTVC.swift"; sourceTree = "<group>"; };
+		7EFC957F208C848A00A89CF2 /* ExpansionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ExpansionCell.swift; path = "../../../../../Downloads/Expanding-TableView-master/ExpandingTableView/ExpansionCell.swift"; sourceTree = "<group>"; };
 		89E7D6AE145D4989B1E4DBF6 /* Pods_Complex_JSON.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Complex_JSON.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4F2DA88D0C7A1EAE5A7D431 /* Pods_Snapgroup.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Snapgroup.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F44CD3C49D70D6E498CC6CF1 /* Pods-Complex JSON.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Complex JSON.release.xcconfig"; path = "Pods/Target Support Files/Pods-Complex JSON/Pods-Complex JSON.release.xcconfig"; sourceTree = "<group>"; };
@@ -411,6 +419,10 @@
 			children = (
 				74773B75205EBE580059338B /* ExpandableHeaderView */,
 				74B3CDF22055692B00440EB0 /* ServicesViewController.swift */,
+				7EFC957D208C848900A89CF2 /* DefaultCell.swift */,
+				7EFC957C208C848800A89CF2 /* DestinationData.swift */,
+				7EFC957E208C848900A89CF2 /* ExpandingTVC.swift */,
+				7EFC957F208C848A00A89CF2 /* ExpansionCell.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -736,6 +748,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7EFC9581208C848A00A89CF2 /* DefaultCell.swift in Sources */,
 				74A5A4392085D2DB00A97052 /* CheckListItemCell.swift in Sources */,
 				74905903203D89E000C6B8C1 /* SignUpVC.swift in Sources */,
 				74138E07204442FD00F37028 /* ChatCustomCellController.swift in Sources */,
@@ -764,12 +777,15 @@
 				74773B79205EBFA50059338B /* ExpandableHeaderView.swift in Sources */,
 				74490C19205298D6007AD4FA /* CustomMarkerView.swift in Sources */,
 				74B9BCFB205CF82D005A0C60 /* CheckListViewController.swift in Sources */,
+				7EFC9580208C848A00A89CF2 /* DestinationData.swift in Sources */,
 				746E9F3A2077BA88009B3258 /* NotificationCell.swift in Sources */,
 				7404F38220569F220017762F /* ItemViewController.swift in Sources */,
+				7EFC9583208C848A00A89CF2 /* ExpansionCell.swift in Sources */,
 				742375082046DC0300B9A0C0 /* ApiRequests.swift in Sources */,
 				7428551F204FF16300637511 /* TestTabVc.swift in Sources */,
 				743A2081203C1B12008DF1AA /* AppDelegate.swift in Sources */,
 				74A5A43E2085D64900A97052 /* GroupLeaderViewController.swift in Sources */,
+				7EFC9582208C848A00A89CF2 /* ExpandingTVC.swift in Sources */,
 				74F7AAA5205A976400E66DF8 /* GroupMapViewController.swift in Sources */,
 				746E9F382077B9CB009B3258 /* MemberInboxViewController.swift in Sources */,
 				74F7AAE2205BE6AA00E66DF8 /* DocsViewController.swift in Sources */,

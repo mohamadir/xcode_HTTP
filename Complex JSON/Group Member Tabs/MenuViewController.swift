@@ -146,7 +146,7 @@ class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UI
         servicesView.addTapGestureRecognizer {
             if (self.singleGroup?.group_tools?.services!)! == true
             {
-                self.performSegue(withIdentifier: "showServices", sender: self)
+                self.performSegue(withIdentifier: "showNewServices", sender: self)
             }
             
         }
