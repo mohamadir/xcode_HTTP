@@ -27,12 +27,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
         FirebaseApp.configure()
 
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { (isGranted, err) in
-            
+
             if err != nil {
                 print("Firebase Error: \(err)")
             }else {
                 print("Successful Authorization")
-                
+
                 UNUserNotificationCenter.current().delegate = self
 
                 DispatchQueue.main.async {
@@ -41,12 +41,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
                     Messaging.messaging().subscribe(toTopic: "/topics/mohamed")
 
                 }
+
                 print("subscribed to topic")
 
             }
-            
-            
+
+
         }
+        
+       
+        
+        
+        
+ 
+        application.registerForRemoteNotifications()
         
         
         
@@ -88,6 +96,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
+        ConnectToFcm()
+
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
     }
 
@@ -97,24 +107,65 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
+        ConnectToFcm()
+
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
    
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         
-        UIApplication.shared.applicationIconBadgeNumber += 1
-        print("Notificationnnn")
-        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "Snapgroup.Snap2"), object: nil)
+//        UIApplication.shared.applicationIconBadgeNumber += 1
+//        print("Notificationnnn")
+//
+//
+//        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "Snapgroup.Snap2"), object: nil)
+//    }
     }
-    
     func messaging(_ messaging: Messaging, didReceive remoteMessage: MessagingRemoteMessage) {
         print("notification remoteMessage")
+        UIApplication.shared.applicationIconBadgeNumber += 1
+        
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "Snapgroup.Snap2"), object: nil)
+        timedNotifications(inSeconds: 1) { (success) in
+        }
     }
     
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) {
         print("Notificationnnn didReceiveRemoteNotification")
 
     }
+    func application(received remoteMessage: MessagingRemoteMessage) {
+        print("notification remoteMessage 2 ")
+
+    }
+    
+    
+    func timedNotifications(inSeconds: TimeInterval, completion: @escaping (_ Success: Bool)->()) {
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: inSeconds, repeats: false)
+        let content = UNMutableNotificationContent()
+        
+        content.title = "Snap notifcation"
+        content.subtitle = "subtitle"
+        content.body = "test test test "
+        
+        let request = UNNotificationRequest(identifier: "customnotification", content: content , trigger: trigger)
+        
+        UNUserNotificationCenter.current().add(request) { (error) in
+            if error != nil {
+                print("error notification")
+
+                completion(false)
+            }else{
+                print("success notification")
+
+                completion(true)
+            }
+        }
+        
+        
+        
+    }
+
 }
 
 //extension AppDelegate: UNUserNotificationCenterDelegate {

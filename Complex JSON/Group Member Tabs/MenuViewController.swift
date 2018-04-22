@@ -84,7 +84,9 @@ class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UI
     var secondsLeft: Int?
    
     override func viewWillAppear(_ animated: Bool) {
-        calculateRegisterDate( date : (MyVriables.currentGroup?.registration_end_date!)!)
+        if MyVriables.currentGroup?.registration_end_date != nil {
+           calculateRegisterDate( date : (MyVriables.currentGroup?.registration_end_date!)!)
+        }
     }
     override func viewWillDisappear(_ animated: Bool) {
         timer1.invalidate()
