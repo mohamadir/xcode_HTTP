@@ -10,4 +10,5 @@ import Foundation
 import UIKit
 struct Colors{
     static let PrimaryColor : UIColor = UIColor(rgb: 0xC1B46A)
+    static let InboxItemBg : UIColor = UIColor(rgb: 0xE5E1C3)
 }

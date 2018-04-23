@@ -47,6 +47,10 @@
 		74B3CDF32055692B00440EB0 /* ServicesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B3CDF22055692B00440EB0 /* ServicesViewController.swift */; };
 		74B9BCFB205CF82D005A0C60 /* CheckListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B9BCFA205CF82D005A0C60 /* CheckListViewController.swift */; };
 		74F1FF20208B2E3D00976958 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 74F1FF1F208B2E3C00976958 /* GoogleService-Info.plist */; };
+		74F1FF25208C883800976958 /* DefaultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F1FF21208C883700976958 /* DefaultCell.swift */; };
+		74F1FF26208C883800976958 /* ExpandingTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F1FF22208C883700976958 /* ExpandingTVC.swift */; };
+		74F1FF27208C883800976958 /* ExpansionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F1FF23208C883800976958 /* ExpansionCell.swift */; };
+		74F1FF28208C883800976958 /* DestinationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F1FF24208C883800976958 /* DestinationData.swift */; };
 		74F7AAA120580D1F00E66DF8 /* ScrollTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F7AAA020580D1F00E66DF8 /* ScrollTestViewController.swift */; };
 		74F7AAA320595D6B00E66DF8 /* ItineraryServiceViewControllerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F7AAA220595D6B00E66DF8 /* ItineraryServiceViewControllerCell.swift */; };
 		74F7AAA5205A976400E66DF8 /* GroupMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F7AAA4205A976400E66DF8 /* GroupMapViewController.swift */; };
@@ -143,6 +147,10 @@
 		74F0521020657938009A4273 /* Complex JSON.xcworkspace */ = {isa = PBXFileReference; lastKnownFileType = wrapper.workspace; path = "Complex JSON.xcworkspace"; sourceTree = "<group>"; };
 		74F0521120657938009A4273 /* Snapgroup.xcworkspace */ = {isa = PBXFileReference; lastKnownFileType = wrapper.workspace; path = Snapgroup.xcworkspace; sourceTree = "<group>"; };
 		74F1FF1F208B2E3C00976958 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		74F1FF21208C883700976958 /* DefaultCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DefaultCell.swift; path = ../../../../../Downloads/DefaultCell.swift; sourceTree = "<group>"; };
+		74F1FF22208C883700976958 /* ExpandingTVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ExpandingTVC.swift; path = ../../../../../Downloads/ExpandingTVC.swift; sourceTree = "<group>"; };
+		74F1FF23208C883800976958 /* ExpansionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ExpansionCell.swift; path = ../../../../../Downloads/ExpansionCell.swift; sourceTree = "<group>"; };
+		74F1FF24208C883800976958 /* DestinationData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DestinationData.swift; path = ../../../../../Downloads/DestinationData.swift; sourceTree = "<group>"; };
 		74F7AAA020580D1F00E66DF8 /* ScrollTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollTestViewController.swift; sourceTree = "<group>"; };
 		74F7AAA220595D6B00E66DF8 /* ItineraryServiceViewControllerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItineraryServiceViewControllerCell.swift; sourceTree = "<group>"; };
 		74F7AAA4205A976400E66DF8 /* GroupMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupMapViewController.swift; sourceTree = "<group>"; };
@@ -411,6 +419,10 @@
 			children = (
 				74773B75205EBE580059338B /* ExpandableHeaderView */,
 				74B3CDF22055692B00440EB0 /* ServicesViewController.swift */,
+				74F1FF21208C883700976958 /* DefaultCell.swift */,
+				74F1FF24208C883800976958 /* DestinationData.swift */,
+				74F1FF22208C883700976958 /* ExpandingTVC.swift */,
+				74F1FF23208C883800976958 /* ExpansionCell.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -743,6 +755,7 @@
 				743A2102203C6468008DF1AA /* GroupViewController.swift in Sources */,
 				74905905203DB5DA00C6B8C1 /* MainTabController.swift in Sources */,
 				749058FE203D605F00C6B8C1 /* CustomTableViewCell.swift in Sources */,
+				74F1FF25208C883800976958 /* DefaultCell.swift in Sources */,
 				74A5A43B2085D31A00A97052 /* checkListCustomCellController.swift in Sources */,
 				74237583204BE0E100B9A0C0 /* PrivateChatMessageCelVc.swift in Sources */,
 				74B3CDF0205538F700440EB0 /* Colors.swift in Sources */,
@@ -751,12 +764,15 @@
 				74730C4F205666680091D657 /* ItineraryViewController.swift in Sources */,
 				74138E0220440E9D00F37028 /* MenuViewController.swift in Sources */,
 				74905901203D853200C6B8C1 /* DesignableView.swift in Sources */,
+				74F1FF28208C883800976958 /* DestinationData.swift in Sources */,
+				74F1FF26208C883800976958 /* ExpandingTVC.swift in Sources */,
 				74490C1B20529E22007AD4FA /* MapViewController.swift in Sources */,
 				74905909203DB9DC00C6B8C1 /* HomeViewController.swift in Sources */,
 				743A20BE203C3A97008DF1AA /* GroupRequest.swift in Sources */,
 				74FBD106205009FD002D223A /* MembersViewController.swift in Sources */,
 				74773B77205EBE7D0059338B /* Section.swift in Sources */,
 				7423757F20499FB600B9A0C0 /* PrivateChatViewController.swift in Sources */,
+				74F1FF27208C883800976958 /* ExpansionCell.swift in Sources */,
 				74B3CDF32055692B00440EB0 /* ServicesViewController.swift in Sources */,
 				74FBD10A20514220002D223A /* MemberCollectionCell.swift in Sources */,
 				743A2083203C1B12008DF1AA /* ViewController.swift in Sources */,

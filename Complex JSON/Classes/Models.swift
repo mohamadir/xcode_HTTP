@@ -53,6 +53,22 @@ struct TourGroup: Codable {
     var group_tools: GroupTools?
     
 }
+
+struct InboxMessage: Codable{
+    var id: Int?
+    var sender_id: Int?
+    var group_id: Int?
+    var member_id: Int?
+    var type: String?
+    var read: Int?
+    var accepted: String?
+    var created_at: String?
+    var subject: String?
+    var body: String?
+    var title: String?
+    var first_name: String?
+    var last_name: String?
+}
 struct GroupTranslation: Codable {
     var locale: String?
     var title: String?

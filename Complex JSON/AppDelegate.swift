@@ -25,6 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
         // Override point for customization after application launch.
 //        UNUserNotificationCenter.current().delegate = self
         FirebaseApp.configure()
+        UIApplication.shared.applicationIconBadgeNumber = 0
 
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { (isGranted, err) in
 
@@ -90,7 +91,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
-        Messaging.messaging().shouldEstablishDirectChannel = false
+        Messaging.messaging().shouldEstablishDirectChannel = true
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
     }
@@ -102,7 +103,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
-        ConnectToFcm()
+       ConnectToFcm()
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     }
 
@@ -126,7 +127,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
         UIApplication.shared.applicationIconBadgeNumber += 1
         
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "Snapgroup.Snap2"), object: nil)
-        timedNotifications(inSeconds: 1) { (success) in
+        timedNotifications(inSeconds: 10) { (success) in
+            if success {
+                print("Successfully Notified")
+            }
         }
     }
     
@@ -140,37 +144,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
     }
     
     
-    func timedNotifications(inSeconds: TimeInterval, completion: @escaping (_ Success: Bool)->()) {
+    func timedNotifications(inSeconds: TimeInterval, completion: @escaping (_ Success: Bool) -> ()) {
+        
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: inSeconds, repeats: false)
+        
         let content = UNMutableNotificationContent()
         
-        content.title = "Snap notifcation"
-        content.subtitle = "subtitle"
-        content.body = "test test test "
+        content.title = "Breaking News"
+        content.subtitle = "Yo whats up i am subtitle"
+        content.body = "idbnqwkdnqwoidoqw;edn;owqdno;wqndo;qwndowqndoqwdn qwdkj"
         
-        let request = UNNotificationRequest(identifier: "customnotification", content: content , trigger: trigger)
+        let request = UNNotificationRequest(identifier: "customNotification", content: content, trigger: trigger)
         
         UNUserNotificationCenter.current().add(request) { (error) in
             if error != nil {
-                print("error notification")
-
                 completion(false)
-            }else{
-                print("success notification")
-
+            }else {
                 completion(true)
             }
         }
-        
-        
-        
     }
 
 }
 
-//extension AppDelegate: UNUserNotificationCenterDelegate {
-//    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-//        completionHandler(.alert)
-//    }
-//}
 
