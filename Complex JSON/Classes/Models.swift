@@ -24,7 +24,33 @@ struct ChatUser {
 struct GroupMembers{
     static var currentMemmber: GroupMember?
 }
+//////////////////////////////////////////////// servivices model ///////////////
+struct ServicesModel: Codable {
+     var hotels: [ServiceModel]?
+     var restaurants: [ServiceModel]?
+     var tourguides: [ServiceModel]?
+     var places: [ServiceModel]?
+     var activities: [ServiceModel]?
+     var transports: [ServiceModel]?
+}
+struct ServiceModel: Codable {
+    var id: Int?
+    var translations: [ServiceTranslations]?
+    var name: String?
+    var phone: String?
+    var first_day: Int?
+    var last_day: Int?
+    var company_name: String?
+    var city: String?
+}
+struct ServiceTranslations: Codable {
+    var name: String?
+    var city: String?
+}
 
+
+
+////////////////////
 
 // ********************************    Group Model *****************************
 struct TourGroup: Codable {
@@ -53,6 +79,7 @@ struct TourGroup: Codable {
     var group_tools: GroupTools?
     
 }
+
 struct GroupTranslation: Codable {
     var locale: String?
     var title: String?
