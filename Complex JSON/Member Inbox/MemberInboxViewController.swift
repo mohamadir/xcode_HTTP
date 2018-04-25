@@ -29,6 +29,7 @@ class MemberInboxViewController: UIViewController , UITableViewDelegate,UITableV
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
          let cell = tableView.dequeueReusableCell(withIdentifier: "notificationCell") as! NotificationCell
+        cell.selectionStyle = .none
         if self.messageArray[indexPath.row].read == 0  {
             cell.ItemView.backgroundColor = Colors.InboxItemBg
              cell.backgroundColor = UIColor.white
@@ -43,14 +44,14 @@ class MemberInboxViewController: UIViewController , UITableViewDelegate,UITableV
             cell.titlelbl.text = "From: " + self.messageArray[indexPath.row].title!
              cell.bodyLbl.text = self.messageArray[indexPath.row].body!
             
+            
         }
         else if self.messageArray[indexPath.row].type == "invite_group" {
             cell.groupTitleLbl.text = "Snapgroup"
             cell.titlelbl.text = self.messageArray[indexPath.row].subject!
             cell.bodyLbl.text = self.messageArray[indexPath.row].body!
             cell.dateLbl.text = self.messageArray[indexPath.row].created_at!
-            cell.messageIconImageview.image = UIImage(named: "system icon")
-
+            cell.messageIconImageview.image = UIImage(named: "group invitation")
         }
       else  if self.messageArray[indexPath.row].type == "invite" {
             cell.messageIconImageview.image = UIImage(named: "Pair")
@@ -110,7 +111,7 @@ class MemberInboxViewController: UIViewController , UITableViewDelegate,UITableV
                         
                         for message in tempMessageArray {
                             if !self.messageArray.contains(where: { (mMessage) -> Bool in
-                                return mMessage.id == message.id
+                                return mMessage.notification_id == message.notification_id
                             }) {
                                 self.messageArray.append(message)
                             }
@@ -138,7 +139,19 @@ class MemberInboxViewController: UIViewController , UITableViewDelegate,UITableV
                 self.getMessages()
         }
     }
-    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        MyVriables.currentInboxMessage = messageArray[indexPath.row]
+        let iP: IndexPath = indexPath
+        DispatchQueue.main.async {
+            let cell = tableView.cellForRow(at: indexPath)! as! NotificationCell
+            cell.backgroundColor = Colors.InboxItemBg
+            cell.ItemView.backgroundColor = UIColor.white
+        }
+        
+        markRead(id: messageArray[indexPath.row].notification_id!)
+        performSegue(withIdentifier: "showMessageItem", sender: self)
+        
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
@@ -147,5 +160,24 @@ class MemberInboxViewController: UIViewController , UITableViewDelegate,UITableV
         navigationController?.popViewController(animated: true)
 
     }
+    
+    
+    func markRead(id: Int){
+        print(ApiRouts.Web + "/api/notifications/\(id)/\((MyVriables.currentMember?.id!)!)")
+        HTTP.PUT(ApiRouts.Web + "/api/notifications/\(id)/members/\((MyVriables.currentMember?.id!)!)") { response in
+            if let err = response.error {
+                print("error: \(err.localizedDescription) not mark read")
+                
+                return //also notify app of failure as needed
+            }
+            print(response.description)
+          
+           
+            //print("data is: \(response.data)") access the response of the data with response.data
+        }
+        
+        
+    }
+    
     
 }

@@ -167,7 +167,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     func setRefresher(){
         refresher = UIRefreshControl()
-        refresher.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        refresher.attributedTitle = NSAttributedString(string: "") // PULL TO REFRESH
         refresher.addTarget(self, action: #selector(refreshData), for: UIControlEvents.valueChanged)
         self.tableView.addSubview(refresher)
         

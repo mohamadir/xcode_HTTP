@@ -46,6 +46,7 @@
 		74B3CDF0205538F700440EB0 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B3CDEF205538F700440EB0 /* Colors.swift */; };
 		74B3CDF32055692B00440EB0 /* ServicesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B3CDF22055692B00440EB0 /* ServicesViewController.swift */; };
 		74B9BCFB205CF82D005A0C60 /* CheckListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B9BCFA205CF82D005A0C60 /* CheckListViewController.swift */; };
+		74BB5D51208DDC0D00248CA1 /* MessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74BB5D50208DDC0D00248CA1 /* MessageViewController.swift */; };
 		74F1FF20208B2E3D00976958 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 74F1FF1F208B2E3C00976958 /* GoogleService-Info.plist */; };
 		74F1FF25208C883800976958 /* DefaultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F1FF21208C883700976958 /* DefaultCell.swift */; };
 		74F1FF26208C883800976958 /* ExpandingTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F1FF22208C883700976958 /* ExpandingTVC.swift */; };
@@ -144,6 +145,7 @@
 		74B3CDEF205538F700440EB0 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		74B3CDF22055692B00440EB0 /* ServicesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServicesViewController.swift; sourceTree = "<group>"; };
 		74B9BCFA205CF82D005A0C60 /* CheckListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckListViewController.swift; sourceTree = "<group>"; };
+		74BB5D50208DDC0D00248CA1 /* MessageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageViewController.swift; sourceTree = "<group>"; };
 		74F0521020657938009A4273 /* Complex JSON.xcworkspace */ = {isa = PBXFileReference; lastKnownFileType = wrapper.workspace; path = "Complex JSON.xcworkspace"; sourceTree = "<group>"; };
 		74F0521120657938009A4273 /* Snapgroup.xcworkspace */ = {isa = PBXFileReference; lastKnownFileType = wrapper.workspace; path = Snapgroup.xcworkspace; sourceTree = "<group>"; };
 		74F1FF1F208B2E3C00976958 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -375,6 +377,7 @@
 			children = (
 				746E9F372077B9CB009B3258 /* MemberInboxViewController.swift */,
 				746E9F392077BA88009B3258 /* NotificationCell.swift */,
+				74BB5D50208DDC0D00248CA1 /* MessageViewController.swift */,
 			);
 			path = "Member Inbox";
 			sourceTree = "<group>";
@@ -764,6 +767,7 @@
 				74730C4F205666680091D657 /* ItineraryViewController.swift in Sources */,
 				74138E0220440E9D00F37028 /* MenuViewController.swift in Sources */,
 				74905901203D853200C6B8C1 /* DesignableView.swift in Sources */,
+				74BB5D51208DDC0D00248CA1 /* MessageViewController.swift in Sources */,
 				74F1FF28208C883800976958 /* DestinationData.swift in Sources */,
 				74F1FF26208C883800976958 /* ExpandingTVC.swift in Sources */,
 				74490C1B20529E22007AD4FA /* MapViewController.swift in Sources */,

@@ -14,6 +14,7 @@ struct MyVriables {
     static var currentMember: Member?
     static var roleStatus: String = ""
     static var shouldRefresh: Bool = false
+    static var currentInboxMessage: InboxMessage?
     
 }
 
@@ -55,7 +56,7 @@ struct TourGroup: Codable {
 }
 
 struct InboxMessage: Codable{
-    var id: Int?
+    var notification_id: Int?
     var sender_id: Int?
     var group_id: Int?
     var member_id: Int?
