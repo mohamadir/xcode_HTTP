@@ -26,7 +26,39 @@ struct GroupMembers{
     static var currentMemmber: GroupMember?
 }
 
+/////////////////////////////////////////////// servivices model ///////////////
+struct ServicesModel: Codable {
+    var hotels: [ServiceModel]?
+    var restaurants: [ServiceModel]?
+    var tourguides: [ServiceModel]?
+    var places: [ServiceModel]?
+    var activities: [ServiceModel]?
+    var transports: [ServiceModel]?
+}
+struct ServiceModel: Codable {
+    var id: Int?
+    var age: Int?
+    var translations: [ServiceTranslations]?
+    var name: String?
+    var phone: String?
+    var first_day: Int?
+    var last_day: Int?
+    var company_name: String?
+    var city: String?
+}
+struct ServiceTranslations: Codable {
+    var name: String?
+    var first_name: String?
+    var last_name: String?
+    var languages: String?
+    var city: String?
+    var company_name: String?
+    
+}
 
+
+
+////////////////////
 // ********************************    Group Model *****************************
 struct TourGroup: Codable {
     var id: Int?
