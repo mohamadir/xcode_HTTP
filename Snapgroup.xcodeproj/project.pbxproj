@@ -44,6 +44,7 @@
 		74B3CDF0205538F700440EB0 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B3CDEF205538F700440EB0 /* Colors.swift */; };
 		74B9BCFB205CF82D005A0C60 /* CheckListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B9BCFA205CF82D005A0C60 /* CheckListViewController.swift */; };
 		74BB5D51208DDC0D00248CA1 /* MessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74BB5D50208DDC0D00248CA1 /* MessageViewController.swift */; };
+		74BB5D532090C33D00248CA1 /* ServicesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74BB5D522090C33D00248CA1 /* ServicesViewController.swift */; };
 		74F1FF20208B2E3D00976958 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 74F1FF1F208B2E3C00976958 /* GoogleService-Info.plist */; };
 		74F7AAA120580D1F00E66DF8 /* ScrollTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F7AAA020580D1F00E66DF8 /* ScrollTestViewController.swift */; };
 		74F7AAA320595D6B00E66DF8 /* ItineraryServiceViewControllerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F7AAA220595D6B00E66DF8 /* ItineraryServiceViewControllerCell.swift */; };
@@ -61,7 +62,6 @@
 		7E2D7B242090C06900DAC98F /* NewServicesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2D7B1A2090C06700DAC98F /* NewServicesViewController.swift */; };
 		7E2D7B252090C06900DAC98F /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2D7B1B2090C06800DAC98F /* TableViewCell.swift */; };
 		7E2D7B262090C06900DAC98F /* ExpandableHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2D7B1C2090C06900DAC98F /* ExpandableHeaderView.swift */; };
-		7E2D7B272090C06900DAC98F /* ServicesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2D7B1D2090C06900DAC98F /* ServicesViewController.swift */; };
 		7E2D7B282090C06900DAC98F /* DefaultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2D7B1E2090C06900DAC98F /* DefaultCell.swift */; };
 /* End PBXBuildFile section */
 
@@ -146,6 +146,7 @@
 		74B3CDEF205538F700440EB0 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		74B9BCFA205CF82D005A0C60 /* CheckListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckListViewController.swift; sourceTree = "<group>"; };
 		74BB5D50208DDC0D00248CA1 /* MessageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageViewController.swift; sourceTree = "<group>"; };
+		74BB5D522090C33D00248CA1 /* ServicesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ServicesViewController.swift; path = ../../../../../Downloads/ServicesViewController.swift; sourceTree = "<group>"; };
 		74F0521020657938009A4273 /* Complex JSON.xcworkspace */ = {isa = PBXFileReference; lastKnownFileType = wrapper.workspace; path = "Complex JSON.xcworkspace"; sourceTree = "<group>"; };
 		74F0521120657938009A4273 /* Snapgroup.xcworkspace */ = {isa = PBXFileReference; lastKnownFileType = wrapper.workspace; path = Snapgroup.xcworkspace; sourceTree = "<group>"; };
 		74F1FF1F208B2E3C00976958 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -165,7 +166,6 @@
 		7E2D7B1A2090C06700DAC98F /* NewServicesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewServicesViewController.swift; sourceTree = "<group>"; };
 		7E2D7B1B2090C06800DAC98F /* TableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
 		7E2D7B1C2090C06900DAC98F /* ExpandableHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExpandableHeaderView.swift; sourceTree = "<group>"; };
-		7E2D7B1D2090C06900DAC98F /* ServicesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ServicesViewController.swift; path = ../../../../services/ServicesViewController.swift; sourceTree = "<group>"; };
 		7E2D7B1E2090C06900DAC98F /* DefaultCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultCell.swift; sourceTree = "<group>"; };
 		89E7D6AE145D4989B1E4DBF6 /* Pods_Complex_JSON.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Complex_JSON.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4F2DA88D0C7A1EAE5A7D431 /* Pods_Snapgroup.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Snapgroup.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -424,8 +424,8 @@
 				7E2D7B192090C06600DAC98F /* ExpandingTVC.swift */,
 				7E2D7B172090C06500DAC98F /* ExpansionCell.swift */,
 				7E2D7B1A2090C06700DAC98F /* NewServicesViewController.swift */,
+				74BB5D522090C33D00248CA1 /* ServicesViewController.swift */,
 				7E2D7B162090C06400DAC98F /* Section.swift */,
-				7E2D7B1D2090C06900DAC98F /* ServicesViewController.swift */,
 				7E2D7B1B2090C06800DAC98F /* TableViewCell.swift */,
 			);
 			path = Services;
@@ -795,11 +795,11 @@
 				7E2D7B212090C06900DAC98F /* ExpansionCell.swift in Sources */,
 				74138E042044207700F37028 /* ChatViewController.swift in Sources */,
 				7E2D7B1F2090C06900DAC98F /* DestinationData.swift in Sources */,
+				74BB5D532090C33D00248CA1 /* ServicesViewController.swift in Sources */,
 				74FBD10C20518542002D223A /* MemberModalViewController.swift in Sources */,
 				7E2D7B202090C06900DAC98F /* Section.swift in Sources */,
 				74F7AAA320595D6B00E66DF8 /* ItineraryServiceViewControllerCell.swift in Sources */,
 				741D2A102042B40C00DB8975 /* DetailsViewController.swift in Sources */,
-				7E2D7B272090C06900DAC98F /* ServicesViewController.swift in Sources */,
 				7E2D7B242090C06900DAC98F /* NewServicesViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
