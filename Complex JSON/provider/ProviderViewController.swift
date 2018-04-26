@@ -153,8 +153,6 @@ class ProviderViewController: UIViewController {
                                     if AlamofireSource(urlString: image_path) != nil  {
                                         images2.append(AlamofireSource(urlString: image_path)!)
                                     }
-
-
                                 }
 
                             }
