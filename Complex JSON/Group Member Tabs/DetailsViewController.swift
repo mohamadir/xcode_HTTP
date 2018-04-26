@@ -90,12 +90,13 @@ class DetailsViewController: UIViewController {
         setTripTimeDuration(startDate: (singleGroup?.start_date)!, endDate: (singleGroup?.end_date)!)
         self.descriptionLbl.numberOfLines = 3
         
-        slideShow.activityIndicator = DefaultActivityIndicator()
-        slideShow.circular = false
-        slideShow.zoomEnabled = true
+       
         if singleGroup?.registration_end_date != nil{
             calculateRegisterDate(date: (singleGroup?.registration_end_date)!)
         }
+        slideShow.activityIndicator = DefaultActivityIndicator()
+        slideShow.circular = false
+        slideShow.zoomEnabled = true
         // slideShow.draggingEnabled = false
         slideShow.isMultipleTouchEnabled = false
         slideShow.pageControlPosition = .insideScrollView

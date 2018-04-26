@@ -55,10 +55,29 @@ struct ServiceTranslations: Codable {
     var company_name: String?
     
 }
+/////////////////////////////////////////////////////////////////////////////
 
+////////////////////////Provider Model///////////////////////////////////////
+struct ProviderModel: Codable {
+    var id: Int?
+    var images: [GroupImage]?
+    var contacts: [ContactsModel]?
+    var name: String?
+    var company_name: String?
+    var phone: String?
+    var city: String?
+    var description: String?
+    var webSite: String?
+}
+struct ProviderImages: Codable {
+    var id: Int?
+    var path: String?
+}
+struct ContactsModel: Codable {
+    var email: String?
+}
 
-
-////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // ********************************    Group Model *****************************
 struct TourGroup: Codable {
     var id: Int?

@@ -50,13 +50,15 @@ public class HotelObj  {
     public var checkin : String
     public var checkout : String
     public var rating : String
+    public var id: Int
     
     
-    init(checkin: String, checkout: String, name: String, rating:String) {
+    init(checkin: String, checkout: String, name: String, rating:String, id:Int) {
         self.name = name
         self.checkout = checkout
         self.checkin=checkin
         self.rating = rating
+        self.id = id
     }
 }
 
