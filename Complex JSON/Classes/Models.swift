@@ -62,9 +62,13 @@ struct ProviderModel: Codable {
     var id: Int?
     var images: [GroupImage]?
     var contacts: [ContactsModel]?
+    var translations: [ServiceTranslations]?
     var name: String?
     var company_name: String?
     var phone: String?
+    var first_name: String?
+    var last_name: String?
+    var bio: String?
     var city: String?
     var description: String?
     var webSite: String?

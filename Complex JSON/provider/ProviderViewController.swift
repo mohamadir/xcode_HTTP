@@ -82,8 +82,47 @@ class ProviderViewController: UIViewController {
              do{
                 self.providerModel = try JSONDecoder().decode(ProviderModel.self, from: response.data)
                 DispatchQueue.main.sync {
-                    self.about.text = ( self.providerModel?.description != nil ? self.providerModel?.description : "there is no info")!
-                     self.fullName.text =  ( self.providerModel?.company_name != nil ? self.providerModel?.company_name : self.providerModel?.name)!
+                   
+                    
+                    if self.providerModel?.description != nil
+                    {
+                        self.about.text = (self.providerModel?.description)!
+                        
+                    }
+                    else
+                    {
+                        if self.providerModel?.bio != nil
+                        {
+                            self.about.text = (self.providerModel?.bio)!
+                        }
+                        else
+                        {
+                             self.about.text = "there is no info"
+                        }
+                        
+                    }
+                    if self.providerModel?.company_name != nil
+                    {
+                        self.fullName.text = (self.providerModel?.company_name)!
+                    }
+                    else
+                    {
+                        if self.providerModel?.name != nil
+                        {
+                          
+                             self.fullName.text = (self.providerModel?.name)!
+                        }
+                        else
+                        {
+                            if self.providerModel?.first_name != nil && self.providerModel?.last_name != nil
+                            {
+                                self.fullName.text = "\((self.providerModel?.first_name)!) \((self.providerModel?.last_name)!)"
+                               
+                            }
+                        
+                        }
+                        
+                    }
                      self.location.text =  ( self.providerModel?.city != nil ? self.providerModel?.city : "there is not exits")!
                     if self.providerModel?.phone != nil
                     {
