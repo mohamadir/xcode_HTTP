@@ -22,7 +22,9 @@ struct ChatUser {
     static var currentUser: Partner?
     static var ChatId: Int?
 }
-
+ struct PlanProvider {
+ static var CurrentService: [Any]?
+}
 struct GroupMembers{
     static var currentMemmber: GroupMember?
 }
@@ -63,9 +65,13 @@ struct ProviderModel: Codable {
     var id: Int?
     var images: [GroupImage]?
     var contacts: [ContactsModel]?
+    var translations: [ServiceTranslations]?
     var name: String?
     var company_name: String?
     var phone: String?
+    var first_name: String?
+    var last_name: String?
+    var bio: String?
     var city: String?
     var description: String?
     var webSite: String?
@@ -197,12 +203,12 @@ struct Day: Codable{
     var images: [DayImage]?
     var description: String?
     var sleep_location: String?
-    var hotels: [Hotels]?
-    var restaurants: [Restaurants]?
-    var tour_guides: [TourGuide]?
-    var places: [Places]?
-    var transports: [Transports]?
-    var activities: [Activities]?
+    var hotels: [ServiceModel]?
+    var restaurants: [ServiceModel]?
+    var tour_guides: [ServiceModel]?
+    var places: [ServiceModel]?
+    var transports: [ServiceModel]?
+    var activities: [ServiceModel]?
     var locations: [dayLocation]?
 }
 
@@ -212,75 +218,6 @@ struct DayImage: Codable {
 }
 
 
-// hotel
-struct Hotels: Codable {
-    var id: Int?
-    var website: String?
-    var translations: [Hotel]?
-}
-
-struct Hotel: Codable{
-    var id: Int?
-    var name: String?
-}
-
-// restaurants
-
-struct Restaurants: Codable{
-    var id: Int?
-    var translations: [Restaurant]?
-}
-
-struct Restaurant: Codable{
-    var id: Int?
-    var name: String?
-  //  var restaurant_translations: [RestaurantTranslations]?
-}
-struct RestaurantTranslations: Codable{
-    var id: Int?
-    var name: String?
-}
-
-
-
-// tour guides
-struct TourGuides: Codable{
-    var id: Int?
-    var translations: [TourGuide]?
-}
-struct TourGuide: Codable{
-    var id: Int?
-    var translations: [TourGuideTranslation]?
-}
-
-struct TourGuideTranslation: Codable{
-    var id: Int?
-    var first_name: String?
-    var last_name: String?
-    
-}
-
-
-// places
-struct Places: Codable{
-    var id: Int?
-    var name: String?
-}
-
-// transports
-
-struct Transports: Codable{
-    var id: Int?
-    var company_name: String?
-}
-
-// Activities
-struct Activities: Codable{
-    var id: Int?
-    var name: String?
-}
-
-// Locations
 
 struct dayLocation: Codable{
     var id: Int?
