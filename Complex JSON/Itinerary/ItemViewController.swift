@@ -48,6 +48,8 @@ class ItemViewController: UIViewController, UITableViewDelegate, UITableViewData
     public var dayTitle: String = ""
     
     public var currentDay: Day?
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
        dayNumberLbl.text = "\(number)"
@@ -81,6 +83,106 @@ class ItemViewController: UIViewController, UITableViewDelegate, UITableViewData
 
             }
         }
+        restaurantView.addTapGestureRecognizer {
+            //
+            
+            ProviderInfo.currentProviderName =  "Restaurants"
+   
+            print("current day = \((self.currentDay?.day_number)!) and the array size is \((self.currentDay?.restaurants?.count)!)")
+            //self.performSegue(withIdentifier: "showServiceProvider", sender: self)
+            //showServiceModalSeque
+            if  (self.currentDay?.restaurants?.count)! == 1
+            {
+                ProviderInfo.currentProviderId =  self.currentDay?.restaurants?[0].id
+              //  self.performSegue(withIdentifier: "showServiceProvider", sender: self)
+                let vc = ServiceModalViewController()
+                self.present(vc, animated: true, completion: nil)
+
+            }
+            else
+            {
+            ProviderInfo.currentServiceDay = (self.currentDay?.restaurants)!
+               self.performSegue(withIdentifier: "showServiceModalSeque", sender: self)
+            }
+            
+            
+        }
+        hotelsView.addTapGestureRecognizer {
+            print("current day = \((self.currentDay?.day_number)!) and the array size is \((self.currentDay?.hotels?.count)!)")
+
+            ProviderInfo.currentProviderName =  "Hotels"
+            if  (self.currentDay?.hotels?.count)! == 1
+            {
+                ProviderInfo.currentProviderId =  self.currentDay?.hotels?[0].id
+                self.performSegue(withIdentifier: "showServiceProvider", sender: self)
+            }
+            else
+            {
+                ProviderInfo.currentServiceDay = (self.currentDay?.hotels)!
+                self.performSegue(withIdentifier: "showServiceModalSeque", sender: self)
+            }
+        }
+        activitiesView.addTapGestureRecognizer {
+            print("current day = \((self.currentDay?.day_number)!) and the array size is \((self.currentDay?.activities?.count)!)")
+
+            ProviderInfo.currentProviderName =  "Activities"
+            if   (self.currentDay?.activities?.count)! == 1
+            {
+                ProviderInfo.currentProviderId =  self.currentDay?.activities?[0].id
+                self.performSegue(withIdentifier: "showServiceProvider", sender: self)
+            }
+            else
+            {
+                ProviderInfo.currentServiceDay = (self.currentDay?.activities)!
+                self.performSegue(withIdentifier: "showServiceModalSeque", sender: self)
+            }
+        }
+        placesViews.addTapGestureRecognizer {
+            print("current day = \((self.currentDay?.day_number)!) and the array size is \((self.currentDay?.places?.count)!)")
+
+            ProviderInfo.currentProviderName =  "Places"
+            if   (self.currentDay?.places?.count)! == 1
+            {
+                ProviderInfo.currentProviderId =  self.currentDay?.places?[0].id
+                self.performSegue(withIdentifier: "showServiceProvider", sender: self)
+            }
+            else
+            {
+                ProviderInfo.currentServiceDay = (self.currentDay?.places)!
+                self.performSegue(withIdentifier: "showServiceModalSeque", sender: self)
+            }
+        }
+        transportsView.addTapGestureRecognizer {
+            print("current day = \((self.currentDay?.day_number)!) and the array size is \((self.currentDay?.transports?.count)!)")
+
+            ProviderInfo.currentProviderName =  "Transport"
+            if  (self.currentDay?.transports?.count)! == 1
+            {
+                ProviderInfo.currentProviderId =  self.currentDay?.transports?[0].id
+                self.performSegue(withIdentifier: "showServiceProvider", sender: self)
+            }
+            else
+            {
+                ProviderInfo.currentServiceDay = (self.currentDay?.transports)!
+                self.performSegue(withIdentifier: "showServiceModalSeque", sender: self)
+            }
+        }
+        tourGuideView.addTapGestureRecognizer {
+            print("current day = \((self.currentDay?.day_number)!) and the array size is \((self.currentDay?.tour_guides?.count)!)")
+
+            ProviderInfo.currentProviderName =  "Tourguides"
+            if   (self.currentDay?.tour_guides?.count)! == 1
+            {
+                ProviderInfo.currentProviderId =  self.currentDay?.tour_guides?[0].id
+                self.performSegue(withIdentifier: "showServiceProvider", sender: self)
+            }
+            else
+            {
+                ProviderInfo.currentServiceDay = (self.currentDay?.tour_guides)!
+                self.performSegue(withIdentifier: "showServiceModalSeque", sender: self)
+            }
+        }
+        
     }
     
     func setHiddenServices() {
@@ -174,6 +276,7 @@ class ItemViewController: UIViewController, UITableViewDelegate, UITableViewData
             }
             transportsLbl.text = str
         }
+        
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 0

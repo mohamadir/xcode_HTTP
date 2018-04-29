@@ -65,6 +65,8 @@
 		7E2D7B282090C06900DAC98F /* DefaultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2D7B1E2090C06900DAC98F /* DefaultCell.swift */; };
 		7E2ED4AE2091AC80002921A5 /* ProviderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2ED4AD2091AC80002921A5 /* ProviderViewController.swift */; };
 		7E2ED4B02091B14F002921A5 /* ProviderModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2ED4AF2091B14F002921A5 /* ProviderModel.swift */; };
+		7E2ED4B22095B3A6002921A5 /* ServiceModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2ED4B12095B3A6002921A5 /* ServiceModalViewController.swift */; };
+		7E2ED4B42095BDB3002921A5 /* ModalTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2ED4B32095BDB3002921A5 /* ModalTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -171,6 +173,8 @@
 		7E2D7B1E2090C06900DAC98F /* DefaultCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultCell.swift; sourceTree = "<group>"; };
 		7E2ED4AD2091AC80002921A5 /* ProviderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProviderViewController.swift; sourceTree = "<group>"; };
 		7E2ED4AF2091B14F002921A5 /* ProviderModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProviderModel.swift; sourceTree = "<group>"; };
+		7E2ED4B12095B3A6002921A5 /* ServiceModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceModalViewController.swift; sourceTree = "<group>"; };
+		7E2ED4B32095BDB3002921A5 /* ModalTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalTableViewCell.swift; sourceTree = "<group>"; };
 		89E7D6AE145D4989B1E4DBF6 /* Pods_Complex_JSON.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Complex_JSON.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4F2DA88D0C7A1EAE5A7D431 /* Pods_Snapgroup.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Snapgroup.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F44CD3C49D70D6E498CC6CF1 /* Pods-Complex JSON.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Complex JSON.release.xcconfig"; path = "Pods/Target Support Files/Pods-Complex JSON/Pods-Complex JSON.release.xcconfig"; sourceTree = "<group>"; };
@@ -400,6 +404,8 @@
 				74730C4E205666680091D657 /* ItineraryViewController.swift */,
 				7404F38120569F220017762F /* ItemViewController.swift */,
 				74F7AAA220595D6B00E66DF8 /* ItineraryServiceViewControllerCell.swift */,
+				7E2ED4B12095B3A6002921A5 /* ServiceModalViewController.swift */,
+				7E2ED4B32095BDB3002921A5 /* ModalTableViewCell.swift */,
 			);
 			path = Itinerary;
 			sourceTree = "<group>";
@@ -775,6 +781,7 @@
 				743A2102203C6468008DF1AA /* GroupViewController.swift in Sources */,
 				74905905203DB5DA00C6B8C1 /* MainTabController.swift in Sources */,
 				749058FE203D605F00C6B8C1 /* CustomTableViewCell.swift in Sources */,
+				7E2ED4B22095B3A6002921A5 /* ServiceModalViewController.swift in Sources */,
 				74A5A43B2085D31A00A97052 /* checkListCustomCellController.swift in Sources */,
 				74237583204BE0E100B9A0C0 /* PrivateChatMessageCelVc.swift in Sources */,
 				7E2ED4B02091B14F002921A5 /* ProviderModel.swift in Sources */,
@@ -813,6 +820,7 @@
 				74FBD10C20518542002D223A /* MemberModalViewController.swift in Sources */,
 				7E2D7B202090C06900DAC98F /* Section.swift in Sources */,
 				74F7AAA320595D6B00E66DF8 /* ItineraryServiceViewControllerCell.swift in Sources */,
+				7E2ED4B42095BDB3002921A5 /* ModalTableViewCell.swift in Sources */,
 				7E2ED4AE2091AC80002921A5 /* ProviderViewController.swift in Sources */,
 				741D2A102042B40C00DB8975 /* DetailsViewController.swift in Sources */,
 				7E2D7B272090C06900DAC98F /* ServicesViewController.swift in Sources */,

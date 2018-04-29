@@ -10,4 +10,5 @@ import Foundation
 class ProviderInfo{
  static var currentProviderId: Int?
  static var currentProviderName: String?
+ static var currentServiceDay: [ServiceModel]?
 }

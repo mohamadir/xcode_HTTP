@@ -36,6 +36,8 @@ class ProviderViewController: UIViewController {
         slideShow.pageControlPosition = .insideScrollView
         //        slideShow.pageControlPosition = .custom(padding: CGFloat(12))
         slideShow.activityIndicator = DefaultActivityIndicator(style: .gray, color: UIColor.red)
+        let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(ProviderViewController.didTap))
+        slideShow.addGestureRecognizer(gestureRecognizer)
     
         
         
@@ -50,6 +52,14 @@ class ProviderViewController: UIViewController {
 
     @IBAction func onBack(_ sender: Any) {
         navigationController?.popViewController(animated: true)
+        do
+        {
+            dismiss(animated: true, completion: nil)
+            
+        }
+        catch let error {
+            print(error)
+        }
     }
     func getUrlService() -> String{
         switch ProviderInfo.currentProviderName {
@@ -197,7 +207,7 @@ class ProviderViewController: UIViewController {
                             }
 
                             self.slideShow.setImageInputs(images2)
-                            let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(DetailsViewController.didTap))
+                            let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(ProviderViewController.didTap))
                             self.slideShow.addGestureRecognizer(gestureRecognizer)
                         }
                     }
@@ -211,6 +221,9 @@ class ProviderViewController: UIViewController {
             }
       }
             
+    }
+    @objc func didTap() {
+        slideShow.presentFullScreenController(from: self)
     }
 
 }
