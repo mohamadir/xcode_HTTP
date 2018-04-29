@@ -19,7 +19,8 @@ struct MyVriables {
 }
 
 struct ChatUser {
-    static var currentUser: Message?
+    static var currentUser: Partner?
+    static var ChatId: Int?
 }
 
 struct GroupMembers{
@@ -55,10 +56,29 @@ struct ServiceTranslations: Codable {
     var company_name: String?
     
 }
+/////////////////////////////////////////////////////////////////////////////
 
+////////////////////////Provider Model///////////////////////////////////////
+struct ProviderModel: Codable {
+    var id: Int?
+    var images: [GroupImage]?
+    var contacts: [ContactsModel]?
+    var name: String?
+    var company_name: String?
+    var phone: String?
+    var city: String?
+    var description: String?
+    var webSite: String?
+}
+struct ProviderImages: Codable {
+    var id: Int?
+    var path: String?
+}
+struct ContactsModel: Codable {
+    var email: String?
+}
 
-
-////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // ********************************    Group Model *****************************
 struct TourGroup: Codable {
     var id: Int?
@@ -289,6 +309,50 @@ struct GroupCheckList: Codable{
     }
 }
 
+
+/********** CHAT *****************/
+
+
+struct ChatListItem: Codable{
+    var id: Int?
+    var name: String?
+    var type: String?
+    var group_id: Int?
+    var created_at: String?
+    var updated_at: String?
+    var partner: Partner?
+    var last_message: Message?
+    var total_unread: Int?
+}
+
+struct Partner: Codable{
+    var id: Int?
+    var email: String?
+    var profile_image: String?
+    var first_name: String?
+    var last_name: String?
+}
+
+struct Message: Codable{
+    var id: Int?
+    var member_id: Int?
+    var receiver_id: Int?
+    var group_id: Int?
+    var created_at: String?
+    var updated_at: String?
+    var chat_id: Int?
+    var message: String?
+    var type: String?
+    var read: Int?
+    var image_path: String?
+    var file_path: String?
+    var video_path: String?
+    var first_name: String?
+    var last_name: String?
+    var video_thumbnail: String?
+    var sender_name: String?
+    
+}
 
 
 

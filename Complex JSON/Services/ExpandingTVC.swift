@@ -49,10 +49,10 @@ class ExpandingTVC : UITableViewController {
                 if (self.servicess?.hotels?.count)! > 0
                 {
                     var hotelsObject: [HotelObj?] = []
-                    hotelsObject.append(HotelObj(checkin: "checkin", checkout: "checkout", name: "hotel name", rating:"Ratings" ))
+                    hotelsObject.append(HotelObj(checkin: "checkin", checkout: "checkout", name: "hotel name", rating:"Ratings", id: 0 ))
                     for hotel in (self.servicess?.hotels)! {
                          hotelsObject.append(HotelObj(checkin: "\((hotel.first_day)!)", checkout: "\(((hotel.last_day)!)+1)", name:
-                            ( hotel.name != nil ? hotel.name : hotel.translations?[0].name)!, rating:"" ))
+                            ( hotel.name != nil ? hotel.name : hotel.translations?[0].name)!, rating:"", id: 0  ))
                     }
                     let london = DestinationData(name: "Hotels", price: "£500", imageName: "hotels icon", flights: hotelsObject as! [HotelObj], expanded: false)
                     self.data.append(london)
@@ -60,11 +60,11 @@ class ExpandingTVC : UITableViewController {
                 if (self.servicess?.places?.count)! > 0
                 {
                     var placesObject: [HotelObj?] = []
-                    placesObject.append(HotelObj(checkin: "place name", checkout: "Location", name: "", rating:"Ratings" ))
+                    placesObject.append(HotelObj(checkin: "place name", checkout: "Location", name: "", rating:"Ratings" , id: 0 ))
                     for place in (self.servicess?.places)! {
                         placesObject.append(HotelObj(checkin:  (place.name != nil ? place.name : place.translations?[0].name)!
                             , checkout: (place.city != nil ? place.city : place.translations?[0].city)!, name:
-                            "", rating:"5-10" ))
+                            "", rating:"5-10" , id: 0 ))
                     }
                     let london = DestinationData(name: "Places", price: "£500", imageName: "places icon", flights: placesObject as! [HotelObj], expanded: false)
                     self.data.append(london)
@@ -72,11 +72,11 @@ class ExpandingTVC : UITableViewController {
                 if (self.servicess?.restaurants?.count)! > 0
                 {
                     var restaurantsObject: [HotelObj?] = []
-                    restaurantsObject.append(HotelObj(checkin: "resturant", checkout: "", name: "", rating:"Ratings" ))
+                    restaurantsObject.append(HotelObj(checkin: "resturant", checkout: "", name: "", rating:"Ratings", id: 0  ))
                     for resturant in (self.servicess?.restaurants)! {
                         restaurantsObject.append(HotelObj(checkin:  (resturant.name != nil ? resturant.name : resturant.translations?[0].name)!
                             , checkout: "", name:
-                            "", rating:"5-10" ))
+                            "", rating:"5-10" , id: 0 ))
                     }
                     let london = DestinationData(name: "Restaurants", price: "£500", imageName: "rest", flights: restaurantsObject as! [HotelObj], expanded: false)
                     self.data.append(london)
@@ -85,11 +85,11 @@ class ExpandingTVC : UITableViewController {
                 {
                     
                     var tourguideies: [HotelObj?] = []
-                    tourguideies.append(HotelObj(checkin: "Full name", checkout: "langouhgs", name: "Age", rating:"Ratings" ))
+                    tourguideies.append(HotelObj(checkin: "Full name", checkout: "langouhgs", name: "Age", rating:"Ratings", id: 0  ))
                     for transport in (self.servicess?.tourguides)! {
                         tourguideies.append(HotelObj(checkin: "\((transport.translations?[0].first_name)!) \((transport.translations?[0].last_name)!)"
                             , checkout: "\((transport.translations?[0].languages)!)", name:
-                            "\((transport.age)!)", rating:""))
+                            "\((transport.age)!)", rating:"", id: 0 ))
                     }
                     let london = DestinationData(name: "Tourguides", price: "£500", imageName: "TourGuidIcon", flights: tourguideies as! [HotelObj], expanded: false)
                     self.data.append(london)
@@ -97,11 +97,11 @@ class ExpandingTVC : UITableViewController {
                 if (self.servicess?.transports?.count)! > 0
                 {
                     var transportObject: [HotelObj?] = []
-                    transportObject.append(HotelObj(checkin: "company", checkout: "langouhgs", name: "", rating:"phone" ))
+                    transportObject.append(HotelObj(checkin: "company", checkout: "langouhgs", name: "", rating:"phone" , id: 0 ))
                     for transport in (self.servicess?.transports)! {
                         transportObject.append(HotelObj(checkin:  (transport.company_name != nil ? transport.company_name : transport.translations?[0].company_name)!
                             , checkout: "", name:
-                            "", rating:(transport.phone != nil ? transport.phone! : "" )))
+                            "", rating:(transport.phone != nil ? transport.phone! : ""), id: 0))
                     }
                     let london = DestinationData(name: "Transport", price: "£500", imageName: "transport icon", flights: transportObject as! [HotelObj], expanded: false)
                     self.data.append(london)
@@ -109,11 +109,11 @@ class ExpandingTVC : UITableViewController {
                 if (self.servicess?.activities?.count)! > 0
                 {
                     var placesObject: [HotelObj?] = []
-                    placesObject.append(HotelObj(checkin: "place name", checkout: "Location", name: "", rating:"Ratings" ))
+                    placesObject.append(HotelObj(checkin: "place name", checkout: "Location", name: "", rating:"Ratings" , id: 0 ))
                     for activitie in (self.servicess?.activities)! {
                         placesObject.append(HotelObj(checkin:  (activitie.name != nil ? activitie.name : activitie.translations?[0].name)!
                             , checkout: (activitie.city != nil ? activitie.city : activitie.translations?[0].city)!, name:
-                            "", rating:"5-10" ))
+                            "", rating:"5-10", id: 0  ))
                     }
                     let london = DestinationData(name: "Activities", price: "£500", imageName: "activities icon", flights: placesObject as! [HotelObj], expanded: false)
                     self.data.append(london)

@@ -128,16 +128,7 @@ class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UI
             }
 
         }
-        docsView.addTapGestureRecognizer {
-            if (self.singleGroup?.group_tools?.documents!)! == true
-            {
-                    self.uploadImageToServer()
-            }
-            print("hi")
-        
-           
-           // self.uploadImageToServer()
-        }
+    
         mapsView.addTapGestureRecognizer {
             if (self.singleGroup?.group_tools?.map!)! == true
             {

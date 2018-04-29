@@ -63,6 +63,8 @@
 		7E2D7B252090C06900DAC98F /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2D7B1B2090C06800DAC98F /* TableViewCell.swift */; };
 		7E2D7B262090C06900DAC98F /* ExpandableHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2D7B1C2090C06900DAC98F /* ExpandableHeaderView.swift */; };
 		7E2D7B282090C06900DAC98F /* DefaultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2D7B1E2090C06900DAC98F /* DefaultCell.swift */; };
+		7E2ED4AE2091AC80002921A5 /* ProviderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2ED4AD2091AC80002921A5 /* ProviderViewController.swift */; };
+		7E2ED4B02091B14F002921A5 /* ProviderModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2ED4AF2091B14F002921A5 /* ProviderModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -167,6 +169,8 @@
 		7E2D7B1B2090C06800DAC98F /* TableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
 		7E2D7B1C2090C06900DAC98F /* ExpandableHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExpandableHeaderView.swift; sourceTree = "<group>"; };
 		7E2D7B1E2090C06900DAC98F /* DefaultCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultCell.swift; sourceTree = "<group>"; };
+		7E2ED4AD2091AC80002921A5 /* ProviderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProviderViewController.swift; sourceTree = "<group>"; };
+		7E2ED4AF2091B14F002921A5 /* ProviderModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProviderModel.swift; sourceTree = "<group>"; };
 		89E7D6AE145D4989B1E4DBF6 /* Pods_Complex_JSON.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Complex_JSON.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4F2DA88D0C7A1EAE5A7D431 /* Pods_Snapgroup.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Snapgroup.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F44CD3C49D70D6E498CC6CF1 /* Pods-Complex JSON.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Complex JSON.release.xcconfig"; path = "Pods/Target Support Files/Pods-Complex JSON/Pods-Complex JSON.release.xcconfig"; sourceTree = "<group>"; };
@@ -282,6 +286,7 @@
 				743A20BD203C3A97008DF1AA /* GroupRequest.swift */,
 				74FBD10D20528D2D002D223A /* Models.swift */,
 				74B3CDEF205538F700440EB0 /* Colors.swift */,
+				7E2ED4AF2091B14F002921A5 /* ProviderModel.swift */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -303,9 +308,9 @@
 				743A207F203C1B12008DF1AA /* Complex JSON */,
 				743A2094203C1B12008DF1AA /* Complex JSONTests */,
 				743A209F203C1B12008DF1AA /* Complex JSONUITests */,
-				743A207E203C1B12008DF1AA /* Products */,
-				C5D372449F7ECC4B78A74442 /* Pods */,
 				CE2645668A2C15AF189EA415 /* Frameworks */,
+				C5D372449F7ECC4B78A74442 /* Pods */,
+				743A207E203C1B12008DF1AA /* Products */,
 			);
 			sourceTree = "<group>";
 		};
@@ -322,30 +327,31 @@
 		743A207F203C1B12008DF1AA /* Complex JSON */ = {
 			isa = PBXGroup;
 			children = (
-				74A5A43C2085D63000A97052 /* Group Leader */,
-				746E9F362077B99F009B3258 /* Member Inbox */,
-				74B9BCF9205CF815005A0C60 /* Check List */,
-				74B9BCF8205C2504005A0C60 /* Group List */,
-				74F7AAE0205BE69600E66DF8 /* Documents */,
-				74730C4D2056662E0091D657 /* Itinerary */,
-				74B3CDF12055691C00440EB0 /* Services */,
-				74490C17205298AA007AD4FA /* Map */,
-				74FBD104205009E0002D223A /* Members Page */,
-				7428551D204FF14000637511 /* Test */,
-				742375092046DE0200B9A0C0 /* Classes */,
+				743A2087203C1B12008DF1AA /* Assets.xcassets */,
 				74138E052044211400F37028 /* Chat */,
+				74B9BCF9205CF815005A0C60 /* Check List */,
+				742375092046DE0200B9A0C0 /* Classes */,
+				74F7AAE0205BE69600E66DF8 /* Documents */,
+				74A5A43C2085D63000A97052 /* Group Leader */,
+				74B9BCF8205C2504005A0C60 /* Group List */,
 				741D2A0A2042B16A00DB8975 /* Group Member Tabs */,
-				7418AFB7203EB3C1007BBC3D /* ImageSlideshow */,
 				749058FF203D850300C6B8C1 /* IBDesignable */,
+				7418AFB7203EB3C1007BBC3D /* ImageSlideshow */,
+				743A208C203C1B12008DF1AA /* Info.plist */,
+				74730C4D2056662E0091D657 /* Itinerary */,
+				74490C17205298AA007AD4FA /* Map */,
+				746E9F362077B99F009B3258 /* Member Inbox */,
+				74FBD104205009E0002D223A /* Members Page */,
+				7E2ED4AC2091ABC7002921A5 /* provider */,
+				74B3CDF12055691C00440EB0 /* Services */,
+				74905902203D89E000C6B8C1 /* SignUpVC.swift */,
+				7428551D204FF14000637511 /* Test */,
 				743A2080203C1B12008DF1AA /* AppDelegate.swift */,
+				743A2084203C1B12008DF1AA /* Main.storyboard */,
 				743A2082203C1B12008DF1AA /* ViewController.swift */,
 				74F1FF1F208B2E3C00976958 /* GoogleService-Info.plist */,
-				743A2084203C1B12008DF1AA /* Main.storyboard */,
-				74905904203DB5DA00C6B8C1 /* MainTabController.swift */,
-				74905902203D89E000C6B8C1 /* SignUpVC.swift */,
-				743A2087203C1B12008DF1AA /* Assets.xcassets */,
 				743A2089203C1B12008DF1AA /* LaunchScreen.storyboard */,
-				743A208C203C1B12008DF1AA /* Info.plist */,
+				74905904203DB5DA00C6B8C1 /* MainTabController.swift */,
 			);
 			path = "Complex JSON";
 			sourceTree = "<group>";
@@ -467,6 +473,14 @@
 				74FBD10B20518542002D223A /* MemberModalViewController.swift */,
 			);
 			path = "Members Page";
+			sourceTree = "<group>";
+		};
+		7E2ED4AC2091ABC7002921A5 /* provider */ = {
+			isa = PBXGroup;
+			children = (
+				7E2ED4AD2091AC80002921A5 /* ProviderViewController.swift */,
+			);
+			path = provider;
 			sourceTree = "<group>";
 		};
 		C5D372449F7ECC4B78A74442 /* Pods */ = {
@@ -763,6 +777,7 @@
 				749058FE203D605F00C6B8C1 /* CustomTableViewCell.swift in Sources */,
 				74A5A43B2085D31A00A97052 /* checkListCustomCellController.swift in Sources */,
 				74237583204BE0E100B9A0C0 /* PrivateChatMessageCelVc.swift in Sources */,
+				7E2ED4B02091B14F002921A5 /* ProviderModel.swift in Sources */,
 				74B3CDF0205538F700440EB0 /* Colors.swift in Sources */,
 				74FBD10E20528D2D002D223A /* Models.swift in Sources */,
 				74490C1D2052B8F0007AD4FA /* KeyboardViewController.swift in Sources */,
@@ -799,6 +814,7 @@
 				74FBD10C20518542002D223A /* MemberModalViewController.swift in Sources */,
 				7E2D7B202090C06900DAC98F /* Section.swift in Sources */,
 				74F7AAA320595D6B00E66DF8 /* ItineraryServiceViewControllerCell.swift in Sources */,
+				7E2ED4AE2091AC80002921A5 /* ProviderViewController.swift in Sources */,
 				741D2A102042B40C00DB8975 /* DetailsViewController.swift in Sources */,
 				7E2D7B242090C06900DAC98F /* NewServicesViewController.swift in Sources */,
 			);

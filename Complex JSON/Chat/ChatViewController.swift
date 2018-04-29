@@ -12,32 +12,15 @@ import SwiftHTTP
 import SDWebImage
 import AlamofireImage
 
-struct Message: Codable{
-    var message: String?
-    var sender_id: Int?
-    var sender_first_name: String?
-    var sender_last_name: String?
-    var image_path: String?
-    var opponent_id: Int?
-    var read: Int?
-    var total_unread_messages: Int?
-    var opponent_first_name: String?
-    var opponent_last_name: String?
-    
-   // var messageClass: MessageClass?
+
+struct ChatList: Codable {
+    var chats: [ChatListItem]
 }
-
-//struct MessageClass{
-//    var created_at: String?
-//
-//
-//}
-
 
 class ChatViewController: UIViewController , UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet weak var chatTableView: UITableView!
-    var messages: [Message]? = []
+    var messages: [ChatListItem]? = []
     var socket: SocketIOClient?
     var socketManager : SocketManager?
     override func viewWillDisappear(_ animated: Bool) {
@@ -49,9 +32,9 @@ class ChatViewController: UIViewController , UITableViewDelegate, UITableViewDat
         super.viewDidLoad()
 
         setUpSocket()
-        
+
         self.reloadView()
-        
+
         NotificationCenter.default.addObserver(self, selector: #selector(self.reloadView), name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
 
         chatTableView.delegate = self
@@ -94,16 +77,20 @@ class ChatViewController: UIViewController , UITableViewDelegate, UITableViewDat
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "customChatCell") as! ChatCustomCellController
-        cell.userNameLbl.text = "\((self.messages?[indexPath.row].opponent_first_name)!) \((self.messages?[indexPath.row].opponent_last_name)!)"
-        cell.messageLbl.text = self.messages?[indexPath.row].message
-        if (self.messages?[indexPath.row].total_unread_messages!)! != 0 {
+        cell.userNameLbl.text = "\((self.messages?[indexPath.row].partner?.first_name)!) \((self.messages?[indexPath.row].partner?.last_name)!)"
+        cell.messageLbl.text = self.messages?[indexPath.row].last_message?.message!
+        if self.messages?[indexPath.row].total_unread! != 0 {
             cell.budgesView.isHidden = false
-            cell.budgesCountLbl.text = String((self.messages?[indexPath.row].total_unread_messages!)!)
+
+            cell.budgesCountLbl.text = "\((self.messages?[indexPath.row].total_unread)!)"
+        }else {
+            cell.budgesView.isHidden = true
+
         }
-        if self.messages?[indexPath.row].image_path != nil {
-            var urlString = ApiRouts.Web + (self.messages?[indexPath.row].image_path)!
-            if self.messages?[indexPath.row].image_path?.contains("https") == true {
-                urlString = (self.messages?[indexPath.row].image_path!)!
+        if self.messages?[indexPath.row].partner?.profile_image != nil {
+            var urlString = ApiRouts.Web + (self.messages?[indexPath.row].partner?.profile_image)!
+            if self.messages?[indexPath.row].partner?.profile_image?.contains("https") == true {
+                urlString = (self.messages?[indexPath.row].partner?.profile_image!)!
             }
             //  print(self.myGrous[indexPath.row].image!)
             cell.userImage.layer.borderWidth = 0
@@ -111,42 +98,41 @@ class ChatViewController: UIViewController , UITableViewDelegate, UITableViewDat
             cell.userImage.layer.masksToBounds = false
             cell.userImage.layer.cornerRadius = cell.userImage.frame.height/2
             cell.userImage.clipsToBounds = true
-            
+
             var url = URL(string: urlString)
 //            DispatchQueue.main.async {
 //                cell.userImage.downloadedFrom(url: url!, contentMode: .scaleToFill)
 //
 //            }
             print(url!)
-            if self.messages?[indexPath.row].image_path?.contains("https") == true {
-                print("in IF ")
+            if self.messages?[indexPath.row].partner?.profile_image?.contains("https") == true {
                 cell.userImage.downloadedFrom(url: url!)
             }
             else{
-                print("in Else ")
 
                 cell.userImage.sd_setImage(with: url!, placeholderImage: UIImage(named: "default user"))
+                cell.userImage.contentMode = .scaleAspectFill
+                
+            
             }
 
         }
         else {
-          print("image not found")
         }
         
         return cell
         
     }
     func getConversations(){
-        HTTP.GET("\(ApiRouts.Web)/api/getprivatechatlist/74", parameters: []) { response in
+        HTTP.GET("\(ApiRouts.Web)/api/chats?member_id=\((MyVriables.currentMember?.id!)!)", parameters: []) { response in
             if let err = response.error {
                 print("error: \(err.localizedDescription)")
                 return //also notify app of failure as needed
             }
             do{
-                let  data = try JSONDecoder().decode([Message].self, from: response.data)
-            
+                let  data = try JSONDecoder().decode(ChatList.self, from: response.data)
                 DispatchQueue.main.sync {
-                    self.messages = data
+                    self.messages = data.chats
                     self.chatTableView.reloadData()
                 }
               //  print(self.messages)
@@ -163,13 +149,14 @@ class ChatViewController: UIViewController , UITableViewDelegate, UITableViewDat
    
     func setUpSocket(){
         print("----- ABED -----")
-       var  manager = SocketManager(socketURL: URL(string: ApiRouts.ChatServer)!, config: [.log(true),.forcePolling(true)])
+        var  manager = SocketManager(socketURL: URL(string: ApiRouts.ChatServer)!, config: [.log(true),.forcePolling(true)])
+        print("chat api: "+ApiRouts.ChatServer)
         socket = manager.defaultSocket
         socket!.on(clientEvent: .connect) {data, ack in
-            self.socket!.emit("subscribe", "member-74")
+            self.socket!.emit("subscribe", "member-ֿ\((MyVriables.currentMember?.id!)!)")
             
         }
-        socket!.on("member-74:member-channel") {data, ack in
+        socket!.on("member-\((MyVriables.currentMember?.id!)!):member-channel") {data, ack in
             self.getConversations()
             if let data2 = data[0] as? Dictionary<String, Any> {
                 if let messageClass = data2["messageClass"] as? Dictionary<String, Any> {
@@ -177,12 +164,12 @@ class ChatViewController: UIViewController , UITableViewDelegate, UITableViewDat
                     print(messageClass["id"]!)
                 }
             }
-           
+            
         }
         
-    
+        
         socket!.onAny { (socEvent) in
-    
+            
             if let status =  socEvent.items as? [SocketIOStatus] {
                 if let first = status.first {
                     switch first {
@@ -210,12 +197,11 @@ class ChatViewController: UIViewController , UITableViewDelegate, UITableViewDat
         self.socketManager = manager
         self.socket!.connect()
         
-    
-        
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        ChatUser.currentUser = self.messages?[indexPath.row]
+        ChatUser.currentUser = self.messages?[indexPath.row].partner!
+        ChatUser.ChatId = self.messages?[indexPath.row].last_message?.chat_id!
         performSegue(withIdentifier: "privateChatSegue", sender: self)
         self.socket?.disconnect()
         print((ChatUser.currentUser)!)

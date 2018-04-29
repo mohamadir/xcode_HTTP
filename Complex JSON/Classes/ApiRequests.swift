@@ -8,7 +8,7 @@
 
 import Foundation
 class ApiRouts{
- static let Web: String = "http://api.snapgroup.co.il"
+ static let Web: String = "https://api.snapgroup.co.il"
  static let ChatServer: String = "\(Web):3030/"
  static let Api: String  = "https://api.snapgroup.co.il/api"
  static let AllGroupsRequest: String = "\(Api)/groups"
