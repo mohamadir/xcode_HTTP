@@ -24,7 +24,9 @@ class MessageViewController: UIViewController {
     @IBOutlet weak var pairStatusLbl: UILabel!
     @IBOutlet weak var rejectBt: UIButton!
     @IBOutlet weak var acceptBt: UIButton!
+    @IBOutlet weak var removePairBt: UIButton!
     
+   
     @IBAction func showGroupPressed(_ sender: Any) {
         getGroup()
     }
@@ -35,7 +37,6 @@ class MessageViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         if MyVriables.currentInboxMessage?.type! == "invite_group" {
             messageTitlelbl.text = "Group invitation"
             subjectLbl.text = MyVriables.currentInboxMessage?.subject!
@@ -65,6 +66,7 @@ class MessageViewController: UIViewController {
                 acceptBt.isHidden = false
                 rejectBt.isHidden = false
                 pairStatusLbl.isHidden = true
+                removePairBt.isHidden = true
             }
             
             if MyVriables.currentInboxMessage?.accepted == "false" {
@@ -80,6 +82,8 @@ class MessageViewController: UIViewController {
     func setPairStatus(_ accepted: Bool){
         acceptBt.isHidden = true
         rejectBt.isHidden = true
+        pairStatusLbl.isHidden = false
+        removePairBt.isHidden = false
         if accepted {
             pairStatusLbl.text = "Pair accepted"
         }
@@ -88,6 +92,7 @@ class MessageViewController: UIViewController {
 
         }
     }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -95,12 +100,55 @@ class MessageViewController: UIViewController {
     
     
     @IBAction func acceptPressed(_ sender: Any) {
-        
+        setPair(sender_id: (MyVriables.currentInboxMessage?.sender_id!)!, reciever_id: (MyVriables.currentMember?.id!)!, group_id: (MyVriables.currentInboxMessage?.group_id!)!, approaved: "accept")
     }
     
     @IBAction func rejectPressed(_ sender: Any) {
-        
+        setPair(sender_id: (MyVriables.currentInboxMessage?.sender_id!)!, reciever_id: (MyVriables.currentMember?.id!)!, group_id: (MyVriables.currentInboxMessage?.group_id!)!, approaved: "decline")
     }
+    
+    @IBAction func removePairPressed(_ sender: Any) {
+        removePair(sender_id: (MyVriables.currentInboxMessage?.sender_id!)!, reciever_id: (MyVriables.currentMember?.id!)!, group_id: (MyVriables.currentInboxMessage?.group_id!)!)
+    }
+    
+    func setPair(sender_id: Int, reciever_id: Int,group_id: Int, approaved: String){
+        print("message details: \(sender_id) \(reciever_id) \(group_id) \(approaved)")
+        HTTP.PUT(ApiRouts.Web + "/api/pairs?sender_id=\(sender_id)&receiver_id=\(reciever_id)&group_id=\(group_id)&type=\(approaved)"){response in
+            if response.error != nil {
+                print("setPair: \(response.error)")
+                return
+            }else {
+                MyVriables.MemberInboxShouldRefresh = true
+                if approaved == "accept" {
+                    
+                    DispatchQueue.main.sync {
+                        self.setPairStatus(true)
+                    }
+                    
+                }else {
+                    
+                    DispatchQueue.main.sync {
+                        self.setPairStatus(false)
+                    }
+                }
+            }
+        }
+    }
+    func removePair(sender_id: Int, reciever_id: Int,group_id: Int){
+        HTTP.DELETE(ApiRouts.Web + "/api/pairs?sender_id=\(sender_id)&receiver_id=\(reciever_id)&group_id=\(group_id)"){response in
+            if response.error != nil {
+                print("setPair: \(response.error)")
+                return
+            }else {
+                    DispatchQueue.main.sync {
+                        MyVriables.MemberInboxShouldRefresh = true
+                        self.navigationController?.popViewController(animated: true)
+                    }
+               
+            }
+        }
+    }
+    
     func getGroup(){
         HTTP.GET(ApiRouts.Web + "/api/groups/\((MyVriables.currentInboxMessage?.group_id!)!)/details/\((MyVriables.currentMember?.id!)!)"){response in
             

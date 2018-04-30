@@ -21,6 +21,10 @@ class MemberInboxViewController: UIViewController , UITableViewDelegate,UITableV
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        if MyVriables.MemberInboxShouldRefresh {
+            MyVriables.MemberInboxShouldRefresh = false
+            refreshData()
+        }
         self.navigationController?.navigationBar.isHidden = true
     }
     override func viewWillDisappear(_ animated: Bool) {

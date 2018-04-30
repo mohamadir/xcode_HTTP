@@ -15,6 +15,7 @@ struct MyVriables {
     static var roleStatus: String = ""
     static var shouldRefresh: Bool = false
     static var currentInboxMessage: InboxMessage?
+    static var MemberInboxShouldRefresh: Bool = false
     
 }
 

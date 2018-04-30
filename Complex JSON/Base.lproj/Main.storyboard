@@ -124,8 +124,12 @@
                                             <action selector="acceptPressed:" destination="L0a-cV-cv3" eventType="touchUpInside" id="ePm-SK-xhH"/>
                                         </connections>
                                     </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pair accepted" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gej-SX-trx">
-                                        <rect key="frame" x="0.0" y="0.0" width="284" height="48"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pair accepted" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gej-SX-trx">
+                                        <rect key="frame" x="0.0" y="0.0" width="136" height="48"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="136" id="jBg-v8-U9v"/>
+                                            <constraint firstAttribute="height" constant="48" id="liU-cq-UpN"/>
+                                        </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -144,20 +148,29 @@
                                             <action selector="rejectPressed:" destination="L0a-cV-cv3" eventType="touchUpInside" id="b3I-0Q-UnB"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="juo-iL-Tto">
+                                        <rect key="frame" x="143.99999999999997" y="5" width="140" height="38"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="10"/>
+                                        <state key="normal" title=",Click to remove pairing">
+                                            <color key="titleColor" red="0.59394507659999995" green="0.55575607770000002" blue="0.29926491179999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="removePairPressed:" destination="L0a-cV-cv3" eventType="touchUpInside" id="pit-hZ-1ka"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="bottom" secondItem="wKn-ds-SPS" secondAttribute="bottom" constant="5" id="9Q5-FY-aNP"/>
                                     <constraint firstItem="wKn-ds-SPS" firstAttribute="top" secondItem="a33-5O-1NK" secondAttribute="top" constant="5" id="Bhn-Rk-7Uf"/>
-                                    <constraint firstItem="gej-SX-trx" firstAttribute="top" secondItem="a33-5O-1NK" secondAttribute="top" id="KlN-VW-dKK"/>
-                                    <constraint firstAttribute="bottom" secondItem="gej-SX-trx" secondAttribute="bottom" id="aJ2-lb-OZd"/>
-                                    <constraint firstAttribute="trailing" secondItem="gej-SX-trx" secondAttribute="trailing" id="b9O-gb-7TF"/>
-                                    <constraint firstItem="gej-SX-trx" firstAttribute="leading" secondItem="a33-5O-1NK" secondAttribute="leading" id="eY7-W2-Vcg"/>
+                                    <constraint firstItem="gej-SX-trx" firstAttribute="leading" secondItem="a33-5O-1NK" secondAttribute="leading" id="fU4-SK-FTr"/>
                                     <constraint firstAttribute="bottom" secondItem="v0t-tO-Lvm" secondAttribute="bottom" constant="5" id="lJu-i2-090"/>
                                     <constraint firstAttribute="trailing" secondItem="wKn-ds-SPS" secondAttribute="trailing" id="oR9-jZ-grK"/>
                                     <constraint firstAttribute="width" constant="284" id="pWh-hi-mg4"/>
                                     <constraint firstItem="v0t-tO-Lvm" firstAttribute="top" secondItem="a33-5O-1NK" secondAttribute="top" constant="5" id="pih-aM-VaS"/>
                                     <constraint firstAttribute="height" constant="48" id="y9B-JU-NFG"/>
+                                    <constraint firstItem="gej-SX-trx" firstAttribute="top" secondItem="a33-5O-1NK" secondAttribute="top" id="ymq-UX-h8T"/>
                                     <constraint firstItem="v0t-tO-Lvm" firstAttribute="leading" secondItem="a33-5O-1NK" secondAttribute="leading" id="yxL-5V-dV8"/>
                                 </constraints>
                             </view>
@@ -202,6 +215,7 @@
                         <outlet property="pairStatusLbl" destination="gej-SX-trx" id="bxy-fq-nLu"/>
                         <outlet property="pairView" destination="a33-5O-1NK" id="1AD-Gp-53b"/>
                         <outlet property="rejectBt" destination="wKn-ds-SPS" id="ejj-0O-AZZ"/>
+                        <outlet property="removePairBt" destination="juo-iL-Tto" id="1Fu-GL-Eqo"/>
                         <outlet property="showGroupButton" destination="sTy-47-qeC" id="cku-tS-YE5"/>
                         <outlet property="subjectLbl" destination="ItN-Dl-9zU" id="IF8-tI-muH"/>
                         <segue destination="RrY-ie-8iB" kind="show" identifier="showGroup" id="Nar-vG-dR4"/>
@@ -395,7 +409,7 @@
                                                 <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="d5I-7a-EH9">
                                                     <rect key="frame" x="4" y="4" width="375" height="88"/>
                                                     <subviews>
-                                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="default user" translatesAutoresizingMaskIntoConstraints="NO" id="wHe-qD-BQH" customClass="SwiftyAvatar" customModule="SwiftyAvatar">
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="default member 2" translatesAutoresizingMaskIntoConstraints="NO" id="wHe-qD-BQH" customClass="SwiftyAvatar" customModule="SwiftyAvatar">
                                                             <rect key="frame" x="4" y="7" width="60" height="60.5"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="60" id="43v-La-pdt"/>
@@ -3060,7 +3074,7 @@
                                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="default user" translatesAutoresizingMaskIntoConstraints="NO" id="w7H-bu-jXp" customClass="SwiftyAvatar" customModule="SwiftyAvatar">
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="default member 2" translatesAutoresizingMaskIntoConstraints="NO" id="w7H-bu-jXp" customClass="SwiftyAvatar" customModule="SwiftyAvatar">
                                                     <rect key="frame" x="30" y="7" width="50" height="50"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="50" id="1BK-Oj-RAT"/>
@@ -5456,6 +5470,7 @@
         <image name="chat" width="230" height="215"/>
         <image name="chat member" width="600" height="490"/>
         <image name="check list" width="230" height="215"/>
+        <image name="default member 2" width="282" height="283"/>
         <image name="default user" width="230" height="215"/>
         <image name="docs" width="230" height="215"/>
         <image name="facebook" width="16" height="16"/>
@@ -6904,9 +6919,6 @@ AADr6g
         </namedColor>
         <namedColor name="Primary">
             <color red="0.75700002908706665" green="0.70599997043609619" blue="0.41600000858306885" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
-        <namedColor name="Primary">
-            <color red="0.75700002909999997" green="0.70599997039999995" blue="0.41600000860000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
     <inferredMetricsTieBreakers>
