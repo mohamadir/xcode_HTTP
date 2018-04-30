@@ -53,7 +53,7 @@ class ServiceModalViewController: UIViewController , UITableViewDelegate, UITabl
     }
     func setImageServices(){
         titleLbl.text = ProviderInfo.currentProviderName! + " list"
-        switch ProviderInfo.currentProviderName {
+        switch ProviderInfo.currentProviderName! {
           
         case "Hotels":
           imageService.image = UIImage(named: "hotels icon")

@@ -14,7 +14,9 @@ import SDWebImage
 import MRCountryPicker
 import ARSLineProgress
 import Toast_Swift
-
+import Firebase
+import FirebaseMessaging
+import FirebaseInstanceID
 /***********************************************      VIEW CONTROLLER     *************************************************************/
 
 
@@ -125,7 +127,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        
         // Show the navigation bar on other view controllers
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
     }
@@ -137,6 +138,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     override func viewDidLoad() {
         super.viewDidLoad()
         NSLog("roleStatus",  "hihihi")
+     //   UIApplication.shared.registerForRemoteNotifications()
+
+        Messaging.messaging().subscribe(toTopic: "/topics/mohamed1")
+        Messaging.messaging().subscribe(toTopic: "/topics/mohamed2")
 
         tableView.delegate = self
         tableView.dataSource = self
@@ -152,6 +157,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         setFilterView()
         setMemberMenuView()
     }
+    
     func setFilterView(){
         filterView.layer.shadowColor = UIColor.black.cgColor
         filterView.layer.shadowOpacity = 0.5

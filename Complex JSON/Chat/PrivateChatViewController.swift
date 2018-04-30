@@ -17,6 +17,9 @@ struct privateChatMessage: Codable {
     var type: String?
     
 }
+struct PrivateMessages: Codable {
+    var messages: [Message]?
+}
 public extension UIColor {
     convenience init(red: Int, green: Int, blue: Int) {
         assert(red >= 0 && red <= 255, "Invalid red component")
@@ -36,12 +39,13 @@ public extension UIColor {
 }
 
 
+
 class PrivateChatViewController: UIViewController  , UITableViewDelegate, UITableViewDataSource , UITextFieldDelegate {
-  
+
     @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
-    
+
     @IBOutlet weak var chatTableView: UITableView!
-    
+
     @IBOutlet weak var usernamelb: UILabel!
     @IBOutlet weak var userImage: UIImageView!
     var socket: SocketIOClient?
@@ -49,27 +53,28 @@ class PrivateChatViewController: UIViewController  , UITableViewDelegate, UITabl
     var originY : CGFloat?
 
     @IBOutlet weak var chatTextFeild: UITextField!
-    var messageUser: Message?
+    var messageUser: Partner?
     var myId: Int?
-    var allMessages: [privateChatMessage] = []
-    
+    var allMessages: [Message] = []
+
     @IBAction func onCloseTapped(_ sender: Any) {
         navigationController?.popViewController(animated: true)
         dismiss(animated: true, completion: nil)
     }
     
+
     @IBAction func onCloseTapped2(_ sender: Any) {
     }
-    
+
     func textFieldDidBeginEditing(_ textField: UITextField) {
         textField.becomeFirstResponder()
         moveTextField(textField, moveDistance: -250, up: true)
     }
-   
+
     @available(iOS 10.0, *)
     func textFieldDidEndEditing(_ textField: UITextField, reason: UITextFieldDidEndEditingReason) {
         moveTextField(textField, moveDistance: -250, up: false)
-        
+
     }
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if #available(iOS 10.0, *) {
@@ -83,26 +88,27 @@ class PrivateChatViewController: UIViewController  , UITableViewDelegate, UITabl
     func moveTextField(_ textField: UITextField, moveDistance: Int, up: Bool) {
         let moveDuration = 0.3
         let movement: CGFloat = CGFloat(up ? moveDistance : -moveDistance)
-        
+
         UIView.beginAnimations("animateTextField", context: nil)
         UIView.setAnimationBeginsFromCurrentState(true)
         UIView.setAnimationDuration(moveDuration)
         self.view.frame = self.view.frame.offsetBy(dx: 0, dy: movement)
         UIView.commitAnimations()
     }
-    
-    
+
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setSocket()
+        print("chat id: \(ChatUser.ChatId)")
         self.messageUser = ChatUser.currentUser!
         self.userImage.layer.borderWidth = 0
       //  chatTextFeild.autocorrectionType = .no
         self.userImage.layer.masksToBounds = false
         self.userImage.layer.cornerRadius = userImage.frame.height/2
        userImage.clipsToBounds = true
-        let urlString = ApiRouts.Web + (self.messageUser?.image_path)!
-        let url = URL(string: urlString)
+       
+       
        // self.userImage.downloadedFrom(url: url!, contentMode: .scaleToFill)
         let border = CALayer()
         let width = CGFloat(0.6)
@@ -110,8 +116,8 @@ class PrivateChatViewController: UIViewController  , UITableViewDelegate, UITabl
 //            // Disables the password autoFill accessory view.
 //            chatTextFeild.textContentType = UITextContentType("")
 //        }
-        
-      
+
+
         if #available(iOS 11.0, *) {
             border.borderColor = UIColor(named: "Primary")?.cgColor
         } else {
@@ -120,16 +126,22 @@ class PrivateChatViewController: UIViewController  , UITableViewDelegate, UITabl
         }
 
         border.frame = CGRect(x: 0, y: self.chatTextFeild.frame.size.height - width, width:  self.chatTextFeild.frame.size.width, height: self.chatTextFeild.frame.size.height)
-        
+
         border.borderWidth = width
         self.chatTextFeild.layer.addSublayer(border)
         self.chatTextFeild.layer.masksToBounds = true
+
+
         
-        
-        print("urllllll: \(url!)")
-        userImage.sd_setImage(with: url! , placeholderImage: UIImage(named: "default user"))
-        
-        self.usernamelb.text = "\((self.messageUser?.opponent_first_name)!) \((self.messageUser?.opponent_last_name)!)"
+        if self.messageUser?.profile_image != nil {
+            let urlString = ApiRouts.Web + (self.messageUser?.profile_image)!
+            let url = URL(string: urlString)
+            userImage.sd_setImage(with: url! , placeholderImage: UIImage(named: "default user"))
+        }else {
+            
+            userImage.image = UIImage(named: "default user")
+        }
+        self.usernamelb.text = "\((self.messageUser?.first_name)!) \((self.messageUser?.last_name)!)"
         self.chatTableView.dataSource = self
         chatTableView.delegate = self
         if #available(iOS 11.0, *) {
@@ -148,16 +160,16 @@ class PrivateChatViewController: UIViewController  , UITableViewDelegate, UITabl
 //        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
 //        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
 //        view.addGestureRecognizer(tap)
-        
 
-        
+
+
     }
     @objc func keyboardWillShow(notification:NSNotification) {
         adjustingHeight(show: true, notification: notification)
     }
-    
-   
-    
+
+
+
     @objc   func keyboardWillHide(notification:NSNotification) {
         adjustingHeight(show: false, notification: notification)
     }
@@ -166,7 +178,7 @@ class PrivateChatViewController: UIViewController  , UITableViewDelegate, UITabl
 
     }
     override func viewDidAppear(_ animated: Bool) {
-         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: (ChatUser.currentUser?.opponent_first_name!)! + " " + (ChatUser.currentUser?.opponent_last_name!)! , style:.plain, target:nil, action:nil)
+         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: (ChatUser.currentUser?.first_name!)! + " " + (ChatUser.currentUser?.last_name!)! , style:.plain, target:nil, action:nil)
 //        navigationController?.navigationBar.shadowImage = .none
 //        let nav = self.navigationController?.navigationBar
 //
@@ -196,7 +208,7 @@ class PrivateChatViewController: UIViewController  , UITableViewDelegate, UITabl
     }
     override func viewWillAppear(_ animated: Bool) {
         navigationController?.navigationBar.shadowImage = .none
-        let nav = self.navigationController?.navigationBar   
+        let nav = self.navigationController?.navigationBar
         nav?.backgroundColor = UIColor.white
         let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
         imageView.contentMode = .scaleAspectFit
@@ -208,22 +220,28 @@ class PrivateChatViewController: UIViewController  , UITableViewDelegate, UITabl
             imageView.layer.borderColor = UIColor(named: "Primary")?.cgColor
         } else {
             // Fallback on earlier versions
-           
+
             imageView.layer.borderColor =  Colors.PrimaryColor.cgColor
 
         }
         imageView.clipsToBounds = true
-        var urlString = ApiRouts.Web + (ChatUser.currentUser?.image_path)!
-        if (ChatUser.currentUser?.image_path)!.contains("http") {
-            urlString = (ChatUser.currentUser?.image_path)!
+        if ChatUser.currentUser?.profile_image != nil {
+            var urlString = ApiRouts.Web + (ChatUser.currentUser?.profile_image)!
+            if (ChatUser.currentUser?.profile_image)!.contains("http") {
+                urlString = (ChatUser.currentUser?.profile_image)!
+            }
+            let url = URL(string: urlString)
+            imageView.downloadedFrom(url: url!)
+        }else {
+            imageView.layer.borderColor =  UIColor.white.cgColor
+            imageView.image =  UIImage(named: "default user")
         }
-        let url = URL(string: urlString)
-        imageView.downloadedFrom(url: url!)
+        
         navigationItem.titleView = imageView
         navigationItem.titleView = imageView
-        print("view will appeard \((ChatUser.currentUser?.opponent_first_name!)! + " " + (ChatUser.currentUser?.opponent_last_name!)!)")
-        navigationItem.backBarButtonItem?.title = (ChatUser.currentUser?.opponent_first_name!)! + " " + (ChatUser.currentUser?.opponent_last_name!)!
-        navigationController?.navigationBar.backItem?.title = (ChatUser.currentUser?.opponent_first_name!)! + " " + (ChatUser.currentUser?.opponent_last_name!)!
+        print("view will appeard \((ChatUser.currentUser?.first_name!)! + " " + (ChatUser.currentUser?.last_name!)!)")
+        navigationItem.backBarButtonItem?.title = (ChatUser.currentUser?.first_name!)! + " " + (ChatUser.currentUser?.last_name!)!
+        navigationController?.navigationBar.backItem?.title = (ChatUser.currentUser?.first_name!)! + " " + (ChatUser.currentUser?.last_name!)!
         if #available(iOS 11.0, *) {
             navigationItem.backBarButtonItem?.tintColor = UIColor(named: "Primary")
             navigationController?.navigationBar.tintColor = UIColor(named: "Primary")
@@ -235,21 +253,23 @@ class PrivateChatViewController: UIViewController  , UITableViewDelegate, UITabl
             navigationController?.navigationBar.tintColor = Colors.PrimaryColor
 
         }
-        
-        
+
+
         //
-       
+
 
     }
     override func viewWillDisappear(_ animated: Bool) {
         self.resetMessages()
+        markConvRead()
+
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
     override  func dismissKeyboard() {
         view.endEditing(true)
     }
-    
+
     func adjustingHeight(show:Bool, notification:NSNotification) {
         // 1
         var userInfo = notification.userInfo!
@@ -263,37 +283,44 @@ class PrivateChatViewController: UIViewController  , UITableViewDelegate, UITabl
         UIView.animate(withDuration: animationDurarion, animations: { () -> Void in
             self.bottomConstraint.constant += changeInHeight
         })
-        
+
     }
-    
+
     func resetMessages(){
         print("------ IN RESET MESSAGES ----- ")
-        var oponent_id =  ChatUser.currentUser?.opponent_id!
+        var oponent_id =  ChatUser.currentUser?.id!
         print()
         HTTP.GET("https://dev.snapgroup.co.il/api/privatechat/markread/\(oponent_id!)/\(myId!)") { response in
             print(response.description)
         }
     }
- 
+    func markConvRead(){
+        let params = ["member_id": MyVriables.currentMember?.id!] as [String : Any]
+        print("params: \(params)")
+        
+        HTTP.POST(ApiRouts.Web + "/api/chats/\(ChatUser.ChatId!)", parameters: params) { response in
+            print("mark conv: \(response.description)" )
+        }
+    }
     func setSocket(){
-       
+
             print("----- ABED -----")
-            var  manager = SocketManager(socketURL: URL(string: "https://dev.snapgroup.co.il:3030/")!, config: [.log(true),.forcePolling(true)])
+            var  manager = SocketManager(socketURL: URL(string: ApiRouts.ChatServer)!, config: [.log(true),.forcePolling(true)])
             socket = manager.defaultSocket
             socket!.on(clientEvent: .connect) {data, ack in
-                self.socket!.emit("subscribe", "member-74")
-                
+                self.socket!.emit("subscribe", "member-\((MyVriables.currentMember?.id!)!)")
+
             }
-            socket!.on("member-74:member-channel") {data, ack in
+            socket!.on("member-\((MyVriables.currentMember?.id!)!):member-channel") {data, ack in
+                print("onMessageRec: \(data[0])")
                 if let data2 = data[0] as? Dictionary<String, Any> {
                     if let messageClass = data2["messageClass"] as? Dictionary<String, Any> {
-                       
-                            var newMessage :privateChatMessage = privateChatMessage()
+                            var newMessage : Message = Message()
                             newMessage.created_at = messageClass["created_at"] as? String
                             newMessage.member_id = messageClass["member_id"] as? Int
-                            var oponent_id =  ChatUser.currentUser?.opponent_id!
-                        
-                        
+                            var oponent_id =  ChatUser.currentUser?.id!
+
+
                             newMessage.message = messageClass["message"] as? String
                             newMessage.type = messageClass["type"] as? String
                             print(newMessage)
@@ -305,28 +332,28 @@ class PrivateChatViewController: UIViewController  , UITableViewDelegate, UITabl
                             else{
                                 return
                             }
-                        
+
                           //  self.allMessages.append(newMessage)
                         //    self.chatTableView.reloadData()
                             print(" good")
-                            
-                       
-                       
+
+
+
                     }
                 }
-                
+
             }
-            
-            
+
+
             socket!.onAny { (socEvent) in
-                
+
                 if let status =  socEvent.items as? [SocketIOStatus] {
                     if let first = status.first {
                         switch first {
                         case .connected:
                             print("Socket: connected")
                             break
-                            
+
                         case .disconnected:
                             print("Socket: disconnected")
                             break
@@ -343,63 +370,62 @@ class PrivateChatViewController: UIViewController  , UITableViewDelegate, UITabl
                     }
                 }
             }
-            
+
             self.socketManager = manager
             self.socket!.connect()
-            
-            
-            
-        
+
+
+
+
     }
     override func viewDidDisappear(_ animated: Bool) {
-        self.resetMessages()
+        self.resetMessages( )
     }
 
     @IBAction func sendTapped(_ sender: Any) {
-        var oponent_id =  ChatUser.currentUser?.opponent_id!
+        var oponent_id =  ChatUser.currentUser?.id!
         print("myId: \(myId!)")
         print("opId: \(oponent_id!)")
         var message = (chatTextFeild?.text)!
         self.chatTextFeild?.text = ""
         print("message: \((chatTextFeild?.text)!)")
         if message != "" {
-            let params = ["type":"text","message": message, "sender_id": 74, "receiver_id" : oponent_id!] as [String : Any]
+            let params = ["type":"text","message": message, "sender_id": (MyVriables.currentMember?.id!)!, "chat_type" : "private", "receiver_id" : oponent_id!] as [String : Any]
             print("params: \(params)")
 
-            HTTP.POST("https://dev.snapgroup.co.il/api/sendprivatemessage", parameters: params) { response in
-                print(params)
-                print(response.statusCode)
-                var newMessage :privateChatMessage = privateChatMessage()
+            HTTP.POST(ApiRouts.Web + "/api/chats", parameters: params) { response in
+                print("send chat: \(response.statusCode)" )
+                var newMessage :Message = Message()
                 newMessage.message = message
                 newMessage.type = "text"
-                newMessage.member_id = 74
+                newMessage.member_id = MyVriables.currentMember?.id!
                 print(newMessage)
                 DispatchQueue.main.async {
                     self.allMessages.append(newMessage)
                     self.chatTableView.reloadData()
                     self.scrollToLast()
                 }
-              
-                
+
+
 
         }
         }
     }
-    
-    
+
+
     // chat send message request
-    
-    
-    
+
+
+
     // chat table view
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.allMessages.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "privateCustomCell") as! PrivateChatMessageCelVc
-        if allMessages[indexPath.row].member_id == 74 {
+        if allMessages[indexPath.row].member_id == MyVriables.currentMember?.id! {
             cell.recMessageView.isHidden = true
             cell.sentMessageView.isHidden = false
             cell.sentMessageLbl.text = allMessages[indexPath.row].message!
@@ -418,8 +444,8 @@ class PrivateChatViewController: UIViewController  , UITableViewDelegate, UITabl
     }
 
     func getHistoryConv(){
-        print("\(ApiRouts.HistoryConversation)74/\((messageUser?.opponent_id!)!)")
-        HTTP.GET("\(ApiRouts.HistoryConversation)74/\((messageUser?.opponent_id!)!)", parameters: []) { response in
+        print("\(ApiRouts.HistoryConversation)74/\((messageUser?.id!)!)")
+        HTTP.GET(ApiRouts.Web + "/api/chats/messages?chat_id=\((ChatUser.ChatId!))", parameters: []) { response in
             if let err = response.error {
                 print("error: \(err.localizedDescription)")
 
@@ -428,17 +454,17 @@ class PrivateChatViewController: UIViewController  , UITableViewDelegate, UITabl
                 return //also notify app of failure as needed
             }
             do {
-                let  messages = try JSONDecoder().decode([privateChatMessage].self, from: response.data)
+                let  messages = try JSONDecoder().decode(PrivateMessages.self, from: response.data)
                 DispatchQueue.main.sync {
-                    self.allMessages = messages
-                    self.allMessages = self.allMessages.filter({ (message: privateChatMessage) -> Bool in
+                    self.allMessages = messages.messages!
+                    self.allMessages = self.allMessages.filter({ (message: Message) -> Bool in
                         return message.type != "image"
                     })
                     self.chatTableView.reloadData()
                     DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(300)) {
                         self.scrollToLast()
                     }
-                   
+
                 }
             }
             catch let error {
@@ -447,13 +473,13 @@ class PrivateChatViewController: UIViewController  , UITableViewDelegate, UITabl
             }
         //    print("opt finished: \(response.description)")
         }
-        
+
     }
-    
-    
- 
-    
-    
+
+
+
+
+
     func scrollToLast(){
 //        let numberOfSections = self.chatTableView.numberOfSections
 //        let numberOfRows = self.chatTableView.numberOfRows(inSection: numberOfSections-1)
@@ -464,8 +490,10 @@ class PrivateChatViewController: UIViewController  , UITableViewDelegate, UITabl
             let indexPath = IndexPath(row: allMessages.count - 1 , section: 0)
             chatTableView.scrollToRow(at: indexPath, at: .bottom, animated: false)
         }
-    
+
     }
-    
-    
+
+
 }
+
+

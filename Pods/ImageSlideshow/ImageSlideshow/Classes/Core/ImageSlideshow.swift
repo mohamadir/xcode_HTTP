@@ -194,6 +194,9 @@ open class ImageSlideshow: UIView {
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.showsVerticalScrollIndicator = false
         scrollView.autoresizingMask = self.autoresizingMask
+        if #available(iOS 11.0, *) {
+            scrollView.contentInsetAdjustmentBehavior = .never
+        }
         addSubview(scrollView)
 
         addSubview(pageControl)
@@ -434,8 +437,8 @@ open class ImageSlideshow: UIView {
     @discardableResult
     open func presentFullScreenController(from controller: UIViewController) -> FullScreenSlideshowViewController {
         let fullscreen = FullScreenSlideshowViewController()
-        fullscreen.pageSelected = {(page: Int) in
-            self.setCurrentPage(page, animated: false)
+        fullscreen.pageSelected = {[weak self] (page: Int) in
+            self?.setCurrentPage(page, animated: false)
         }
 
         fullscreen.initialPage = self.currentPage

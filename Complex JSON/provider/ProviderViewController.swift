@@ -62,7 +62,7 @@ class ProviderViewController: UIViewController {
         }
     }
     func getUrlService() -> String{
-        switch ProviderInfo.currentProviderName {
+        switch ProviderInfo.currentProviderName!{
         case "Hotels":
             return ApiRouts.Web+"/api/get/hotel/\((ProviderInfo.currentProviderId)!)"
         case "Places":
