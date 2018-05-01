@@ -94,9 +94,9 @@ class ItemViewController: UIViewController, UITableViewDelegate, UITableViewData
             if  (self.currentDay?.restaurants?.count)! == 1
             {
                 ProviderInfo.currentProviderId =  self.currentDay?.restaurants?[0].id
-              //  self.performSegue(withIdentifier: "showServiceProvider", sender: self)
-                let vc = ServiceModalViewController()
-                self.present(vc, animated: true, completion: nil)
+                self.performSegue(withIdentifier: "showServiceProvider", sender: self)
+//                let vc = ServiceModalViewController()
+//                self.present(vc, animated: true, completion: nil)
 
             }
             else
@@ -154,7 +154,6 @@ class ItemViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
         transportsView.addTapGestureRecognizer {
             print("current day = \((self.currentDay?.day_number)!) and the array size is \((self.currentDay?.transports?.count)!)")
-
             ProviderInfo.currentProviderName =  "Transport"
             if  (self.currentDay?.transports?.count)! == 1
             {

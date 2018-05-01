@@ -2893,7 +2893,7 @@
                         <outlet property="tourGuideView" destination="9Dy-9R-kgc" id="9fZ-Of-rOD"/>
                         <outlet property="toursLbl" destination="pTC-VT-RDl" id="Q89-z7-b7E"/>
                         <outlet property="transportsLbl" destination="MQZ-A4-qan" id="AfC-yf-Nlo"/>
-                        <outlet property="transportsView" destination="Jyk-lT-awU" id="5qm-yn-OEY"/>
+                        <outlet property="transportsView" destination="u0h-Xa-WEv" id="898-VH-vyi"/>
                         <segue destination="Uch-5F-BWA" kind="show" identifier="showServiceProvider" id="uz5-z9-Anu"/>
                         <segue destination="BUg-uO-gxg" kind="presentation" identifier="showServiceModalSeque" id="lEQ-a7-iH6"/>
                     </connections>
@@ -7043,7 +7043,7 @@ AADr6g
         </namedColor>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="iRg-5D-Qtb"/>
+        <segue reference="uz5-z9-Anu"/>
         <segue reference="od4-7X-TI6"/>
         <segue reference="Nar-vG-dR4"/>
     </inferredMetricsTieBreakers>

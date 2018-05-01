@@ -19,17 +19,22 @@ class ServiceModalViewController: UIViewController , UITableViewDelegate, UITabl
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        modelView.layer.borderWidth = 2
-        modelView.layer.borderColor = UIColor.gray.cgColor
-        modelView.layer.shadowColor = UIColor.black.cgColor
-        modelView.layer.shadowOpacity = 5
-        modelView.layer.shadowOffset = CGSize.zero
-        modelView.layer.shadowRadius = 10
+//        do{
+//        modelView.layer.borderWidth = 2
+//        modelView.layer.borderColor = UIColor.gray.cgColor
+//        modelView.layer.shadowColor = UIColor.black.cgColor
+//        modelView.layer.shadowOpacity = 5
+//        modelView.layer.shadowOffset = CGSize.zero
+//        modelView.layer.shadowRadius = 10
+//        }catch {
+//
+//        }
         setImageServices()
         tableviewModal.tableFooterView = UIView()
         tableviewModal.delegate = self
         tableviewModal.dataSource = self
         tableviewModal.separatorStyle = .none
+        
         // Do any additional setup after loading the view.
     }
 
@@ -48,13 +53,55 @@ class ServiceModalViewController: UIViewController , UITableViewDelegate, UITabl
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "ModalServiceCell", for: indexPath) as! ModalTableViewCell
-        cell.itemServiceLbl.text = ProviderInfo.currentServiceDay?[indexPath.row].name != nil ? ProviderInfo.currentServiceDay?[indexPath.row].name : ProviderInfo.currentServiceDay?[indexPath.row].translations?[0].name
+        if ProviderInfo.currentServiceDay?[indexPath.row].name != nil  {
+            cell.itemServiceLbl.text = ProviderInfo.currentServiceDay?[indexPath.row].name
+            
+        }
+        else{
+            if ProviderInfo.currentServiceDay?[indexPath.row].company_name != nil  {
+                cell.itemServiceLbl.text = ProviderInfo.currentServiceDay?[indexPath.row].company_name
+            }
+            else
+            {
+                if (ProviderInfo.currentServiceDay?[indexPath.row].translations?.count)! > 0
+                {
+                if ProviderInfo.currentServiceDay?[indexPath.row].translations?[0].name != nil {
+            cell.itemServiceLbl.text = ProviderInfo.currentServiceDay?[indexPath.row].translations?[0].name
+                }
+                else{
+                    if ProviderInfo.currentServiceDay?[indexPath.row].company_name != nil {
+                         cell.itemServiceLbl.text = ProviderInfo.currentServiceDay?[indexPath.row].company_name
+                    }
+                    else
+                    {
+                        cell.itemServiceLbl.text = ProviderInfo.currentServiceDay?[indexPath.row].translations?[0].company_name
+                    }
+                    
+                }
+            }
+            else
+             {
+                 if ProviderInfo.currentServiceDay?[indexPath.row].name != nil {
+                     cell.itemServiceLbl.text = ProviderInfo.currentServiceDay?[indexPath.row].name
+                }
+                else
+                {
+                    if ProviderInfo.currentServiceDay?[indexPath.row].name != nil {
+                         cell.itemServiceLbl.text = ProviderInfo.currentServiceDay?[indexPath.row].company_name
+                    }
+                    
+                }
+           
+            }
+            }
+            
+        }
+
         return cell
     }
     func setImageServices(){
-        titleLbl.text = ProviderInfo.currentProviderName! + " list"
+       titleLbl.text = ProviderInfo.currentProviderName! + " list"
         switch ProviderInfo.currentProviderName! {
-          
         case "Hotels":
           imageService.image = UIImage(named: "hotels icon")
         case "Places":
