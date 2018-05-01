@@ -44,7 +44,6 @@
 		74B3CDF0205538F700440EB0 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B3CDEF205538F700440EB0 /* Colors.swift */; };
 		74B9BCFB205CF82D005A0C60 /* CheckListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B9BCFA205CF82D005A0C60 /* CheckListViewController.swift */; };
 		74BB5D51208DDC0D00248CA1 /* MessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74BB5D50208DDC0D00248CA1 /* MessageViewController.swift */; };
-		74BB5D532090C33D00248CA1 /* ServicesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74BB5D522090C33D00248CA1 /* ServicesViewController.swift */; };
 		74F1FF20208B2E3D00976958 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 74F1FF1F208B2E3C00976958 /* GoogleService-Info.plist */; };
 		74F7AAA120580D1F00E66DF8 /* ScrollTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F7AAA020580D1F00E66DF8 /* ScrollTestViewController.swift */; };
 		74F7AAA320595D6B00E66DF8 /* ItineraryServiceViewControllerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F7AAA220595D6B00E66DF8 /* ItineraryServiceViewControllerCell.swift */; };
@@ -67,6 +66,9 @@
 		7E2ED4B02091B14F002921A5 /* ProviderModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2ED4AF2091B14F002921A5 /* ProviderModel.swift */; };
 		7E2ED4B22095B3A6002921A5 /* ServiceModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2ED4B12095B3A6002921A5 /* ServiceModalViewController.swift */; };
 		7E2ED4B42095BDB3002921A5 /* ModalTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2ED4B32095BDB3002921A5 /* ModalTableViewCell.swift */; };
+		7E2ED4B62096F3D8002921A5 /* ServicesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2ED4B52096F3D8002921A5 /* ServicesViewController.swift */; };
+		7E2ED4B82096FD7D002921A5 /* SearchUsersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2ED4B72096FD7D002921A5 /* SearchUsersViewController.swift */; };
+		7E2ED4BA2097048B002921A5 /* SearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2ED4B92097048B002921A5 /* SearchTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -150,7 +152,6 @@
 		74B3CDEF205538F700440EB0 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		74B9BCFA205CF82D005A0C60 /* CheckListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckListViewController.swift; sourceTree = "<group>"; };
 		74BB5D50208DDC0D00248CA1 /* MessageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageViewController.swift; sourceTree = "<group>"; };
-		74BB5D522090C33D00248CA1 /* ServicesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ServicesViewController.swift; path = ../../../../../Downloads/ServicesViewController.swift; sourceTree = "<group>"; };
 		74F0521020657938009A4273 /* Complex JSON.xcworkspace */ = {isa = PBXFileReference; lastKnownFileType = wrapper.workspace; path = "Complex JSON.xcworkspace"; sourceTree = "<group>"; };
 		74F0521120657938009A4273 /* Snapgroup.xcworkspace */ = {isa = PBXFileReference; lastKnownFileType = wrapper.workspace; path = Snapgroup.xcworkspace; sourceTree = "<group>"; };
 		74F1FF1F208B2E3C00976958 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -175,6 +176,9 @@
 		7E2ED4AF2091B14F002921A5 /* ProviderModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProviderModel.swift; sourceTree = "<group>"; };
 		7E2ED4B12095B3A6002921A5 /* ServiceModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceModalViewController.swift; sourceTree = "<group>"; };
 		7E2ED4B32095BDB3002921A5 /* ModalTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalTableViewCell.swift; sourceTree = "<group>"; };
+		7E2ED4B52096F3D8002921A5 /* ServicesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ServicesViewController.swift; path = ../../../../../Downloads/ServicesViewController.swift; sourceTree = "<group>"; };
+		7E2ED4B72096FD7D002921A5 /* SearchUsersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchUsersViewController.swift; sourceTree = "<group>"; };
+		7E2ED4B92097048B002921A5 /* SearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewCell.swift; sourceTree = "<group>"; };
 		89E7D6AE145D4989B1E4DBF6 /* Pods_Complex_JSON.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Complex_JSON.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4F2DA88D0C7A1EAE5A7D431 /* Pods_Snapgroup.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Snapgroup.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F44CD3C49D70D6E498CC6CF1 /* Pods-Complex JSON.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Complex JSON.release.xcconfig"; path = "Pods/Target Support Files/Pods-Complex JSON/Pods-Complex JSON.release.xcconfig"; sourceTree = "<group>"; };
@@ -213,6 +217,8 @@
 				74138E06204442FD00F37028 /* ChatCustomCellController.swift */,
 				7423757E20499FB600B9A0C0 /* PrivateChatViewController.swift */,
 				74237582204BE0E100B9A0C0 /* PrivateChatMessageCelVc.swift */,
+				7E2ED4B72096FD7D002921A5 /* SearchUsersViewController.swift */,
+				7E2ED4B92097048B002921A5 /* SearchTableViewCell.swift */,
 			);
 			path = Chat;
 			sourceTree = "<group>";
@@ -344,8 +350,8 @@
 				743A208C203C1B12008DF1AA /* Info.plist */,
 				74730C4D2056662E0091D657 /* Itinerary */,
 				74490C17205298AA007AD4FA /* Map */,
-				746E9F362077B99F009B3258 /* Member Inbox */,
 				74FBD104205009E0002D223A /* Members Page */,
+				746E9F362077B99F009B3258 /* Member Inbox */,
 				7E2ED4AC2091ABC7002921A5 /* provider */,
 				74B3CDF12055691C00440EB0 /* Services */,
 				74905902203D89E000C6B8C1 /* SignUpVC.swift */,
@@ -429,6 +435,7 @@
 		74B3CDF12055691C00440EB0 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				7E2ED4B52096F3D8002921A5 /* ServicesViewController.swift */,
 				7E2D7B1E2090C06900DAC98F /* DefaultCell.swift */,
 				7E2D7B152090C06300DAC98F /* DestinationData.swift */,
 				7E2D7B1C2090C06900DAC98F /* ExpandableHeaderView.swift */,
@@ -436,7 +443,6 @@
 				7E2D7B192090C06600DAC98F /* ExpandingTVC.swift */,
 				7E2D7B172090C06500DAC98F /* ExpansionCell.swift */,
 				7E2D7B1A2090C06700DAC98F /* NewServicesViewController.swift */,
-				74BB5D522090C33D00248CA1 /* ServicesViewController.swift */,
 				7E2D7B162090C06400DAC98F /* Section.swift */,
 				7E2D7B1B2090C06800DAC98F /* TableViewCell.swift */,
 			);
@@ -577,7 +583,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0920;
-				LastUpgradeCheck = 0920;
+				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = snapmac;
 				TargetAttributes = {
 					743A207C203C1B12008DF1AA = {
@@ -782,6 +788,7 @@
 				74905905203DB5DA00C6B8C1 /* MainTabController.swift in Sources */,
 				749058FE203D605F00C6B8C1 /* CustomTableViewCell.swift in Sources */,
 				7E2ED4B22095B3A6002921A5 /* ServiceModalViewController.swift in Sources */,
+				7E2ED4BA2097048B002921A5 /* SearchTableViewCell.swift in Sources */,
 				74A5A43B2085D31A00A97052 /* checkListCustomCellController.swift in Sources */,
 				74237583204BE0E100B9A0C0 /* PrivateChatMessageCelVc.swift in Sources */,
 				7E2ED4B02091B14F002921A5 /* ProviderModel.swift in Sources */,
@@ -815,15 +822,16 @@
 				746E9F382077B9CB009B3258 /* MemberInboxViewController.swift in Sources */,
 				74F7AAE2205BE6AA00E66DF8 /* DocsViewController.swift in Sources */,
 				7E2D7B212090C06900DAC98F /* ExpansionCell.swift in Sources */,
+				7E2ED4B62096F3D8002921A5 /* ServicesViewController.swift in Sources */,
 				74138E042044207700F37028 /* ChatViewController.swift in Sources */,
 				7E2D7B1F2090C06900DAC98F /* DestinationData.swift in Sources */,
-				74BB5D532090C33D00248CA1 /* ServicesViewController.swift in Sources */,
 				74FBD10C20518542002D223A /* MemberModalViewController.swift in Sources */,
 				7E2D7B202090C06900DAC98F /* Section.swift in Sources */,
 				74F7AAA320595D6B00E66DF8 /* ItineraryServiceViewControllerCell.swift in Sources */,
 				7E2ED4B42095BDB3002921A5 /* ModalTableViewCell.swift in Sources */,
 				7E2ED4AE2091AC80002921A5 /* ProviderViewController.swift in Sources */,
 				741D2A102042B40C00DB8975 /* DetailsViewController.swift in Sources */,
+				7E2ED4B82096FD7D002921A5 /* SearchUsersViewController.swift in Sources */,
 				7E2D7B242090C06900DAC98F /* NewServicesViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -893,6 +901,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -900,6 +909,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -950,6 +960,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -957,6 +968,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;

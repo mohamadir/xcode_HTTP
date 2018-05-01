@@ -17,6 +17,8 @@ struct privateChatMessage: Codable {
     var type: String?
     
 }
+var isChatId: Bool = true
+
 struct PrivateMessages: Codable {
     var messages: [Message]?
 }
@@ -69,6 +71,7 @@ class PrivateChatViewController: UIViewController  , UITableViewDelegate, UITabl
     func textFieldDidBeginEditing(_ textField: UITextField) {
         textField.becomeFirstResponder()
         moveTextField(textField, moveDistance: -250, up: true)
+        
     }
 
     @available(iOS 10.0, *)
@@ -77,6 +80,7 @@ class PrivateChatViewController: UIViewController  , UITableViewDelegate, UITabl
 
     }
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+
         if #available(iOS 10.0, *) {
         } else {
             moveTextField(textField, moveDistance: -250, up: false)
@@ -93,6 +97,12 @@ class PrivateChatViewController: UIViewController  , UITableViewDelegate, UITabl
         UIView.setAnimationBeginsFromCurrentState(true)
         UIView.setAnimationDuration(moveDuration)
         self.view.frame = self.view.frame.offsetBy(dx: 0, dy: movement)
+        
+        if up {
+            self.chatTableView.topAnchor.constraint(equalTo: (view.superview?.topAnchor)!, constant: 300how do).isActive = true
+        }else {
+            self.chatTableView.topAnchor.constraint(equalTo: (view.superview?.topAnchor)!, constant: 0).isActive = true
+        }
         UIView.commitAnimations()
     }
 
@@ -153,25 +163,53 @@ class PrivateChatViewController: UIViewController  , UITableViewDelegate, UITabl
 
         myId = UserDefaults.standard.integer(forKey: "member_id")
         originY = self.view.frame.origin.y
-        self.getHistoryConv()
+        if isChatId {
+            self.getHistoryConv(isViaChatId: true)
+        }else {
+            isChatId = true
+            self.getHistoryConv(isViaChatId: false)
+        }
         chatTableView.rowHeight = UITableViewAutomaticDimension
 
 //        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+//
 //        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+//
 //        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+//
 //        view.addGestureRecognizer(tap)
 
 
 
     }
     @objc func keyboardWillShow(notification:NSNotification) {
-        adjustingHeight(show: true, notification: notification)
+    //    adjustingHeight(show: true, notification: notification)
+        print("in keyboard show")
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            
+            if self.view.frame.origin.y == 0 {
+                
+                self.view.frame.origin.y -= keyboardSize.height
+            }
+        }
+        // show keyboard hide
+        
+        
     }
 
 
 
     @objc   func keyboardWillHide(notification:NSNotification) {
-        adjustingHeight(show: false, notification: notification)
+     //   adjustingHeight(show: false, notification: notification)
+        print("in keyboard hide")
+
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            
+            if self.view.frame.origin.y != 0 {
+                
+                self.view.frame.origin.y += keyboardSize.height
+            }
+        }
     }
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
@@ -216,13 +254,12 @@ class PrivateChatViewController: UIViewController  , UITableViewDelegate, UITabl
         imageView.layer.masksToBounds = false
         imageView.layer.cornerRadius = imageView.frame.height/2
         imageView.layer.borderWidth = 1
+        
         if #available(iOS 11.0, *) {
             imageView.layer.borderColor = UIColor(named: "Primary")?.cgColor
         } else {
             // Fallback on earlier versions
-
             imageView.layer.borderColor =  Colors.PrimaryColor.cgColor
-
         }
         imageView.clipsToBounds = true
         if ChatUser.currentUser?.profile_image != nil {
@@ -271,6 +308,7 @@ class PrivateChatViewController: UIViewController  , UITableViewDelegate, UITabl
     }
 
     func adjustingHeight(show:Bool, notification:NSNotification) {
+        print("adjustingHeight")
         // 1
         var userInfo = notification.userInfo!
         // 2
@@ -283,6 +321,7 @@ class PrivateChatViewController: UIViewController  , UITableViewDelegate, UITabl
         UIView.animate(withDuration: animationDurarion, animations: { () -> Void in
             self.bottomConstraint.constant += changeInHeight
         })
+        
 
     }
 
@@ -309,7 +348,6 @@ class PrivateChatViewController: UIViewController  , UITableViewDelegate, UITabl
             socket = manager.defaultSocket
             socket!.on(clientEvent: .connect) {data, ack in
                 self.socket!.emit("subscribe", "member-\((MyVriables.currentMember?.id!)!)")
-
             }
             socket!.on("member-\((MyVriables.currentMember?.id!)!):member-channel") {data, ack in
                 print("onMessageRec: \(data[0])")
@@ -443,9 +481,16 @@ class PrivateChatViewController: UIViewController  , UITableViewDelegate, UITabl
         return cell
     }
 
-    func getHistoryConv(){
+    func getHistoryConv(isViaChatId: Bool){
         print("\(ApiRouts.HistoryConversation)74/\((messageUser?.id!)!)")
-        HTTP.GET(ApiRouts.Web + "/api/chats/messages?chat_id=\((ChatUser.ChatId!))", parameters: []) { response in
+        var urlString = ""
+        
+        if isViaChatId {
+            urlString = ApiRouts.Web + "/api/chats/messages?chat_id=\((ChatUser.ChatId!))"
+        }else {
+            urlString = ApiRouts.Web + "/api/chats/messages?member_id=\((MyVriables.currentMember?.id!)!)&partner_id=\((ChatUser.currentUser?.id!)!)"
+        }
+        HTTP.GET(urlString, parameters: []) { response in
             if let err = response.error {
                 print("error: \(err.localizedDescription)")
 

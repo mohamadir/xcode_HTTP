@@ -198,6 +198,9 @@ class ChatViewController: UIViewController , UITableViewDelegate, UITableViewDat
         self.socket!.connect()
         
     }
+    @IBAction func searchPersons(_ sender: Any) {
+        performSegue(withIdentifier: "showSearchViewControler", sender: self)
+    }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         ChatUser.currentUser = self.messages?[indexPath.row].partner!

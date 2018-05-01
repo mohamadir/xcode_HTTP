@@ -172,6 +172,19 @@ struct Member: Codable{
     var phone: String?
     var id: Int?
 }
+
+struct ElasticMember : Codable{
+    var id: Int?
+    var email: String?
+    var first_name: String?
+    var last_name: String?
+    var images: [Memberimage]?
+}
+struct Memberimage: Codable{
+    var path: String?
+}
+
+
 struct MemberProfile: Codable{
     var member_id: Int?
     var first_name: String?
@@ -183,6 +196,8 @@ struct MemberProfile: Codable{
     
     
 }
+
+
 
 struct Toy: Codable {
     var name: String?
