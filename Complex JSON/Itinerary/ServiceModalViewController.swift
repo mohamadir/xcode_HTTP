@@ -19,16 +19,16 @@ class ServiceModalViewController: UIViewController , UITableViewDelegate, UITabl
     override func viewDidLoad() {
         super.viewDidLoad()
 
-//        do{
-//        modelView.layer.borderWidth = 2
-//        modelView.layer.borderColor = UIColor.gray.cgColor
-//        modelView.layer.shadowColor = UIColor.black.cgColor
-//        modelView.layer.shadowOpacity = 5
-//        modelView.layer.shadowOffset = CGSize.zero
-//        modelView.layer.shadowRadius = 10
-//        }catch {
-//
-//        }
+        do{
+        modelView.layer.borderWidth = 2
+        modelView.layer.borderColor = UIColor.gray.cgColor
+        modelView.layer.shadowColor = UIColor.black.cgColor
+        modelView.layer.shadowOpacity = 5
+        modelView.layer.shadowOffset = CGSize.zero
+        modelView.layer.shadowRadius = 10
+        }catch {
+
+        }
         setImageServices()
         tableviewModal.tableFooterView = UIView()
         tableviewModal.delegate = self
@@ -53,6 +53,7 @@ class ServiceModalViewController: UIViewController , UITableViewDelegate, UITabl
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "ModalServiceCell", for: indexPath) as! ModalTableViewCell
+        cell.selectionStyle = .none
         if ProviderInfo.currentServiceDay?[indexPath.row].name != nil  {
             cell.itemServiceLbl.text = ProviderInfo.currentServiceDay?[indexPath.row].name
             

@@ -69,6 +69,8 @@
 		7E2ED4B62096F3D8002921A5 /* ServicesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2ED4B52096F3D8002921A5 /* ServicesViewController.swift */; };
 		7E2ED4B82096FD7D002921A5 /* SearchUsersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2ED4B72096FD7D002921A5 /* SearchUsersViewController.swift */; };
 		7E2ED4BA2097048B002921A5 /* SearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2ED4B92097048B002921A5 /* SearchTableViewCell.swift */; };
+		7E2ED4BD20985633002921A5 /* ArrivleConfirmationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2ED4BC20985633002921A5 /* ArrivleConfirmationViewController.swift */; };
+		7E2ED4BF20986061002921A5 /* ArriceCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2ED4BE20986061002921A5 /* ArriceCollectionCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -179,6 +181,8 @@
 		7E2ED4B52096F3D8002921A5 /* ServicesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ServicesViewController.swift; path = ../../../../../Downloads/ServicesViewController.swift; sourceTree = "<group>"; };
 		7E2ED4B72096FD7D002921A5 /* SearchUsersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchUsersViewController.swift; sourceTree = "<group>"; };
 		7E2ED4B92097048B002921A5 /* SearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewCell.swift; sourceTree = "<group>"; };
+		7E2ED4BC20985633002921A5 /* ArrivleConfirmationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrivleConfirmationViewController.swift; sourceTree = "<group>"; };
+		7E2ED4BE20986061002921A5 /* ArriceCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArriceCollectionCell.swift; sourceTree = "<group>"; };
 		89E7D6AE145D4989B1E4DBF6 /* Pods_Complex_JSON.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Complex_JSON.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4F2DA88D0C7A1EAE5A7D431 /* Pods_Snapgroup.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Snapgroup.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F44CD3C49D70D6E498CC6CF1 /* Pods-Complex JSON.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Complex JSON.release.xcconfig"; path = "Pods/Target Support Files/Pods-Complex JSON/Pods-Complex JSON.release.xcconfig"; sourceTree = "<group>"; };
@@ -337,6 +341,7 @@
 		743A207F203C1B12008DF1AA /* Complex JSON */ = {
 			isa = PBXGroup;
 			children = (
+				7E2ED4BB20985610002921A5 /* Arrivle Confirmation */,
 				743A2087203C1B12008DF1AA /* Assets.xcassets */,
 				74138E052044211400F37028 /* Chat */,
 				74B9BCF9205CF815005A0C60 /* Check List */,
@@ -493,6 +498,15 @@
 				7E2ED4AD2091AC80002921A5 /* ProviderViewController.swift */,
 			);
 			path = provider;
+			sourceTree = "<group>";
+		};
+		7E2ED4BB20985610002921A5 /* Arrivle Confirmation */ = {
+			isa = PBXGroup;
+			children = (
+				7E2ED4BE20986061002921A5 /* ArriceCollectionCell.swift */,
+				7E2ED4BC20985633002921A5 /* ArrivleConfirmationViewController.swift */,
+			);
+			path = "Arrivle Confirmation";
 			sourceTree = "<group>";
 		};
 		C5D372449F7ECC4B78A74442 /* Pods */ = {
@@ -818,6 +832,7 @@
 				7428551F204FF16300637511 /* TestTabVc.swift in Sources */,
 				743A2081203C1B12008DF1AA /* AppDelegate.swift in Sources */,
 				74A5A43E2085D64900A97052 /* GroupLeaderViewController.swift in Sources */,
+				7E2ED4BF20986061002921A5 /* ArriceCollectionCell.swift in Sources */,
 				74F7AAA5205A976400E66DF8 /* GroupMapViewController.swift in Sources */,
 				746E9F382077B9CB009B3258 /* MemberInboxViewController.swift in Sources */,
 				74F7AAE2205BE6AA00E66DF8 /* DocsViewController.swift in Sources */,
@@ -826,6 +841,7 @@
 				74138E042044207700F37028 /* ChatViewController.swift in Sources */,
 				7E2D7B1F2090C06900DAC98F /* DestinationData.swift in Sources */,
 				74FBD10C20518542002D223A /* MemberModalViewController.swift in Sources */,
+				7E2ED4BD20985633002921A5 /* ArrivleConfirmationViewController.swift in Sources */,
 				7E2D7B202090C06900DAC98F /* Section.swift in Sources */,
 				74F7AAA320595D6B00E66DF8 /* ItineraryServiceViewControllerCell.swift in Sources */,
 				7E2ED4B42095BDB3002921A5 /* ModalTableViewCell.swift in Sources */,
