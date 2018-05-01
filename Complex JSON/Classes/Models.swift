@@ -148,6 +148,7 @@ struct GroupTools: Codable {
     var group_leader: Bool?
     var rooming_list: Bool?
     var voting: Bool?
+    var arrival_confirmation: Bool?
     
 }
 

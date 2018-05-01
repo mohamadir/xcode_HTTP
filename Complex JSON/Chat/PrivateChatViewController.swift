@@ -99,7 +99,7 @@ class PrivateChatViewController: UIViewController  , UITableViewDelegate, UITabl
         self.view.frame = self.view.frame.offsetBy(dx: 0, dy: movement)
         
         if up {
-            self.chatTableView.topAnchor.constraint(equalTo: (view.superview?.topAnchor)!, constant: 300how do).isActive = true
+//            self.chatTableView.topAnchor.constraint(equalTo: (view.superview?.topAnchor)!, constant: 300how do).isActive = true
         }else {
             self.chatTableView.topAnchor.constraint(equalTo: (view.superview?.topAnchor)!, constant: 0).isActive = true
         }

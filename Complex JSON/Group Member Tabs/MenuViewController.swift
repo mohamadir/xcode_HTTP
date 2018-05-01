@@ -66,6 +66,7 @@ class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UI
     var totalTime = 60
     let date = Date()
     let formatter = DateFormatter()
+    @IBOutlet weak var arrivalConfirmationView: UIControl!
     @IBOutlet weak var roomlistView: UIControl!
     @IBOutlet weak var counterLbl: UILabel!
     @IBOutlet weak var mapsView: UIControl!
@@ -172,6 +173,12 @@ class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UI
                 self.performSegue(withIdentifier: "showLeaderSegue", sender: self)
             }
         }
+        arrivalConfirmationView.addTapGestureRecognizer {
+            if (self.singleGroup?.group_tools?.arrival_confirmation!)! == true
+            {
+                self.performSegue(withIdentifier: "showArrivalConfirmation", sender: self)
+            }
+        }
         
         startTimer()
         // Do any additional setup after loading the view.
@@ -274,6 +281,11 @@ class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UI
         if (self.singleGroup?.group_tools?.services!)! == false
         {
             self.servicesView.alpha = 0.3
+        }
+        
+        if (self.singleGroup?.group_tools?.arrival_confirmation!)! == false
+        {
+            self.arrivalConfirmationView.alpha = 0.3
         }
         
         
