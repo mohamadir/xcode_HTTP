@@ -139,10 +139,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         super.viewDidLoad()
         NSLog("roleStatus",  "hihihi")
      //   UIApplication.shared.registerForRemoteNotifications()
-
-        Messaging.messaging().subscribe(toTopic: "/topics/mohamed1")
-        Messaging.messaging().subscribe(toTopic: "/topics/mohamed2")
-
+        if Messaging.messaging().fcmToken != nil {
+        print("subscribedddd")
+            UIApplication.shared.registerForRemoteNotifications()
+            MyVriables.CurrentTopic = "abd123"
+            
+        }
+        
         tableView.delegate = self
         tableView.dataSource = self
         self.hideKeyboardWhenTappedAround()

@@ -39,6 +39,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
                 DispatchQueue.main.async {
                     Messaging.messaging().delegate = self
                     UIApplication.shared.registerForRemoteNotifications()
+                    Messaging.messaging().subscribe(toTopic: "/topics/a12345")
+
                 }
                 
                 
@@ -52,7 +54,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
         
         
         
-        //  application.registerForRemoteNotifications()
+        application.registerForRemoteNotifications()
         
         ConnectToFcm()
         
@@ -79,8 +81,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         print("didRegisterForRemoteNotificationsWithDeviceToken")
         Messaging.messaging().apnsToken = deviceToken
-        Messaging.messaging().subscribe(toTopic: "/topics/mohamed8")
-        
+        Messaging.messaging().subscribe(toTopic: "/topics/a12345")
     }
     func messaging(_ messaging: Messaging, didRefreshRegistrationToken fcmToken: String) {
         let newToken = InstanceID.instanceID().token()
@@ -94,8 +95,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
     }
     
     func applicationDidEnterBackground(_ application: UIApplication) {
-        ConnectToFcm()
-        Messaging.messaging().shouldEstablishDirectChannel = true
+        Messaging.messaging().shouldEstablishDirectChannel = false
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
     }
