@@ -15,8 +15,19 @@ class MainTabController: UITabBarController{
     
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.setNavigationBarHidden(true, animated: false)
+        if MyVriables.IsFromArrival {
+            MyVriables.IsFromArrival = false
+            self.selectedIndex = 1
+            self.selectedIndex = 2
+            
+        }
+
     }
     override func viewDidAppear(_ animated: Bool) {
+        print("main tab bar return from pop = in view did appear")
+        
+
+
         self.navigationController?.setNavigationBarHidden(true, animated: false)
     }
     override func viewWillDisappear(_ animated: Bool) {
@@ -26,7 +37,7 @@ class MainTabController: UITabBarController{
     override func viewDidLoad() {
         super.viewDidLoad()
         print("from the Main")
-
+    
         // self.tabBar.itmes?[i].image = UIIMage...
         
         let isOpen = MyVriables.currentGroup?.open!

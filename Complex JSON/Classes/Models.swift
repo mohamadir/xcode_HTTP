@@ -16,6 +16,8 @@ struct MyVriables {
     static var shouldRefresh: Bool = false
     static var currentInboxMessage: InboxMessage?
     static var MemberInboxShouldRefresh: Bool = false
+    static var shouldRefreshBusStation: Bool = false
+    static var IsFromArrival: Bool = false
     
 }
 
@@ -28,6 +30,7 @@ struct ChatUser {
 }
 struct GroupMembers{
     static var currentMemmber: GroupMember?
+    static var isGoing: Bool?
 }
 
 /////////////////////////////////////////////// servivices model ///////////////
@@ -60,7 +63,21 @@ struct ServiceTranslations: Codable {
     
 }
 /////////////////////////////////////////////////////////////////////////////
+//////////////////////////////Arrival confirmation///////////////////////////
 
+struct StationModel: Codable {
+    var id: Int?
+    var location: String?
+    var my_station: String?
+}
+struct ArriveChecked: Codable {
+    var going: Bool?
+}
+
+
+
+
+/////////////////////////////////////////////////////////////////////////////
 ////////////////////////Provider Model///////////////////////////////////////
 struct ProviderModel: Codable {
     var id: Int?

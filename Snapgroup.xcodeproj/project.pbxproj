@@ -286,6 +286,7 @@
 		741D2A0A2042B16A00DB8975 /* Group Member Tabs */ = {
 			isa = PBXGroup;
 			children = (
+				74905904203DB5DA00C6B8C1 /* MainTabController.swift */,
 				741D2A0F2042B40C00DB8975 /* DetailsViewController.swift */,
 				74138E0120440E9D00F37028 /* MenuViewController.swift */,
 				7443303E2063EC7400D4073F /* JoinViewController.swift */,
@@ -366,7 +367,6 @@
 				743A2082203C1B12008DF1AA /* ViewController.swift */,
 				74F1FF1F208B2E3C00976958 /* GoogleService-Info.plist */,
 				743A2089203C1B12008DF1AA /* LaunchScreen.storyboard */,
-				74905904203DB5DA00C6B8C1 /* MainTabController.swift */,
 			);
 			path = "Complex JSON";
 			sourceTree = "<group>";
