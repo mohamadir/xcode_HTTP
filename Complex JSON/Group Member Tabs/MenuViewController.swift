@@ -60,6 +60,7 @@ extension UIView {
 }
 class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UINavigationControllerDelegate{
 
+    @IBOutlet weak var arrivalImage: UIImageView!
     @IBOutlet weak var groupNameLbl: UILabel!
     var singleGroup: TourGroup?
     var countdownTimer: Timer!
@@ -82,13 +83,25 @@ class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UI
     @IBOutlet weak var minLbl: UILabel!
     @IBOutlet weak var secLbl: UILabel!
     var timer1 = Timer()
+    var arrives: ArriveChecked?
     var secondsLeft: Int?
    
     override func viewWillAppear(_ animated: Bool) {
+        self.singleGroup  = MyVriables.currentGroup!
         if MyVriables.currentGroup?.registration_end_date != nil {
            calculateRegisterDate( date : (MyVriables.currentGroup?.registration_end_date!)!)
         }
+        print("view xcontroler \(MyVriables.shouldRefreshBusStation)")
+        if MyVriables.shouldRefreshBusStation{
+            
+            if (self.singleGroup?.group_tools?.arrival_confirmation!)! == true
+            {
+                getArriveChecked()
+                MyVriables.shouldRefreshBusStation = false
+            }
+        }
     }
+    
     override func viewWillDisappear(_ animated: Bool) {
         timer1.invalidate()
     }
@@ -96,8 +109,13 @@ class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UI
         timer1.invalidate()
 
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        print("hioooosh")
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
+              print("view xcontroler 231 \(MyVriables.shouldRefreshBusStation)")
         self.singleGroup  = MyVriables.currentGroup!
         if singleGroup?.translations?.count == 0 {
             self.groupNameLbl.text = singleGroup?.title
@@ -106,11 +124,11 @@ class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UI
             self.groupNameLbl.text = singleGroup?.translations?[0].title
 
         }
+        if (self.singleGroup?.group_tools?.arrival_confirmation!)! == true
+        {
+            getArriveChecked()
+        }
         setAlphaView()
-        
-        
-      
-
         print("group tools \((self.singleGroup?.group_tools?.chat!)!)")
         self.groupNameLbl.numberOfLines = 0
         self.groupNameLbl.lineBreakMode = .byWordWrapping
@@ -188,7 +206,7 @@ class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UI
         var minute: Int
         var second: Int
         var  day: Int
-        print("secoooond \(self.secondsLeft!)")
+
         self.secondsLeft = self.secondsLeft! - 1
         
         if secondsLeft! == 0  || secondsLeft! < 0{
@@ -201,7 +219,6 @@ class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UI
             minute = (secondsLeft! % 3600) / 60
             second = (secondsLeft! % 3600) % 60
             day = ( secondsLeft! / 3600) / 24
-            print("time in days \(day) and hour \(hour) and min \(minute) and sec \(second)")
             if(day > 0){
                 hour = (secondsLeft! / 3600) % (day * 24)
             }
@@ -303,7 +320,37 @@ class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UI
 //            //do things...
 //        }
     }
-    
+    func getArriveChecked(){
+        print("from menu   "+ApiRouts.Web+"/api/members/\((MyVriables.currentMember?.id!)!)/groups/\((MyVriables.currentGroup?.id!)!)/stations")
+        HTTP.GET(ApiRouts.Web+"/api/members/\((MyVriables.currentMember?.id!)!)/groups/\((MyVriables.currentGroup?.id!)!)/stations", parameters: [])
+        { response in
+            if let err = response.error {
+                print("error: \(err.localizedDescription)")
+                return //also notify app of failure as needed
+            }
+            do
+            {
+                self.arrives  = try JSONDecoder().decode(ArriveChecked.self, from: response.data)
+                DispatchQueue.main.sync {
+                 if self.arrives?.going == true
+                 {
+                    self.arrivalImage.image = UIImage(named: "checkedArrive")
+                }
+                else
+                 {
+                    self.arrivalImage.image = UIImage(named: "arrivle_confirmation")
+                }
+                    
+                }
+            }
+            catch {
+                
+            }
+            
+            print(response.description)
+            
+        }
+    }
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         //var image: UIImage = (info[UIImagePickerControllerOriginalImage] as? UIImage)!
         var urlosh: URL = (info[UIImagePickerControllerReferenceURL] as! URL)

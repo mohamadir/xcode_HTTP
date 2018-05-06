@@ -34,10 +34,4 @@ pod 'SkyFloatingLabelTextField', '~> 3.0'
 pod 'Firebase/Messaging'
 pod 'SVProgressHUD'
 pod 'Pushy', '1.0.12'
-pod 'OneSignal', '>= 2.6.2', '< 3.0'
-end
-
-target 'OneSignalNotificationServiceExtension' do
- use_frameworks!
-  pod 'OneSignal', '>= 2.6.2', '< 3.0'
 end

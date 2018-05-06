@@ -12,6 +12,7 @@ import Crashlytics
 import SwiftHTTP
 import SDWebImage
 import MRCountryPicker
+import UserNotifications
 import ARSLineProgress
 import Toast_Swift
 import Firebase
@@ -133,7 +134,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
    
     
-    
+    func subScribe(){
+        UIApplication.shared.registerForRemoteNotifications()
+        Messaging.messaging().subscribe(toTopic: "/topics/a123458")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -205,14 +209,17 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             
         }
         ARSLineProgress.show()
+        print("image ref: \(image)" )
         
         dismiss(animated: true, completion: nil)
-        HTTP.POST("https://api.snapgroup.co.il/api/upload_single_image/Member/74/profile", parameters: ["single_image": Upload(fileUrl: image.absoluteURL)]) { response in
+        HTTP.POST("https://api.snapgroup.co.il/api/upload_single_image/Member/\(MyVriables.currentMember?.id!)/profile", parameters: ["single_image": Upload(fileUrl: image.absoluteURL)]) { response in
+            print("response is : \(response.data)")
             ARSLineProgress.hide()
             let data = response.data
             do {
                 let  image2 = try JSONDecoder().decode(ImageServer.self, from: data)
-                print(image2.image?.path)
+                print("response is :")
+                print(data)
                 self.setToUserDefaults(value: image2.image?.path, key: "profile_image")
               try  DispatchQueue.main.sync {
                 self.profileImageView.layer.borderWidth = 0

@@ -37,12 +37,19 @@ class DocsViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        let image = info[UIImagePickerControllerImageURL] as! URL
+        let image: URL?
+        if #available(iOS 11.0, *) {
+            image = info[UIImagePickerControllerImageURL] as! URL
+        } else {
+            // Fallback on earlier versions
+            image = info[UIImagePickerControllerReferenceURL] as! URL
+
+        }
         
         ARSLineProgress.show()
         
         dismiss(animated: true, completion: nil)
-        HTTP.POST("https://api.snapgroup.co.il/api/upload_single_image/Member/74/profile", parameters: ["single_image": Upload(fileUrl: image.absoluteURL)]) { response in
+        HTTP.POST("https://api.snapgroup.co.il/api/upload_single_image/Member/74/profile", parameters: ["single_image": Upload(fileUrl: (image?.absoluteURL)!)]) { response in
             ARSLineProgress.hide()
             
             let data = response.data

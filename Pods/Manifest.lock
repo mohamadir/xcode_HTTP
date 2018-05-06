@@ -63,13 +63,12 @@ PODS:
   - leveldb-library (1.20)
   - M13Checkbox (3.2.2)
   - moa (9.0.2)
-  - MRCountryPicker (0.0.7)
+  - MRCountryPicker (0.0.8)
   - nanopb (0.3.8):
     - nanopb/decode (= 0.3.8)
     - nanopb/encode (= 0.3.8)
   - nanopb/decode (0.3.8)
   - nanopb/encode (0.3.8)
-  - OneSignal (2.8.4)
   - PageControl (1.0.1)
   - Protobuf (3.5.0)
   - Pushy (1.0.12)
@@ -107,7 +106,6 @@ DEPENDENCIES:
   - M13Checkbox
   - moa (~> 9.0)
   - MRCountryPicker (~> 0.0.7)
-  - OneSignal (< 3.0, >= 2.6.2)
   - PageControl
   - Pushy (= 1.0.12)
   - Scrollable (~> 2.0)
@@ -145,9 +143,8 @@ SPEC CHECKSUMS:
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
   M13Checkbox: a8c2491cfbbca10797925fd0b9154a782bf40d89
   moa: b73dc5e0efa1fad00711c4608e41b197f4d15b12
-  MRCountryPicker: 75edb510153ef446ded70890bc02140a757961dc
+  MRCountryPicker: 1aeea66de25cdef79dce3b91d8ad9db643c1cc01
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
-  OneSignal: 7218a5a787f6685de81bdb487e696439e8c8f59b
   PageControl: fbe258f0e874c30c30b867278fa04f9fd3381844
   Protobuf: 8a9838fba8dae3389230e1b7f8c104aa32389c03
   Pushy: 831bf204b25e24e50c74548d3ac5a80236806842
@@ -163,6 +160,6 @@ SPEC CHECKSUMS:
   Toast-Swift: ba0b01b095aada709d915f9beb1d38184a2721c3
   YNExpandableCell: 47bf7cff721aa535c0e9e1163bf22b5573441bb4
 
-PODFILE CHECKSUM: aa92d0c6a521c31476fdb3a1c15b6f47bf3b83dc
+PODFILE CHECKSUM: e45e85f0f20fadc5a16c36939e6c2b5171aba030
 
 COCOAPODS: 1.4.0
