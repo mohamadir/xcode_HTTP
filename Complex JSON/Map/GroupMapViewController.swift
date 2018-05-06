@@ -79,7 +79,7 @@ class GroupMapViewController: UIViewController , GMSMapViewDelegate, CLLocationM
         
         
         let polyline = GMSPolyline(path: path)
-        polyline.strokeColor = UIColor(named: "Primary")!
+        polyline.strokeColor = Colors.PrimaryColor
         polyline.strokeWidth = 3.0
      //   polyline.spans = [GMSStyleSpan(color: .red)]
         polyline.geodesic = true

@@ -16,8 +16,10 @@ struct MyVriables {
     static var shouldRefresh: Bool = false
     static var currentInboxMessage: InboxMessage?
     static var MemberInboxShouldRefresh: Bool = false
+    static var CurrentTopic: String = "m123"
     static var shouldRefreshBusStation: Bool = false
     static var IsFromArrival: Bool = false
+
     
 }
 

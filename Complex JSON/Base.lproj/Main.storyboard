@@ -101,7 +101,7 @@
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v0t-tO-Lvm">
                                         <rect key="frame" x="0.0" y="5" width="136" height="38"/>
-                                        <color key="backgroundColor" name="Chat Me"/>
+                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="136" id="Z3m-lf-dZU"/>
                                         </constraints>
@@ -125,7 +125,7 @@
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wKn-ds-SPS">
                                         <rect key="frame" x="148" y="5" width="136" height="38"/>
-                                        <color key="backgroundColor" name="Chat Me"/>
+                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="136" id="yR9-JP-VbY"/>
                                         </constraints>
@@ -808,7 +808,7 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                     </subviews>
-                                                    <color key="backgroundColor" name="Chat Partner"/>
+                                                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <constraints>
                                                         <constraint firstAttribute="bottom" secondItem="YGe-J7-wXl" secondAttribute="bottom" constant="8" id="Htx-fx-X0Y"/>
                                                         <constraint firstItem="YGe-J7-wXl" firstAttribute="leading" secondItem="ajn-HT-WuV" secondAttribute="leading" constant="8" id="OvF-op-F66"/>
@@ -831,7 +831,7 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                     </subviews>
-                                                    <color key="backgroundColor" name="Chat Me"/>
+                                                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <constraints>
                                                         <constraint firstAttribute="bottom" secondItem="EBf-q2-5Od" secondAttribute="bottom" constant="8" id="1G7-5j-LIt"/>
                                                         <constraint firstItem="EBf-q2-5Od" firstAttribute="top" secondItem="9Vf-ah-bKL" secondAttribute="top" constant="8" id="RSe-ch-NEg"/>
@@ -1409,14 +1409,14 @@
                                         <rect key="frame" x="101" y="244" width="68" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <state key="normal" title="Sign out">
-                                            <color key="titleColor" name="Primary"/>
+                                            <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="s8Y-cX-9lQ">
                                         <rect key="frame" x="21" y="244" width="46" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <state key="normal" title="Edit">
-                                            <color key="titleColor" name="Primary"/>
+                                            <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Male" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1gM-BD-E7w">
@@ -1455,12 +1455,12 @@
                                             <constraint firstAttribute="width" constant="59" id="HDa-ZD-41k"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="19"/>
-                                        <color key="textColor" name="Primary"/>
+                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <view alpha="0.40000000596046448" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="W4L-j3-0wq" userLabel="line seperator">
                                         <rect key="frame" x="8" y="55" width="63" height="1"/>
-                                        <color key="backgroundColor" name="Primary"/>
+                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="63" id="Oxa-mX-yRD"/>
                                             <constraint firstAttribute="height" constant="1" id="yZO-Gv-S7d"/>
@@ -1472,12 +1472,12 @@
                                             <constraint firstAttribute="width" constant="59" id="R7J-dT-aeK"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="19"/>
-                                        <color key="textColor" name="Primary"/>
+                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <view alpha="0.29999999999999999" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zq6-bg-fP7" userLabel="line seperator">
                                         <rect key="frame" x="8" y="318" width="63" height="1"/>
-                                        <color key="backgroundColor" name="Primary"/>
+                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="1" id="F9E-e3-oHo"/>
                                             <constraint firstAttribute="width" constant="63" id="KxF-sA-DGM"/>
@@ -3282,7 +3282,7 @@
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iuB-64-emy">
                                                                     <rect key="frame" x="8" y="11" width="239" height="21"/>
                                                                     <fontDescription key="fontDescription" name="Arial-BoldMT" family="Arial" pointSize="17"/>
-                                                                    <color key="textColor" name="Primary"/>
+                                                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                             </subviews>
@@ -3318,7 +3318,7 @@
                                             <constraint firstAttribute="width" constant="124" id="ALy-zc-FK6"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <color key="textColor" name="Primary"/>
+                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
@@ -3710,7 +3710,7 @@
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pair with this member" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jrz-0T-qiP">
                                             <rect key="frame" x="67.333333333333329" y="170" width="104.99999999999999" height="12"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                            <color key="textColor" name="Chat Me"/>
+                                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Pair" translatesAutoresizingMaskIntoConstraints="NO" id="vud-KJ-NZE">
@@ -4041,7 +4041,7 @@
                                             </imageView>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UUq-jf-iZY">
                                                 <rect key="frame" x="97" y="261" width="180" height="47"/>
-                                                <color key="backgroundColor" name="Chat Me"/>
+                                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="180" id="Qy1-Gb-Aca"/>
                                                     <constraint firstAttribute="height" constant="47" id="eV0-bP-JEf"/>
@@ -4082,7 +4082,7 @@
                                                     <constraint firstAttribute="width" constant="192" id="4cz-MP-Pkn"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="22"/>
-                                                <color key="textColor" name="Primary"/>
+                                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="enW-jH-ctV" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
@@ -4090,7 +4090,7 @@
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="color" keyPath="lineColor">
-                                                        <color key="value" name="Primary"/>
+                                                        <color key="value" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     </userDefinedRuntimeAttribute>
                                                     <userDefinedRuntimeAttribute type="color" keyPath="titleColor">
                                                         <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -4112,7 +4112,7 @@
                                                         <color key="value" red="0.60897893138426396" green="0.57035565695097701" blue="0.34137526188007034" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     </userDefinedRuntimeAttribute>
                                                     <userDefinedRuntimeAttribute type="color" keyPath="selectedLineColor">
-                                                        <color key="value" name="Primary"/>
+                                                        <color key="value" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     </userDefinedRuntimeAttribute>
                                                     <userDefinedRuntimeAttribute type="string" keyPath="placeholder" value="First name"/>
                                                 </userDefinedRuntimeAttributes>
@@ -4122,7 +4122,7 @@
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="color" keyPath="lineColor">
-                                                        <color key="value" name="Primary"/>
+                                                        <color key="value" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     </userDefinedRuntimeAttribute>
                                                     <userDefinedRuntimeAttribute type="color" keyPath="titleColor">
                                                         <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -4144,7 +4144,7 @@
                                                         <color key="value" red="0.60897893140000003" green="0.57035565700000002" blue="0.3413752619" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     </userDefinedRuntimeAttribute>
                                                     <userDefinedRuntimeAttribute type="color" keyPath="selectedLineColor">
-                                                        <color key="value" name="Primary"/>
+                                                        <color key="value" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     </userDefinedRuntimeAttribute>
                                                     <userDefinedRuntimeAttribute type="string" keyPath="placeholder" value="Last name"/>
                                                 </userDefinedRuntimeAttributes>
@@ -4157,7 +4157,7 @@
                                                 </constraints>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="color" keyPath="lineColor">
-                                                        <color key="value" name="Primary"/>
+                                                        <color key="value" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     </userDefinedRuntimeAttribute>
                                                     <userDefinedRuntimeAttribute type="color" keyPath="titleColor">
                                                         <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -4179,7 +4179,7 @@
                                                         <color key="value" red="0.60897893140000003" green="0.57035565700000002" blue="0.3413752619" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     </userDefinedRuntimeAttribute>
                                                     <userDefinedRuntimeAttribute type="color" keyPath="selectedLineColor">
-                                                        <color key="value" name="Primary"/>
+                                                        <color key="value" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     </userDefinedRuntimeAttribute>
                                                     <userDefinedRuntimeAttribute type="color" keyPath="disabledColor">
                                                         <color key="value" white="0.75" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -4199,7 +4199,7 @@
                                             </pickerView>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W0h-TU-I3K">
                                                 <rect key="frame" x="98" y="513.66666666666663" width="180" height="47"/>
-                                                <color key="backgroundColor" name="Chat Me"/>
+                                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="180" id="fcm-vS-7Zo"/>
                                                     <constraint firstAttribute="height" constant="47" id="qvC-LF-Zvt"/>
@@ -4270,7 +4270,7 @@
                         <viewLayoutGuide key="safeArea" id="eMr-Xp-00w"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="" id="5ky-0Y-Lmd">
-                        <color key="badgeColor" name="Primary"/>
+                        <color key="badgeColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="color" keyPath="tintColor">
                                 <color key="value" red="0.7199978232383728" green="0.66302543878555298" blue="0.33258742094039917" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -4654,7 +4654,7 @@
                                                     <subviews>
                                                         <view alpha="0.40000000596046448" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="R3D-TA-imC" userLabel="line seperator">
                                                             <rect key="frame" x="10" y="50" width="355" height="1"/>
-                                                            <color key="backgroundColor" name="Primary"/>
+                                                            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="1" id="o6Z-0R-sgG"/>
                                                             </constraints>
@@ -4665,7 +4665,7 @@
                                                                 <constraint firstAttribute="height" constant="31" id="BCf-KF-qDw"/>
                                                                 <constraint firstAttribute="width" constant="49" id="td8-h1-Ypc"/>
                                                             </constraints>
-                                                            <color key="onTintColor" name="Primary"/>
+                                                            <color key="onTintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         </switch>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Passport" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mCa-yF-AvC">
                                                             <rect key="frame" x="8" y="15" width="288" height="20"/>
@@ -4807,7 +4807,7 @@
                                                     <subviews>
                                                         <view alpha="0.40000000596046448" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JlL-v8-nZg" userLabel="line seperator">
                                                             <rect key="frame" x="10" y="50" width="355" height="1"/>
-                                                            <color key="backgroundColor" name="Primary"/>
+                                                            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="1" id="V5R-BC-Bfc"/>
                                                             </constraints>
@@ -4818,7 +4818,7 @@
                                                                 <constraint firstAttribute="width" constant="49" id="K9P-GV-DaO"/>
                                                                 <constraint firstAttribute="height" constant="31" id="oY8-vs-N23"/>
                                                             </constraints>
-                                                            <color key="onTintColor" name="Primary"/>
+                                                            <color key="onTintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         </switch>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Passport" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HyI-Fm-vCb">
                                                             <rect key="frame" x="8" y="15" width="288" height="20"/>
@@ -5009,7 +5009,7 @@
                                     </label>
                                     <view alpha="0.40000000596046448" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HA5-Wc-GuE" userLabel="line seperator">
                                         <rect key="frame" x="21" y="442.66666666666663" width="338" height="1"/>
-                                        <color key="backgroundColor" name="Primary"/>
+                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="1" id="eh8-b8-MXy"/>
                                         </constraints>
@@ -5083,7 +5083,7 @@
                                     </view>
                                     <view alpha="0.40000000596046448" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Tw4-FN-Vrs" userLabel="line seperator">
                                         <rect key="frame" x="20" y="631" width="374" height="1"/>
-                                        <color key="backgroundColor" name="Primary"/>
+                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="1" id="KhV-C3-4mc"/>
                                         </constraints>
@@ -5523,7 +5523,7 @@
                                     <constraint firstAttribute="width" constant="363" id="M3u-KE-Nx7"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
-                                <color key="textColor" name="Primary"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
@@ -5636,7 +5636,6 @@
                                 <connections>
                                     <outlet property="dataSource" destination="gEa-Z7-mgM" id="5jO-az-9Sd"/>
                                     <outlet property="delegate" destination="gEa-Z7-mgM" id="c5l-Wn-uwJ"/>
-                                    <outlet property="prefetchDataSource" destination="gEa-Z7-mgM" id="oNO-qh-5tw"/>
                                 </connections>
                             </tableView>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aU0-LL-MWB">
@@ -5769,7 +5768,7 @@
                                             </label>
                                             <view alpha="0.40000000596046448" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8LC-RS-Xfv" userLabel="line seperator">
                                                 <rect key="frame" x="21" y="430.66666666666669" width="324" height="1"/>
-                                                <color key="backgroundColor" name="Primary"/>
+                                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="1" id="Yoz-96-Ohw"/>
                                                 </constraints>
@@ -5837,7 +5836,7 @@
                                             </view>
                                             <view alpha="0.40000000596046448" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="geC-XY-KtA" userLabel="line seperator">
                                                 <rect key="frame" x="20" y="619" width="360" height="1"/>
-                                                <color key="backgroundColor" name="Primary"/>
+                                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="1" id="OkV-GK-yik"/>
                                                 </constraints>
@@ -7492,17 +7491,8 @@ AADr6g
         <image name="transport icon" width="230" height="215"/>
         <image name="twitter" width="16" height="16"/>
         <image name="voting" width="230" height="215"/>
-        <namedColor name="Chat Me">
-            <color red="0.80000001190000003" green="0.76499998570000005" blue="0.52899998429999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
-        <namedColor name="Chat Partner">
-            <color red="0.93300002810000005" green="0.93300002810000005" blue="0.93300002810000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
         <namedColor name="Primary">
             <color red="0.75700002908706665" green="0.70599997043609619" blue="0.41600000858306885" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
-        <namedColor name="Primary">
-            <color red="0.75700002909999997" green="0.70599997039999995" blue="0.41600000860000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
     <inferredMetricsTieBreakers>

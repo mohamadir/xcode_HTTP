@@ -26,7 +26,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
         //        UNUserNotificationCenter.current().delegate = self
         FirebaseApp.configure()
         UIApplication.shared.applicationIconBadgeNumber = 0
-        
+        if #available(iOS 10.0, *){
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { (isGranted, err) in
             
             if err != nil {
@@ -39,11 +39,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
                 DispatchQueue.main.async {
                     Messaging.messaging().delegate = self
                     UIApplication.shared.registerForRemoteNotifications()
+                    Messaging.messaging().subscribe(toTopic: "/topics/a123456")
+
                 }
                 
                 
             }
             
+            
+            }
+            
+        }else {
+            let settings: UIUserNotificationSettings =
+                UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
+            application.registerUserNotificationSettings(settings)
+            Messaging.messaging().delegate = self
+            UIApplication.shared.registerForRemoteNotifications()
+            print("Successful Authorization")
+
+            Messaging.messaging().subscribe(toTopic: "/topics/a123456")
             
         }
         
@@ -52,7 +66,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
         
         
         
-        //  application.registerForRemoteNotifications()
+        application.registerForRemoteNotifications()
         
         ConnectToFcm()
         
@@ -64,6 +78,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
         
         return true
     }
+    
     
     func ConnectToFcm(){
         Messaging.messaging().shouldEstablishDirectChannel = true
@@ -78,9 +93,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         print("didRegisterForRemoteNotificationsWithDeviceToken")
-        Messaging.messaging().apnsToken = deviceToken
-        Messaging.messaging().subscribe(toTopic: "/topics/mohamed8")
         
+        Messaging.messaging().apnsToken = deviceToken
+        Messaging.messaging().subscribe(toTopic: "/topics/a123457")
     }
     func messaging(_ messaging: Messaging, didRefreshRegistrationToken fcmToken: String) {
         let newToken = InstanceID.instanceID().token()
@@ -94,7 +109,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
     }
     
     func applicationDidEnterBackground(_ application: UIApplication) {
-        ConnectToFcm()
         Messaging.messaging().shouldEstablishDirectChannel = true
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
@@ -102,7 +116,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
     
     func applicationWillEnterForeground(_ application: UIApplication) {
         ConnectToFcm()
-        
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
     }
     
@@ -115,20 +128,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
     
-    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        
-        //        UIApplication.shared.applicationIconBadgeNumber += 1
-        //        print("Notificationnnn")
-        //
-        //
-        //        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "Snapgroup.Snap2"), object: nil)
-        //    }
-    }
+   
     func messaging(_ messaging: Messaging, didReceive remoteMessage: MessagingRemoteMessage) {
         
-        print("notification remoteMessage->  ")
-        // \((remoteMessage.appData["message"]!))"
+        print("notification remoteMessage->  " + remoteMessage.appData.description)
         
+        // \((remoteMessage.appData["message"]!))"
+    
         UIApplication.shared.applicationIconBadgeNumber += 1
         
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "Snapgroup.Snap2"), object: nil)
@@ -155,23 +161,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
     }
     func timedNotifications(inSeconds: TimeInterval, completion: @escaping (_ Success: Bool) -> ()) {
         
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: inSeconds, repeats: false)
-        
-        let content = UNMutableNotificationContent()
-        
-        content.title = "Breaking News"
-        content.subtitle = "Yo whats up i am subtitle"
-        content.body = "idbnqwkdnqwoidoqw;edn;owqdno;wqndo;qwndowqndoqwdn qwdkj"
-        
-        let request = UNNotificationRequest(identifier: "customNotification", content: content, trigger: trigger)
-        
-        UNUserNotificationCenter.current().add(request) { (error) in
-            if error != nil {
-                completion(false)
-            }else {
-                completion(true)
-            }
-        }
+//        if #available(iOS 10.0, *) {
+//            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: inSeconds, repeats: false)
+//        } else {
+//            // Fallback on earlier versions
+//        }
+//
+//        let content = UNMutableNotificationContent()
+//
+//        content.title = "Breaking News"
+//        content.subtitle = "Yo whats up i am subtitle"
+//        content.body = "idbnqwkdnqwoidoqw;edn;owqdno;wqndo;qwndowqndoqwdn qwdkj"
+//
+//        let request = UNNotificationRequest(identifier: "customNotification", content: content, trigger: trigger)
+//
+//        UNUserNotificationCenter.current().add(request) { (error) in
+//            if error != nil {
+//                completion(false)
+//            }else {
+//                completion(true)
+//            }
+//        }
     }
     
 }

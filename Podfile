@@ -32,4 +32,6 @@ pod 'M13Checkbox'
 pod 'Toast-Swift', '~> 3.0.1'
 pod 'SkyFloatingLabelTextField', '~> 3.0'
 pod 'Firebase/Messaging'
+pod 'SVProgressHUD'
+pod 'Pushy', '1.0.12'
 end
