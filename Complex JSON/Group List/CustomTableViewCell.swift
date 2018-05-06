@@ -28,12 +28,15 @@ class CustomTableViewCell: UITableViewCell {
     @IBOutlet weak var inviteIcon: UIImageView!
     @IBOutlet weak var timeOutIcon: UIImageView!
     
-    
+
+    @IBOutlet weak var viewInfo: UIView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        
     }
+    
 
 
 

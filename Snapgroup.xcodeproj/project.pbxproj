@@ -71,6 +71,7 @@
 		7E2ED4BA2097048B002921A5 /* SearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2ED4B92097048B002921A5 /* SearchTableViewCell.swift */; };
 		7E2ED4BD20985633002921A5 /* ArrivleConfirmationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2ED4BC20985633002921A5 /* ArrivleConfirmationViewController.swift */; };
 		7E2ED4BF20986061002921A5 /* ArriceCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2ED4BE20986061002921A5 /* ArriceCollectionCell.swift */; };
+		7EBD0774209F2FC000369E36 /* ModelInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EBD0773209F2FC000369E36 /* ModelInfoViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -183,6 +184,7 @@
 		7E2ED4B92097048B002921A5 /* SearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewCell.swift; sourceTree = "<group>"; };
 		7E2ED4BC20985633002921A5 /* ArrivleConfirmationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrivleConfirmationViewController.swift; sourceTree = "<group>"; };
 		7E2ED4BE20986061002921A5 /* ArriceCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArriceCollectionCell.swift; sourceTree = "<group>"; };
+		7EBD0773209F2FC000369E36 /* ModelInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelInfoViewController.swift; sourceTree = "<group>"; };
 		89E7D6AE145D4989B1E4DBF6 /* Pods_Complex_JSON.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Complex_JSON.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4F2DA88D0C7A1EAE5A7D431 /* Pods_Snapgroup.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Snapgroup.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F44CD3C49D70D6E498CC6CF1 /* Pods-Complex JSON.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Complex JSON.release.xcconfig"; path = "Pods/Target Support Files/Pods-Complex JSON/Pods-Complex JSON.release.xcconfig"; sourceTree = "<group>"; };
@@ -460,6 +462,7 @@
 				74905908203DB9DC00C6B8C1 /* HomeViewController.swift */,
 				749058FD203D605F00C6B8C1 /* CustomTableViewCell.swift */,
 				743A2101203C6468008DF1AA /* GroupViewController.swift */,
+				7EBD0773209F2FC000369E36 /* ModelInfoViewController.swift */,
 			);
 			path = "Group List";
 			sourceTree = "<group>";
@@ -804,6 +807,7 @@
 				7E2ED4B22095B3A6002921A5 /* ServiceModalViewController.swift in Sources */,
 				7E2ED4BA2097048B002921A5 /* SearchTableViewCell.swift in Sources */,
 				74A5A43B2085D31A00A97052 /* checkListCustomCellController.swift in Sources */,
+				7EBD0774209F2FC000369E36 /* ModelInfoViewController.swift in Sources */,
 				74237583204BE0E100B9A0C0 /* PrivateChatMessageCelVc.swift in Sources */,
 				7E2ED4B02091B14F002921A5 /* ProviderModel.swift in Sources */,
 				74B3CDF0205538F700440EB0 /* Colors.swift in Sources */,

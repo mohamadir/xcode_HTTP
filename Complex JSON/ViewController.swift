@@ -697,6 +697,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "customCell") as! CustomTableViewCell
+        
+        cell.viewInfo.tag = indexPath.row
+        cell.viewInfo.addTapGestureRecognizer(action: ShowModel)
         if self.myGrous[indexPath.row].image != nil{
             print("IMAGESTATUS - in if ")
 
@@ -873,7 +876,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         return cell
         
     }
+
+ 
     
+    func ShowModel() {
+         self.performSegue(withIdentifier: "showInfo", sender: self)
+    }
     func isClosed(date: String) -> Bool{
         let currentDate = Date()
         let formatter = DateFormatter()
