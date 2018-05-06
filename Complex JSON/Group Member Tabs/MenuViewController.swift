@@ -95,9 +95,11 @@ class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UI
         if MyVriables.shouldRefreshBusStation{
             
             if (self.singleGroup?.group_tools?.arrival_confirmation!)! == true
-            {
+            {      if (self.singleGroup?.role) != nil && (self.singleGroup?.role)! != "observer"
+                {
                 getArriveChecked()
                 MyVriables.shouldRefreshBusStation = false
+                }
             }
         }
     }
@@ -172,7 +174,11 @@ class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UI
         docsView.addTapGestureRecognizer {
             if (self.singleGroup?.group_tools?.documents!)! == true
             {
-                 self.performSegue(withIdentifier: "showDocs", sender: self)
+                if (self.singleGroup?.role) != nil && (self.singleGroup?.role)! != "observer"
+                {
+                   self.performSegue(withIdentifier: "showDocs", sender: self)
+                }
+                
             }
            
 
@@ -180,7 +186,10 @@ class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UI
         checkListView.addTapGestureRecognizer {
             if (self.singleGroup?.group_tools?.checklist!)! == true
             {
+                if (self.singleGroup?.role) != nil && (self.singleGroup?.role)! != "observer"
+                {
                  self.performSegue(withIdentifier: "showCheckList", sender: self)
+                }
             }
            
 
@@ -194,7 +203,10 @@ class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UI
         arrivalConfirmationView.addTapGestureRecognizer {
             if (self.singleGroup?.group_tools?.arrival_confirmation!)! == true
             {
+                if (self.singleGroup?.role) != nil && (self.singleGroup?.role)! != "observer"
+                {
                 self.performSegue(withIdentifier: "showArrivalConfirmation", sender: self)
+                }
             }
         }
         
@@ -267,6 +279,32 @@ class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UI
     }
     func setAlphaView()
     {
+        if self.singleGroup?.role == nil
+        {
+            print("im hereeeee true")
+
+        }
+        else {
+        print("im hereeeee false")
+        }
+        if (self.singleGroup?.role) == nil
+        {
+            self.checkListView.alpha = 0.3
+             self.roomlistView.alpha = 0.3
+             self.docsView.alpha = 0.3
+            self.arrivalConfirmationView.alpha = 0.3
+        }
+        else
+        {
+             if (self.singleGroup?.role)! == "observer"
+             {
+                self.checkListView.alpha = 0.3
+                self.roomlistView.alpha = 0.3
+                self.docsView.alpha = 0.3
+                self.arrivalConfirmationView.alpha = 0.3
+            }
+        }
+        
         if (self.singleGroup?.group_tools?.voting!)! == false
         {
               self.votesView.alpha = 0.3
@@ -321,7 +359,14 @@ class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UI
 //        }
     }
     func getArriveChecked(){
-        print("from menu   "+ApiRouts.Web+"/api/members/\((MyVriables.currentMember?.id!)!)/groups/\((MyVriables.currentGroup?.id!)!)/stations")
+        //print("from menu   "+ApiRouts.Web+"/api/members/\((MyVriables.currentMember?.id!)!)/groups/\((MyVriables.currentGroup?.id!)!)/stations")
+       
+        if MyVriables.currentMember == nil
+        {
+            
+        }
+        else
+        {
         HTTP.GET(ApiRouts.Web+"/api/members/\((MyVriables.currentMember?.id!)!)/groups/\((MyVriables.currentGroup?.id!)!)/stations", parameters: [])
         { response in
             if let err = response.error {
@@ -349,6 +394,7 @@ class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UI
             
             print(response.description)
             
+        }
         }
     }
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {

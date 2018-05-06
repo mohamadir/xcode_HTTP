@@ -20,14 +20,21 @@ class CustomTableViewCell: UITableViewCell {
     @IBOutlet weak var totalDaysLbl: UILabel!
     @IBOutlet weak var groupLabel: UILabel!
     
+    @IBOutlet weak var descriptionLbl: UILabel!
+    @IBOutlet weak var privateIcon: UIImageView!
+    @IBOutlet weak var openIcon: UIImageView!
+    @IBOutlet weak var leaderIcon: UIImageView!
+    @IBOutlet weak var memberIcon: UIImageView!
+    @IBOutlet weak var inviteIcon: UIImageView!
+    @IBOutlet weak var timeOutIcon: UIImageView!
+    
+    
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
     }
 
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-        // Configure the view for the selected state
-    }
+
 
 }

@@ -27,6 +27,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 
     var PINCODE: String?
     var phoneNumber: String?
+    ///////// GROUP SETTINGS
+    
+
     
     /********  VIEWS ***********/
     @IBOutlet weak var countryPicker: MRCountryPicker!
@@ -695,26 +698,34 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "customCell") as! CustomTableViewCell
         if self.myGrous[indexPath.row].image != nil{
-        
+            print("IMAGESTATUS - in if ")
+
             do{
-                let urlString = try ApiRouts.Web + (self.myGrous[indexPath.row].image)!
+                var urlString: String = try ApiRouts.Web + (self.myGrous[indexPath.row].image)!
                 if self.myGrous[indexPath.row].image != nil{
                     print(urlString)
+                    
                 }
-                var url = URL(string: urlString)
-                if url == nil {
+                urlString = urlString.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)!
+                if let url = URL(string: urlString) {
+                    print("image:  \(String(describing: url)) , belongs to : \(self.myGrous[indexPath.row].translations?[0].title!)")
+                    cell.imageosh.sd_setImage(with: url, placeholderImage: UIImage(named: "Group Placeholder"), completed: nil)
+
+                }else {
+                    cell.imageosh.image = UIImage(named: "Group Placeholder")
+                    print("IMAGESTATUS - in out of let - for group -  \(self.myGrous[indexPath.row].translations?[0].title!) , urlString: \(urlString)")
+
                 }
-                else
-                {
-                    cell.imageosh.sd_setImage(with: url!, placeholderImage: UIImage(named: "Group Placeholder"), completed: nil)
-                //    cell.imageosh.sd_setImage(with: url!, completed: nil)
-                }
+               
             }
             catch{
+                print("in the catch with image \((self.myGrous[indexPath.row].title)!)")
                 cell.imageosh.image = UIImage(named: "Group Placeholder")
       
             }
         } else {
+            print("IMAGESTATUS - in else ")
+
             cell.imageosh.image = UIImage(named: "Group Placeholder")
         }
         cell.startDayLbl.text = getStartDate(date: self.myGrous[indexPath.row].start_date!)
@@ -728,10 +739,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
         // if company
         if self.myGrous[indexPath.row].is_company == 0 {
+            
             cell.groupLeaderLbl.text = self.myGrous[indexPath.row].group_leader_first_name! + " " + self.myGrous[indexPath.row].group_leader_last_name!
           
             if self.myGrous[indexPath.row].group_leader_image != nil{
             do{
+                
                 let urlString = try ApiRouts.Web + (self.myGrous[indexPath.row].group_leader_image)!
                 var url = URL(string: urlString)
                 if url == nil {
@@ -740,11 +753,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 }
                 }
             catch let error{
-                
                 }
             
         }
-            
+            cell.groupLeaderImageView.layer.cornerRadius = cell.groupLeaderImageView.frame.size.width / 2;
+            cell.groupLeaderImageView.clipsToBounds = true;
+           cell.groupLeaderImageView.layer.borderWidth = 1.0
+            cell.groupLeaderImageView.layer.borderColor = UIColor.gray.cgColor
         } // if just group leader
         else{
             if self.myGrous[indexPath.row].group_leader_company_image != nil{
@@ -752,19 +767,22 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                     do{
                     let urlString = try ApiRouts.Web + (self.myGrous[indexPath.row].group_leader_company_image)!
                     var url = URL(string: urlString)
-                        cell.groupLeaderImageView.layer.borderWidth = 0
-                        cell.groupLeaderImageView.layer.masksToBounds = false
-                        cell.groupLeaderImageView.layer.cornerRadius = cell.groupLeaderImageView.frame.height/2
-                        cell.groupLeaderImageView.clipsToBounds = true
+//                        cell.groupLeaderImageView.layer.borderWidth = 0
+//                        cell.groupLeaderImageView.layer.masksToBounds = false
+//                        cell.groupLeaderImageView.layer.cornerRadius = cell.groupLeaderImageView.frame.height/2
+//                        cell.groupLeaderImageView.clipsToBounds = true
                     if url == nil {
                     }else {
                         cell.groupLeaderImageView.sd_setImage(with: url!, placeholderImage: UIImage(named: "default user"), completed: nil)
+            
                     }
                     }catch {
                         
                     }
             }
-            
+             cell.groupLeaderImageView.layer.borderWidth = 0
+            cell.groupLeaderImageView.layer.cornerRadius = 0;
+            cell.groupLeaderImageView.clipsToBounds = false;
               cell.groupLeaderLbl.text =   self.myGrous[indexPath.row].group_leader_company_name!
         }
         cell.selectionStyle = .none
@@ -775,12 +793,108 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }else{
             cell.groupLabel.text = self.myGrous[indexPath.row].title
         }
+        if self.myGrous[indexPath.row].translations?.count != 0
+        {
+            cell.descriptionLbl.text = self.myGrous[indexPath.row].translations?[0].description
+        }
         
+        if isClosed(date: self.myGrous[indexPath.row].registration_end_date!)
+        {
+            cell.timeOutIcon.isHidden = false
+        }
+        else{
+            cell.timeOutIcon.isHidden = true
+        }
+        if (self.myGrous[indexPath.row].role) == nil
+        {
+            cell.inviteIcon.isHidden = true
+            cell.memberIcon.isHidden = true
+            cell.leaderIcon.isHidden = true
+            
+            if (self.myGrous[indexPath.row].open)! == true
+            {
+               cell.openIcon.isHidden = false
+               cell.privateIcon.isHidden = true
+            }
+            else{
+                cell.openIcon.isHidden = true
+                cell.privateIcon.isHidden = false
+            }
+            
+        }
+        else{
+            if (self.myGrous[indexPath.row].open)! == true
+            {
+                cell.openIcon.isHidden = false
+                cell.privateIcon.isHidden = true
+            }
+            else{
+                cell.openIcon.isHidden = true
+                cell.privateIcon.isHidden = false
+            }
+            if (self.myGrous[indexPath.row].role)! == "observer"
+            {
+                     cell.inviteIcon.isHidden = false
+                     cell.memberIcon.isHidden = true
+                     cell.leaderIcon.isHidden = true
+                
+            }
+            else
+            {
+                if (self.myGrous[indexPath.row].role)! == "member"
+                {
+                    cell.inviteIcon.isHidden = true
+                    cell.memberIcon.isHidden = false
+                    cell.leaderIcon.isHidden = true
+                }
+                else
+                {
+                    if (self.myGrous[indexPath.row].role)! == "group_leader"
+                    {
+                        cell.inviteIcon.isHidden = true
+                        cell.memberIcon.isHidden = true
+                        cell.leaderIcon.isHidden = false
+                    }
+                    else
+                    {
+                        print("role is \((self.myGrous[indexPath.row].role)!))")
+                        cell.inviteIcon.isHidden = true
+                        cell.memberIcon.isHidden = true
+                        cell.leaderIcon.isHidden = true
+                    }
+                    
+                }
+                
+            }
+
+        }
+
         
         return cell
         
     }
     
+    func isClosed(date: String) -> Bool{
+        let currentDate = Date()
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        print("DDDAAATTEEE: "+formatter.string(from: currentDate))
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        let date2 = dateFormatter.date(from: date)!
+        print("REG END DATE: "+dateFormatter.string(from: date2))
+        var days = Calendar.current.dateComponents([.day], from: currentDate, to: date2).day! as? Int
+        var hours = Calendar.current.dateComponents([.day,.hour,.minute,.month], from: currentDate, to: date2).hour! as? Int
+        print("days: \(days!) , hours: \(hours!)")
+        if days! < 0 || hours! < 0 {
+            return true
+        }
+        else{
+           return false
+        }
+        
+        //   print(date)
+    }
     func setToUserDefaults(value: Any?, key: String){
         if value != nil {
         let defaults = UserDefaults.standard
