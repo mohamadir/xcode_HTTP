@@ -130,7 +130,11 @@ struct TourGroup: Codable {
     var group_leader_gender: String?
     var translations: [GroupTranslation]?
     var group_tools: GroupTools?
+    var chat: ChatObject?
     
+}
+struct ChatObject: Codable{
+    var id: Int?
 }
 
 struct InboxMessage: Codable{
@@ -284,6 +288,16 @@ struct GroupCheckList: Codable{
 
 
 /********** CHAT *****************/
+struct ChatGroup: Codable{
+    var messages: [ChatListGroupItem]?
+}
+struct ChatListGroupItem: Codable{
+    var member_id: Int?
+    var sender_name: String?
+    var profile_image: String?
+    var type: String?
+    var message: String?
+}
 
 
 struct ChatListItem: Codable{

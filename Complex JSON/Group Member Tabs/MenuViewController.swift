@@ -82,6 +82,9 @@ class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UI
     @IBOutlet weak var hoursLbl: UILabel!
     @IBOutlet weak var minLbl: UILabel!
     @IBOutlet weak var secLbl: UILabel!
+    @IBOutlet weak var groupChatView: UIControl!
+    
+    
     var timer1 = Timer()
     var arrives: ArriveChecked?
     var secondsLeft: Int?
@@ -142,6 +145,7 @@ class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UI
             }
         
         }
+        
         votesView.addTapGestureRecognizer {
             if (self.singleGroup?.group_tools?.voting!)! == true
             {
@@ -182,6 +186,18 @@ class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UI
             }
            
 
+        }
+        groupChatView.addTapGestureRecognizer {
+            if (self.singleGroup?.group_tools?.chat!)! == true
+            {
+                if (self.singleGroup?.role) != nil && (self.singleGroup?.role)! != "observer"
+                {
+                    self.performSegue(withIdentifier: "showChatGroup", sender: self)
+                }
+                
+            }
+            
+            
         }
         checkListView.addTapGestureRecognizer {
             if (self.singleGroup?.group_tools?.checklist!)! == true
@@ -293,6 +309,7 @@ class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UI
              self.roomlistView.alpha = 0.3
              self.docsView.alpha = 0.3
             self.arrivalConfirmationView.alpha = 0.3
+            self.groupChatView.alpha = 0.3
         }
         else
         {
@@ -302,9 +319,13 @@ class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UI
                 self.roomlistView.alpha = 0.3
                 self.docsView.alpha = 0.3
                 self.arrivalConfirmationView.alpha = 0.3
+                  self.groupChatView.alpha = 0.3
             }
         }
-        
+        if (self.singleGroup?.group_tools?.chat!)! == false
+        {
+            self.groupChatView.alpha = 0.3
+        }
         if (self.singleGroup?.group_tools?.voting!)! == false
         {
               self.votesView.alpha = 0.3
