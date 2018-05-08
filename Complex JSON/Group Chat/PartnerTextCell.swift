@@ -15,6 +15,8 @@ class PartnerTextCell: UITableViewCell {
         // Initialization code
     }
     @IBOutlet weak var textLbl: UILabel!
+    @IBOutlet weak var partnerProfile: UIImageView!
+    @IBOutlet weak var partnerName: UILabel!
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)

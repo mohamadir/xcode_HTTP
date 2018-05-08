@@ -297,6 +297,8 @@ struct ChatListGroupItem: Codable{
     var profile_image: String?
     var type: String?
     var message: String?
+    var image_path: String?
+    var created_at: String?
 }
 
 
