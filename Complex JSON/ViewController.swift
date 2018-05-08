@@ -21,7 +21,7 @@ import FirebaseInstanceID
 /***********************************************      VIEW CONTROLLER     *************************************************************/
 
 
-class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource ,  MRCountryPickerDelegate , UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource ,  MRCountryPickerDelegate , UIImagePickerControllerDelegate, UINavigationControllerDelegate, UISearchBarDelegate {
     
     // header views
     
@@ -82,6 +82,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     var hasLoadMore: Bool = true
     var refresher: UIRefreshControl!
     var dbRererence: DatabaseReference?
+    var search  = ""
     var page: Int = 1
     var standart_sort: String = "created_at&order=desc"
     var groupImages: [GroupImage] = []
@@ -215,14 +216,20 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         print("image ref: \(image)" )
         
         dismiss(animated: true, completion: nil)
-        HTTP.POST("https://api.snapgroup.co.il/api/upload_single_image/Member/\(MyVriables.currentMember?.id!)/profile", parameters: ["single_image": Upload(fileUrl: image.absoluteURL)]) { response in
+        print("UPLOADIMAGE- url - "+"https://api.snapgroup.co.il/api/upload_single_image/Member/\(MyVriables.currentMember?.id!)/profile")
+        HTTP.POST("https://api.snapgroup.co.il/api/upload_single_image/Member/\((MyVriables.currentMember?.id!)!)/profile", parameters: ["single_image": Upload(fileUrl: image.absoluteURL)]) { response in
             print("response is : \(response.data)")
             ARSLineProgress.hide()
             let data = response.data
             do {
+                if response.error != nil {
+                    print("response is : ERROR \(response.error)")
+                    
+                    return
+                }
                 let  image2 = try JSONDecoder().decode(ImageServer.self, from: data)
                 print("response is :")
-                print(data)
+                print(response.description)
                 self.setToUserDefaults(value: image2.image?.path, key: "profile_image")
               try  DispatchQueue.main.sync {
                 self.profileImageView.layer.borderWidth = 0
@@ -230,6 +237,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 
                self.profileImageView.layer.cornerRadius = self.profileImageView.frame.height/2
                 self.profileImageView.clipsToBounds = true
+                
+                print("--UPLOADIMAGE \(image2)")
                     let urlString = try ApiRouts.Web + (image2.image?.path)!
                     var url = URL(string: urlString)
                     self.profileImageView.sd_setImage(with: url!, completed: nil)
@@ -385,6 +394,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         if self.isLogged {
             ARSLineProgress.show()
                 self.getGroupsByFilter()
+            
             
         }else{
             
@@ -579,19 +589,23 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func getGroupsByFilter() {
         print("request PAGE = \(self.page)")
-        ARSLineProgress.show()
 
         var groups: [TourGroup]?
         let withoutFilter = "/api/groups/members/\(self.id)?page=\(self.page)&sort=\(self.sort)"
         let withRole = "/api/groups/members/\(self.id)?page=\(self.page)&role=group_leader&sort=\(self.sort)"
         let withFilter = "/api/groups?member_id=\(self.id)&page=\(self.page)&filter=\(self.filter)&sort=\(self.sort)"
         let allGroupsFilter = "/api/groups?member_id=\(self.id)&page=\(self.page)&sort=\(self.sort)"
-
+        let searchUrl  = "/api/groups?member_id=\(self.id)?page=\(self.page)&sort=\(self.sort)&search=\(self.search)"
+            ////url = Constants.SERVERIP + "api/groups?member_id="+userId+"&search=" + arrayForFilter[2]
+           // +"&page="+page+"&sort=created_at&order=desc";
         var lastFilter: String
         if filter == "all" {
             lastFilter = allGroupsFilter
         }
-        if filter == "leader" {
+        else if filter == "search" {
+            lastFilter = searchUrl
+        }
+        else if filter == "leader" {
             lastFilter = withRole
         }
         else if filter == "no-filter" {
@@ -599,13 +613,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }else{
             lastFilter = withFilter
         }
-        print("------------- \(lastFilter)  Page: \(self.page)")
         HTTP.GET(ApiRouts.Web+lastFilter) { response in
             if ARSLineProgress.shown == true {
                 ARSLineProgress.hide()
             }
             if let error = response.error {
                 print(error)
+                  ARSLineProgress.hide()
             }
             let data = response.data
             
@@ -613,13 +627,17 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 
                 let  groups2 = try JSONDecoder().decode(Main.self, from: data)
                 groups = groups2.data!
+                print("------------- \(lastFilter)  Page: \(self.page) groups count: \(groups?.count)")
+
                 
-                
-                if groups?.count == 0 {
+                if groups2.last_page! < self.page {
 
                     print("has Load more is false now  because goups count is : \(groups?.count)")
                     self.hasLoadMore = false
                     return
+                }else {
+                    print("has Load more is true now  because goups count is : \(groups?.count)")
+
                 }
                 
                 
@@ -637,12 +655,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                     if self.refresher.isRefreshing{
                         self.refresher.endRefreshing()
                     }
+                      ARSLineProgress.hide()
                     self.page += 1
                 }
             }
             catch let error  {
                 print("im in catch \(error)")
-
+                ARSLineProgress.hide()
             }
             
         }
@@ -699,120 +718,120 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // print("hi \(myGrous.count)")
-        return self.myGrous.count+1
+        return isLogged ? self.myGrous.count+1 : self.myGrous.count
     }
     
     
     // tableview: return the cell
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if indexPath.row != 0 {
+    fileprivate func setGroupItmes(_ tableView: UITableView, _ indexPath: IndexPath) -> UITableViewCell {
+        //var index = isLogged ? indexPath.row -1 : indexPath
+          var currentIndex = isLogged ? indexPath.row-1 : indexPath.row
         let cell = tableView.dequeueReusableCell(withIdentifier: "customCell") as! CustomTableViewCell
-        
-        cell.viewInfo.tag = indexPath.row
+        cell.viewInfo.tag = currentIndex
         cell.viewInfo.addTapGestureRecognizer(action: ShowModel)
-        if self.myGrous[indexPath.row-1].image != nil{
+        if self.myGrous[currentIndex].image != nil{
             print("IMAGESTATUS - in if ")
-
+            
             do{
-                var urlString: String = try ApiRouts.Web + (self.myGrous[indexPath.row-1].image)!
-                if self.myGrous[indexPath.row-1].image != nil{
+                var urlString: String = try ApiRouts.Web + (self.myGrous[currentIndex].image)!
+                if self.myGrous[currentIndex].image != nil{
                     print(urlString)
                     
                 }
                 urlString = urlString.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)!
                 if let url = URL(string: urlString) {
-                    print("image:  \(String(describing: url)) , belongs to : \(self.myGrous[indexPath.row-1].translations?[0].title!)")
+                    print("image:  \(String(describing: url)) , belongs to : \(self.myGrous[currentIndex].translations?[0].title!)")
                     cell.imageosh.sd_setImage(with: url, placeholderImage: UIImage(named: "Group Placeholder"), completed: nil)
-
+                    
                 }else {
                     cell.imageosh.image = UIImage(named: "Group Placeholder")
-                    print("IMAGESTATUS - in out of let - for group -  \(self.myGrous[indexPath.row-1].translations?[0].title!) , urlString: \(urlString)")
-
+                    print("IMAGESTATUS - in out of let - for group -  \(self.myGrous[currentIndex].translations?[0].title!) , urlString: \(urlString)")
+                    
                 }
-               
+                
             }
             catch{
-                print("in the catch with image \((self.myGrous[indexPath.row-1].title)!)")
+                print("in the catch with image \((self.myGrous[currentIndex].title)!)")
                 cell.imageosh.image = UIImage(named: "Group Placeholder")
-      
+                
             }
         } else {
             print("IMAGESTATUS - in else ")
-
+            
             cell.imageosh.image = UIImage(named: "Group Placeholder")
         }
-        cell.startDayLbl.text = getStartDate(date: self.myGrous[indexPath.row-1].start_date!)
-        cell.totalDaysLbl.text = "\(getTotalDays(start: self.myGrous[indexPath.row-1].start_date!, end: self.myGrous[indexPath.row-1].end_date!))"
-        if self.myGrous[indexPath.row-1].max_members != nil{
-        cell.totalMembersLbl.text = "\(self.myGrous[indexPath.row-1].max_members!)"
+        cell.startDayLbl.text = getStartDate(date: self.myGrous[currentIndex].start_date!)
+        cell.totalDaysLbl.text = "\(getTotalDays(start: self.myGrous[currentIndex].start_date!, end: self.myGrous[currentIndex].end_date!))"
+        if self.myGrous[currentIndex].max_members != nil{
+            cell.totalMembersLbl.text = "\(self.myGrous[currentIndex].max_members!)"
         }else{
-            if self.myGrous[indexPath.row-1].target_members != nil {
-                cell.totalMembersLbl.text = "\(self.myGrous[indexPath.row-1].target_members!)"
+            if self.myGrous[currentIndex].target_members != nil {
+                cell.totalMembersLbl.text = "\(self.myGrous[currentIndex].target_members!)"
             }
         }
         // if company
-        if self.myGrous[indexPath.row-1].is_company == 0 {
+        if self.myGrous[currentIndex].is_company == 0 {
             
-            cell.groupLeaderLbl.text = self.myGrous[indexPath.row-1].group_leader_first_name! + " " + self.myGrous[indexPath.row-1].group_leader_last_name!
-          
-            if self.myGrous[indexPath.row-1].group_leader_image != nil{
-            do{
-                
-                let urlString = try ApiRouts.Web + (self.myGrous[indexPath.row-1].group_leader_image)!
-                var url = URL(string: urlString)
-                if url == nil {
-                }else {
-                    cell.groupLeaderImageView.sd_setImage(with: url!, placeholderImage: UIImage(named: "default user"), completed: nil)
-                }
-                }
-            catch let error{
-                }
+            cell.groupLeaderLbl.text = self.myGrous[currentIndex].group_leader_first_name! + " " + self.myGrous[currentIndex].group_leader_last_name!
             
-        }
-            cell.groupLeaderImageView.layer.cornerRadius = cell.groupLeaderImageView.frame.size.width / 2;
-            cell.groupLeaderImageView.clipsToBounds = true;
-           cell.groupLeaderImageView.layer.borderWidth = 1.0
-            cell.groupLeaderImageView.layer.borderColor = UIColor.gray.cgColor
-        } // if just group leader
-        else{
-            if self.myGrous[indexPath.row-1].group_leader_company_image != nil{
-
-                    do{
-                    let urlString = try ApiRouts.Web + (self.myGrous[indexPath.row-1].group_leader_company_image)!
+            if self.myGrous[currentIndex].group_leader_image != nil{
+                do{
+                    
+                    let urlString = try ApiRouts.Web + (self.myGrous[currentIndex].group_leader_image)!
                     var url = URL(string: urlString)
-//                        cell.groupLeaderImageView.layer.borderWidth = 0
-//                        cell.groupLeaderImageView.layer.masksToBounds = false
-//                        cell.groupLeaderImageView.layer.cornerRadius = cell.groupLeaderImageView.frame.height/2
-//                        cell.groupLeaderImageView.clipsToBounds = true
                     if url == nil {
                     }else {
                         cell.groupLeaderImageView.sd_setImage(with: url!, placeholderImage: UIImage(named: "default user"), completed: nil)
-            
                     }
-                    }catch {
+                }
+                catch let error{
+                }
+                
+            }
+            cell.groupLeaderImageView.layer.cornerRadius = cell.groupLeaderImageView.frame.size.width / 2;
+            cell.groupLeaderImageView.clipsToBounds = true;
+            cell.groupLeaderImageView.layer.borderWidth = 1.0
+            cell.groupLeaderImageView.layer.borderColor = UIColor.gray.cgColor
+        } // if just group leader
+        else{
+            if self.myGrous[currentIndex].group_leader_company_image != nil{
+                
+                do{
+                    let urlString = try ApiRouts.Web + (self.myGrous[currentIndex].group_leader_company_image)!
+                    var url = URL(string: urlString)
+                    //                        cell.groupLeaderImageView.layer.borderWidth = 0
+                    //                        cell.groupLeaderImageView.layer.masksToBounds = false
+                    //                        cell.groupLeaderImageView.layer.cornerRadius = cell.groupLeaderImageView.frame.height/2
+                    //                        cell.groupLeaderImageView.clipsToBounds = true
+                    if url == nil {
+                    }else {
+                        cell.groupLeaderImageView.sd_setImage(with: url!, placeholderImage: UIImage(named: "default user"), completed: nil)
                         
                     }
+                }catch {
+                    
+                }
             }
-             cell.groupLeaderImageView.layer.borderWidth = 0
+            cell.groupLeaderImageView.layer.borderWidth = 0
             cell.groupLeaderImageView.layer.cornerRadius = 0;
             cell.groupLeaderImageView.clipsToBounds = false;
-              cell.groupLeaderLbl.text =   self.myGrous[indexPath.row-1].group_leader_company_name!
+            cell.groupLeaderLbl.text =   self.myGrous[currentIndex].group_leader_company_name!
         }
         cell.selectionStyle = .none
-       
-        if self.myGrous[indexPath.row-1].translations?.count != 0 {
-            cell.groupLabel.text = self.myGrous[indexPath.row-1].translations?[0].title
-
+        
+        if self.myGrous[currentIndex].translations?.count != 0 {
+            cell.groupLabel.text = self.myGrous[currentIndex].translations?[0].title
+            
         }else{
-            cell.groupLabel.text = self.myGrous[indexPath.row-1].title
+            cell.groupLabel.text = self.myGrous[currentIndex].title
         }
-        if self.myGrous[indexPath.row-1].translations?.count != 0
+        if self.myGrous[currentIndex].translations?.count != 0
         {
-            cell.descriptionLbl.text = self.myGrous[indexPath.row-1].translations?[0].description
+            cell.descriptionLbl.text = self.myGrous[currentIndex].translations?[0].description
         }
-        if self.myGrous[indexPath.row-1].registration_end_date != nil {
-            if isClosed(date: self.myGrous[indexPath.row-1].registration_end_date!)
+        if self.myGrous[currentIndex].registration_end_date != nil {
+            if isClosed(date: self.myGrous[currentIndex].registration_end_date!)
             {
                 cell.timeOutIcon.isHidden = false
             }
@@ -820,25 +839,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 cell.timeOutIcon.isHidden = true
             }
         }
-        if (self.myGrous[indexPath.row-1].role) == nil
+        if (self.myGrous[currentIndex].role) == nil
         {
             cell.inviteIcon.isHidden = true
             cell.memberIcon.isHidden = true
             cell.leaderIcon.isHidden = true
             
-            if (self.myGrous[indexPath.row-1].open)! == true
-            {
-               cell.openIcon.isHidden = false
-               cell.privateIcon.isHidden = true
-            }
-            else{
-                cell.openIcon.isHidden = true
-                cell.privateIcon.isHidden = false
-            }
-            
-        }
-        else{
-            if (self.myGrous[indexPath.row-1].open)! == true
+            if (self.myGrous[currentIndex].open)! == true
             {
                 cell.openIcon.isHidden = false
                 cell.privateIcon.isHidden = true
@@ -847,16 +854,28 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 cell.openIcon.isHidden = true
                 cell.privateIcon.isHidden = false
             }
-            if (self.myGrous[indexPath.row-1].role)! == "observer"
+            
+        }
+        else{
+            if (self.myGrous[currentIndex].open)! == true
             {
-                     cell.inviteIcon.isHidden = false
-                     cell.memberIcon.isHidden = true
-                     cell.leaderIcon.isHidden = true
+                cell.openIcon.isHidden = false
+                cell.privateIcon.isHidden = true
+            }
+            else{
+                cell.openIcon.isHidden = true
+                cell.privateIcon.isHidden = false
+            }
+            if (self.myGrous[currentIndex].role)! == "observer"
+            {
+                cell.inviteIcon.isHidden = false
+                cell.memberIcon.isHidden = true
+                cell.leaderIcon.isHidden = true
                 
             }
             else
             {
-                if (self.myGrous[indexPath.row-1].role)! == "member"
+                if (self.myGrous[currentIndex].role)! == "member"
                 {
                     cell.inviteIcon.isHidden = true
                     cell.memberIcon.isHidden = false
@@ -864,7 +883,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 }
                 else
                 {
-                    if (self.myGrous[indexPath.row-1].role)! == "group_leader"
+                    if (self.myGrous[currentIndex].role)! == "group_leader"
                     {
                         cell.inviteIcon.isHidden = true
                         cell.memberIcon.isHidden = true
@@ -872,7 +891,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                     }
                     else
                     {
-                        print("role is \((self.myGrous[indexPath.row-1].role)!))")
+                        print("role is \((self.myGrous[currentIndex].role)!))")
                         cell.inviteIcon.isHidden = true
                         cell.memberIcon.isHidden = true
                         cell.leaderIcon.isHidden = true
@@ -881,19 +900,49 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 }
                 
             }
-
+            
         }
-
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if isLogged
+        {
+            if indexPath.row != 0 {
+                return setGroupItmes(tableView, indexPath)
+            }
+            else {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "searchCell") as! SearchGroupViewCell
+                cell.search_bar.delegate = self
+                cell.search_bar.searchBarStyle = .minimal;
+                return cell
+            }
         }
-        else {
-            
-            let cell = tableView.dequeueReusableCell(withIdentifier: "searchCell") as! SearchGroupViewCell
-            
-            return cell
+        else{
+          return setGroupItmes(tableView, indexPath)
         }
+    }
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        print(searchBar.text)
+        if (searchBar.text)! != "" {
+        self.myGroupsBt.setTitleColor(UIColor.black, for: .normal)
+        self.publicGroupsbt.setTitleColor(UIColor.black, for: .normal)
+        self.multiDaysBt.setTitleColor(UIColor.black, for: .normal)
+        self.managamentBt.setTitleColor(UIColor.black, for: .normal)
+        self.allGroupsBt.setTitleColor(UIColor.black, for: .normal)
+        self.oneDayBt.setTitleColor(UIColor.black, for: .normal)
+        self.closeFilterSlide()
+        filter = "search"
+        sort = "created_at&order=desc"
+        search = (searchBar.text)!
+        searchBar.text = ""
+        ARSLineProgress.hide()
+        self.refreshData()
+      
         
+        view.endEditing(true)
+        }
     }
 
  
@@ -940,7 +989,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        
+        var currentIndex = isLogged ? indexPath.row-1 : indexPath.row
         if self.isFilterShowing {
                 self.leadingConstraint.constant = -199
                 UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded();})
@@ -955,8 +1004,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
         else {
             
-            let isOpen : Bool = self.myGrous[indexPath.row-1].open!
-            var role : String? = self.myGrous[indexPath.row-1].role
+            let isOpen : Bool = self.myGrous[currentIndex].open!
+            var role : String? = self.myGrous[currentIndex].role
             if role == nil {
                 role = "null"
             }
@@ -964,13 +1013,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 
             if role!  == "null" {
                 if isOpen {
-                    MyVriables.currentGroup = self.myGrous[indexPath.row-1]
+                    MyVriables.currentGroup = self.myGrous[currentIndex]
                     self.performSegue(withIdentifier: "groupDetailsBar", sender: self)
                 }else {
                     showCloseAlert()
                 }
             }else{
-                MyVriables.currentGroup = self.myGrous[indexPath.row-1]
+                MyVriables.currentGroup = self.myGrous[currentIndex]
                 self.performSegue(withIdentifier: "groupDetailsBar", sender: self)
             }
         }
@@ -1068,6 +1117,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         self.managamentBt.setTitleColor(UIColor.black, for: .normal)
         self.publicGroupsbt.setTitleColor(UIColor.black, for: .normal)
         self.multiDaysBt.setTitleColor(UIColor.black, for: .normal)
+        
         if #available(iOS 11.0, *) {
             self.myGroupsBt.setTitleColor(UIColor(named: "Primary"), for: .normal)
         } else {
@@ -1077,6 +1127,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         self.allGroupsBt.setTitleColor(UIColor.black, for: .normal)
         self.oneDayBt.setTitleColor(UIColor.black, for: .normal)
         self.closeFilterSlide()
+        search = ""
         sort = standart_sort
         filter = "no-filter"
        // showToast("My Message", 3.0)
@@ -1114,7 +1165,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             // Fallback on earlier versions
             self.managamentBt.setTitleColor(Colors.PrimaryColor, for: .normal)
         }
-        
+        search = ""
         self.allGroupsBt.setTitleColor(UIColor.black, for: .normal)
         self.oneDayBt.setTitleColor(UIColor.black, for: .normal)
        self.closeFilterSlide()
@@ -1139,6 +1190,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             // Fallback on earlier versions
             self.publicGroupsbt.setTitleColor(Colors.PrimaryColor, for: .normal)
         }
+        search = ""
         self.allGroupsBt.setTitleColor(UIColor.black, for: .normal)
         self.oneDayBt.setTitleColor(UIColor.black, for: .normal)
         self.closeFilterSlide()
@@ -1151,6 +1203,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         self.myGroupsBt.setTitleColor(UIColor.black, for: .normal)
         self.managamentBt.setTitleColor(UIColor.black, for: .normal)
         self.multiDaysBt.setTitleColor(UIColor.black, for: .normal)
+        search = ""
         if #available(iOS 11.0, *) {
             self.allGroupsBt.setTitleColor(UIColor(named: "Primary"), for: .normal)
         } else {
@@ -1167,6 +1220,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     @IBAction func oneDayTapped(_ sender: Any) {
         self.myGroupsBt.setTitleColor(UIColor.black, for: .normal)
+        search = ""
         self.managamentBt.setTitleColor(UIColor.black, for: .normal)
         self.multiDaysBt.setTitleColor(UIColor.black, for: .normal)
         if #available(iOS 11.0, *) {
@@ -1184,6 +1238,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     @IBAction func multiDaysTapped(_ sender: Any) {
         self.myGroupsBt.setTitleColor(UIColor.black, for: .normal)
+        search = ""
         self.managamentBt.setTitleColor(UIColor.black, for: .normal)
         self.oneDayBt.setTitleColor(UIColor.black, for: .normal)
         if #available(iOS 11.0, *) {

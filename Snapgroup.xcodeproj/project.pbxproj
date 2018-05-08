@@ -77,6 +77,10 @@
 		7E2ED4BD20985633002921A5 /* ArrivleConfirmationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2ED4BC20985633002921A5 /* ArrivleConfirmationViewController.swift */; };
 		7E2ED4BF20986061002921A5 /* ArriceCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2ED4BE20986061002921A5 /* ArriceCollectionCell.swift */; };
 		7EBD0774209F2FC000369E36 /* ModelInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EBD0773209F2FC000369E36 /* ModelInfoViewController.swift */; };
+		7EBD077720A052CF00369E36 /* GroupChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EBD077620A052CF00369E36 /* GroupChatViewController.swift */; };
+		7EBD077920A05F5400369E36 /* PartnerTextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EBD077820A05F5400369E36 /* PartnerTextCell.swift */; };
+		7EBD077B20A05F7200369E36 /* MeTextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EBD077A20A05F7200369E36 /* MeTextCell.swift */; };
+		7EBD077D20A184A100369E36 /* ImagePartnerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EBD077C20A184A100369E36 /* ImagePartnerCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -197,6 +201,10 @@
 		7E2ED4BC20985633002921A5 /* ArrivleConfirmationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrivleConfirmationViewController.swift; sourceTree = "<group>"; };
 		7E2ED4BE20986061002921A5 /* ArriceCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArriceCollectionCell.swift; sourceTree = "<group>"; };
 		7EBD0773209F2FC000369E36 /* ModelInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelInfoViewController.swift; sourceTree = "<group>"; };
+		7EBD077620A052CF00369E36 /* GroupChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupChatViewController.swift; sourceTree = "<group>"; };
+		7EBD077820A05F5400369E36 /* PartnerTextCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartnerTextCell.swift; sourceTree = "<group>"; };
+		7EBD077A20A05F7200369E36 /* MeTextCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeTextCell.swift; sourceTree = "<group>"; };
+		7EBD077C20A184A100369E36 /* ImagePartnerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePartnerCell.swift; sourceTree = "<group>"; };
 		89E7D6AE145D4989B1E4DBF6 /* Pods_Complex_JSON.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Complex_JSON.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4F2DA88D0C7A1EAE5A7D431 /* Pods_Snapgroup.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Snapgroup.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F44CD3C49D70D6E498CC6CF1 /* Pods-Complex JSON.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Complex JSON.release.xcconfig"; path = "Pods/Target Support Files/Pods-Complex JSON/Pods-Complex JSON.release.xcconfig"; sourceTree = "<group>"; };
@@ -235,7 +243,7 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		74138E052044211400F37028 /* Chat */ = {
+		74138E052044211400F37028 /* Private Chat */ = {
 			isa = PBXGroup;
 			children = (
 				74138E032044207700F37028 /* ChatViewController.swift */,
@@ -249,7 +257,7 @@
 				74B4E8F920A06A7A00AD873A /* ImagePartnerTableViewCell.swift */,
 				74B4E8FB20A0724800AD873A /* ImageViewController.swift */,
 			);
-			path = Chat;
+			path = "Private Chat";
 			sourceTree = "<group>";
 		};
 		7418AFB7203EB3C1007BBC3D /* ImageSlideshow */ = {
@@ -368,9 +376,10 @@
 		743A207F203C1B12008DF1AA /* Complex JSON */ = {
 			isa = PBXGroup;
 			children = (
+				7EBD077520A052AD00369E36 /* Group Chat */,
 				7E2ED4BB20985610002921A5 /* Arrivle Confirmation */,
 				743A2087203C1B12008DF1AA /* Assets.xcassets */,
-				74138E052044211400F37028 /* Chat */,
+				74138E052044211400F37028 /* Private Chat */,
 				74B9BCF9205CF815005A0C60 /* Check List */,
 				742375092046DE0200B9A0C0 /* Classes */,
 				74F7AAE0205BE69600E66DF8 /* Documents */,
@@ -535,6 +544,17 @@
 				7E2ED4BC20985633002921A5 /* ArrivleConfirmationViewController.swift */,
 			);
 			path = "Arrivle Confirmation";
+			sourceTree = "<group>";
+		};
+		7EBD077520A052AD00369E36 /* Group Chat */ = {
+			isa = PBXGroup;
+			children = (
+				7EBD077620A052CF00369E36 /* GroupChatViewController.swift */,
+				7EBD077820A05F5400369E36 /* PartnerTextCell.swift */,
+				7EBD077A20A05F7200369E36 /* MeTextCell.swift */,
+				7EBD077C20A184A100369E36 /* ImagePartnerCell.swift */,
+			);
+			path = "Group Chat";
 			sourceTree = "<group>";
 		};
 		C5D372449F7ECC4B78A74442 /* Pods */ = {
@@ -888,6 +908,7 @@
 				74490C1D2052B8F0007AD4FA /* KeyboardViewController.swift in Sources */,
 				74730C4F205666680091D657 /* ItineraryViewController.swift in Sources */,
 				74138E0220440E9D00F37028 /* MenuViewController.swift in Sources */,
+				7EBD077B20A05F7200369E36 /* MeTextCell.swift in Sources */,
 				74905901203D853200C6B8C1 /* DesignableView.swift in Sources */,
 				74BB5D51208DDC0D00248CA1 /* MessageViewController.swift in Sources */,
 				7E2D7B232090C06900DAC98F /* ExpandingTVC.swift in Sources */,
@@ -899,9 +920,12 @@
 				74FBD106205009FD002D223A /* MembersViewController.swift in Sources */,
 				7423757F20499FB600B9A0C0 /* PrivateChatViewController.swift in Sources */,
 				74FBD10A20514220002D223A /* MemberCollectionCell.swift in Sources */,
+				7EBD077D20A184A100369E36 /* ImagePartnerCell.swift in Sources */,
+				7EBD077920A05F5400369E36 /* PartnerTextCell.swift in Sources */,
 				743A2083203C1B12008DF1AA /* ViewController.swift in Sources */,
 				7443303F2063EC7400D4073F /* JoinViewController.swift in Sources */,
 				74490C19205298D6007AD4FA /* CustomMarkerView.swift in Sources */,
+				7EBD077720A052CF00369E36 /* GroupChatViewController.swift in Sources */,
 				74B9BCFB205CF82D005A0C60 /* CheckListViewController.swift in Sources */,
 				746E9F3A2077BA88009B3258 /* NotificationCell.swift in Sources */,
 				7404F38220569F220017762F /* ItemViewController.swift in Sources */,

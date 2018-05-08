@@ -1,21 +1,21 @@
 //
-//  SearchTableViewCell.swift
+//  PartnerTextCell.swift
 //  Snapgroup
 //
-//  Created by snapmac on 5/6/18.
+//  Created by hosen gaber on 7.5.2018.
 //  Copyright © 2018 snapmac. All rights reserved.
 //
 
 import UIKit
 
-class SearchGroupViewCell: UITableViewCell {
+class PartnerTextCell: UITableViewCell {
 
-    @IBOutlet weak var search_bar: UISearchBar!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
     }
-
+    @IBOutlet weak var textLbl: UILabel!
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
