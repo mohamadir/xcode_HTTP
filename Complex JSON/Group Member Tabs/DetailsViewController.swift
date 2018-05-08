@@ -108,6 +108,9 @@ class DetailsViewController: UIViewController {
                 print("%%% \(self.groupImages.count)")
             if self.groupImages.count != 0 {
                 self.placeHoolderImageView.isHidden = true
+            }else {
+                self.slideShow.isHidden = true
+                return
             }
                 var images2: [InputSource] = []
          //   print("group : \(self.singleGroup?.title!) images: \(self.groupImages)")

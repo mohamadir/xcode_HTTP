@@ -9,7 +9,7 @@
 import UIKit
 import SwiftHTTP
 import SocketIO
-
+import ARSLineProgress
 struct privateChatMessage: Codable {
     var member_id: Int?
     var message: String?
@@ -42,8 +42,9 @@ public extension UIColor {
 
 
 
-class PrivateChatViewController: UIViewController  , UITableViewDelegate, UITableViewDataSource , UITextFieldDelegate {
+class PrivateChatViewController: UIViewController ,UIImagePickerControllerDelegate, UINavigationControllerDelegate , UITableViewDelegate, UITableViewDataSource , UITextFieldDelegate {
 
+    @IBOutlet weak var keyboardConstraints: NSLayoutConstraint!
     @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
 
     @IBOutlet weak var chatTableView: UITableView!
@@ -53,7 +54,7 @@ class PrivateChatViewController: UIViewController  , UITableViewDelegate, UITabl
     var socket: SocketIOClient?
     var socketManager : SocketManager?
     var originY : CGFloat?
-
+    let imagePicker = UIImagePickerController()
     @IBOutlet weak var chatTextFeild: UITextField!
     var messageUser: Partner?
     var myId: Int?
@@ -69,24 +70,88 @@ class PrivateChatViewController: UIViewController  , UITableViewDelegate, UITabl
     }
 
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        textField.becomeFirstResponder()
-        moveTextField(textField, moveDistance: -250, up: true)
+     //   textField.becomeFirstResponder()
+       // moveTextField(textField, moveDistance: -250, up: true)
         
     }
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        
+        var image: URL
+        if #available(iOS 11.0, *) {
+            image = info[UIImagePickerControllerImageURL] as! URL
+        } else {
+            // Fallback on earlier versions
+            image = info[UIImagePickerControllerReferenceURL] as! URL
+            
+        }
+        ARSLineProgress.show()
+        print("image ref: \(image)" )
+        
+        dismiss(animated: true, completion: nil)
+        print("UPLOADIMAGE- url - "+"https://api.snapgroup.co.il/api/upload_single_image/Member/\(MyVriables.currentMember?.id!)/media")
+        HTTP.POST("https://api.snapgroup.co.il/api/upload_single_image/Member/\((MyVriables.currentMember?.id!)!)/media", parameters: ["single_image": Upload(fileUrl: image.absoluteURL)]) { response in
+            
+            ARSLineProgress.hide()
+            if response.error != nil {
+                print(response.error)
+                return
+            }
+            let data = response.data
+            do {
+                if response.error != nil {
+                    print("response is : ERROR \(response.error)")
 
+                    return
+                }
+                let  image2 = try JSONDecoder().decode(ImageServer.self, from: data)
+                    print("image response is : \(image2.image?.path)")
+                    print(response.description)
+                // send image here
+                var oponent_id =  ChatUser.currentUser?.id!
+                var image_path = ApiRouts.Web +  (image2.image?.path!)!
+                let params = ["type":"image","image_path": image_path  , "message": "", "sender_id": (MyVriables.currentMember?.id!)!, "chat_type" : "private", "receiver_id" : oponent_id!] as [String : Any]
+                print("params: \(params)")
+                
+                HTTP.POST(ApiRouts.Web + "/api/chats", parameters: params) { response in
+                    print("send chat: \(response.statusCode)" )
+                    var newMessage :Message = Message()
+                    newMessage.message = ""
+                    newMessage.type = "image"
+                    newMessage.image_path = image_path
+                    newMessage.member_id = MyVriables.currentMember?.id!
+                    print(newMessage)
+                    DispatchQueue.main.async {
+                        self.dismissKeyboard()
+                        self.allMessages.append(newMessage)
+                        self.chatTableView.reloadData()
+                        self.scrollToLast()
+                    }
+                }
+
+            }catch let error {
+                print(error)
+            }
+            print(response.data)
+            print(response.data.description)
+            
+           
+            
+        }
+        
+    }
     @available(iOS 10.0, *)
     func textFieldDidEndEditing(_ textField: UITextField, reason: UITextFieldDidEndEditingReason) {
-        moveTextField(textField, moveDistance: -250, up: false)
+      //  moveTextField(textField, moveDistance: -250, up: false)
 
     }
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
 
-        if #available(iOS 10.0, *) {
-        } else {
-            moveTextField(textField, moveDistance: -250, up: false)
-            // or use some work around
-        }
-        textField.resignFirstResponder()
+//        if #available(iOS 10.0, *) {
+//        } else {
+//            moveTextField(textField, moveDistance: -250, up: false)
+//            // or use some work around
+//        }
+//        textField.resignFirstResponder()
         return true
     }
     func moveTextField(_ textField: UITextField, moveDistance: Int, up: Bool) {
@@ -113,10 +178,11 @@ class PrivateChatViewController: UIViewController  , UITableViewDelegate, UITabl
         print("chat id: \(ChatUser.ChatId)")
         self.messageUser = ChatUser.currentUser!
         self.userImage.layer.borderWidth = 0
-      //  chatTextFeild.autocorrectionType = .no
+        chatTextFeild.autocorrectionType = .no
         self.userImage.layer.masksToBounds = false
         self.userImage.layer.cornerRadius = userImage.frame.height/2
-       userImage.clipsToBounds = true
+        userImage.clipsToBounds = true
+        imagePicker.delegate = self
        
        
        // self.userImage.downloadedFrom(url: url!, contentMode: .scaleToFill)
@@ -169,27 +235,35 @@ class PrivateChatViewController: UIViewController  , UITableViewDelegate, UITabl
             isChatId = true
             self.getHistoryConv(isViaChatId: false)
         }
-        chatTableView.rowHeight = UITableViewAutomaticDimension
+   //     chatTableView.rowHeight = UITableViewAutomaticDimension
 
-//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-//
-//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
-//
-//        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-//
-//        view.addGestureRecognizer(tap)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+
+        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+
+        view.addGestureRecognizer(tap)
 
 
 
     }
+    
+    
+    @IBAction func attachImageTapped(_ sender: Any) {
+        imagePicker.allowsEditing = false
+        imagePicker.sourceType = .photoLibrary
+        present(imagePicker, animated: true, completion: nil)
+    }
+    
     @objc func keyboardWillShow(notification:NSNotification) {
     //    adjustingHeight(show: true, notification: notification)
         print("in keyboard show")
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             
-            if self.view.frame.origin.y == 0 {
-                
-                self.view.frame.origin.y -= keyboardSize.height
+            keyboardConstraints.constant = keyboardSize.height + 105
+            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(300)) {
+                self.scrollToLast()
             }
         }
         // show keyboard hide
@@ -205,11 +279,9 @@ class PrivateChatViewController: UIViewController  , UITableViewDelegate, UITabl
 
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             
-            if self.view.frame.origin.y != 0 {
-                
-                self.view.frame.origin.y += keyboardSize.height
-            }
+            self.keyboardConstraints.constant = 70
         }
+    
     }
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
@@ -469,8 +541,12 @@ class PrivateChatViewController: UIViewController  , UITableViewDelegate, UITabl
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.allMessages.count
     }
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("IMAGETAPPED: yes")
+
         if allMessages[indexPath.row].type == "image"{
+            print("IMAGETAPPED: yes")
             MyVriables.imageUrl = (allMessages[indexPath.row].image_path)!
             performSegue(withIdentifier: "showImageSegue", sender: self)
         }
@@ -488,7 +564,7 @@ class PrivateChatViewController: UIViewController  , UITableViewDelegate, UITabl
                 print("--PRIVATECHAT \(urlString)")
 
                 cell.meImageView.sd_setImage(with: url! , placeholderImage: UIImage(named: "Group Placeholder"))
-                
+               
                 
                 return cell
             }else {

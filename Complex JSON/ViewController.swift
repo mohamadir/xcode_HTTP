@@ -816,7 +816,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             cell.groupLeaderImageView.layer.borderWidth = 0
             cell.groupLeaderImageView.layer.cornerRadius = 0;
             cell.groupLeaderImageView.clipsToBounds = false;
-            cell.groupLeaderLbl.text =   self.myGrous[currentIndex].group_leader_company_name!
+         //   cell.groupLeaderLbl.text =   self.myGrous[currentIndex].group_leader_company_name!
         }
         cell.selectionStyle = .none
         
@@ -936,6 +936,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         filter = "search"
         sort = "created_at&order=desc"
         search = (searchBar.text)!
+        search = search.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)!
         searchBar.text = ""
         ARSLineProgress.hide()
         self.refreshData()
