@@ -242,9 +242,10 @@ class PrivateChatViewController: UIViewController  , UITableViewDelegate, UITabl
 ////        navigationItem.backBarButtonItem?.tintColor = UIColor(named: "Primary")
 ////        navigationItem.backBarButtonItem?.title  = (ChatUser.currentUser?.opponent_first_name!)! + " " + (ChatUser.currentUser?.opponent_last_name!)!
 //        self.navigationItem.backBarButtonItem = UIBarButtonItem(title:"", style:.plain, target:nil, action:nil)
-
+ 
     }
     override func viewWillAppear(_ animated: Bool) {
+         self.navigationController?.setNavigationBarHidden(false, animated: false)
         navigationController?.navigationBar.shadowImage = .none
         let nav = self.navigationController?.navigationBar
         nav?.backgroundColor = UIColor.white
@@ -299,7 +300,7 @@ class PrivateChatViewController: UIViewController  , UITableViewDelegate, UITabl
     override func viewWillDisappear(_ animated: Bool) {
         self.resetMessages()
         markConvRead()
-
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
@@ -353,6 +354,7 @@ class PrivateChatViewController: UIViewController  , UITableViewDelegate, UITabl
                 print("onMessageRec: \(data[0])")
                 if let data2 = data[0] as? Dictionary<String, Any> {
                     if let messageClass = data2["messageClass"] as? Dictionary<String, Any> {
+
                             var newMessage : Message = Message()
                             newMessage.created_at = messageClass["created_at"] as? String
                             newMessage.member_id = messageClass["member_id"] as? Int
@@ -361,8 +363,15 @@ class PrivateChatViewController: UIViewController  , UITableViewDelegate, UITabl
 
                             newMessage.message = messageClass["message"] as? String
                             newMessage.type = messageClass["type"] as? String
+                            if newMessage.type == "image"
+                            {
+                                var path = messageClass["image_path"] as? String
+                                newMessage.image_path = path!
+                            }
                             print(newMessage)
                             if oponent_id! == newMessage.member_id {
+                                print("MESSAGECLASS--\(newMessage.image_path)")
+
                                 self.allMessages.append(newMessage)
                                 self.chatTableView.reloadData()
                                 self.scrollToLast()
@@ -460,25 +469,60 @@ class PrivateChatViewController: UIViewController  , UITableViewDelegate, UITabl
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.allMessages.count
     }
-
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if allMessages[indexPath.row].type == "image"{
+            MyVriables.imageUrl = (allMessages[indexPath.row].image_path)!
+            performSegue(withIdentifier: "showImageSegue", sender: self)
+        }
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "privateCustomCell") as! PrivateChatMessageCelVc
+       
         if allMessages[indexPath.row].member_id == MyVriables.currentMember?.id! {
-            cell.recMessageView.isHidden = true
-            cell.sentMessageView.isHidden = false
-            cell.sentMessageLbl.text = allMessages[indexPath.row].message!
+            //imageMeCell
+
+            if allMessages[indexPath.row].type == "image" {
+                  let cell = tableView.dequeueReusableCell(withIdentifier: "imageMeCell") as! ImageMeTableViewCell
+                let urlString = (allMessages[indexPath.row].image_path)!
+                let url = URL(string: urlString)
+                print("--PRIVATECHAT \(urlString)")
+
+                cell.meImageView.sd_setImage(with: url! , placeholderImage: UIImage(named: "Group Placeholder"))
+                
+                
+                return cell
+            }else {
+                 let cell = tableView.dequeueReusableCell(withIdentifier: "privateCustomCell") as! PrivateChatMessageCelVc
+                cell.sentMessageLbl.text = allMessages[indexPath.row].message!
+                cell.selectionStyle = .none
+                if (indexPath.row == self.allMessages.count-1) {
+                    cell.separatorInset = UIEdgeInsetsMake(0, cell.bounds.size.width, 0, 0);
+                }
+                return cell
+            }
 
         } else {
-            cell.recMessageView.isHidden = false
-            cell.sentMessageView.isHidden = true
-            cell.recMessageLbl.text = allMessages[indexPath.row].message!
+            if allMessages[indexPath.row].type == "image" {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "partnerImageCell") as! ImagePartnerTableViewCell
+                let urlString =  (allMessages[indexPath.row].image_path)!
+                let url = URL(string: urlString)
+                print("--PRIVATECHAT \(urlString)")
+                
+                cell.partnerImageview.sd_setImage(with: url! , placeholderImage: UIImage(named: "Group Placeholder"))
+                
+                return cell
+            }else{
+                let cell = tableView.dequeueReusableCell(withIdentifier: "partnerCell") as! PartnerViewCell
+                cell.recMessageLbl.text = allMessages[indexPath.row].message!
+                cell.selectionStyle = .none
+                if (indexPath.row == self.allMessages.count-1) {
+                    cell.separatorInset = UIEdgeInsetsMake(0, cell.bounds.size.width, 0, 0);
+                }
+                return cell
+            }
 
         }
-        cell.selectionStyle = .none
-        if (indexPath.row == self.allMessages.count-1) {
-            cell.separatorInset = UIEdgeInsetsMake(0, cell.bounds.size.width, 0, 0);
-        }
-        return cell
+        
     }
 
     func getHistoryConv(isViaChatId: Bool){
@@ -503,7 +547,7 @@ class PrivateChatViewController: UIViewController  , UITableViewDelegate, UITabl
                 DispatchQueue.main.sync {
                     self.allMessages = messages.messages!
                     self.allMessages = self.allMessages.filter({ (message: Message) -> Bool in
-                        return message.type != "image"
+                        return  true
                     })
                     self.chatTableView.reloadData()
                     DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(300)) {
