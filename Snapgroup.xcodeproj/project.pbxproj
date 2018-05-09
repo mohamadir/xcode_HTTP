@@ -80,6 +80,8 @@
 		7EBD077F20A1851300369E36 /* ImageMeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EBD077E20A1851300369E36 /* ImageMeCell.swift */; };
 		7EBD078120A1A8E600369E36 /* PartnerFileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EBD078020A1A8E600369E36 /* PartnerFileCell.swift */; };
 		7EBD078320A1A9E700369E36 /* MeFileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EBD078220A1A9E700369E36 /* MeFileCell.swift */; };
+		7EBD078520A2DBBA00369E36 /* AddReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EBD078420A2DBBA00369E36 /* AddReviewViewController.swift */; };
+		7EBD078720A2F28300369E36 /* ReviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EBD078620A2F28300369E36 /* ReviewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -203,6 +205,8 @@
 		7EBD077E20A1851300369E36 /* ImageMeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageMeCell.swift; sourceTree = "<group>"; };
 		7EBD078020A1A8E600369E36 /* PartnerFileCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartnerFileCell.swift; sourceTree = "<group>"; };
 		7EBD078220A1A9E700369E36 /* MeFileCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeFileCell.swift; sourceTree = "<group>"; };
+		7EBD078420A2DBBA00369E36 /* AddReviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddReviewViewController.swift; sourceTree = "<group>"; };
+		7EBD078620A2F28300369E36 /* ReviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewCell.swift; sourceTree = "<group>"; };
 		89E7D6AE145D4989B1E4DBF6 /* Pods_Complex_JSON.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Complex_JSON.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4F2DA88D0C7A1EAE5A7D431 /* Pods_Snapgroup.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Snapgroup.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F44CD3C49D70D6E498CC6CF1 /* Pods-Complex JSON.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Complex JSON.release.xcconfig"; path = "Pods/Target Support Files/Pods-Complex JSON/Pods-Complex JSON.release.xcconfig"; sourceTree = "<group>"; };
@@ -463,6 +467,8 @@
 			isa = PBXGroup;
 			children = (
 				74A5A43D2085D64900A97052 /* GroupLeaderViewController.swift */,
+				7EBD078420A2DBBA00369E36 /* AddReviewViewController.swift */,
+				7EBD078620A2F28300369E36 /* ReviewCell.swift */,
 			);
 			path = "Group Leader";
 			sourceTree = "<group>";
@@ -885,6 +891,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7EBD078720A2F28300369E36 /* ReviewCell.swift in Sources */,
 				74A5A4392085D2DB00A97052 /* CheckListItemCell.swift in Sources */,
 				7E2D7B282090C06900DAC98F /* DefaultCell.swift in Sources */,
 				74905903203D89E000C6B8C1 /* SignUpVC.swift in Sources */,
@@ -909,6 +916,7 @@
 				7EBD077B20A05F7200369E36 /* MeTextCell.swift in Sources */,
 				74905901203D853200C6B8C1 /* DesignableView.swift in Sources */,
 				74BB5D51208DDC0D00248CA1 /* MessageViewController.swift in Sources */,
+				7EBD078520A2DBBA00369E36 /* AddReviewViewController.swift in Sources */,
 				7E2D7B232090C06900DAC98F /* ExpandingTVC.swift in Sources */,
 				7E2D7B262090C06900DAC98F /* ExpandableHeaderView.swift in Sources */,
 				74490C1B20529E22007AD4FA /* MapViewController.swift in Sources */,
