@@ -205,7 +205,9 @@ class DetailsViewController: UIViewController {
        
         if singleGroup?.group_leader_image != nil{
             var urlString: String = ApiRouts.Web + (singleGroup?.group_leader_image!)!
+            urlString = urlString.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)!
             var url = URL(string: urlString)
+            
             groupLeaderImageView.downloadedFrom(url: url!, contentMode: .scaleToFill)
 
         }

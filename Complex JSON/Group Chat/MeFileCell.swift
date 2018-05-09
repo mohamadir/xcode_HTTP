@@ -1,5 +1,5 @@
 //
-//  ImagePartnerCell.swift
+//  MeFileCell.swift
 //  Snapgroup
 //
 //  Created by hosen gaber on 8.5.2018.
@@ -7,18 +7,14 @@
 //
 
 import UIKit
-import SwiftyAvatar
 
-class ImagePartnerCell: UITableViewCell {
+class MeFileCell: UITableViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
     }
 
-    @IBOutlet weak var partnerName: UILabel!
-    @IBOutlet weak var partnerImage: SwiftyAvatar!
-    @IBOutlet weak var partnerImageProfile: UIImageView!
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
