@@ -180,7 +180,7 @@ class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UI
             {
                 if (self.singleGroup?.role) != nil && (self.singleGroup?.role)! != "observer"
                 {
-                   self.performSegue(withIdentifier: "showDocs", sender: self)
+                   self.performSegue(withIdentifier: "showDocsSegue", sender: self)
                 }
                 
             }

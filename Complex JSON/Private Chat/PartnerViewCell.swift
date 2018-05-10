@@ -1,19 +1,18 @@
 //
-//  PrivateChatMessageCelVc.swift
+//  PartnerViewCell.swift
 //  Snapgroup
 //
-//  Created by snapmac on 3/4/18.
+//  Created by snapmac on 5/7/18.
 //  Copyright © 2018 snapmac. All rights reserved.
 //
 
 import UIKit
 
-class PrivateChatMessageCelVc: UITableViewCell {
+class PartnerViewCell: UITableViewCell {
 
-    @IBOutlet weak var sentMessageView: DesignableView!
-    @IBOutlet weak var sentMessageLbl: UILabel!
+    @IBOutlet weak var recMessageView: DesignableView!
+    @IBOutlet weak var recMessageLbl: UILabel!
     
-   
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

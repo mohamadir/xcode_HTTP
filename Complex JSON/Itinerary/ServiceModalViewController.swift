@@ -35,6 +35,7 @@ class ServiceModalViewController: UIViewController , UITableViewDelegate, UITabl
         tableviewModal.dataSource = self
         tableviewModal.separatorStyle = .none
         
+        tableviewModal.reloadData()
         // Do any additional setup after loading the view.
     }
 
@@ -47,6 +48,7 @@ class ServiceModalViewController: UIViewController , UITableViewDelegate, UITabl
                 dismiss(animated: true, completion: nil)
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        print("\((ProviderInfo.currentServiceDay?.count)!)")
         return (ProviderInfo.currentServiceDay?.count)!
     }
     
@@ -55,27 +57,39 @@ class ServiceModalViewController: UIViewController , UITableViewDelegate, UITabl
         let cell = tableView.dequeueReusableCell(withIdentifier: "ModalServiceCell", for: indexPath) as! ModalTableViewCell
         cell.selectionStyle = .none
         if ProviderInfo.currentServiceDay?[indexPath.row].name != nil  {
-            cell.itemServiceLbl.text = ProviderInfo.currentServiceDay?[indexPath.row].name
+            print("inf if")
+            print("\(String(describing: ProviderInfo.currentServiceDay?[indexPath.row].name))")
+            cell.itemServiceLbl.text = (ProviderInfo.currentServiceDay?[indexPath.row].name)!
             
         }
         else{
+            print("in else")
             if ProviderInfo.currentServiceDay?[indexPath.row].company_name != nil  {
-                cell.itemServiceLbl.text = ProviderInfo.currentServiceDay?[indexPath.row].company_name
+                cell.itemServiceLbl.text = (ProviderInfo.currentServiceDay?[indexPath.row].company_name)!
             }
             else
             {
                 if (ProviderInfo.currentServiceDay?[indexPath.row].translations?.count)! > 0
                 {
                 if ProviderInfo.currentServiceDay?[indexPath.row].translations?[0].name != nil {
-            cell.itemServiceLbl.text = ProviderInfo.currentServiceDay?[indexPath.row].translations?[0].name
+            cell.itemServiceLbl.text = (ProviderInfo.currentServiceDay?[indexPath.row].translations?[0].name)!
                 }
                 else{
                     if ProviderInfo.currentServiceDay?[indexPath.row].company_name != nil {
-                         cell.itemServiceLbl.text = ProviderInfo.currentServiceDay?[indexPath.row].company_name
+                         cell.itemServiceLbl.text = (ProviderInfo.currentServiceDay?[indexPath.row].company_name)!
                     }
                     else
                     {
-                        cell.itemServiceLbl.text = ProviderInfo.currentServiceDay?[indexPath.row].translations?[0].company_name
+                        if ProviderInfo.currentServiceDay?[indexPath.row].translations?[0].company_name != nil {
+                        cell.itemServiceLbl.text = (ProviderInfo.currentServiceDay?[indexPath.row].translations?[0].company_name)!
+                        }
+                        else
+                        {
+                            if ProviderInfo.currentServiceDay?[indexPath.row].translations?[0].name != nil {
+                                cell.itemServiceLbl.text = (ProviderInfo.currentServiceDay?[indexPath.row].translations?[0].name)!
+                            }
+                            
+                        }
                     }
                     
                 }
@@ -83,12 +97,12 @@ class ServiceModalViewController: UIViewController , UITableViewDelegate, UITabl
             else
              {
                  if ProviderInfo.currentServiceDay?[indexPath.row].name != nil {
-                     cell.itemServiceLbl.text = ProviderInfo.currentServiceDay?[indexPath.row].name
+                     cell.itemServiceLbl.text = (ProviderInfo.currentServiceDay?[indexPath.row].name)!
                 }
                 else
                 {
                     if ProviderInfo.currentServiceDay?[indexPath.row].name != nil {
-                         cell.itemServiceLbl.text = ProviderInfo.currentServiceDay?[indexPath.row].company_name
+                         cell.itemServiceLbl.text = (ProviderInfo.currentServiceDay?[indexPath.row].company_name)!
                     }
                     
                 }
@@ -101,8 +115,8 @@ class ServiceModalViewController: UIViewController , UITableViewDelegate, UITabl
         return cell
     }
     func setImageServices(){
-       titleLbl.text = ProviderInfo.currentProviderName! + " list"
-        switch ProviderInfo.currentProviderName! {
+       titleLbl.text = (ProviderInfo.currentProviderName)! + " list"
+        switch (ProviderInfo.currentProviderName)! {
         case "Hotels":
           imageService.image = UIImage(named: "hotels icon")
         case "Places":

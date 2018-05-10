@@ -43,13 +43,18 @@
 		74A5A43E2085D64900A97052 /* GroupLeaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A5A43D2085D64900A97052 /* GroupLeaderViewController.swift */; };
 		74B3CDF0205538F700440EB0 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B3CDEF205538F700440EB0 /* Colors.swift */; };
 		74B4E8F4209F47A200AD873A /* SearchGroupViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B4E8F3209F47A200AD873A /* SearchGroupViewCell.swift */; };
+		74B4E90120A1862900AD873A /* PartnerViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B4E8FD20A1862800AD873A /* PartnerViewCell.swift */; };
+		74B4E90220A1862900AD873A /* ImagePartnerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B4E8FE20A1862800AD873A /* ImagePartnerTableViewCell.swift */; };
+		74B4E90320A1862900AD873A /* ImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B4E8FF20A1862900AD873A /* ImageViewController.swift */; };
+		74B4E90420A1862900AD873A /* ImageMeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B4E90020A1862900AD873A /* ImageMeTableViewCell.swift */; };
 		74B9BCFB205CF82D005A0C60 /* CheckListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B9BCFA205CF82D005A0C60 /* CheckListViewController.swift */; };
 		74BB5D51208DDC0D00248CA1 /* MessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74BB5D50208DDC0D00248CA1 /* MessageViewController.swift */; };
+		74D5ED4A20A19CA200BEA038 /* DocsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74D5ED4920A19CA200BEA038 /* DocsViewController.swift */; };
+		74D5ED4C20A19D0600BEA038 /* NewDocsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74D5ED4B20A19D0600BEA038 /* NewDocsViewController.swift */; };
 		74F1FF20208B2E3D00976958 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 74F1FF1F208B2E3C00976958 /* GoogleService-Info.plist */; };
 		74F7AAA120580D1F00E66DF8 /* ScrollTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F7AAA020580D1F00E66DF8 /* ScrollTestViewController.swift */; };
 		74F7AAA320595D6B00E66DF8 /* ItineraryServiceViewControllerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F7AAA220595D6B00E66DF8 /* ItineraryServiceViewControllerCell.swift */; };
 		74F7AAA5205A976400E66DF8 /* GroupMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F7AAA4205A976400E66DF8 /* GroupMapViewController.swift */; };
-		74F7AAE2205BE6AA00E66DF8 /* DocsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F7AAE1205BE6AA00E66DF8 /* DocsViewController.swift */; };
 		74FBD106205009FD002D223A /* MembersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74FBD105205009FD002D223A /* MembersViewController.swift */; };
 		74FBD10A20514220002D223A /* MemberCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74FBD10920514220002D223A /* MemberCollectionCell.swift */; };
 		74FBD10C20518542002D223A /* MemberModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74FBD10B20518542002D223A /* MemberModalViewController.swift */; };
@@ -166,15 +171,20 @@
 		74A5A43D2085D64900A97052 /* GroupLeaderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupLeaderViewController.swift; sourceTree = "<group>"; };
 		74B3CDEF205538F700440EB0 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		74B4E8F3209F47A200AD873A /* SearchGroupViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchGroupViewCell.swift; sourceTree = "<group>"; };
+		74B4E8FD20A1862800AD873A /* PartnerViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PartnerViewCell.swift; sourceTree = "<group>"; };
+		74B4E8FE20A1862800AD873A /* ImagePartnerTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagePartnerTableViewCell.swift; sourceTree = "<group>"; };
+		74B4E8FF20A1862900AD873A /* ImageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageViewController.swift; sourceTree = "<group>"; };
+		74B4E90020A1862900AD873A /* ImageMeTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageMeTableViewCell.swift; sourceTree = "<group>"; };
 		74B9BCFA205CF82D005A0C60 /* CheckListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckListViewController.swift; sourceTree = "<group>"; };
 		74BB5D50208DDC0D00248CA1 /* MessageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageViewController.swift; sourceTree = "<group>"; };
+		74D5ED4920A19CA200BEA038 /* DocsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocsViewController.swift; sourceTree = "<group>"; };
+		74D5ED4B20A19D0600BEA038 /* NewDocsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewDocsViewController.swift; sourceTree = "<group>"; };
 		74F0521020657938009A4273 /* Complex JSON.xcworkspace */ = {isa = PBXFileReference; lastKnownFileType = wrapper.workspace; path = "Complex JSON.xcworkspace"; sourceTree = "<group>"; };
 		74F0521120657938009A4273 /* Snapgroup.xcworkspace */ = {isa = PBXFileReference; lastKnownFileType = wrapper.workspace; path = Snapgroup.xcworkspace; sourceTree = "<group>"; };
 		74F1FF1F208B2E3C00976958 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		74F7AAA020580D1F00E66DF8 /* ScrollTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollTestViewController.swift; sourceTree = "<group>"; };
 		74F7AAA220595D6B00E66DF8 /* ItineraryServiceViewControllerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItineraryServiceViewControllerCell.swift; sourceTree = "<group>"; };
 		74F7AAA4205A976400E66DF8 /* GroupMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupMapViewController.swift; sourceTree = "<group>"; };
-		74F7AAE1205BE6AA00E66DF8 /* DocsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocsViewController.swift; sourceTree = "<group>"; };
 		74FBD105205009FD002D223A /* MembersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembersViewController.swift; sourceTree = "<group>"; };
 		74FBD10920514220002D223A /* MemberCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberCollectionCell.swift; sourceTree = "<group>"; };
 		74FBD10B20518542002D223A /* MemberModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberModalViewController.swift; sourceTree = "<group>"; };
@@ -248,6 +258,10 @@
 		74138E052044211400F37028 /* Private Chat */ = {
 			isa = PBXGroup;
 			children = (
+				74B4E90020A1862900AD873A /* ImageMeTableViewCell.swift */,
+				74B4E8FE20A1862800AD873A /* ImagePartnerTableViewCell.swift */,
+				74B4E8FF20A1862900AD873A /* ImageViewController.swift */,
+				74B4E8FD20A1862800AD873A /* PartnerViewCell.swift */,
 				74138E032044207700F37028 /* ChatViewController.swift */,
 				74138E06204442FD00F37028 /* ChatCustomCellController.swift */,
 				7423757E20499FB600B9A0C0 /* PrivateChatViewController.swift */,
@@ -514,7 +528,8 @@
 		74F7AAE0205BE69600E66DF8 /* Documents */ = {
 			isa = PBXGroup;
 			children = (
-				74F7AAE1205BE6AA00E66DF8 /* DocsViewController.swift */,
+				74D5ED4920A19CA200BEA038 /* DocsViewController.swift */,
+				74D5ED4B20A19D0600BEA038 /* NewDocsViewController.swift */,
 			);
 			path = Documents;
 			sourceTree = "<group>";
@@ -895,6 +910,7 @@
 				74A5A4392085D2DB00A97052 /* CheckListItemCell.swift in Sources */,
 				7E2D7B282090C06900DAC98F /* DefaultCell.swift in Sources */,
 				74905903203D89E000C6B8C1 /* SignUpVC.swift in Sources */,
+				74B4E90420A1862900AD873A /* ImageMeTableViewCell.swift in Sources */,
 				74138E07204442FD00F37028 /* ChatCustomCellController.swift in Sources */,
 				74F7AAA120580D1F00E66DF8 /* ScrollTestViewController.swift in Sources */,
 				743A2102203C6468008DF1AA /* GroupViewController.swift in Sources */,
@@ -926,6 +942,8 @@
 				7423757F20499FB600B9A0C0 /* PrivateChatViewController.swift in Sources */,
 				74FBD10A20514220002D223A /* MemberCollectionCell.swift in Sources */,
 				7EBD077D20A184A100369E36 /* ImagePartnerCell.swift in Sources */,
+				74B4E90120A1862900AD873A /* PartnerViewCell.swift in Sources */,
+				74B4E90320A1862900AD873A /* ImageViewController.swift in Sources */,
 				7EBD077920A05F5400369E36 /* PartnerTextCell.swift in Sources */,
 				743A2083203C1B12008DF1AA /* ViewController.swift in Sources */,
 				7443303F2063EC7400D4073F /* JoinViewController.swift in Sources */,
@@ -944,7 +962,7 @@
 				7E2ED4BF20986061002921A5 /* ArriceCollectionCell.swift in Sources */,
 				74F7AAA5205A976400E66DF8 /* GroupMapViewController.swift in Sources */,
 				746E9F382077B9CB009B3258 /* MemberInboxViewController.swift in Sources */,
-				74F7AAE2205BE6AA00E66DF8 /* DocsViewController.swift in Sources */,
+				74D5ED4A20A19CA200BEA038 /* DocsViewController.swift in Sources */,
 				7E2D7B212090C06900DAC98F /* ExpansionCell.swift in Sources */,
 				7E2ED4B62096F3D8002921A5 /* ServicesViewController.swift in Sources */,
 				74138E042044207700F37028 /* ChatViewController.swift in Sources */,
@@ -954,7 +972,9 @@
 				7E2D7B202090C06900DAC98F /* Section.swift in Sources */,
 				74F7AAA320595D6B00E66DF8 /* ItineraryServiceViewControllerCell.swift in Sources */,
 				7E2ED4B42095BDB3002921A5 /* ModalTableViewCell.swift in Sources */,
+				74D5ED4C20A19D0600BEA038 /* NewDocsViewController.swift in Sources */,
 				7E2ED4AE2091AC80002921A5 /* ProviderViewController.swift in Sources */,
+				74B4E90220A1862900AD873A /* ImagePartnerTableViewCell.swift in Sources */,
 				741D2A102042B40C00DB8975 /* DetailsViewController.swift in Sources */,
 				7E2ED4B82096FD7D002921A5 /* SearchUsersViewController.swift in Sources */,
 				7E2D7B242090C06900DAC98F /* NewServicesViewController.swift in Sources */,

@@ -48,7 +48,8 @@ class GroupLeaderViewController: UIViewController,UITableViewDelegate,UITableVie
         leaderNameLbl.text = singleGroup?.group_leader_first_name != nil ? singleGroup?.group_leader_first_name : ""
         do{
             if singleGroup?.group_leader_image != nil{
-                let urlString = try ApiRouts.Web + (singleGroup?.group_leader_image)!
+                var urlString = try ApiRouts.Web + (singleGroup?.group_leader_image)!
+                urlString = urlString.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)!
                 var url = URL(string: urlString)
                 leaderImageview.sd_setImage(with: url!, completed: nil)
             }

@@ -105,6 +105,9 @@ class GroupChatViewController: UIViewController, UITableViewDelegate, UITableVie
                     if let profile_image = data2["profile_image"] as? String {
                         newMessage.profile_image = profile_image
                     }
+                    if  messageClass["image_path"] != nil {
+                        newMessage.image_path = messageClass["image_path"] as? String
+                    }
                     newMessage.message = messageClass["message"] as? String
                     newMessage.type = messageClass["type"] as? String
                     print(newMessage)
@@ -256,14 +259,15 @@ class GroupChatViewController: UIViewController, UITableViewDelegate, UITableVie
                     if "snapgroup" == (self.messages?.messages![indexPath.row].profile_image)!
                     {
                         cell.partnerProfile.image = UIImage(named: "new logo")
-                        imagePartnerCell.partnerImage.image = UIImage(named: "new logo")
+                        imagePartnerCell.partnerImageProfile.image = UIImage(named: "new logo")
+                        
                     }
                     else
                     {
                     let urlString = try ApiRouts.Web + (self.messages?.messages![indexPath.row].profile_image)!
                     let url = URL(string: urlString)
                     cell.partnerProfile.sd_setImage(with: url!, completed: nil)
-                    imagePartnerCell.partnerImage.sd_setImage(with: url!, completed: nil)
+                    imagePartnerCell.partnerImageProfile.sd_setImage(with: url!, completed: nil)
                     }
                     cell.partnerProfile.layer.cornerRadius =  cell.partnerProfile.frame.size.width / 2;
                      cell.partnerProfile.clipsToBounds = true;
@@ -278,7 +282,7 @@ class GroupChatViewController: UIViewController, UITableViewDelegate, UITableVie
                 else
                 {
                     cell.partnerProfile.image = UIImage(named: "default user")
-                    imagePartnerCell.partnerImage.image = UIImage(named: "default user")
+                    imagePartnerCell.partnerImageProfile.image = UIImage(named: "default user")
                 }
             }catch let error {
                
@@ -304,6 +308,20 @@ class GroupChatViewController: UIViewController, UITableViewDelegate, UITableVie
                 }
                 if (self.messages?.messages![indexPath.row].type)! == "image"
                 {
+                    if (self.messages?.messages![indexPath.row].image_path)! != nil
+                    {
+                        var urlString: String
+                        print("THIS IS   "+"\((self.messages?.messages![indexPath.row].image_path)!)")
+                        if (self.messages?.messages![indexPath.row].image_path)!.range(of: "http") != nil{
+                            urlString = (self.messages?.messages![indexPath.row].image_path)!
+                        }
+                        else {
+                            urlString = try ApiRouts.Web + (self.messages?.messages![indexPath.row].image_path)! }
+                       urlString = urlString.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)!
+                        let url = URL(string: urlString)
+                        if url != nil{
+                            imagePartnerCell.partnerImage.sd_setImage(with: url!, completed: nil)}
+                    }
                    
                     return imagePartnerCell
                     //imageMeCell.meImage.image = UIImage

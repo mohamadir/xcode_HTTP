@@ -19,7 +19,7 @@ struct MyVriables {
     static var CurrentTopic: String = "m123"
     static var shouldRefreshBusStation: Bool = false
     static var IsFromArrival: Bool = false
-
+    static var imageUrl: String = ""
     
 }
 

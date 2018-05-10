@@ -108,6 +108,9 @@ class DetailsViewController: UIViewController {
                 print("%%% \(self.groupImages.count)")
             if self.groupImages.count != 0 {
                 self.placeHoolderImageView.isHidden = true
+            }else {
+                self.slideShow.isHidden = true
+                return
             }
                 var images2: [InputSource] = []
          //   print("group : \(self.singleGroup?.title!) images: \(self.groupImages)")
@@ -122,7 +125,6 @@ class DetailsViewController: UIViewController {
                             images2.append(AlamofireSource(urlString: image_path)!)
                         }
                    // images2.append(AlamofireSource(urlString: image_path)!)
-
                     }
                     // self.slideShow.setImageInputs(<#T##inputs: [InputSource]##[InputSource]#>)
                     //  self.scrollView.auk.show(url: "https://api.snapgroup.co.il\((image.path)!)")
@@ -202,7 +204,9 @@ class DetailsViewController: UIViewController {
        
         if singleGroup?.group_leader_image != nil{
             var urlString: String = ApiRouts.Web + (singleGroup?.group_leader_image!)!
+            urlString = urlString.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)!
             var url = URL(string: urlString)
+            
             groupLeaderImageView.downloadedFrom(url: url!, contentMode: .scaleToFill)
 
         }

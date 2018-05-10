@@ -13,13 +13,14 @@ import FirebaseMessaging
 import FirebaseInstanceID
 import GoogleMaps
 import GooglePlaces
-
+import SocketIO
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUserNotificationCenterDelegate {
     
     var window: UIWindow?
-    
+    var socket: SocketIOClient?
+    var socketManager : SocketManager?
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -101,7 +102,60 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
         let newToken = InstanceID.instanceID().token()
         ConnectToFcm()
     }
-    
+    func setUpSocket(){
+        print("----- ABED -----")
+        var  manager = SocketManager(socketURL: URL(string: ApiRouts.ChatServer)!, config: [.log(true),.forcePolling(true)])
+        print("chat api: "+ApiRouts.ChatServer)
+        socket = manager.defaultSocket
+        socket!.on(clientEvent: .connect) {data, ack in
+            self.socket!.emit("subscribe", "member-ֿ\((MyVriables.currentMember?.id!)!)")
+            
+        }
+        print("member-\((MyVriables.currentMember?.id!)!):member-channel")
+        
+            self.socket!.on("member-\((MyVriables.currentMember?.id!)!):member-channel") {data, ack in
+
+                print("got message from socket")
+                if let data2 = data[0] as? Dictionary<String, Any> {
+                    if let messageClass = data2["messageClass"] as? Dictionary<String, Any> {
+                        print(messageClass)
+                        print(messageClass["id"]!)
+                    }
+                }
+                
+            }
+        
+        
+        socket!.onAny { (socEvent) in
+            
+            if let status =  socEvent.items as? [SocketIOStatus] {
+                if let first = status.first {
+                    switch first {
+                    case .connected:
+                        print("Socket: connected")
+                        break
+                        
+                    case .disconnected:
+                        print("Socket: disconnected")
+                        break
+                    case .notConnected:
+                        print("Socket: notConnected")
+                        break
+                    case .connecting:
+                        print("Socket: connecting")
+                        break
+                    default :
+                        print("NOTHING")
+                        break
+                    }
+                }
+            }
+        }
+        
+        self.socketManager = manager
+        self.socket!.connect()
+        
+    }
     func applicationWillResignActive(_ application: UIApplication) {
         ConnectToFcm()
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
@@ -110,6 +164,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
     
     func applicationDidEnterBackground(_ application: UIApplication) {
         Messaging.messaging().shouldEstablishDirectChannel = true
+        ConnectToFcm()
+     
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
     }
@@ -130,8 +186,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
     
    
     func messaging(_ messaging: Messaging, didReceive remoteMessage: MessagingRemoteMessage) {
-        
-        print("notification remoteMessage->  " + remoteMessage.appData.description)
+        DispatchQueue.global(qos: .background).async {
+            print("This is run on the background queue")
+            
+            DispatchQueue.main.async {
+                print("notification remoteMessage->  " + remoteMessage.appData.description)
+            }
+        }
         
         // \((remoteMessage.appData["message"]!))"
     

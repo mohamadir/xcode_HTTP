@@ -88,8 +88,8 @@ class ExpandingTVC : UITableViewController {
                     tourguideies.append(HotelObj(checkin: "Full name", checkout: "langouhgs", name: "Age", rating:"Ratings", id: 0  ))
                     for transport in (self.servicess?.tourguides)! {
                         tourguideies.append(HotelObj(checkin: "\((transport.translations?[0].first_name)!) \((transport.translations?[0].last_name)!)"
-                            , checkout: transport.translations?[0].languages != nil ? (transport.translations?[0].languages)! : "", name:
-                            "\((transport.age)!)", rating:"", id: 0 ))
+                            , checkout: transport.translations?[0].languages != nil ? (transport.translations?[0].languages)! : "",
+                              name:transport.age != nil ? "\((transport.age)!)" : "not found", rating:"", id: 0 ))
                     }
                     let london = DestinationData(name: "Tourguides", price: "£500", imageName: "TourGuidIcon", flights: tourguideies as! [HotelObj], expanded: false)
                     self.data.append(london)
