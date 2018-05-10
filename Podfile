@@ -34,4 +34,5 @@ pod 'SkyFloatingLabelTextField', '~> 3.0'
 pod 'Firebase/Messaging'
 pod 'SVProgressHUD'
 pod 'Pushy', '1.0.12'
+pod 'FileBrowser', '~> 1.0'
 end

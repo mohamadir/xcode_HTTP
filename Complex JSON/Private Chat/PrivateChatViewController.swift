@@ -152,6 +152,12 @@ class PrivateChatViewController: UIViewController ,UIImagePickerControllerDelega
 //            // or use some work around
 //        }
 //        textField.resignFirstResponder()
+        if textField.text == "" {
+            dismissKeyboard()
+        }else {
+            sendMessage()
+            
+        }
         return true
     }
     func moveTextField(_ textField: UITextField, moveDistance: Int, up: Bool) {
@@ -241,9 +247,9 @@ class PrivateChatViewController: UIViewController ,UIImagePickerControllerDelega
 
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
 
-        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-
-        view.addGestureRecognizer(tap)
+//        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+//
+//        view.addGestureRecognizer(tap)
 
 
 
@@ -253,6 +259,8 @@ class PrivateChatViewController: UIViewController ,UIImagePickerControllerDelega
     @IBAction func attachImageTapped(_ sender: Any) {
         imagePicker.allowsEditing = false
         imagePicker.sourceType = .photoLibrary
+        dismissKeyboard()
+        
         present(imagePicker, animated: true, completion: nil)
     }
     
@@ -369,14 +377,16 @@ class PrivateChatViewController: UIViewController ,UIImagePickerControllerDelega
 
 
     }
+    
     override func viewWillDisappear(_ animated: Bool) {
         self.resetMessages()
         markConvRead()
         self.navigationController?.setNavigationBarHidden(true, animated: false)
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+//        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+//        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
     override  func dismissKeyboard() {
+        print("IMAGETAPPED - from dismissKeyboard")
         view.endEditing(true)
     }
 
@@ -501,7 +511,7 @@ class PrivateChatViewController: UIViewController ,UIImagePickerControllerDelega
         self.resetMessages( )
     }
 
-    @IBAction func sendTapped(_ sender: Any) {
+    fileprivate func sendMessage() {
         var oponent_id =  ChatUser.currentUser?.id!
         print("myId: \(myId!)")
         print("opId: \(oponent_id!)")
@@ -511,7 +521,7 @@ class PrivateChatViewController: UIViewController ,UIImagePickerControllerDelega
         if message != "" {
             let params = ["type":"text","message": message, "sender_id": (MyVriables.currentMember?.id!)!, "chat_type" : "private", "receiver_id" : oponent_id!] as [String : Any]
             print("params: \(params)")
-
+            
             HTTP.POST(ApiRouts.Web + "/api/chats", parameters: params) { response in
                 print("send chat: \(response.statusCode)" )
                 var newMessage :Message = Message()
@@ -524,11 +534,15 @@ class PrivateChatViewController: UIViewController ,UIImagePickerControllerDelega
                     self.chatTableView.reloadData()
                     self.scrollToLast()
                 }
-
-
-
+                
+                
+                
+            }
         }
-        }
+    }
+    
+    @IBAction func sendTapped(_ sender: Any) {
+        sendMessage()
     }
 
 
@@ -544,7 +558,7 @@ class PrivateChatViewController: UIViewController ,UIImagePickerControllerDelega
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("IMAGETAPPED: yes")
-
+        
         if allMessages[indexPath.row].type == "image"{
             print("IMAGETAPPED: yes")
             MyVriables.imageUrl = (allMessages[indexPath.row].image_path)!
@@ -561,6 +575,7 @@ class PrivateChatViewController: UIViewController ,UIImagePickerControllerDelega
                   let cell = tableView.dequeueReusableCell(withIdentifier: "imageMeCell") as! ImageMeTableViewCell
                 let urlString = (allMessages[indexPath.row].image_path)!
                 let url = URL(string: urlString)
+                
                 print("--PRIVATECHAT \(urlString)")
 
                 cell.meImageView.sd_setImage(with: url! , placeholderImage: UIImage(named: "Group Placeholder"))

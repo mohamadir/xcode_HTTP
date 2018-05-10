@@ -10,6 +10,7 @@ PODS:
     - Fabric (~> 1.7.5)
   - ExpandableLabel (0.4.0)
   - Fabric (1.7.6)
+  - FileBrowser (1.0.0)
   - Firebase/Core (4.13.0):
     - FirebaseAnalytics (= 4.2.0)
     - FirebaseCore (= 4.0.20)
@@ -94,6 +95,7 @@ DEPENDENCIES:
   - BmoViewPager (~> 4.0.0)
   - Crashlytics (~> 3.10.0)
   - ExpandableLabel
+  - FileBrowser (~> 1.0)
   - Firebase/Core
   - Firebase/Database
   - Firebase/Messaging
@@ -128,6 +130,7 @@ SPEC CHECKSUMS:
   Crashlytics: aee1a064cbbf99b32efa3f056a5f458d846bc8ff
   ExpandableLabel: 5f5f61fbf71433000cd7c3290617e6fcccb72c86
   Fabric: f8d42c893bb187326a7968b62abe55c36a987a46
+  FileBrowser: 2ca91ff61c9ea09665eb3b8f9e64a7a77e66a0bf
   Firebase: 5ec5e863d269d82d66b4bf56856726f8fb8f0fb3
   FirebaseAnalytics: 7ef69e76a5142f643aeb47c780e1cdce4e23632e
   FirebaseCore: 90cb1c53d69b556f112a1bf72b5fcfaad7650790
@@ -160,6 +163,6 @@ SPEC CHECKSUMS:
   Toast-Swift: ba0b01b095aada709d915f9beb1d38184a2721c3
   YNExpandableCell: 47bf7cff721aa535c0e9e1163bf22b5573441bb4
 
-PODFILE CHECKSUM: e45e85f0f20fadc5a16c36939e6c2b5171aba030
+PODFILE CHECKSUM: 2556a96050ddefd1fee0c6276d06a6d7422798e5
 
 COCOAPODS: 1.4.0

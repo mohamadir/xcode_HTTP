@@ -786,8 +786,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                     }
                 }
                 catch let error{
+                    cell.groupLeaderImageView.image = UIImage(named: "default user")
+
                 }
                 
+            }else {
+                cell.groupLeaderImageView.image = UIImage(named: "default user")
             }
             cell.groupLeaderImageView.layer.cornerRadius = cell.groupLeaderImageView.frame.size.width / 2;
             cell.groupLeaderImageView.clipsToBounds = true;
@@ -795,23 +799,30 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             cell.groupLeaderImageView.layer.borderColor = UIColor.gray.cgColor
         } // if just group leader
         else{
+             cell.groupLeaderLbl.text = self.myGrous[currentIndex].group_leader_company_name!
             if self.myGrous[currentIndex].group_leader_company_image != nil{
                 
                 do{
-                    let urlString = try ApiRouts.Web + (self.myGrous[currentIndex].group_leader_company_image)!
+                    var urlString = try ApiRouts.Web + (self.myGrous[currentIndex].group_leader_company_image)!
+                    urlString = urlString.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)!
                     var url = URL(string: urlString)
                     //                        cell.groupLeaderImageView.layer.borderWidth = 0
                     //                        cell.groupLeaderImageView.layer.masksToBounds = false
                     //                        cell.groupLeaderImageView.layer.cornerRadius = cell.groupLeaderImageView.frame.height/2
                     //                        cell.groupLeaderImageView.clipsToBounds = true
+                    // SET HEBREW LANG
                     if url == nil {
+                        cell.groupLeaderImageView.image = UIImage(named: "group tools title")
+
                     }else {
-                        cell.groupLeaderImageView.sd_setImage(with: url!, placeholderImage: UIImage(named: "default user"), completed: nil)
+                        cell.groupLeaderImageView.sd_setImage(with: url!, placeholderImage: UIImage(named: "group tools title"), completed: nil)
                         
                     }
                 }catch {
                     
                 }
+            }else {
+                cell.groupLeaderImageView.image = UIImage(named: "group tools title")
             }
             cell.groupLeaderImageView.layer.borderWidth = 0
             cell.groupLeaderImageView.layer.cornerRadius = 0;

@@ -51,6 +51,8 @@
 		74BB5D51208DDC0D00248CA1 /* MessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74BB5D50208DDC0D00248CA1 /* MessageViewController.swift */; };
 		74D5ED4A20A19CA200BEA038 /* DocsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74D5ED4920A19CA200BEA038 /* DocsViewController.swift */; };
 		74D5ED4C20A19D0600BEA038 /* NewDocsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74D5ED4B20A19D0600BEA038 /* NewDocsViewController.swift */; };
+		74D5ED4E20A2F5E400BEA038 /* RecentGroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74D5ED4D20A2F5E400BEA038 /* RecentGroupViewController.swift */; };
+		74D5ED5120A2F77100BEA038 /* RecentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74D5ED5020A2F77100BEA038 /* RecentTableViewCell.swift */; };
 		74F1FF20208B2E3D00976958 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 74F1FF1F208B2E3C00976958 /* GoogleService-Info.plist */; };
 		74F7AAA120580D1F00E66DF8 /* ScrollTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F7AAA020580D1F00E66DF8 /* ScrollTestViewController.swift */; };
 		74F7AAA320595D6B00E66DF8 /* ItineraryServiceViewControllerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F7AAA220595D6B00E66DF8 /* ItineraryServiceViewControllerCell.swift */; };
@@ -177,6 +179,8 @@
 		74BB5D50208DDC0D00248CA1 /* MessageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageViewController.swift; sourceTree = "<group>"; };
 		74D5ED4920A19CA200BEA038 /* DocsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocsViewController.swift; sourceTree = "<group>"; };
 		74D5ED4B20A19D0600BEA038 /* NewDocsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewDocsViewController.swift; sourceTree = "<group>"; };
+		74D5ED4D20A2F5E400BEA038 /* RecentGroupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentGroupViewController.swift; sourceTree = "<group>"; };
+		74D5ED5020A2F77100BEA038 /* RecentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentTableViewCell.swift; sourceTree = "<group>"; };
 		74F0521020657938009A4273 /* Complex JSON.xcworkspace */ = {isa = PBXFileReference; lastKnownFileType = wrapper.workspace; path = "Complex JSON.xcworkspace"; sourceTree = "<group>"; };
 		74F0521120657938009A4273 /* Snapgroup.xcworkspace */ = {isa = PBXFileReference; lastKnownFileType = wrapper.workspace; path = Snapgroup.xcworkspace; sourceTree = "<group>"; };
 		74F1FF1F208B2E3C00976958 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -405,6 +409,7 @@
 				74B3CDF12055691C00440EB0 /* Services */,
 				74905902203D89E000C6B8C1 /* SignUpVC.swift */,
 				7428551D204FF14000637511 /* Test */,
+				74D5ED4F20A2F72E00BEA038 /* Recent Groups */,
 				743A2080203C1B12008DF1AA /* AppDelegate.swift */,
 				743A2084203C1B12008DF1AA /* Main.storyboard */,
 				743A2082203C1B12008DF1AA /* ViewController.swift */,
@@ -517,6 +522,15 @@
 				74A5A43A2085D31A00A97052 /* checkListCustomCellController.swift */,
 			);
 			path = "Check List";
+			sourceTree = "<group>";
+		};
+		74D5ED4F20A2F72E00BEA038 /* Recent Groups */ = {
+			isa = PBXGroup;
+			children = (
+				74D5ED4D20A2F5E400BEA038 /* RecentGroupViewController.swift */,
+				74D5ED5020A2F77100BEA038 /* RecentTableViewCell.swift */,
+			);
+			path = "Recent Groups";
 			sourceTree = "<group>";
 		};
 		74F7AAE0205BE69600E66DF8 /* Documents */ = {
@@ -687,7 +701,7 @@
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
-								enabled = 1;
+								enabled = 0;
 							};
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -702,7 +716,7 @@
 								enabled = 1;
 							};
 							com.apple.iCloud = {
-								enabled = 1;
+								enabled = 0;
 							};
 						};
 					};
@@ -789,6 +803,7 @@
 				"${BUILT_PRODUCTS_DIR}/Auk/Auk.framework",
 				"${BUILT_PRODUCTS_DIR}/BmoViewPager/BmoViewPager.framework",
 				"${BUILT_PRODUCTS_DIR}/ExpandableLabel/ExpandableLabel.framework",
+				"${BUILT_PRODUCTS_DIR}/FileBrowser/FileBrowser.framework",
 				"${BUILT_PRODUCTS_DIR}/GoneVisible/GoneVisible.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
 				"${BUILT_PRODUCTS_DIR}/ImageSlideshow/ImageSlideshow.framework",
@@ -819,6 +834,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Auk.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BmoViewPager.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ExpandableLabel.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FileBrowser.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoneVisible.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ImageSlideshow.framework",
@@ -902,6 +918,7 @@
 			files = (
 				74A5A4392085D2DB00A97052 /* CheckListItemCell.swift in Sources */,
 				7E2D7B282090C06900DAC98F /* DefaultCell.swift in Sources */,
+				74D5ED4E20A2F5E400BEA038 /* RecentGroupViewController.swift in Sources */,
 				74905903203D89E000C6B8C1 /* SignUpVC.swift in Sources */,
 				74B4E90420A1862900AD873A /* ImageMeTableViewCell.swift in Sources */,
 				74138E07204442FD00F37028 /* ChatCustomCellController.swift in Sources */,
@@ -939,6 +956,7 @@
 				7EBD077920A05F5400369E36 /* PartnerTextCell.swift in Sources */,
 				743A2083203C1B12008DF1AA /* ViewController.swift in Sources */,
 				7443303F2063EC7400D4073F /* JoinViewController.swift in Sources */,
+				74D5ED5120A2F77100BEA038 /* RecentTableViewCell.swift in Sources */,
 				74490C19205298D6007AD4FA /* CustomMarkerView.swift in Sources */,
 				7EBD077F20A1851300369E36 /* ImageMeCell.swift in Sources */,
 				7EBD077720A052CF00369E36 /* GroupChatViewController.swift in Sources */,
@@ -1104,7 +1122,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -1157,7 +1175,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
@@ -1175,7 +1193,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = SG76X4548N;
 				INFOPLIST_FILE = "Complex JSON/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Snapgroup.snap2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1195,7 +1213,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = SG76X4548N;
 				INFOPLIST_FILE = "Complex JSON/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Snapgroup.snap2;
 				PRODUCT_NAME = "$(TARGET_NAME)";

@@ -8,6 +8,8 @@
 
 import UIKit
 import SwiftHTTP
+import FileBrowser
+
 
 class NewDocsViewController: UIViewController {
 
@@ -18,15 +20,19 @@ class NewDocsViewController: UIViewController {
     }
 
     @IBAction func downloadTapped(_ sender: Any) {
-        print("DOWNLOADTEST- in download tapped")
-        HTTP.Download("https://api.snapgroup.co.il/api/groups/72/pdf", completion: { (response, url) in
-            if response.error != nil {
-                print("DOWNLOADTEST- error download - \(response.error)")
-                return
-            }
-            print("DOWNLOADTEST- \(url)")
-            //move the temp file to desired location...
-        })
+//        print("DOWNLOADTEST- in download tapped")
+//        HTTP.Download("https://api.snapgroup.co.il/api/groups/72/pdf", completion: { (response, url) in
+//            if response.error != nil {
+//                print("DOWNLOADTEST- error download - \(response.error)")
+//                return
+//            }
+//            print("DOWNLOADTEST- \(url)")
+//            //move the temp file to desired location...
+//        })
+        
+        
+        let fileBrowser = FileBrowser()
+        present(fileBrowser, animated: true, completion: nil)
     }
     //
     override func didReceiveMemoryWarning() {
