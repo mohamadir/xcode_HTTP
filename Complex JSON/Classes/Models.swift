@@ -46,7 +46,7 @@ struct ServicesModel: Codable {
 }
 struct ServiceModel: Codable {
     var id: Int?
-    var age: Int?
+  //  var age: Int?
     var translations: [ServiceTranslations]?
     var name: String?
     var phone: String?
@@ -54,6 +54,7 @@ struct ServiceModel: Codable {
     var last_day: Int?
     var company_name: String?
     var city: String?
+    var rating: Double?
 }
 struct ServiceTranslations: Codable {
     var name: String?
@@ -64,7 +65,20 @@ struct ServiceTranslations: Codable {
     var company_name: String?
     
 }
-/////////////////////////////////////////////////////////////////////////////
+///////////////////////////Ratings model ////////////////////////////////////
+
+
+struct RatingModel: Codable {
+    var first_name: String?
+    var last_name: String?
+    var image_path: String?
+    var rating: Double?
+    var review: String?
+}
+
+
+
+
 //////////////////////////////Arrival confirmation///////////////////////////
 
 struct StationModel: Codable {

@@ -57,43 +57,10 @@ class GroupLeaderViewController: UIViewController,UITableViewDelegate,UITableVie
             print(error)
         }
         
-    let lines: [String] = getLinesArrayOfString(in: leadeAboutLbl)
-        print("lines is \(lines)")
-        
         ratingTbaleview.reloadData()
         
         
     }
-    func getLinesArrayOfString(in label: UILabel) -> [String] {
-    
-    /// An empty string's array
-    var linesArray = [String]()
-    
-    guard let text = label.text, let font = label.font else {return linesArray}
-    
-    let rect = label.frame
-    
-    let myFont: CTFont = CTFontCreateWithName(font.fontName as CFString, font.pointSize, nil)
-    let attStr = NSMutableAttributedString(string: text)
-    attStr.addAttribute(kCTFontAttributeName as NSAttributedStringKey, value: myFont, range: NSRange(location: 0, length: attStr.length))
-    
-    let frameSetter: CTFramesetter = CTFramesetterCreateWithAttributedString(attStr as CFAttributedString)
-    let path: CGMutablePath = CGMutablePath()
-    path.addRect(CGRect(x: 0, y: 0, width: rect.size.width, height: 100000), transform: .identity)
-    
-    let frame: CTFrame = CTFramesetterCreateFrame(frameSetter, CFRangeMake(0, 0), path, nil)
-    guard let lines = CTFrameGetLines(frame) as? [Any] else {return linesArray}
-    
-    for line in lines {
-    let lineRef = line as! CTLine
-    let lineRange: CFRange = CTLineGetStringRange(lineRef)
-    let range = NSRange(location: lineRange.location, length: lineRange.length)
-    let lineString: String = (text as NSString).substring(with: range)
-    linesArray.append(lineString)
-    }
-    return linesArray
-    }
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if count == 1 {
             var height: CGFloat = 0
@@ -127,6 +94,7 @@ class GroupLeaderViewController: UIViewController,UITableViewDelegate,UITableVie
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
          let cell = tableView.dequeueReusableCell(withIdentifier: "reviewCell", for: indexPath) as! ReviewCell
+        cell.selectionStyle = .none
         if count == 1 {
             var height: CGFloat = 0
             for cell in tableView.visibleCells {
@@ -162,6 +130,9 @@ class GroupLeaderViewController: UIViewController,UITableViewDelegate,UITableVie
         //showAddReview
         performSegue(withIdentifier: "showAddReview", sender: self)
 
+    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.allowsSelection = false
     }
     @IBAction func onBack(_ sender: Any) {
         navigationController?.popViewController(animated: true)

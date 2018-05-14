@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwiftyAvatar
 
 class ReviewCell: UITableViewCell {
 
@@ -14,11 +15,10 @@ class ReviewCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
     }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
+    @IBOutlet weak var fullNameLbl: UILabel!
+    @IBOutlet weak var ratingNumber: UILabel!
+    @IBOutlet weak var reviewLbl: UILabel!
+    @IBOutlet weak var profileImage: SwiftyAvatar!
+    
 
 }

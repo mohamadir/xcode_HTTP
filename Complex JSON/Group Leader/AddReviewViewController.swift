@@ -7,9 +7,12 @@
 //
 
 import UIKit
+import SwiftEventBus
+import SwiftHTTP
 
 class AddReviewViewController: UIViewController,UITextViewDelegate {
 
+    @IBOutlet weak var seekBar: UISlider!
     @IBOutlet weak var addComment: UITextView!
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,7 +30,7 @@ class AddReviewViewController: UIViewController,UITextViewDelegate {
        
         addComment.delegate = self
         addComment.text = "Write a comment"
-        addComment.textColor == UIColor.lightGray
+        addComment.textColor = UIColor.lightGray
        
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "dismissKeyboard")
         
@@ -55,7 +58,7 @@ class AddReviewViewController: UIViewController,UITextViewDelegate {
     @IBAction func onClickSubmit(_ sender: Any) {
         if addComment.text != "" && addComment.text != "Write a comment"
         {
-            dismiss(animated: true, completion: nil)
+            addCommentFunc()
         }
      
     }
@@ -77,17 +80,32 @@ class AddReviewViewController: UIViewController,UITextViewDelegate {
     }
     
     @IBAction func onDismiss(_ sender: Any) {
+        
          dismiss(animated: true, completion: nil)
     }
     
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    func addCommentFunc(){
+        let perameters:  [String : Any] = ["model_type": ProviderInfo.model_type!, "model_id": ProviderInfo.model_id!
+        , "reviewer_id": (MyVriables.currentMember?.id!)!
+            , "rating": "\(self.seekBar.value)"
+        , "review": addComment.text!]
+        print(perameters)
+        
+        HTTP.POST(ApiRouts.Web+"/api/ratings", parameters: perameters)
+        { response in
+            if let err = response.error {
+                print("error: \(err.localizedDescription)")
+                return //also notify app of failure as needed
+            }
+            print("\(response.data)")
+            DispatchQueue.main.sync {
+                SwiftEventBus.post("newComment")
+                
+                self.dismiss(animated: true, completion: nil)
+            }
+        }
+        
+        
     }
-    */
 
 }

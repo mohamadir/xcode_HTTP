@@ -9,41 +9,57 @@
 import UIKit
 import SwiftHTTP
 import ImageSlideshow
+import SwiftEventBus
 
+class ProviderViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
 
-class ProviderViewController: UIViewController {
-
-  
+    @IBOutlet weak var tableViewHeightConstrans: NSLayoutConstraint!
+    @IBOutlet weak var tableViewRatings: UITableView!
     @IBOutlet weak var slideShow: ImageSlideshow!
     @IBOutlet weak var about: UILabel!
     @IBOutlet weak var rating: UILabel!
+    var count: Int = 0
     @IBOutlet weak var website: UILabel!
     @IBOutlet weak var email: UILabel!
     @IBOutlet weak var phoneNumber: UILabel!
     @IBOutlet weak var location: UILabel!
     @IBOutlet weak var fullName: UILabel!
+    var urlGetService: String?
+    var urlGetRate: String?
+    var ratingsArray: [RatingModel]?
+    @IBAction func addReviewClick(_ sender: Any) {
+       
+        performSegue(withIdentifier: "showAddReview", sender: self)
+    }
     var providerModel : ProviderModel?
     override func viewDidLoad() {
         super.viewDidLoad()
-        getProvider()
-      
+        
+        tableViewRatings.delegate = self
+        tableViewRatings.dataSource = self
+        tableViewRatings.isScrollEnabled = false
+        tableViewRatings.separatorStyle = .none
         slideShow.circular = false
         slideShow.zoomEnabled = true
         slideShow.isMultipleTouchEnabled = false
         slideShow.pageControlPosition = .insideScrollView
         slideShow.activityIndicator = DefaultActivityIndicator(style: .gray, color: UIColor.red)
-   
-    
-        
-        
-        // Do any additional setup after loading the view.
+        tableViewRatings.reloadData()
+        SwiftEventBus.onMainThread(self, name: "newComment") { result in
+        self.getRatings()
+        }
+
+
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
+    override func viewWillAppear(_ animated: Bool) {
+        getUrlService()
+        print("after dismniss ")
+    }
 
     @IBAction func onBack(_ sender: Any) {
         navigationController?.popViewController(animated: true)
@@ -56,52 +72,146 @@ class ProviderViewController: UIViewController {
             print(error)
         }
     }
-    func getUrlService() -> String{
+    func getUrlService(){
         switch ProviderInfo.currentProviderName!{
         case "Hotels":
-            return ApiRouts.Web+"/api/get/hotel/\((ProviderInfo.currentProviderId)!)"
+            urlGetService = ApiRouts.Web+"/api/get/hotel/\((ProviderInfo.currentProviderId)!)"
+            urlGetRate = ApiRouts.Web+"/api/getratings/hotels/\((ProviderInfo.currentProviderId)!)"
+            ProviderInfo.model_id = (ProviderInfo.currentProviderId)!
+            ProviderInfo.model_type = "hotels"
         case "Places":
-            return ApiRouts.Web+"/api/get/place/\((ProviderInfo.currentProviderId)!)"
+            urlGetService = ApiRouts.Web+"/api/get/place/\((ProviderInfo.currentProviderId)!)"
+             urlGetRate = ApiRouts.Web+"/api/getratings/places/\((ProviderInfo.currentProviderId)!)"
+            ProviderInfo.model_id = (ProviderInfo.currentProviderId)!
+            ProviderInfo.model_type = "places"
         case "Restaurants":
-            return ApiRouts.Web+"/api/get/restaurant/\((ProviderInfo.currentProviderId)!)"
+            urlGetService = ApiRouts.Web+"/api/get/restaurant/\((ProviderInfo.currentProviderId)!)"
+             urlGetRate = ApiRouts.Web+"/api/getratings/restaurants/\((ProviderInfo.currentProviderId)!)"
+            ProviderInfo.model_id = (ProviderInfo.currentProviderId)!
+            ProviderInfo.model_type = "restaurants"
         case "Tourguides":
-            return ApiRouts.Web+"/api/get/tourguide/\((ProviderInfo.currentProviderId)!)"
+            urlGetService = ApiRouts.Web+"/api/get/tourguide/\((ProviderInfo.currentProviderId)!)"
+             urlGetRate = ApiRouts.Web+"/api/getratings/tourguides/\((ProviderInfo.currentProviderId)!)"
+            ProviderInfo.model_id = (ProviderInfo.currentProviderId)!
+            ProviderInfo.model_type = "tourguides"
         case "Transport":
-            return ApiRouts.Web+"/api/get/transport/\((ProviderInfo.currentProviderId)!)"
+            urlGetService = ApiRouts.Web+"/api/get/transport/\((ProviderInfo.currentProviderId)!)"
+             urlGetRate = ApiRouts.Web+"/api/getratings/transports/\((ProviderInfo.currentProviderId)!)"
+            ProviderInfo.model_id = (ProviderInfo.currentProviderId)!
+            ProviderInfo.model_type = "transports"
         case "Activities":
-            return ApiRouts.Web+"/api/get/activity/\((ProviderInfo.currentProviderId)!)"
+            urlGetService = ApiRouts.Web+"/api/get/activity/\((ProviderInfo.currentProviderId)!)"
+             urlGetRate = ApiRouts.Web+"/api/getratings/activities/\((ProviderInfo.currentProviderId)!)"
+            ProviderInfo.model_id = (ProviderInfo.currentProviderId)!
+            ProviderInfo.model_type = "activities"
         default:
-            return "null"
+            urlGetService = "null"
+             urlGetRate = "null"
+        }
+        getProvider()
+        getRatings()
+    }
+    fileprivate func setTableViewHeigh() {
+        if self.ratingsArray?.count == 0 {
+            self.tableViewHeightConstrans.constant = 0
+        }
+        else
+        {
+            if self.ratingsArray?.count == 1 {
+                var height: CGFloat = 0
+                for cell in self.tableViewRatings.visibleCells {
+                    height += cell.bounds.height
+                }
+                self.tableViewHeightConstrans.constant = height
+                
+            }
+            else
+            {
+                var height: CGFloat = 0
+                for cell in self.tableViewRatings.visibleCells {
+                    height += cell.bounds.height
+                }
+                self.tableViewHeightConstrans.constant = height
+                
+            }
+            
         }
     }
     
-    func getProvider(){
-        HTTP.GET(getUrlService(), parameters:[])
+    func getRatings() {
+        HTTP.GET(urlGetRate!, parameters:[])
         { response in
             if let err = response.error {
                 print("error: \(err.localizedDescription)")
                 return //also notify app of failure as needed
             }
+            do {
+                self.ratingsArray = try JSONDecoder().decode([RatingModel].self, from: response.data)
+                print("The Array is \(self.ratingsArray!)")
+                DispatchQueue.main.sync {
+                    if self.ratingsArray?.count == 0 {
+                        self.count = 0
+                        self.tableViewRatings.reloadData()
+                    }
+                    else
+                    {
+                        if self.ratingsArray?.count == 1 {
+                            self.count = 1
+                            self.tableViewRatings.reloadData()
+                            
+                        }
+                        else
+                        {
+                            self.count = 2
+                            self.tableViewRatings.reloadData()
+                            
+                        }
+                        
+                    }
+                    DispatchQueue.main.async {
+                        self.setTableViewHeigh()
+                    }
+                }
+            }
+            catch {
+                
+            }
+            print("url rating \(response.description)")
+        }
+    }
+    func getProvider(){
+        
+        print("^^^^ "+urlGetService!)
+        HTTP.GET(urlGetService!, parameters:[])
+        { response in
+            if let err = response.error {
+                print("error: \(err.localizedDescription)")
+                return //also notify app of failure as needed
+            }
+       
             
           
              do{
                 
                 self.providerModel = try JSONDecoder().decode(ProviderModel.self, from: response.data)
                 DispatchQueue.main.sync {
-                   
+                 ///  print("!!!!!!!!!!!!!! \(self.providerModel?.translations![0].)")
                     if self.providerModel?.images != nil {
+                          print("%%%%%%%%%%%%%%%%%%%% \(self.providerModel?.images?.count)")
                         if self.providerModel?.images?.count == 0 {
-                            self.slideShow.isHidden = true
+                        
+                            self.slideShow.setImageInputs([
+                                ImageSource(image: UIImage(named: "Group Placeholder")!)])
                         }
                         else{
+                             print("%%%%%%%%%%%%%%%%%%%% \(self.providerModel?.images!)")
                             var images2: [InputSource] = []
                             
                             
                             for image in (self.providerModel?.images)! {
                                 if image.path !=  nil {
                                     let image_path: String = "\(ApiRouts.Web)\(image.path!)"
-                      
-                                    //print("%%%%%%%%%%%%%%%%%%%% \(image_path)")
+                                    print("%%%%%%%%%%%%%%%%%%%% \(image_path)")
                                     if AlamofireSource(urlString: image_path.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)!) != nil  {
                                         print("1details image paths : \(image_path) and  ok !!!")
                                        
@@ -226,6 +336,52 @@ class ProviderViewController: UIViewController {
     @objc func didTap() {
         slideShow.presentFullScreenController(from: self)
     }
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 
+        if self.ratingsArray?.count == 0 {
+            tableViewHeightConstrans.constant = 0
+            return 0
+        }
+        else
+        {
+            if self.ratingsArray?.count == 1 {
+                return 1
+                
+            }
+            else
+            {
+                return 2
+            }
+            
+        }
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "reviewCell", for: indexPath) as! ReviewCell
+         cell.selectionStyle = .none
+        if self.ratingsArray != nil {
+        cell.fullNameLbl.text = "\((self.ratingsArray?[indexPath.row].first_name)!) \((self.ratingsArray?[indexPath.row].last_name)!)"
+        cell.reviewLbl.text = "\((self.ratingsArray?[indexPath.row].review)!) "
+        cell.ratingNumber.text = "\((self.ratingsArray?[indexPath.row].rating)!) out of 10"
+            
+           
+            if self.ratingsArray?[indexPath.row].image_path != nil
+            {
+                var urlString: String = try ApiRouts.Web + (self.ratingsArray?[indexPath.row].image_path)!
+                 urlString = urlString.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)!
+                if let url = URL(string: urlString) {
+                    cell.profileImage.sd_setImage(with: url, placeholderImage: UIImage(named: "default user"), completed: nil)
+                    
+                }
+            }
+        }
+    
+        return cell
+    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.allowsSelection = false
+       
+    }
+  
 }
 

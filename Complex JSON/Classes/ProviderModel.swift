@@ -8,7 +8,9 @@
 
 import Foundation
 class ProviderInfo{
- static var currentProviderId: Int?
- static var currentProviderName: String?
- static var currentServiceDay: [ServiceModel]?
+     static var currentProviderId: Int?
+     static var currentProviderName: String?
+     static var currentServiceDay: [ServiceModel]?
+     static var model_id: Int?
+     static var model_type: String?
 }
