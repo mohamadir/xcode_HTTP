@@ -78,6 +78,8 @@
 		7E2ED4BA2097048B002921A5 /* SearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2ED4B92097048B002921A5 /* SearchTableViewCell.swift */; };
 		7E2ED4BD20985633002921A5 /* ArrivleConfirmationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2ED4BC20985633002921A5 /* ArrivleConfirmationViewController.swift */; };
 		7E2ED4BF20986061002921A5 /* ArriceCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2ED4BE20986061002921A5 /* ArriceCollectionCell.swift */; };
+		7E8F2C6A20A9C0B500854AF0 /* AllReviewsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E8F2C6920A9C0B500854AF0 /* AllReviewsTableViewCell.swift */; };
+		7E8F2C6C20A9C13400854AF0 /* ReviewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E8F2C6B20A9C13400854AF0 /* ReviewsViewController.swift */; };
 		7EBD0774209F2FC000369E36 /* ModelInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EBD0773209F2FC000369E36 /* ModelInfoViewController.swift */; };
 		7EBD077720A052CF00369E36 /* GroupChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EBD077620A052CF00369E36 /* GroupChatViewController.swift */; };
 		7EBD077920A05F5400369E36 /* PartnerTextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EBD077820A05F5400369E36 /* PartnerTextCell.swift */; };
@@ -209,6 +211,8 @@
 		7E2ED4B92097048B002921A5 /* SearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewCell.swift; sourceTree = "<group>"; };
 		7E2ED4BC20985633002921A5 /* ArrivleConfirmationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrivleConfirmationViewController.swift; sourceTree = "<group>"; };
 		7E2ED4BE20986061002921A5 /* ArriceCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArriceCollectionCell.swift; sourceTree = "<group>"; };
+		7E8F2C6920A9C0B500854AF0 /* AllReviewsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllReviewsTableViewCell.swift; sourceTree = "<group>"; };
+		7E8F2C6B20A9C13400854AF0 /* ReviewsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewsViewController.swift; sourceTree = "<group>"; };
 		7EBD0773209F2FC000369E36 /* ModelInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelInfoViewController.swift; sourceTree = "<group>"; };
 		7EBD077620A052CF00369E36 /* GroupChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupChatViewController.swift; sourceTree = "<group>"; };
 		7EBD077820A05F5400369E36 /* PartnerTextCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartnerTextCell.swift; sourceTree = "<group>"; };
@@ -396,6 +400,7 @@
 		743A207F203C1B12008DF1AA /* Complex JSON */ = {
 			isa = PBXGroup;
 			children = (
+				7E8F2C6820A9C09C00854AF0 /* All Reviews */,
 				7EBD077520A052AD00369E36 /* Group Chat */,
 				7E2ED4BB20985610002921A5 /* Arrivle Confirmation */,
 				743A2087203C1B12008DF1AA /* Assets.xcassets */,
@@ -566,6 +571,15 @@
 				7E2ED4BC20985633002921A5 /* ArrivleConfirmationViewController.swift */,
 			);
 			path = "Arrivle Confirmation";
+			sourceTree = "<group>";
+		};
+		7E8F2C6820A9C09C00854AF0 /* All Reviews */ = {
+			isa = PBXGroup;
+			children = (
+				7E8F2C6920A9C0B500854AF0 /* AllReviewsTableViewCell.swift */,
+				7E8F2C6B20A9C13400854AF0 /* ReviewsViewController.swift */,
+			);
+			path = "All Reviews";
 			sourceTree = "<group>";
 		};
 		7EBD077520A052AD00369E36 /* Group Chat */ = {
@@ -1032,6 +1046,7 @@
 				74F7AAA120580D1F00E66DF8 /* ScrollTestViewController.swift in Sources */,
 				743A2102203C6468008DF1AA /* GroupViewController.swift in Sources */,
 				74905905203DB5DA00C6B8C1 /* MainTabController.swift in Sources */,
+				7E8F2C6A20A9C0B500854AF0 /* AllReviewsTableViewCell.swift in Sources */,
 				749058FE203D605F00C6B8C1 /* CustomTableViewCell.swift in Sources */,
 				7E2ED4B22095B3A6002921A5 /* ServiceModalViewController.swift in Sources */,
 				7E2ED4BA2097048B002921A5 /* SearchTableViewCell.swift in Sources */,
@@ -1087,6 +1102,7 @@
 				7E2ED4BD20985633002921A5 /* ArrivleConfirmationViewController.swift in Sources */,
 				7E2D7B202090C06900DAC98F /* Section.swift in Sources */,
 				74F7AAA320595D6B00E66DF8 /* ItineraryServiceViewControllerCell.swift in Sources */,
+				7E8F2C6C20A9C13400854AF0 /* ReviewsViewController.swift in Sources */,
 				7E2ED4B42095BDB3002921A5 /* ModalTableViewCell.swift in Sources */,
 				74D5ED4C20A19D0600BEA038 /* NewDocsViewController.swift in Sources */,
 				7E2ED4AE2091AC80002921A5 /* ProviderViewController.swift in Sources */,

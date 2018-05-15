@@ -83,7 +83,8 @@ class AddReviewViewController: UIViewController,UITextViewDelegate {
         
          dismiss(animated: true, completion: nil)
     }
-    
+    //ProviderInfo.model_type
+    //ProviderInfo.model_id
     func addCommentFunc(){
         let perameters:  [String : Any] = ["model_type": ProviderInfo.model_type!, "model_id": ProviderInfo.model_id!
         , "reviewer_id": (MyVriables.currentMember?.id!)!

@@ -24,12 +24,15 @@ class ProviderViewController: UIViewController,UITableViewDelegate,UITableViewDa
     @IBOutlet weak var phoneNumber: UILabel!
     @IBOutlet weak var location: UILabel!
     @IBOutlet weak var fullName: UILabel!
+    @IBOutlet weak var allReviewLbl: UIButton!
     var urlGetService: String?
     var urlGetRate: String?
     var ratingsArray: [RatingModel]?
     @IBAction func addReviewClick(_ sender: Any) {
        
         performSegue(withIdentifier: "showAddReview", sender: self)
+        
+        
     }
     var providerModel : ProviderModel?
     override func viewDidLoad() {
@@ -71,6 +74,12 @@ class ProviderViewController: UIViewController,UITableViewDelegate,UITableViewDa
         catch let error {
             print(error)
         }
+    }
+
+    @IBAction func allReviewClick(_ sender: Any) {
+        performSegue(withIdentifier: "showAllReview", sender: self)
+            ProviderInfo.nameProvider = fullName.text!
+            ProviderInfo.urlRatings = urlGetRate!
     }
     func getUrlService(){
         switch ProviderInfo.currentProviderName!{
@@ -114,9 +123,11 @@ class ProviderViewController: UIViewController,UITableViewDelegate,UITableViewDa
     fileprivate func setTableViewHeigh() {
         if self.ratingsArray?.count == 0 {
             self.tableViewHeightConstrans.constant = 0
+            self.allReviewLbl.isHidden = true
         }
         else
         {
+            self.allReviewLbl.isHidden = false
             if self.ratingsArray?.count == 1 {
                 var height: CGFloat = 0
                 for cell in self.tableViewRatings.visibleCells {
@@ -139,6 +150,9 @@ class ProviderViewController: UIViewController,UITableViewDelegate,UITableViewDa
     }
     
     func getRatings() {
+        
+//        ProviderInfo.model_id = (ProviderInfo.currentProviderId)!
+//        ProviderInfo.model_type = "activities"
         HTTP.GET(urlGetRate!, parameters:[])
         { response in
             if let err = response.error {
@@ -244,6 +258,10 @@ class ProviderViewController: UIViewController,UITableViewDelegate,UITableViewDa
                              self.about.text = "there is no info"
                         }
                         
+                    }
+                    if self.providerModel?.rating != nil {
+                        self.rating.text = "\((self.providerModel?.rating)!) out of 10"
+                        ProviderInfo.ratings = "\((self.providerModel?.rating)!) out of 10"
                     }
                     if self.providerModel?.company_name != nil
                     {

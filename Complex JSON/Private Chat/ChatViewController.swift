@@ -77,7 +77,9 @@ class ChatViewController: UIViewController , UITableViewDelegate, UITableViewDat
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "customChatCell") as! ChatCustomCellController
+        if self.messages?[indexPath.row].partner != nil {
         cell.userNameLbl.text = "\((self.messages?[indexPath.row].partner?.first_name)!) \((self.messages?[indexPath.row].partner?.last_name)!)"
+        }
         cell.messageLbl.text = self.messages?[indexPath.row].last_message?.message!
         if self.messages?[indexPath.row].total_unread! != 0 {
             cell.budgesView.isHidden = false

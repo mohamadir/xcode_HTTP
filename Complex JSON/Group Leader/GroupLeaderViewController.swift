@@ -8,9 +8,12 @@
 
 import UIKit
 import SDWebImage
+import SwiftHTTP
+import SwiftEventBus
 class GroupLeaderViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
    
-    
+
+    @IBOutlet weak var allReviewLbl: UIButton!
     @IBOutlet weak var scrollView: UIScrollView!
     // hi hi
     //bye bye
@@ -25,13 +28,20 @@ class GroupLeaderViewController: UIViewController,UITableViewDelegate,UITableVie
     @IBOutlet weak var groupNameLbl: UILabel!
     @IBOutlet weak var leaderNameLbl: UILabel!
     var count: Int = 2
-    
+    var ratingsArray: [RatingModel]?
     @IBOutlet weak var tableViewHeightConstrans: NSLayoutConstraint!
     
+    
+    @IBAction func allReviewClick(_ sender: Any) {
+        performSegue(withIdentifier: "showAllReview", sender: self)
+        ProviderInfo.nameProvider = leaderNameLbl.text!
+        ProviderInfo.urlRatings = "https://api.snapgroup.co.il/api/getratings/members/\((MyVriables.currentGroup?.group_leader_id)!)"
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
+        SwiftEventBus.onMainThread(self, name: "newComment") { result in
+            self.getRatings()
+        }
         self.singleGroup  = MyVriables.currentGroup!
         ratingTbaleview.delegate = self
         ratingTbaleview.dataSource = self
@@ -61,81 +71,133 @@ class GroupLeaderViewController: UIViewController,UITableViewDelegate,UITableVie
         
         
     }
+    override func viewWillAppear(_ animated: Bool) {
+        getRatings()
+    }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if count == 1 {
-            var height: CGFloat = 0
-            for cell in tableView.visibleCells {
-                height += cell.bounds.height
-            }
-            
-            tableViewHeightConstrans.constant = height
-              print("height is --- \(height)")
-        return 1
+        if self.ratingsArray?.count == 0 {
+            tableViewHeightConstrans.constant = 0
+            return 0
         }
         else
         {
-            if count == 0 {
-               
-                tableViewHeightConstrans.constant = 0
-                 return 0
+            if self.ratingsArray?.count == 1 {
+                return 1
+                
             }
-            else {
-            
-            var height: CGFloat = 0
-            for cell in tableView.visibleCells {
-                height += cell.bounds.height
-            }
-            tableViewHeightConstrans.constant = height
-            print("height is --- \(height)")
+            else
+            {
                 return 2
             }
             
         }
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-         let cell = tableView.dequeueReusableCell(withIdentifier: "reviewCell", for: indexPath) as! ReviewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "reviewCell", for: indexPath) as! ReviewCell
         cell.selectionStyle = .none
-        if count == 1 {
-            var height: CGFloat = 0
-            for cell in tableView.visibleCells {
-                height += cell.bounds.height
-            }
+        if self.ratingsArray != nil {
+            cell.fullNameLbl.text = "\((self.ratingsArray?[indexPath.row].first_name)!) \((self.ratingsArray?[indexPath.row].last_name)!)"
+            cell.reviewLbl.text = "\((self.ratingsArray?[indexPath.row].review)!) "
+            cell.ratingNumber.text = "\((self.ratingsArray?[indexPath.row].rating)!) out of 10"
             
-            tableViewHeightConstrans.constant = height
-            print("height is --- \(height)")
-
-        }
-        else
-        {
-            if count == 0 {
-                
-                tableViewHeightConstrans.constant = 0
-  
-            }
-            else {
-                
-                var height: CGFloat = 0
-                for cell in tableView.visibleCells {
-                    height += cell.bounds.height
+            
+            if self.ratingsArray?[indexPath.row].image_path != nil
+            {
+                var urlString: String = try ApiRouts.Web + (self.ratingsArray?[indexPath.row].image_path)!
+                urlString = urlString.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)!
+                if let url = URL(string: urlString) {
+                    cell.profileImage.sd_setImage(with: url, placeholderImage: UIImage(named: "default user"), completed: nil)
+                    
                 }
-                tableViewHeightConstrans.constant = height
-                print("height is --- \(height)")
-
             }
-            
         }
+        
         return cell
     }
     @IBAction func showAddReview(_ sender: Any) {
         //showAddReview
+       ProviderInfo.model_type = "members"
+       ProviderInfo.model_id =  (MyVriables.currentGroup?.group_leader_id)!
         performSegue(withIdentifier: "showAddReview", sender: self)
 
+    }
+    func getRatings() {
+        
+        //        ProviderInfo.model_id = (ProviderInfo.currentProviderId)!
+        //        ProviderInfo.model_type = "activities"
+        HTTP.GET("https://api.snapgroup.co.il/api/getratings/members/\((MyVriables.currentGroup?.group_leader_id)!)", parameters:[])
+        { response in
+            if let err = response.error {
+                print("error: \(err.localizedDescription)")
+                return //also notify app of failure as needed
+            }
+            do {
+                self.ratingsArray = try JSONDecoder().decode([RatingModel].self, from: response.data)
+                print("The Array is \(self.ratingsArray!)")
+                DispatchQueue.main.sync {
+                    if self.ratingsArray?.count == 0 {
+                        self.count = 0
+                        self.ratingTbaleview.reloadData()
+                    }
+                    else
+                    {
+                        if self.ratingsArray?.count == 1 {
+                            self.count = 1
+                            self.ratingTbaleview.reloadData()
+                            
+                        }
+                        else
+                        {
+                            self.count = 2
+                            self.ratingTbaleview.reloadData()
+                            
+                        }
+                        
+                    }
+                    DispatchQueue.main.async {
+                        self.setTableViewHeigh()
+                    }
+                }
+            }
+            catch {
+                
+            }
+            print("url rating \(response.description)")
+        }
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.allowsSelection = false
     }
     @IBAction func onBack(_ sender: Any) {
         navigationController?.popViewController(animated: true)
+    }
+    fileprivate func setTableViewHeigh() {
+        if self.ratingsArray?.count == 0 {
+            self.tableViewHeightConstrans.constant = 0
+            self.allReviewLbl.isHidden = true
+        }
+        else
+        {
+            self.allReviewLbl.isHidden = false
+            if self.ratingsArray?.count == 1 {
+                var height: CGFloat = 0
+                for cell in self.ratingTbaleview.visibleCells {
+                    height += cell.bounds.height
+                }
+                self.tableViewHeightConstrans.constant = height
+                
+            }
+            else
+            {
+                var height: CGFloat = 0
+                for cell in self.ratingTbaleview.visibleCells {
+                    height += cell.bounds.height
+                }
+                self.tableViewHeightConstrans.constant = height
+                
+            }
+            
+        }
     }
     
     

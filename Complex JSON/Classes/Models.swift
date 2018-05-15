@@ -55,6 +55,7 @@ struct ServiceModel: Codable {
     var company_name: String?
     var city: String?
     var rating: Double?
+    var booking_rating: Double?
 }
 struct ServiceTranslations: Codable {
     var name: String?
@@ -106,6 +107,7 @@ struct ProviderModel: Codable {
     var first_name: String?
     var last_name: String?
     var bio: String?
+    var rating: Double?
     var city: String?
     var description: String?
     var webSite: String?
@@ -142,6 +144,7 @@ struct TourGroup: Codable {
     var group_leader_birth_date: String?
     var group_leader_about: String?
     var group_leader_gender: String?
+    var group_leader_id: Int?
     var translations: [GroupTranslation]?
     var group_tools: GroupTools?
     var chat: ChatObject?

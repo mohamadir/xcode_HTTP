@@ -13,4 +13,8 @@ class ProviderInfo{
      static var currentServiceDay: [ServiceModel]?
      static var model_id: Int?
      static var model_type: String?
+      static var nameProvider: String?
+    static var urlRatings: String?
+    static var ratings: String?
+    
 }
