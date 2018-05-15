@@ -6082,11 +6082,11 @@
             <objects>
                 <viewController definesPresentationContext="YES" providesPresentationContextTransitionStyle="YES" modalPresentationStyle="overCurrentContext" id="QDG-ry-xIz" customClass="AddReviewViewController" customModule="Snapgroup" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="0RS-BF-tFH">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="551"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" alpha="0.10000000000000001" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1Kj-p0-Slp">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="551"/>
                                 <color key="backgroundColor" red="0.64738657990000004" green="0.62731583369999999" blue="0.63348255340000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <connections>
                                     <action selector="onBack:" destination="gRJ-5t-fcd" eventType="touchUpInside" id="t1R-XJ-isr"/>
@@ -6094,7 +6094,7 @@
                                 </connections>
                             </button>
                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EHJ-BU-lni">
-                                <rect key="frame" x="52" y="266" width="271" height="280"/>
+                                <rect key="frame" x="52" y="135.66666666666663" width="271" height="280"/>
                                 <subviews>
                                     <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="8" minValue="0.0" maxValue="10" translatesAutoresizingMaskIntoConstraints="NO" id="shP-Da-1Nr">
                                         <rect key="frame" x="38" y="60" width="179" height="31"/>
@@ -6132,7 +6132,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wtm-MC-kZw">
-                                        <rect key="frame" x="73" y="239" width="125" height="30"/>
+                                        <rect key="frame" x="73" y="239.00000000000003" width="125" height="29.999999999999972"/>
                                         <color key="backgroundColor" name="Chat Me"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="125" id="ZqF-Xx-EAw"/>
@@ -7073,7 +7073,7 @@
             <objects>
                 <viewController id="mT7-ob-ig3" customClass="ReviewsViewController" customModule="Snapgroup" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Y6S-ng-pyt">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="551"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rbX-xh-aMb">
@@ -7133,7 +7133,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="kwy-zm-Y4d">
-                                <rect key="frame" x="0.0" y="175" width="375" height="637"/>
+                                <rect key="frame" x="0.0" y="175" width="375" height="376"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="reviewCell" rowHeight="103" id="cvT-HS-b7v" customClass="AllReviewsTableViewCell" customModule="Snapgroup" customModuleProvider="target">
@@ -8794,9 +8794,9 @@ AADr6g
         </namedColor>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Fmi-xR-gKX"/>
+        <segue reference="ZJ9-fU-LNV"/>
         <segue reference="gSf-5D-JMc"/>
-        <segue reference="eZd-em-7Hv"/>
+        <segue reference="Iqh-qe-DuZ"/>
         <segue reference="Oa6-RX-pQd"/>
         <segue reference="tOy-1R-Tjz"/>
         <segue reference="YnS-kQ-KQB"/>
