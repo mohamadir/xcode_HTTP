@@ -125,7 +125,6 @@ class DetailsViewController: UIViewController {
                             images2.append(AlamofireSource(urlString: image_path)!)
                         }
                    // images2.append(AlamofireSource(urlString: image_path)!)
-
                     }
                     // self.slideShow.setImageInputs(<#T##inputs: [InputSource]##[InputSource]#>)
                     //  self.scrollView.auk.show(url: "https://api.snapgroup.co.il\((image.path)!)")

@@ -10,6 +10,7 @@ import UIKit
 import SwiftHTTP
 import ImageSlideshow
 
+
 class ProviderViewController: UIViewController {
 
   
@@ -24,20 +25,14 @@ class ProviderViewController: UIViewController {
     var providerModel : ProviderModel?
     override func viewDidLoad() {
         super.viewDidLoad()
-
-       
         getProvider()
-        
-        slideShow.activityIndicator = DefaultActivityIndicator()
+      
         slideShow.circular = false
         slideShow.zoomEnabled = true
-        // slideShow.draggingEnabled = false
         slideShow.isMultipleTouchEnabled = false
         slideShow.pageControlPosition = .insideScrollView
-        //        slideShow.pageControlPosition = .custom(padding: CGFloat(12))
         slideShow.activityIndicator = DefaultActivityIndicator(style: .gray, color: UIColor.red)
-        let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(ProviderViewController.didTap))
-        slideShow.addGestureRecognizer(gestureRecognizer)
+   
     
         
         
@@ -90,10 +85,39 @@ class ProviderViewController: UIViewController {
             
           
              do{
+                
                 self.providerModel = try JSONDecoder().decode(ProviderModel.self, from: response.data)
                 DispatchQueue.main.sync {
                    
-                    
+                    if self.providerModel?.images != nil {
+                        if self.providerModel?.images?.count == 0 {
+                            self.slideShow.isHidden = true
+                        }
+                        else{
+                            var images2: [InputSource] = []
+                            
+                            
+                            for image in (self.providerModel?.images)! {
+                                if image.path !=  nil {
+                                    let image_path: String = "\(ApiRouts.Web)\(image.path!)"
+                      
+                                    //print("%%%%%%%%%%%%%%%%%%%% \(image_path)")
+                                    if AlamofireSource(urlString: image_path.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)!) != nil  {
+                                        print("1details image paths : \(image_path) and  ok !!!")
+                                       
+                                        images2.append(AlamofireSource(urlString: image_path.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)!)!)            
+                                    }
+                                }
+                                
+                            }
+                            print("after print \(images2.count)")
+                            //self.slideShow.setImageInputs(images2)
+                            self.slideShow.setImageInputs(images2)
+                            let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(ProviderViewController.didTap))
+                            self.slideShow.addGestureRecognizer(gestureRecognizer)
+                            
+                        }
+                    }
                     if self.providerModel?.description != nil
                     {
                         self.about.text = (self.providerModel?.description)!
@@ -187,30 +211,7 @@ class ProviderViewController: UIViewController {
                         self.website.alpha = 0.3
                     }
                     
-                    if self.providerModel?.images != nil {
-                        if self.providerModel?.images?.count == 0 {
-                        self.slideShow.isHidden = true
-                        }
-                        else{
-                            var images2: [InputSource] = []
-
-                            for image in (self.providerModel?.images)! {
-                                if image.path !=  nil {
-                                    let image_path: String = "\(ApiRouts.Web)\(image.path!)"
-                                    print("details image paths : \(image_path)")
-                                    //print("%%%%%%%%%%%%%%%%%%%% \(image_path)")
-                                    if AlamofireSource(urlString: image_path) != nil  {
-                                        images2.append(AlamofireSource(urlString: image_path)!)
-                                    }
-                                }
-
-                            }
-
-                            self.slideShow.setImageInputs(images2)
-                            let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(ProviderViewController.didTap))
-                            self.slideShow.addGestureRecognizer(gestureRecognizer)
-                        }
-                    }
+                   
 
                 }
 
@@ -227,3 +228,4 @@ class ProviderViewController: UIViewController {
     }
 
 }
+

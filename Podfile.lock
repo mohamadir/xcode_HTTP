@@ -2,43 +2,43 @@ PODS:
   - Alamofire (4.7.2)
   - AlamofireImage (3.3.1):
     - Alamofire (~> 4.5)
-  - ARSLineProgress (2.2.0)
+  - ARSLineProgress (2.2.1)
   - Auk (8.0.2):
     - moa
   - BmoViewPager (4.0.5)
   - Crashlytics (3.10.1):
     - Fabric (~> 1.7.5)
+  - Digger (0.0.5)
   - ExpandableLabel (0.4.0)
   - Fabric (1.7.6)
-  - FileBrowser (1.0.0)
-  - Firebase/Core (4.13.0):
-    - FirebaseAnalytics (= 4.2.0)
-    - FirebaseCore (= 4.0.20)
-  - Firebase/Database (4.13.0):
-    - Firebase/Core
-    - FirebaseDatabase (= 4.1.5)
-  - Firebase/Messaging (4.13.0):
-    - Firebase/Core
-    - FirebaseMessaging (= 2.2.0)
-  - FirebaseAnalytics (4.2.0):
-    - FirebaseCore (~> 4.0)
-    - FirebaseInstanceID (~> 2.0)
+  - Firebase/Core (5.0.0):
+    - Firebase/CoreOnly
+    - FirebaseAnalytics (= 5.0.0)
+  - Firebase/CoreOnly (5.0.0):
+    - FirebaseCore (= 5.0.0)
+  - Firebase/Database (5.0.0):
+    - Firebase/CoreOnly
+    - FirebaseDatabase (= 5.0.0)
+  - Firebase/Messaging (5.0.0):
+    - Firebase/CoreOnly
+    - FirebaseMessaging (= 3.0.0)
+  - FirebaseAnalytics (5.0.0):
+    - FirebaseCore (~> 5.0)
+    - FirebaseInstanceID (~> 3.0)
     - GoogleToolboxForMac/NSData+zlib (~> 2.1)
     - nanopb (~> 0.3)
-  - FirebaseCore (4.0.20):
+  - FirebaseCore (5.0.0):
     - GoogleToolboxForMac/NSData+zlib (~> 2.1)
-  - FirebaseDatabase (4.1.5):
-    - FirebaseAnalytics (~> 4.1)
-    - FirebaseCore (~> 4.0)
+  - FirebaseDatabase (5.0.0):
+    - FirebaseCore (~> 5.0)
     - leveldb-library (~> 1.18)
-  - FirebaseInstanceID (2.0.10):
-    - FirebaseCore (~> 4.0)
-  - FirebaseMessaging (2.2.0):
-    - FirebaseAnalytics (~> 4.1)
-    - FirebaseCore (~> 4.0)
-    - FirebaseInstanceID (~> 2.0)
+  - FirebaseInstanceID (3.0.0):
+    - FirebaseCore (~> 5.0)
+  - FirebaseMessaging (3.0.0):
+    - FirebaseCore (~> 5.0)
+    - FirebaseInstanceID (~> 3.0)
     - GoogleToolboxForMac/Logger (~> 2.1)
-    - Protobuf (~> 3.5)
+    - Protobuf (~> 3.1)
   - GoneVisible (1.2.0)
   - GoogleMaps (2.7.0):
     - GoogleMaps/Maps (= 2.7.0)
@@ -94,8 +94,8 @@ DEPENDENCIES:
   - Auk (~> 8.0)
   - BmoViewPager (~> 4.0.0)
   - Crashlytics (~> 3.10.0)
+  - Digger
   - ExpandableLabel
-  - FileBrowser (~> 1.0)
   - Firebase/Core
   - Firebase/Database
   - Firebase/Messaging
@@ -124,19 +124,19 @@ DEPENDENCIES:
 SPEC CHECKSUMS:
   Alamofire: e4fa87002c137ba2d8d634d2c51fabcda0d5c223
   AlamofireImage: 3b35b586853abaf94ca1250f4e94cff3c21a4c0d
-  ARSLineProgress: ec2160ed0530a6e3afe2981ad28837d10d650cd1
+  ARSLineProgress: b344944496913e98d8fe7bab94ea5d488fbf41fb
   Auk: 82be62a2cf650437fe745c81b12ac2440a0f682c
   BmoViewPager: 1bbba2f3d9bad4e255b0e397dc035e9a0c434eb5
   Crashlytics: aee1a064cbbf99b32efa3f056a5f458d846bc8ff
+  Digger: c474bde76a91e0a36f12101c5dfe7e86774b15d3
   ExpandableLabel: 5f5f61fbf71433000cd7c3290617e6fcccb72c86
   Fabric: f8d42c893bb187326a7968b62abe55c36a987a46
-  FileBrowser: 2ca91ff61c9ea09665eb3b8f9e64a7a77e66a0bf
-  Firebase: 5ec5e863d269d82d66b4bf56856726f8fb8f0fb3
-  FirebaseAnalytics: 7ef69e76a5142f643aeb47c780e1cdce4e23632e
-  FirebaseCore: 90cb1c53d69b556f112a1bf72b5fcfaad7650790
-  FirebaseDatabase: 5f0bc6134c5c237cf55f9e1249d406770a75eafd
-  FirebaseInstanceID: 8d20d890d65c917f9f7d9950b6e10a760ad34321
-  FirebaseMessaging: 75cdb862e86c30e0913a2ff307e48d49357c5b73
+  Firebase: 4bd804448ab2596794698773d41520a0af101e65
+  FirebaseAnalytics: 19812b49fa5f283dd6b23edf8a14b5d477029ab8
+  FirebaseCore: e46e4babb9de298fb2f736958edcc6da1dc60d73
+  FirebaseDatabase: 697eb53e5b4fe7cd4fa8756c1f82a9fca011345f
+  FirebaseInstanceID: 83e0040351565df711a5db3d8ebe5ea21aca998a
+  FirebaseMessaging: f2360a966ecfb0d14facf0fbdf306efc2df0ddbe
   GoneVisible: c552940cd9df7548427f6bffd000dcbcc6de187f
   GoogleMaps: f79af95cb24d869457b1f961c93d3ce8b2f3b848
   GooglePlacePicker: 59ea44db173c58486ad6123993e81feefcbce9c3
@@ -163,6 +163,6 @@ SPEC CHECKSUMS:
   Toast-Swift: ba0b01b095aada709d915f9beb1d38184a2721c3
   YNExpandableCell: 47bf7cff721aa535c0e9e1163bf22b5573441bb4
 
-PODFILE CHECKSUM: 2556a96050ddefd1fee0c6276d06a6d7422798e5
+PODFILE CHECKSUM: ec1f0f631ede4b29ff8f48aab6752292923a0f97
 
 COCOAPODS: 1.4.0

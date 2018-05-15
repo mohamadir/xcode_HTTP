@@ -8,7 +8,7 @@
 
 import UIKit
 import SwiftHTTP
-import FileBrowser
+import Digger
 
 
 class NewDocsViewController: UIViewController {
@@ -29,10 +29,39 @@ class NewDocsViewController: UIViewController {
 //            print("DOWNLOADTEST- \(url)")
 //            //move the temp file to desired location...
 //        })
+        let url = "https://pbs.twimg.com/profile_images/968803989339897856/s6iSl6t9_400x400.jpg"
         
-        
-        let fileBrowser = FileBrowser()
-        present(fileBrowser, animated: true, completion: nil)
+        Digger.download(url)
+            .progress({ (progresss) in
+                print(progresss.fractionCompleted)
+                
+            })
+            .speed({ (speed) in
+                print(speed)
+            })
+            .completion { (result) in
+                
+                switch result {
+                case .success(let url):
+                    print(url)
+                    if var URL = URL(string: url.absoluteString) {
+                        let documentDirectory = try! FileManager.default.url(for: .documentDirectory	, in: .userDomainMask, appropriateFor: nil, create: false)
+                        var dateFormatter = DateFormatter()
+                        dateFormatter.dateStyle = .long
+                        dateFormatter.timeStyle = .short
+                        let date = dateFormatter.string(from: Date())
+                        let saveURL = documentDirectory.appendingPathComponent("fileodfsdfsh.jpg")
+                        print("MOHMD- absoluteUrlString: \(url.absoluteString) , URL : \(URL) , saveUrl: \(saveURL)")
+
+                        Downloader.load(url: URL, to: saveURL) {
+                            print("ok")
+                        }
+                    }
+                    
+                case .failure(let error):
+                    print(error)
+                }
+        }
     }
     //
     override func didReceiveMemoryWarning() {
@@ -50,5 +79,31 @@ class NewDocsViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
-
+    class Downloader {
+        class func load(url: URL, to localUrl: URL, completion: @escaping () -> ()) {
+            let sessionConfig = URLSessionConfiguration.default
+            let session = URLSession(configuration: sessionConfig)
+            let request = try! URLRequest(url: url, method: .get)
+            
+            let task = session.downloadTask(with: request) { (tempLocalUrl, response, error) in
+                if let tempLocalUrl = tempLocalUrl, error == nil {
+                    // Success
+                    if let statusCode = (response as? HTTPURLResponse)?.statusCode {
+                        print("Success: \(statusCode)")
+                    }
+                    
+                    do {
+                        try FileManager.default.copyItem(at: tempLocalUrl, to: localUrl)
+                        completion()
+                    } catch (let writeError) {
+                        print("error writing file \(localUrl) : \(writeError)")
+                    }
+                    
+                } else {
+                    print("Failure: %@", error?.localizedDescription);
+                }
+            }
+            task.resume()
+        }
+    }
 }

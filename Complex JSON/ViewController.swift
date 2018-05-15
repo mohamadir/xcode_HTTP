@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import FirebaseDatabase
 import Crashlytics
 import SwiftHTTP
 import SDWebImage
@@ -136,7 +135,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
     }
     
-   
     
     func subScribe(){
         UIApplication.shared.registerForRemoteNotifications()
@@ -150,8 +148,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         if Messaging.messaging().fcmToken != nil {
         print("subscribedddd")
             UIApplication.shared.registerForRemoteNotifications()
-            MyVriables.CurrentTopic = "abd123"
-            
+         //   MyVriables.CurrentTopic = "abd123"
+            Messaging.messaging().unsubscribe(fromTopic: "/topics/a123456")
+
         }
         
         tableView.delegate = self
@@ -162,7 +161,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         setChatTap()
         setNotificationTap()
         setRefresher()
-       
+      
         self.checkCurrentUser()
        
         setFilterView()
@@ -427,8 +426,101 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     
     
-    @IBAction func sendClick(_ sender: Any) {
+    fileprivate func showPinDialog() {
+        let PinAlert = UIAlertController(title: "Please enter PIN code wer'e sent you", message: "Pin code", preferredStyle: .alert)
+        print ("pin created")
         
+        PinAlert.addTextField { (textField) in
+            textField.placeholder = "1234"
+            
+        }
+        print ("pin created")
+        
+        PinAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak PinAlert] (_) in
+            
+            print ("pin 1")
+            
+            let textField = PinAlert?.textFields![0] // Force unwrapping because we know it exists.
+            print ("pin 2")
+            
+            self.PINCODE = textField?.text
+            print("PIN CODE : \((textField?.text)!)")
+            var params: [String: Any] = [:]
+            
+            //                        if self.countryPrefLable.text![0...4] == "+972" {
+            //                            if self.countryPrefLable.text![5]
+            //                             params = ["code": (textField?.text)!, "phone": "\(self.countryPrefLable.text!)\(self.phoneNumberFeild.text!)"]
+            //                        }else{
+            //                             params = ["code": (textField?.text)!, "phone": "\(self.countryPrefLable.text!)\(self.phoneNumberFeild.text!)"]
+            //                        }
+            params = ["code": (textField?.text)!, "phone": "\(self.countryPrefLable.text!)\(self.phoneNumberFeild.text!)"]
+            HTTP.POST(ApiRouts.Register, parameters: params) { response in
+                //do things...
+                if response.error != nil {
+                    print(response.error)
+                    return
+                }
+                print(response.description)
+                do{
+                    let  member = try JSONDecoder().decode(CurrentMember.self, from: response.data)
+                    print(member)
+                    
+                    self.currentMember = member
+                    self.setToUserDefaults(value: true, key: "isLogged")
+                    //  print(self.currentMember?.profile!)
+                    self.setToUserDefaults(value: self.currentMember?.profile?.member_id!, key: "member_id")
+                    self.setToUserDefaults(value: self.currentMember?.profile?.first_name , key: "first_name")
+                    self.setToUserDefaults(value: self.currentMember?.profile?.last_name, key: "last_name")
+                    self.setToUserDefaults(value: self.currentMember?.member?.email, key: "email")
+                    self.setToUserDefaults(value: self.currentMember?.member?.phone, key: "phone")
+                    self.setToUserDefaults(value: self.currentMember?.profile?.gender, key: "gender")
+                    self.setToUserDefaults(value: self.currentMember?.profile?.profile_image, key: "profile_image")
+                    
+                    self.currentProfile = self.currentMember?.profile!
+                    DispatchQueue.main.sync {
+                        self.myGrous = []
+                        self.page = 1
+                        self.tableView.reloadData()
+                        self.checkCurrentUser()
+                        //                                    self.phoneNumberStackView.isHidden = true
+                        //                                    self.chatHeaderStackView.isHidden = false
+                        //                                }
+                    }
+                    MyVriables.isMember = true
+                    
+                    
+                }
+                catch {
+                    print("catch error")
+                    self.phoneNumberStackView.isHidden = false
+                    self.chatHeaderStackView.isHidden = true
+                    self.setToUserDefaults(value: false, key: "isLogged")
+                    
+                }
+                
+            }
+            
+            
+            
+            
+        }))
+        print ("pin after ok ")
+        
+        PinAlert.addAction(UIAlertAction(title: NSLocalizedString("CANCLE", comment: "Default action"), style: .`default`, handler: { _ in
+            print("no")
+            
+        }))
+        print ("pin after no ")
+        
+        self.present(PinAlert, animated: true, completion: nil)
+        
+        print ("pin after present ")
+    }
+    
+    @IBAction func sendClick(_ sender: Any) {
+        if (self.phoneNumberFeild.text?.isEmpty)! {
+            return
+        }
         print("\(self.countryPrefLable.text!)\(self.phoneNumberFeild.text!)")
         self.phoneNumber = "\(self.countryPrefLable.text!)\(self.phoneNumberFeild.text!)"
         
@@ -447,88 +539,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             let params = ["phone": self.phoneNumber]
             
             HTTP.POST(ApiRouts.RegisterCode, parameters: params) { response in
-                
-                if response.statusCode == 201 {
-                    print ("successed")
-                    
-                    let PinAlert = UIAlertController(title: "Please enter PIN code wer'e sent you", message: "Pin code", preferredStyle: .alert)
-                    
-                    PinAlert.addTextField { (textField) in
-                        textField.placeholder = "1234"
-                        
-                    }
-                    PinAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak PinAlert] (_) in
-                        let textField = PinAlert?.textFields![0] // Force unwrapping because we know it exists.
-                        self.PINCODE = textField?.text
-                        print("PIN CODE : \((textField?.text)!)")
-                        var params: [String: Any] = [:]
-                       
-//                        if self.countryPrefLable.text![0...4] == "+972" {
-//                            if self.countryPrefLable.text![5]
-//                             params = ["code": (textField?.text)!, "phone": "\(self.countryPrefLable.text!)\(self.phoneNumberFeild.text!)"]
-//                        }else{
-//                             params = ["code": (textField?.text)!, "phone": "\(self.countryPrefLable.text!)\(self.phoneNumberFeild.text!)"]
-//                        }
-                       params = ["code": (textField?.text)!, "phone": "\(self.countryPrefLable.text!)\(self.phoneNumberFeild.text!)"]
-                        HTTP.POST(ApiRouts.Register, parameters: params) { response in
-                            //do things...
-                            if response.error != nil {
-                                print(response.error)
-                                return
-                            }
-                            print(response.description)
-                            do{
-                             let  member = try JSONDecoder().decode(CurrentMember.self, from: response.data)
-                                print(member)
-                                
-                                self.currentMember = member
-                                self.setToUserDefaults(value: true, key: "isLogged")
-                              //  print(self.currentMember?.profile!)
-                                self.setToUserDefaults(value: self.currentMember?.profile?.member_id!, key: "member_id")
-                                self.setToUserDefaults(value: self.currentMember?.profile?.first_name , key: "first_name")
-                                self.setToUserDefaults(value: self.currentMember?.profile?.last_name, key: "last_name")
-                                self.setToUserDefaults(value: self.currentMember?.member?.email, key: "email")
-                                self.setToUserDefaults(value: self.currentMember?.member?.phone, key: "phone")
-                                self.setToUserDefaults(value: self.currentMember?.profile?.gender, key: "gender")
-                                self.setToUserDefaults(value: self.currentMember?.profile?.profile_image, key: "profile_image")
-                                
-                                self.currentProfile = self.currentMember?.profile!
-                                DispatchQueue.main.sync {
-                                    self.myGrous = []
-                                    self.page = 1
-                                    self.tableView.reloadData()
-                                    self.checkCurrentUser()
-//                                    self.phoneNumberStackView.isHidden = true
-//                                    self.chatHeaderStackView.isHidden = false
-//                                }
-                                }
-                                MyVriables.isMember = true
-                                
-                          
-                            }
-                            catch {
-                                print("catch error")
-                                self.phoneNumberStackView.isHidden = false
-                                self.chatHeaderStackView.isHidden = true
-                                self.setToUserDefaults(value: false, key: "isLogged")
-
-                            }
-
-                        }
-                        
-                        
-                        
-                        
-                    }))
-                    PinAlert.addAction(UIAlertAction(title: NSLocalizedString("CANCLE", comment: "Default action"), style: .`default`, handler: { _ in
-                        print("no")
-                        
-                    }))
-                    self.present(PinAlert, animated: true, completion: nil)
-                    
-
+                if response.error != nil {
+                    print("error \(response.error?.localizedDescription)")
+                    return
                 }
-                
+                    print ("successed")
+                    DispatchQueue.main.sync {
+                        self.showPinDialog()
+                    }
                 //do things...
             }
             

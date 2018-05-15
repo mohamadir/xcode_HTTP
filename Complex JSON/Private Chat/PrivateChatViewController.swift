@@ -77,20 +77,21 @@ class PrivateChatViewController: UIViewController ,UIImagePickerControllerDelega
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         
         var image: URL
+        print(info)
         if #available(iOS 11.0, *) {
             image = info[UIImagePickerControllerImageURL] as! URL
         } else {
             // Fallback on earlier versions
             image = info[UIImagePickerControllerReferenceURL] as! URL
-            
+
         }
         ARSLineProgress.show()
         print("image ref: \(image)" )
-        
+
         dismiss(animated: true, completion: nil)
         print("UPLOADIMAGE- url - "+"https://api.snapgroup.co.il/api/upload_single_image/Member/\(MyVriables.currentMember?.id!)/media")
         HTTP.POST("https://api.snapgroup.co.il/api/upload_single_image/Member/\((MyVriables.currentMember?.id!)!)/media", parameters: ["single_image": Upload(fileUrl: image.absoluteURL)]) { response in
-            
+
             ARSLineProgress.hide()
             if response.error != nil {
                 print(response.error)
@@ -111,7 +112,7 @@ class PrivateChatViewController: UIViewController ,UIImagePickerControllerDelega
                 var image_path = ApiRouts.Web +  (image2.image?.path!)!
                 let params = ["type":"image","image_path": image_path  , "message": "", "sender_id": (MyVriables.currentMember?.id!)!, "chat_type" : "private", "receiver_id" : oponent_id!] as [String : Any]
                 print("params: \(params)")
-                
+
                 HTTP.POST(ApiRouts.Web + "/api/chats", parameters: params) { response in
                     print("send chat: \(response.statusCode)" )
                     var newMessage :Message = Message()
@@ -133,9 +134,9 @@ class PrivateChatViewController: UIViewController ,UIImagePickerControllerDelega
             }
             print(response.data)
             print(response.data.description)
-            
-           
-            
+
+
+
         }
         
     }
