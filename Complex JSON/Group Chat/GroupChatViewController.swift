@@ -56,7 +56,6 @@ class GroupChatViewController: UIViewController, UITableViewDelegate, UITableVie
         super.viewDidLoad()
         // like a comment but it isn't one
                 NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        
                 NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         
                 let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
@@ -65,6 +64,7 @@ class GroupChatViewController: UIViewController, UITableViewDelegate, UITableVie
         titleGroup.text = (MyVriables.currentGroup?
             .translations![0].title)!
         setSocket()
+        chatFeild.autocorrectionType = .no
         chatTableView.tableFooterView = UIView()
         chatTableView.rowHeight = UITableViewAutomaticDimension
         chatTableView.allowsSelection = false

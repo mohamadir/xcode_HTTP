@@ -43,12 +43,12 @@ public extension UIColor {
 
 
 class PrivateChatViewController: UIViewController ,UIImagePickerControllerDelegate, UINavigationControllerDelegate , UITableViewDelegate, UITableViewDataSource , UITextFieldDelegate {
-
+    
     @IBOutlet weak var keyboardConstraints: NSLayoutConstraint!
     @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
-
+    
     @IBOutlet weak var chatTableView: UITableView!
-
+    
     @IBOutlet weak var usernamelb: UILabel!
     @IBOutlet weak var userImage: UIImageView!
     var socket: SocketIOClient?
@@ -59,24 +59,25 @@ class PrivateChatViewController: UIViewController ,UIImagePickerControllerDelega
     var messageUser: Partner?
     var myId: Int?
     var allMessages: [Message] = []
-
+    
     @IBAction func onCloseTapped(_ sender: Any) {
         navigationController?.popViewController(animated: true)
         dismiss(animated: true, completion: nil)
     }
     
-
+    
     @IBAction func onCloseTapped2(_ sender: Any) {
     }
-
+    
     func textFieldDidBeginEditing(_ textField: UITextField) {
-     //   textField.becomeFirstResponder()
-       // moveTextField(textField, moveDistance: -250, up: true)
+           textField.becomeFirstResponder()
+        // moveTextField(textField, moveDistance: -250, up: true)
         
     }
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         
         var image: URL
+        print(info)
         if #available(iOS 11.0, *) {
             image = info[UIImagePickerControllerImageURL] as! URL
         } else {
@@ -100,12 +101,12 @@ class PrivateChatViewController: UIViewController ,UIImagePickerControllerDelega
             do {
                 if response.error != nil {
                     print("response is : ERROR \(response.error)")
-
+                    
                     return
                 }
                 let  image2 = try JSONDecoder().decode(ImageServer.self, from: data)
-                    print("image response is : \(image2.image?.path)")
-                    print(response.description)
+                print("image response is : \(image2.image?.path)")
+                print(response.description)
                 // send image here
                 var oponent_id =  ChatUser.currentUser?.id!
                 var image_path = ApiRouts.Web +  (image2.image?.path!)!
@@ -127,51 +128,57 @@ class PrivateChatViewController: UIViewController ,UIImagePickerControllerDelega
                         self.scrollToLast()
                     }
                 }
-
+                
             }catch let error {
                 print(error)
             }
             print(response.data)
             print(response.data.description)
             
-           
+            
             
         }
         
     }
     @available(iOS 10.0, *)
     func textFieldDidEndEditing(_ textField: UITextField, reason: UITextFieldDidEndEditingReason) {
-      //  moveTextField(textField, moveDistance: -250, up: false)
-
+        //  moveTextField(textField, moveDistance: -250, up: false)
+        
     }
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-
-//        if #available(iOS 10.0, *) {
-//        } else {
-//            moveTextField(textField, moveDistance: -250, up: false)
-//            // or use some work around
-//        }
-//        textField.resignFirstResponder()
+        
+        //        if #available(iOS 10.0, *) {
+        //        } else {
+        //            moveTextField(textField, moveDistance: -250, up: false)
+        //            // or use some work around
+        //        }
+        //        textField.resignFirstResponder()
+        if textField.text == "" {
+            dismissKeyboard()
+        }else {
+            sendMessage()
+            
+        }
         return true
     }
     func moveTextField(_ textField: UITextField, moveDistance: Int, up: Bool) {
         let moveDuration = 0.3
         let movement: CGFloat = CGFloat(up ? moveDistance : -moveDistance)
-
+        
         UIView.beginAnimations("animateTextField", context: nil)
         UIView.setAnimationBeginsFromCurrentState(true)
         UIView.setAnimationDuration(moveDuration)
         self.view.frame = self.view.frame.offsetBy(dx: 0, dy: movement)
         
         if up {
-//            self.chatTableView.topAnchor.constraint(equalTo: (view.superview?.topAnchor)!, constant: 300how do).isActive = true
+            //            self.chatTableView.topAnchor.constraint(equalTo: (view.superview?.topAnchor)!, constant: 300how do).isActive = true
         }else {
             self.chatTableView.topAnchor.constraint(equalTo: (view.superview?.topAnchor)!, constant: 0).isActive = true
         }
         UIView.commitAnimations()
     }
-
-
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setSocket()
@@ -183,31 +190,31 @@ class PrivateChatViewController: UIViewController ,UIImagePickerControllerDelega
         self.userImage.layer.cornerRadius = userImage.frame.height/2
         userImage.clipsToBounds = true
         imagePicker.delegate = self
-       
-       
-       // self.userImage.downloadedFrom(url: url!, contentMode: .scaleToFill)
+        
+        
+        // self.userImage.downloadedFrom(url: url!, contentMode: .scaleToFill)
         let border = CALayer()
         let width = CGFloat(0.6)
-//        if #available(iOS 10, *) {
-//            // Disables the password autoFill accessory view.
-//            chatTextFeild.textContentType = UITextContentType("")
-//        }
-
-
+        //        if #available(iOS 10, *) {
+        //            // Disables the password autoFill accessory view.
+        //            chatTextFeild.textContentType = UITextContentType("")
+        //        }
+        
+        
         if #available(iOS 11.0, *) {
             border.borderColor = UIColor(named: "Primary")?.cgColor
         } else {
             // Fallback on earlier versions
             border.borderColor = UIColor(rgb: 0xC1B46A).cgColor
         }
-
+        
         border.frame = CGRect(x: 0, y: self.chatTextFeild.frame.size.height - width, width:  self.chatTextFeild.frame.size.width, height: self.chatTextFeild.frame.size.height)
-
+        
         border.borderWidth = width
         self.chatTextFeild.layer.addSublayer(border)
         self.chatTextFeild.layer.masksToBounds = true
-
-
+        
+        
         
         if self.messageUser?.profile_image != nil {
             let urlString = ApiRouts.Web + (self.messageUser?.profile_image)!
@@ -226,7 +233,7 @@ class PrivateChatViewController: UIViewController ,UIImagePickerControllerDelega
             // Fallback on earlier versions
         }
         self.chatTableView.separatorStyle = .none
-
+        
         myId = UserDefaults.standard.integer(forKey: "member_id")
         originY = self.view.frame.origin.y
         if isChatId {
@@ -235,89 +242,91 @@ class PrivateChatViewController: UIViewController ,UIImagePickerControllerDelega
             isChatId = true
             self.getHistoryConv(isViaChatId: false)
         }
-   //     chatTableView.rowHeight = UITableViewAutomaticDimension
-
+        //     chatTableView.rowHeight = UITableViewAutomaticDimension
+        
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-
+        
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
-
-        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-
-        view.addGestureRecognizer(tap)
-
-
-
+        
+        //        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        //
+        //        view.addGestureRecognizer(tap)
+        
+        
+        
     }
     
     
     @IBAction func attachImageTapped(_ sender: Any) {
         imagePicker.allowsEditing = false
         imagePicker.sourceType = .photoLibrary
+        dismissKeyboard()
+        
         present(imagePicker, animated: true, completion: nil)
     }
     
     @objc func keyboardWillShow(notification:NSNotification) {
-    //    adjustingHeight(show: true, notification: notification)
+        //    adjustingHeight(show: true, notification: notification)
         print("in keyboard show")
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             
             keyboardConstraints.constant = keyboardSize.height + 105
             DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(300)) {
-                self.scrollToLast()
+            self.scrollToLast()
             }
         }
         // show keyboard hide
         
         
     }
-
-
-
+    
+    
+    
     @objc   func keyboardWillHide(notification:NSNotification) {
-     //   adjustingHeight(show: false, notification: notification)
+        //   adjustingHeight(show: false, notification: notification)
         print("in keyboard hide")
-
+        
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             
             self.keyboardConstraints.constant = 70
         }
-    
+        
     }
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
-
+        
     }
     override func viewDidAppear(_ animated: Bool) {
-         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: (ChatUser.currentUser?.first_name!)! + " " + (ChatUser.currentUser?.last_name!)! , style:.plain, target:nil, action:nil)
-//        navigationController?.navigationBar.shadowImage = .none
-//        let nav = self.navigationController?.navigationBar
-//
-//        // 2
-//
-//        nav?.backgroundColor = UIColor.white
-//        // 3
-//        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
-//        imageView.contentMode = .scaleAspectFit
-//
-//
-//
-//        // 4
-//        let image = UIImage(named: "default user")
-//        imageView.image = image
-//
-//        // 5
-//        let label = UILabel(frame: CGRect(x: 0, y: 0, width: 40, height: 20))
-//
-//
-//      //  navigationItem.titleView = label
-////        navigationController?.navigationBar.backItem?.title = ""
-////        navigationItem.backBarButtonItem?.tintColor = UIColor(named: "Primary")
-////        navigationItem.backBarButtonItem?.title  = (ChatUser.currentUser?.opponent_first_name!)! + " " + (ChatUser.currentUser?.opponent_last_name!)!
-//        self.navigationItem.backBarButtonItem = UIBarButtonItem(title:"", style:.plain, target:nil, action:nil)
- 
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: (ChatUser.currentUser?.first_name!)! + " " + (ChatUser.currentUser?.last_name!)! , style:.plain, target:nil, action:nil)
+        //        navigationController?.navigationBar.shadowImage = .none
+        //        let nav = self.navigationController?.navigationBar
+        //
+        //        // 2
+        //
+        //        nav?.backgroundColor = UIColor.white
+        //        // 3
+        //        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
+        //        imageView.contentMode = .scaleAspectFit
+        //
+        //
+        //
+        //        // 4
+        //        let image = UIImage(named: "default user")
+        //        imageView.image = image
+        //
+        //        // 5
+        //        let label = UILabel(frame: CGRect(x: 0, y: 0, width: 40, height: 20))
+        //
+        //
+        //      //  navigationItem.titleView = label
+        ////        navigationController?.navigationBar.backItem?.title = ""
+        ////        navigationItem.backBarButtonItem?.tintColor = UIColor(named: "Primary")
+        ////        navigationItem.backBarButtonItem?.title  = (ChatUser.currentUser?.opponent_first_name!)! + " " + (ChatUser.currentUser?.opponent_last_name!)!
+        //        self.navigationItem.backBarButtonItem = UIBarButtonItem(title:"", style:.plain, target:nil, action:nil)
+        
     }
     override func viewWillAppear(_ animated: Bool) {
-         self.navigationController?.setNavigationBarHidden(false, animated: false)
+        self.navigationController?.setNavigationBarHidden(false, animated: false)
         navigationController?.navigationBar.shadowImage = .none
         let nav = self.navigationController?.navigationBar
         nav?.backgroundColor = UIColor.white
@@ -355,31 +364,33 @@ class PrivateChatViewController: UIViewController ,UIImagePickerControllerDelega
         if #available(iOS 11.0, *) {
             navigationItem.backBarButtonItem?.tintColor = UIColor(named: "Primary")
             navigationController?.navigationBar.tintColor = UIColor(named: "Primary")
-
+            
         } else {
             //
             // Fallback on earlier versions
             navigationItem.backBarButtonItem?.tintColor = Colors.PrimaryColor
             navigationController?.navigationBar.tintColor = Colors.PrimaryColor
-
+            
         }
-
-
+        
+        
         //
-
-
+        
+        
     }
+    
     override func viewWillDisappear(_ animated: Bool) {
         self.resetMessages()
         markConvRead()
         self.navigationController?.setNavigationBarHidden(true, animated: false)
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        //        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        //        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
     override  func dismissKeyboard() {
+        print("IMAGETAPPED - from dismissKeyboard")
         view.endEditing(true)
     }
-
+    
     func adjustingHeight(show:Bool, notification:NSNotification) {
         print("adjustingHeight")
         // 1
@@ -395,9 +406,9 @@ class PrivateChatViewController: UIViewController ,UIImagePickerControllerDelega
             self.bottomConstraint.constant += changeInHeight
         })
         
-
+        
     }
-
+    
     func resetMessages(){
         print("------ IN RESET MESSAGES ----- ")
         var oponent_id =  ChatUser.currentUser?.id!
@@ -415,93 +426,93 @@ class PrivateChatViewController: UIViewController ,UIImagePickerControllerDelega
         }
     }
     func setSocket(){
-
-            print("----- ABED -----")
-            var  manager = SocketManager(socketURL: URL(string: ApiRouts.ChatServer)!, config: [.log(true),.forcePolling(true)])
-            socket = manager.defaultSocket
-            socket!.on(clientEvent: .connect) {data, ack in
-                self.socket!.emit("subscribe", "member-\((MyVriables.currentMember?.id!)!)")
-            }
-            socket!.on("member-\((MyVriables.currentMember?.id!)!):member-channel") {data, ack in
-                print("onMessageRec: \(data[0])")
-                if let data2 = data[0] as? Dictionary<String, Any> {
-                    if let messageClass = data2["messageClass"] as? Dictionary<String, Any> {
-
-                            var newMessage : Message = Message()
-                            newMessage.created_at = messageClass["created_at"] as? String
-                            newMessage.member_id = messageClass["member_id"] as? Int
-                            var oponent_id =  ChatUser.currentUser?.id!
-
-
-                            newMessage.message = messageClass["message"] as? String
-                            newMessage.type = messageClass["type"] as? String
-                            if newMessage.type == "image"
-                            {
-                                var path = messageClass["image_path"] as? String
-                                newMessage.image_path = path!
-                            }
-                            print(newMessage)
-                            if oponent_id! == newMessage.member_id {
-                                print("MESSAGECLASS--\(newMessage.image_path)")
-
-                                self.allMessages.append(newMessage)
-                                self.chatTableView.reloadData()
-                                self.scrollToLast()
-                            }
-                            else{
-                                return
-                            }
-
-                          //  self.allMessages.append(newMessage)
-                        //    self.chatTableView.reloadData()
-                            print(" good")
-
-
-
+        
+        print("----- ABED -----")
+        var  manager = SocketManager(socketURL: URL(string: ApiRouts.ChatServer)!, config: [.log(true),.forcePolling(true)])
+        socket = manager.defaultSocket
+        socket!.on(clientEvent: .connect) {data, ack in
+            self.socket!.emit("subscribe", "member-\((MyVriables.currentMember?.id!)!)")
+        }
+        socket!.on("member-\((MyVriables.currentMember?.id!)!):member-channel") {data, ack in
+            print("onMessageRec: \(data[0])")
+            if let data2 = data[0] as? Dictionary<String, Any> {
+                if let messageClass = data2["messageClass"] as? Dictionary<String, Any> {
+                    
+                    var newMessage : Message = Message()
+                    newMessage.created_at = messageClass["created_at"] as? String
+                    newMessage.member_id = messageClass["member_id"] as? Int
+                    var oponent_id =  ChatUser.currentUser?.id!
+                    
+                    
+                    newMessage.message = messageClass["message"] as? String
+                    newMessage.type = messageClass["type"] as? String
+                    if newMessage.type == "image"
+                    {
+                        var path = messageClass["image_path"] as? String
+                        newMessage.image_path = path!
                     }
-                }
-
-            }
-
-
-            socket!.onAny { (socEvent) in
-
-                if let status =  socEvent.items as? [SocketIOStatus] {
-                    if let first = status.first {
-                        switch first {
-                        case .connected:
-                            print("Socket: connected")
-                            break
-
-                        case .disconnected:
-                            print("Socket: disconnected")
-                            break
-                        case .notConnected:
-                            print("Socket: notConnected")
-                            break
-                        case .connecting:
-                            print("Socket: connecting")
-                            break
-                        default :
-                            print("NOTHING")
-                            break
-                        }
+                    print(newMessage)
+                    if oponent_id! == newMessage.member_id {
+                        print("MESSAGECLASS--\(newMessage.image_path)")
+                        
+                        self.allMessages.append(newMessage)
+                        self.chatTableView.reloadData()
+                        self.scrollToLast()
                     }
+                    else{
+                        return
+                    }
+                    
+                    //  self.allMessages.append(newMessage)
+                    //    self.chatTableView.reloadData()
+                    print(" good")
+                    
+                    
+                    
                 }
             }
-
-            self.socketManager = manager
-            self.socket!.connect()
-
-
-
-
+            
+        }
+        
+        
+        socket!.onAny { (socEvent) in
+            
+            if let status =  socEvent.items as? [SocketIOStatus] {
+                if let first = status.first {
+                    switch first {
+                    case .connected:
+                        print("Socket: connected")
+                        break
+                        
+                    case .disconnected:
+                        print("Socket: disconnected")
+                        break
+                    case .notConnected:
+                        print("Socket: notConnected")
+                        break
+                    case .connecting:
+                        print("Socket: connecting")
+                        break
+                    default :
+                        print("NOTHING")
+                        break
+                    }
+                }
+            }
+        }
+        
+        self.socketManager = manager
+        self.socket!.connect()
+        
+        
+        
+        
     }
     override func viewDidDisappear(_ animated: Bool) {
         self.resetMessages( )
     }
-
-    @IBAction func sendTapped(_ sender: Any) {
+    
+    fileprivate func sendMessage() {
         var oponent_id =  ChatUser.currentUser?.id!
         print("myId: \(myId!)")
         print("opId: \(oponent_id!)")
@@ -511,7 +522,7 @@ class PrivateChatViewController: UIViewController ,UIImagePickerControllerDelega
         if message != "" {
             let params = ["type":"text","message": message, "sender_id": (MyVriables.currentMember?.id!)!, "chat_type" : "private", "receiver_id" : oponent_id!] as [String : Any]
             print("params: \(params)")
-
+            
             HTTP.POST(ApiRouts.Web + "/api/chats", parameters: params) { response in
                 print("send chat: \(response.statusCode)" )
                 var newMessage :Message = Message()
@@ -524,27 +535,31 @@ class PrivateChatViewController: UIViewController ,UIImagePickerControllerDelega
                     self.chatTableView.reloadData()
                     self.scrollToLast()
                 }
-
-
-
-        }
+                
+                
+                
+            }
         }
     }
-
-
+    
+    @IBAction func sendTapped(_ sender: Any) {
+        sendMessage()
+    }
+    
+    
     // chat send message request
-
-
-
+    
+    
+    
     // chat table view
-
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.allMessages.count
     }
-
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("IMAGETAPPED: yes")
-
+        
         if allMessages[indexPath.row].type == "image"{
             print("IMAGETAPPED: yes")
             MyVriables.imageUrl = (allMessages[indexPath.row].image_path)!
@@ -553,22 +568,23 @@ class PrivateChatViewController: UIViewController ,UIImagePickerControllerDelega
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-       
+        
         if allMessages[indexPath.row].member_id == MyVriables.currentMember?.id! {
             //imageMeCell
-
+            
             if allMessages[indexPath.row].type == "image" {
-                  let cell = tableView.dequeueReusableCell(withIdentifier: "imageMeCell") as! ImageMeTableViewCell
+                let cell = tableView.dequeueReusableCell(withIdentifier: "imageMeCell") as! ImageMeTableViewCell
                 let urlString = (allMessages[indexPath.row].image_path)!
                 let url = URL(string: urlString)
+                
                 print("--PRIVATECHAT \(urlString)")
-
+                
                 cell.meImageView.sd_setImage(with: url! , placeholderImage: UIImage(named: "Group Placeholder"))
-               
+                
                 
                 return cell
             }else {
-                 let cell = tableView.dequeueReusableCell(withIdentifier: "privateCustomCell") as! PrivateChatMessageCelVc
+                let cell = tableView.dequeueReusableCell(withIdentifier: "privateCustomCell") as! PrivateChatMessageCelVc
                 cell.sentMessageLbl.text = allMessages[indexPath.row].message!
                 cell.selectionStyle = .none
                 if (indexPath.row == self.allMessages.count-1) {
@@ -576,7 +592,7 @@ class PrivateChatViewController: UIViewController ,UIImagePickerControllerDelega
                 }
                 return cell
             }
-
+            
         } else {
             if allMessages[indexPath.row].type == "image" {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "partnerImageCell") as! ImagePartnerTableViewCell
@@ -596,11 +612,11 @@ class PrivateChatViewController: UIViewController ,UIImagePickerControllerDelega
                 }
                 return cell
             }
-
+            
         }
         
     }
-
+    
     func getHistoryConv(isViaChatId: Bool){
         print("\(ApiRouts.HistoryConversation)74/\((messageUser?.id!)!)")
         var urlString = ""
@@ -613,9 +629,9 @@ class PrivateChatViewController: UIViewController ,UIImagePickerControllerDelega
         HTTP.GET(urlString, parameters: []) { response in
             if let err = response.error {
                 print("error: \(err.localizedDescription)")
-
+                
                 print("request messages here")
-
+                
                 return //also notify app of failure as needed
             }
             do {
@@ -629,36 +645,36 @@ class PrivateChatViewController: UIViewController ,UIImagePickerControllerDelega
                     DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(300)) {
                         self.scrollToLast()
                     }
-
+                    
                 }
             }
             catch let error {
                 print(error)
-
+                
             }
-        //    print("opt finished: \(response.description)")
+            //    print("opt finished: \(response.description)")
         }
-
+        
     }
-
-
-
-
-
+    
+    
+    
+    
+    
     func scrollToLast(){
-//        let numberOfSections = self.chatTableView.numberOfSections
-//        let numberOfRows = self.chatTableView.numberOfRows(inSection: numberOfSections-1)
-//        let indexPath = IndexPath(row: numberOfRows-1 , section: numberOfSections-1)
-//        self.chatTableView.scrollToRow(at: indexPath, at: UITableViewScrollPosition.middle, animated: true)
-
+        //        let numberOfSections = self.chatTableView.numberOfSections
+        //        let numberOfRows = self.chatTableView.numberOfRows(inSection: numberOfSections-1)
+        //        let indexPath = IndexPath(row: numberOfRows-1 , section: numberOfSections-1)
+        //        self.chatTableView.scrollToRow(at: indexPath, at: UITableViewScrollPosition.middle, animated: true)
+        
         if allMessages.count > 0 {
             let indexPath = IndexPath(row: allMessages.count - 1 , section: 0)
             chatTableView.scrollToRow(at: indexPath, at: .bottom, animated: false)
         }
-
+        
     }
-
-
+    
+    
 }
 
 

@@ -27,27 +27,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
         //        UNUserNotificationCenter.current().delegate = self
         FirebaseApp.configure()
         UIApplication.shared.applicationIconBadgeNumber = 0
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "Snapgroup.Snap2"), object: nil)
+        
         if #available(iOS 10.0, *){
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { (isGranted, err) in
-            
-            if err != nil {
-                print("Firebase Error: \(err)")
-            }else {
-                print("Successful Authorization")
+            UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { (isGranted, err) in
                 
-                UNUserNotificationCenter.current().delegate = self
-                
-                DispatchQueue.main.async {
-                    Messaging.messaging().delegate = self
-                    UIApplication.shared.registerForRemoteNotifications()
-                    Messaging.messaging().subscribe(toTopic: "/topics/a123456")
-
+                if err != nil {
+                    print("Firebase Error: \(err)")
+                }else {
+                    print("Successful Authorization")
+                    
+                    UNUserNotificationCenter.current().delegate = self
+                    
+                    DispatchQueue.main.async {
+                        Messaging.messaging().delegate = self
+                        UIApplication.shared.registerForRemoteNotifications()
+                        Messaging.messaging().subscribe(toTopic: "/topics/a123459")
+                        application.registerForRemoteNotifications()
+                        
+                    }
+                    
+                    
                 }
                 
                 
-            }
-            
-            
             }
             
         }else {
@@ -57,8 +60,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
             Messaging.messaging().delegate = self
             UIApplication.shared.registerForRemoteNotifications()
             print("Successful Authorization")
-
-            Messaging.messaging().subscribe(toTopic: "/topics/a123456")
+            
+            Messaging.messaging().subscribe(toTopic: "/topics/a123459")
             
         }
         
@@ -87,17 +90,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
         if let token = InstanceID.instanceID().token() {
             print("DCS: " + token)
         }
-        
-        
-        
     }
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         print("didRegisterForRemoteNotificationsWithDeviceToken")
         
         Messaging.messaging().apnsToken = deviceToken
-        Messaging.messaging().subscribe(toTopic: "/topics/a123457")
+        Messaging.messaging().subscribe(toTopic: "/topics/a123459")
     }
+    
     func messaging(_ messaging: Messaging, didRefreshRegistrationToken fcmToken: String) {
         let newToken = InstanceID.instanceID().token()
         ConnectToFcm()
@@ -113,17 +114,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
         }
         print("member-\((MyVriables.currentMember?.id!)!):member-channel")
         
-            self.socket!.on("member-\((MyVriables.currentMember?.id!)!):member-channel") {data, ack in
-
-                print("got message from socket")
-                if let data2 = data[0] as? Dictionary<String, Any> {
-                    if let messageClass = data2["messageClass"] as? Dictionary<String, Any> {
-                        print(messageClass)
-                        print(messageClass["id"]!)
-                    }
+        self.socket!.on("member-\((MyVriables.currentMember?.id!)!):member-channel") {data, ack in
+            
+            print("got message from socket")
+            if let data2 = data[0] as? Dictionary<String, Any> {
+                if let messageClass = data2["messageClass"] as? Dictionary<String, Any> {
+                    print(messageClass)
+                    print(messageClass["id"]!)
                 }
-                
             }
+            
+        }
         
         
         socket!.onAny { (socEvent) in
@@ -162,10 +163,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
         // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
     }
     
+    
     func applicationDidEnterBackground(_ application: UIApplication) {
         Messaging.messaging().shouldEstablishDirectChannel = true
         ConnectToFcm()
-     
+        
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
     }
@@ -184,18 +186,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
     
-   
+    
     func messaging(_ messaging: Messaging, didReceive remoteMessage: MessagingRemoteMessage) {
-        DispatchQueue.global(qos: .background).async {
-            print("This is run on the background queue")
-            
-            DispatchQueue.main.async {
-                print("notification remoteMessage->  " + remoteMessage.appData.description)
-            }
-        }
+        print("recieve in MessagingRemoteMessage")
+        
         
         // \((remoteMessage.appData["message"]!))"
-    
+        
         UIApplication.shared.applicationIconBadgeNumber += 1
         
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "Snapgroup.Snap2"), object: nil)
@@ -206,45 +203,56 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
         }
     }
     
-    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) {
-        print("Notificationnnn didReceiveRemoteNotification")
-        
-    }
+    
     func application(received remoteMessage: MessagingRemoteMessage) {
         print("notification remoteMessage 2 ")
-        
     }
     
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
         print("didFailToRegisterForRemoteNotificationsWithError \(error.localizedDescription)")
-        
-        
     }
     func timedNotifications(inSeconds: TimeInterval, completion: @escaping (_ Success: Bool) -> ()) {
         
-//        if #available(iOS 10.0, *) {
-//            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: inSeconds, repeats: false)
-//        } else {
-//            // Fallback on earlier versions
-//        }
-//
-//        let content = UNMutableNotificationContent()
-//
-//        content.title = "Breaking News"
-//        content.subtitle = "Yo whats up i am subtitle"
-//        content.body = "idbnqwkdnqwoidoqw;edn;owqdno;wqndo;qwndowqndoqwdn qwdkj"
-//
-//        let request = UNNotificationRequest(identifier: "customNotification", content: content, trigger: trigger)
-//
-//        UNUserNotificationCenter.current().add(request) { (error) in
-//            if error != nil {
-//                completion(false)
-//            }else {
-//                completion(true)
-//            }
-//        }
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: inSeconds, repeats: false)
+        
+        let content = UNMutableNotificationContent()
+        
+        content.title = "Breaking News"
+        content.subtitle = "Yo whats up i am subtitle"
+        content.body = "idbnqwkdnqwoidoqw;edn;owqdno;wqndo;qwndowqndoqwdn qwdkj"
+        
+        let request = UNNotificationRequest(identifier: "customNotification", content: content, trigger: trigger)
+        
+        UNUserNotificationCenter.current().add(request) { (error) in
+            if error != nil {
+                completion(false)
+            }else {
+                completion(true)
+            }
+        }
+    }
+    // new methods for remote message recevation
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        print("recieve in UNNotificationResponse \(notification.description)")
+        
+        UIApplication.shared.applicationIconBadgeNumber = 0
+    }
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        print("recieve in UIBackgroundFetchResult")
+        UIApplication.shared.applicationIconBadgeNumber += 1
+        timedNotifications(inSeconds: 1) { (success) in
+            if success {
+                print("Successfully Notified")
+            }
+        }
     }
     
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        print("recieve in UNNotificationResponse \(response.notification.description)")
+        UIApplication.shared.applicationIconBadgeNumber += 1
+        completionHandler()
+        
+    }
 }
 
 
