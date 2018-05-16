@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "E11BDC65C0BA5B331472B5432AB1A03E"
+               BlueprintIdentifier = "1F86851D9993FAC595B57D8608B2C282"
                BuildableName = "Pods_Snapgroup.framework"
                BlueprintName = "Pods-Snapgroup"
                ReferencedContainer = "container:Pods.xcodeproj">
@@ -26,7 +26,6 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      language = ""
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
       </Testables>
@@ -37,7 +36,6 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      language = ""
       launchStyle = "0"
       useCustomWorkingDirectory = "NO"
       ignoresPersistentStateOnLaunch = "NO"
@@ -47,7 +45,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "E11BDC65C0BA5B331472B5432AB1A03E"
+            BlueprintIdentifier = "1F86851D9993FAC595B57D8608B2C282"
             BuildableName = "Pods_Snapgroup.framework"
             BlueprintName = "Pods-Snapgroup"
             ReferencedContainer = "container:Pods.xcodeproj">

@@ -146,12 +146,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         super.viewDidLoad()
         NSLog("roleStatus",  "hihihi")
      //   UIApplication.shared.registerForRemoteNotifications()
-        if Messaging.messaging().fcmToken != nil {
-        print("subscribedddd")
-            UIApplication.shared.registerForRemoteNotifications()
-            MyVriables.CurrentTopic = "abd123"
-            
-        }
+       
         
         tableView.delegate = self
         tableView.dataSource = self
@@ -370,7 +365,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     print("chat tapped")
     
     performSegue(withIdentifier: "showChat", sender: self)
-
+ 
+    
     }
     
     func setNotificationTap(){
@@ -519,9 +515,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                     self.setToUserDefaults(value: self.currentMember?.member?.phone, key: "phone")
                     self.setToUserDefaults(value: self.currentMember?.profile?.gender, key: "gender")
                     self.setToUserDefaults(value: self.currentMember?.profile?.profile_image, key: "profile_image")
-                    
+                   
                     self.currentProfile = self.currentMember?.profile!
                     DispatchQueue.main.sync {
+                        if Messaging.messaging().fcmToken != nil {
+                            MyVriables.TopicSubscribe = true
+                            MyVriables.CurrentTopic = "IOS-MEMBER-\(String(describing: (self.currentMember?.profile?.member_id!)!))"
+                            UIApplication.shared.registerForRemoteNotifications()
+                        }
                         self.myGrous = []
                         self.page = 1
                         self.tableView.reloadData()
@@ -720,7 +721,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             if isLogged {
                 print("is Logged - has Loaded More true")
                 self.getGroupsByFilter()
-                
             }else{
                 print("Not  Logged - has Loaded More false")
                 self.getSwiftGroups()
@@ -1031,13 +1031,25 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             if role!  == "null" {
                 if isOpen {
                     MyVriables.currentGroup = self.myGrous[currentIndex]
+                    
                     self.performSegue(withIdentifier: "groupDetailsBar", sender: self)
+                    let params: [String: Any] = ["member_id": (MyVriables.currentMember?.id!)! , "group_id": (MyVriables.currentGroup?.id!)! , "type": ApiRouts.VisitGroupType]
+                    print("PARAMS - \(params)")
+                    ApiRouts.actionRequest(parameters: params)
+                    
+                    
+                    
                 }else {
                     showCloseAlert()
                 }
             }else{
                 MyVriables.currentGroup = self.myGrous[currentIndex]
                 self.performSegue(withIdentifier: "groupDetailsBar", sender: self)
+                let params: [String: Any] = ["member_id": (MyVriables.currentMember?.id!)! , "group_id": (MyVriables.currentGroup?.id!)! , "type": ApiRouts.VisitGroupType]
+                print(params)
+                print("PARAMS - \(params)")
+                ApiRouts.actionRequest(parameters: params)
+
             }
         }
         

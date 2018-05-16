@@ -42,7 +42,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
                     DispatchQueue.main.async {
                         Messaging.messaging().delegate = self
                         UIApplication.shared.registerForRemoteNotifications()
-                        Messaging.messaging().subscribe(toTopic: "/topics/a123459")
                         application.registerForRemoteNotifications()
                         
                     }
@@ -60,9 +59,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
             Messaging.messaging().delegate = self
             UIApplication.shared.registerForRemoteNotifications()
             print("Successful Authorization")
-            
-            Messaging.messaging().subscribe(toTopic: "/topics/a123459")
-            
         }
         
         
@@ -93,10 +89,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
     }
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        print("didRegisterForRemoteNotificationsWithDeviceToken")
-        
         Messaging.messaging().apnsToken = deviceToken
-        Messaging.messaging().subscribe(toTopic: "/topics/a123459")
+        let currentTopic: String = MyVriables.CurrentTopic
+        if MyVriables.TopicSubscribe {
+            if currentTopic != "" {
+                Messaging.messaging().subscribe(toTopic: "/topics/\(currentTopic)")
+            }
+        }
+        if !MyVriables.TopicSubscribe {
+            if currentTopic != "" {
+                Messaging.messaging().unsubscribe(fromTopic: "/topics/\(currentTopic)") 
+            }
+        }
     }
     
     func messaging(_ messaging: Messaging, didRefreshRegistrationToken fcmToken: String) {
@@ -239,12 +243,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
     }
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         print("recieve in UIBackgroundFetchResult")
+        
         UIApplication.shared.applicationIconBadgeNumber += 1
-        timedNotifications(inSeconds: 1) { (success) in
-            if success {
-                print("Successfully Notified")
-            }
-        }
+//        timedNotifications(inSeconds: 1) { (success) in
+//            if success {
+//                print("Successfully Notified")
+//            }
+//        }
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {

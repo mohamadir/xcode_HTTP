@@ -31,6 +31,7 @@ pod 'Toast-Swift', '~> 3.0.1'
 pod 'SkyFloatingLabelTextField', '~> 3.0'
 pod 'Firebase/Messaging'
 pod 'SVProgressHUD'
+pod 'Digger'
 pod 'Pushy', '1.0.12'
 pod 'SwiftEventBus', :tag => '2.2.0', :git => 'https://github.com/cesarferreira/SwiftEventBus.git'
   # Pods for Snapgroup

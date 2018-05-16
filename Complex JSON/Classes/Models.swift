@@ -16,7 +16,8 @@ struct MyVriables {
     static var shouldRefresh: Bool = false
     static var currentInboxMessage: InboxMessage?
     static var MemberInboxShouldRefresh: Bool = false
-    static var CurrentTopic: String = "m123"
+    static var CurrentTopic: String = ""
+    static var TopicSubscribe: Bool = true
     static var shouldRefreshBusStation: Bool = false
     static var IsFromArrival: Bool = false
     static var imageUrl: String = ""
@@ -359,6 +360,35 @@ struct Message: Codable{
     var sender_name: String?
     
 }
+
+/********** CHAT *****************/
+
+struct RecentAction: Codable {
+    var id: Int?
+    var member_id: Int?
+    var group_id: Int?
+    var partner_id: Int?
+    var type: String?
+    var created_at: String?
+    var group: TourGroup?
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

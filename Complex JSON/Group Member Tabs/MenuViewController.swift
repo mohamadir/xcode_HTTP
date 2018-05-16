@@ -176,14 +176,14 @@ class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UI
             }
         }
         docsView.addTapGestureRecognizer {
-            if (self.singleGroup?.group_tools?.documents!)! == true
-            {
-                if (self.singleGroup?.role) != nil && (self.singleGroup?.role)! != "observer"
-                {
-                   self.performSegue(withIdentifier: "showDocsSegue", sender: self)
-                }
-                
-            }
+//            if (self.singleGroup?.group_tools?.documents!)! == true
+//            {
+//                if (self.singleGroup?.role) != nil && (self.singleGroup?.role)! != "observer"
+//                {
+//                   self.performSegue(withIdentifier: "showDocsSegue", sender: self)
+//                }
+//
+//            }
            
 
         }
@@ -346,10 +346,11 @@ class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UI
         {
             self.mapsView.alpha = 0.3
         }
-        if (self.singleGroup?.group_tools?.documents!)! == false
-        {
-            self.docsView.alpha = 0.3
-        }
+//        if (self.singleGroup?.group_tools?.documents!)! == false
+//        {
+//            self.docsView.alpha = 0.3
+//        }
+         self.docsView.alpha = 0.3
         if (self.singleGroup?.group_tools?.checklist!)! == false
         {
             self.checkListView.alpha = 0.3
