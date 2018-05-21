@@ -19,6 +19,7 @@
 		7423757F20499FB600B9A0C0 /* PrivateChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7423757E20499FB600B9A0C0 /* PrivateChatViewController.swift */; };
 		74237583204BE0E100B9A0C0 /* PrivateChatMessageCelVc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74237582204BE0E100B9A0C0 /* PrivateChatMessageCelVc.swift */; };
 		7428551F204FF16300637511 /* TestTabVc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7428551E204FF16300637511 /* TestTabVc.swift */; };
+		742BE2B220B2B0A2005922D1 /* HeaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742BE2B120B2B0A2005922D1 /* HeaderViewController.swift */; };
 		743A2081203C1B12008DF1AA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 743A2080203C1B12008DF1AA /* AppDelegate.swift */; };
 		743A2083203C1B12008DF1AA /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 743A2082203C1B12008DF1AA /* ViewController.swift */; };
 		743A2086203C1B12008DF1AA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 743A2084203C1B12008DF1AA /* Main.storyboard */; };
@@ -145,6 +146,7 @@
 		7423757E20499FB600B9A0C0 /* PrivateChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivateChatViewController.swift; sourceTree = "<group>"; };
 		74237582204BE0E100B9A0C0 /* PrivateChatMessageCelVc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivateChatMessageCelVc.swift; sourceTree = "<group>"; };
 		7428551E204FF16300637511 /* TestTabVc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestTabVc.swift; sourceTree = "<group>"; };
+		742BE2B120B2B0A2005922D1 /* HeaderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderViewController.swift; sourceTree = "<group>"; };
 		743A207D203C1B12008DF1AA /* Snapgroup.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Snapgroup.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		743A2080203C1B12008DF1AA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		743A2082203C1B12008DF1AA /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -433,6 +435,7 @@
 				74F1FF1F208B2E3C00976958 /* GoogleService-Info.plist */,
 				743A2089203C1B12008DF1AA /* LaunchScreen.storyboard */,
 				74B4E8F3209F47A200AD873A /* SearchGroupViewCell.swift */,
+				742BE2B120B2B0A2005922D1 /* HeaderViewController.swift */,
 			);
 			path = "Complex JSON";
 			sourceTree = "<group>";
@@ -1094,6 +1097,7 @@
 				74B4E90120A1862900AD873A /* PartnerViewCell.swift in Sources */,
 				74B4E90320A1862900AD873A /* ImageViewController.swift in Sources */,
 				7EBD077920A05F5400369E36 /* PartnerTextCell.swift in Sources */,
+				742BE2B220B2B0A2005922D1 /* HeaderViewController.swift in Sources */,
 				743A2083203C1B12008DF1AA /* ViewController.swift in Sources */,
 				7443303F2063EC7400D4073F /* JoinViewController.swift in Sources */,
 				74490C19205298D6007AD4FA /* CustomMarkerView.swift in Sources */,

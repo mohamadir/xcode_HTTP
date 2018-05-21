@@ -9,8 +9,8 @@
 import UIKit
 import SwiftHTTP
 import Digger
-
-
+import Alamofire
+import SVProgressHUD
 class NewDocsViewController: UIViewController {
     
     override func viewDidLoad() {
@@ -19,6 +19,10 @@ class NewDocsViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
     
+    @IBAction func onBackPressed(_ sender: Any) {
+        self.navigationController?.popViewController(animated: true)
+        
+    }
     @IBAction func downloadTapped(_ sender: Any) {
         //        print("DOWNLOADTEST- in download tapped")
         //        HTTP.Download("https://api.snapgroup.co.il/api/groups/72/pdf", completion: { (response, url) in
@@ -29,38 +33,23 @@ class NewDocsViewController: UIViewController {
         //            print("DOWNLOADTEST- \(url)")
         //            //move the temp file to desired location...
         //        })
-        let url = "https://files.slack.com/files-pri/T67LB372T-F9LRUBCA1/chat_bar_icon2.png"
+        let urlString = "https://files.slack.com/files-pri/T67LB372T-F9LRUBCA1/chat_bar_icon2.png"
+      SVProgressHUD.show()
+        let destination: DownloadRequest.DownloadFileDestination = { _, _ in
+            let documentsURL:NSURL = FileManager.default.urls(for: .picturesDirectory, in: .userDomainMask).first! as NSURL
+            print("***documentURL: ",documentsURL)
+            let fileURL = documentsURL.appendingPathComponent("11.png")
+            print("***fileURL: ",fileURL ?? "")
+            return (fileURL!,[.removePreviousFile, .createIntermediateDirectories])
+        }
         
-        Digger.download(url)
-            .progress({ (progresss) in
-                print(progresss.fractionCompleted)
-                
-            })
-            .speed({ (speed) in
-                print(speed)
-            })
-            .completion { (result) in
-                
-                switch result {
-                case .success(let url):
-                    print(url)
-                    if var URL = URL(string: url.absoluteString) {
-                        let documentDirectory = try! FileManager.default.url(for: .documentDirectory    , in: .userDomainMask, appropriateFor: nil, create: false)
-                        var dateFormatter = DateFormatter()
-                        dateFormatter.dateStyle = .long
-                        dateFormatter.timeStyle = .short
-                        let date = dateFormatter.string(from: Date())
-                        let saveURL = documentDirectory.appendingPathComponent("fileodsfsdfsh.jpg")
-                        print("MOHMD- absoluteUrlString: \(url.absoluteString) , URL : \(URL) , saveUrl: \(saveURL)")
-                        
-                        Downloader.load(url: URL, to: saveURL) {
-                            print("ok")
-                        }
-                    }
-                    
-                case .failure(let error):
-                    print(error)
-                }
+        Alamofire.download(urlString, to: destination).downloadProgress(closure: { (prog) in
+        }).response { response in
+            //print(response)
+            SVProgressHUD.dismiss()
+            if response.error == nil, let filePath = response.destinationURL?.path {
+                print("mmmm",filePath)
+            }
         }
     }
     //

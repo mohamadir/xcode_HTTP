@@ -48,6 +48,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet weak var memberPhoneLbl: UILabel!
     @IBOutlet weak var memberGenderLbl: UILabel!
     @IBOutlet weak var notificationsImageView: UIImageView!
+    @IBOutlet weak var noGroupsView: UIView!
+    
+    @IBOutlet weak var countryCodeVeiw: UIView!
     /********* Filter Buttons **********/
     @IBOutlet weak var myGroupsBt: UIButton!
     @IBOutlet weak var managamentBt: UIButton!
@@ -250,7 +253,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
         
     }
-    
+   
     
     @IBAction func memberMenuTapped(_ sender: Any) {
         if isMemberMenuShowing {
@@ -277,10 +280,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     func countryPhoneCodePicker(_ picker: MRCountryPicker, didSelectCountryWithName name: String, countryCode: String, phoneCode: String, flag: UIImage) {
         self.flagImageView.image = flag
         self.countryPrefLable.text = phoneCode
-        self.countryPicker.isHidden = true
         
     }
-    
+   
     
     
     func checkCurrentUser(){
@@ -297,6 +299,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let isLogged = defaults.bool(forKey: "isLogged")
         if isLogged == true{
                 self.isLogged = true
+                self.noGroupsView.isHidden = true
                 self.id = id
                 self.phoneNumberStackView.isHidden = true
                 self.chatHeaderStackView.isHidden = false
@@ -401,16 +404,18 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     @IBAction func onPickerTapped(_ sender: Any) {
-        self.countryPicker.isHidden = false
-
+        self.countryCodeVeiw.isHidden = false
     }
     
+    @IBAction func closeCountryViewTapped(_ sender: Any) {
+        self.countryCodeVeiw.isHidden = true
+    }
     
    
     
     
     func setCountryPicker(){
-        countryPicker.isHidden = true
+       
         countryPicker.countryPickerDelegate = self
         countryPicker.showPhoneNumbers = true
         if let countryCode = (Locale.current as NSLocale).object(forKey: .countryCode) as? String {
@@ -504,7 +509,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 do{
                     let  member = try JSONDecoder().decode(CurrentMember.self, from: response.data)
                     print(member)
-                    
                     self.currentMember = member
                     self.setToUserDefaults(value: true, key: "isLogged")
                     //  print(self.currentMember?.profile!)
@@ -520,8 +524,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                     DispatchQueue.main.sync {
                         if Messaging.messaging().fcmToken != nil {
                             MyVriables.TopicSubscribe = true
-                            MyVriables.CurrentTopic = "IOS-MEMBER-\(String(describing: (self.currentMember?.profile?.member_id!)!))"
-                            UIApplication.shared.registerForRemoteNotifications()
+                             Messaging.messaging().subscribe(toTopic: "/topics/IOS-CHAT-\(String(describing: (self.currentMember?.profile?.member_id!)!))")
+                            
+                            Messaging.messaging().subscribe(toTopic: "/topics/IOS-INBOX-\(String(describing: (self.currentMember?.profile?.member_id!)!))")
+                            
+                            Messaging.messaging().subscribe(toTopic: "/topics/IOS-SYSTEM-\(String(describing: (self.currentMember?.profile?.member_id!)!))")
                         }
                         self.myGrous = []
                         self.page = 1

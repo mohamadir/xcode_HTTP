@@ -97,9 +97,8 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
                 DispatchQueue.main.sync {
                     if Messaging.messaging().fcmToken != nil {
                         MyVriables.TopicSubscribe = true
-                        MyVriables.CurrentTopic = "IOS-Group-\(String(describing: (MyVriables.currentGroup?.id!)!))"
                         print("/topics/\(MyVriables.CurrentTopic)")
-                        Messaging.messaging().subscribe(toTopic: "/topics/\(MyVriables.CurrentTopic)")
+                        Messaging.messaging().subscribe(toTopic: "/topics/IOS-Group-\(String(describing: (MyVriables.currentGroup?.id!)!))")
                     }
                     MyVriables.shouldRefresh = true
                     self.showToast("You'v left the group successfully", 0.3)
@@ -126,7 +125,7 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
                         MyVriables.TopicSubscribe = true
                         MyVriables.CurrentTopic = "IOS-Group-\(String(describing: (MyVriables.currentGroup?.id!)!))"
                         print("/topics/\(MyVriables.CurrentTopic)")
-                        Messaging.messaging().unsubscribe(fromTopic: "/topics/\(MyVriables.CurrentTopic)")
+                        Messaging.messaging().unsubscribe(fromTopic: "/topics/IOS-Group-\(String(describing: (MyVriables.currentGroup?.id!)!))")
                     }
                     
                     self.showToast("You'v joind the group successfully", 0.3)
