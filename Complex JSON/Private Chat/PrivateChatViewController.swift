@@ -420,9 +420,10 @@ class PrivateChatViewController: UIViewController ,UIImagePickerControllerDelega
     func markConvRead(){
         let params = ["member_id": MyVriables.currentMember?.id!] as [String : Any]
         print("params: \(params)")
-        
-        HTTP.POST(ApiRouts.Web + "/api/chats/\(ChatUser.ChatId!)", parameters: params) { response in
-            print("mark conv: \(response.description)" )
+        if ChatUser.ChatId != nil {
+            HTTP.POST(ApiRouts.Web + "/api/chats/\(ChatUser.ChatId!)", parameters: params) { response in
+                print("mark conv: \(response.description)" )
+            }
         }
     }
     func setSocket(){

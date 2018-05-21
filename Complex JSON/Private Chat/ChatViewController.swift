@@ -12,6 +12,12 @@ import SwiftHTTP
 import SDWebImage
 import AlamofireImage
 
+extension UINavigationController {
+    var rootViewController : UIViewController? {
+        return viewControllers.first
+    }
+}
+
 
 struct ChatList: Codable {
     var chats: [ChatListItem]
@@ -50,9 +56,25 @@ class ChatViewController: UIViewController , UITableViewDelegate, UITableViewDat
 //    }
 //
     @IBAction func dismissBt(_ sender: Any) {
-        navigationController?.popViewController(animated: true)
-                dismiss(animated: true, completion: nil)
-                self.socket!.disconnect()
+        
+        if var topController = UIApplication.shared.keyWindow?.rootViewController {
+            while let presentedViewController = topController.presentedViewController {
+                topController = presentedViewController
+            }
+            
+            // topController should now be your topmost view controller
+        }
+        if  navigationController?.viewControllers.count != 0 {
+            navigationController?.popViewController(animated: true)
+            dismiss(animated: true, completion: nil)
+        } else {
+            performSegue(withIdentifier: "showMainSegue", sender: self)
+          
+        }
+        
+        
+        self.socket!.disconnect()
+
         
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -82,9 +104,10 @@ class ChatViewController: UIViewController , UITableViewDelegate, UITableViewDat
         }
         cell.messageLbl.text = self.messages?[indexPath.row].last_message?.message!
         if self.messages?[indexPath.row].total_unread! != 0 {
+            
             cell.budgesView.isHidden = false
-
             cell.budgesCountLbl.text = "\((self.messages?[indexPath.row].total_unread)!)"
+            
         }else {
             cell.budgesView.isHidden = true
 

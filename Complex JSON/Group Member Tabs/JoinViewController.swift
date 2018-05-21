@@ -10,6 +10,7 @@ import UIKit
 import SwiftHTTP
 import SkyFloatingLabelTextField
 import Toast_Swift
+import FirebaseMessaging
 class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDataSource{
    
     
@@ -87,13 +88,18 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
     }
     func joinGroupRequest(){
         print(ApiRouts.Web + "/api/groups/join/\((MyVriables.currentGroup?.id!)!)/\((MyVriables.currentMember?.id!)!)/member")
-        HTTP.POST(ApiRouts.Web + "/api/groups/join/\((MyVriables.currentGroup?.id!)!)/\((MyVriables.currentMember?.id!)!)/member", parameters: []) { response in
+        HTTP.POST(ApiRouts.Web + "/api/groups/\((MyVriables.currentGroup?.id!)!)/members/\((MyVriables.currentMember?.id!)!)/join", parameters: []) { response in
             if response.error != nil {
-                print("errory \(response.error)")
+                print("errory \(response.error?.localizedDescription)")
                 
                 return
             }else{
                 DispatchQueue.main.sync {
+                    if Messaging.messaging().fcmToken != nil {
+                        MyVriables.TopicSubscribe = true
+                        print("/topics/\(MyVriables.CurrentTopic)")
+                        Messaging.messaging().subscribe(toTopic: "/topics/IOS-Group-\(String(describing: (MyVriables.currentGroup?.id!)!))")
+                    }
                     MyVriables.shouldRefresh = true
                     self.showToast("You'v left the group successfully", 0.3)
                     self.changeStatusTo(type: "member")
@@ -115,6 +121,13 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
             }else{
                 print("descc "+response.description)
                 DispatchQueue.main.sync {
+                    if Messaging.messaging().fcmToken != nil {
+                        MyVriables.TopicSubscribe = true
+                        MyVriables.CurrentTopic = "IOS-Group-\(String(describing: (MyVriables.currentGroup?.id!)!))"
+                        print("/topics/\(MyVriables.CurrentTopic)")
+                        Messaging.messaging().unsubscribe(fromTopic: "/topics/IOS-Group-\(String(describing: (MyVriables.currentGroup?.id!)!))")
+                    }
+                    
                     self.showToast("You'v joind the group successfully", 0.3)
                     self.leaveGroupRequest()
                 }

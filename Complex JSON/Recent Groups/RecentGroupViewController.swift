@@ -7,7 +7,10 @@
 //
 
 import UIKit
-
+import SwiftHTTP
+struct RecentActions: Codable {
+    var member_actions: [RecentAction]?
+}
 class RecentGroupViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 7
@@ -61,9 +64,29 @@ class RecentGroupViewController: UIViewController,UITableViewDelegate,UITableVie
         super.viewDidLoad()
         recentGroupsTable.delegate = self
         recentGroupsTable.dataSource = self
+        getActionsRequest()
         // Do any additional setup after loading the view.
     }
 
+    func getActionsRequest(){
+        let id = MyVriables.currentMember?.id!
+        HTTP.GET(ApiRouts.Web+"/api/members/\(id)/actions") { response in
+            if let err = response.error {
+                print("error: \(err.localizedDescription)")
+                return //also notify app of failure as needed
+            }
+            do {
+                let actions  = try JSONDecoder().decode(RecentActions.self, from: response.data)
+                print("ACTIONS - \(actions)")
+            }
+            catch let error{
+                print(error)
+            }
+            //    print("opt finished: \(response.description)")
+            //print("data is: \(response.data)") access the response of the data with response.data
+        }
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

@@ -25,7 +25,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         //        UNUserNotificationCenter.current().delegate = self
+        checkCurrentUser()
+       
+        
+        
         FirebaseApp.configure()
+        print()
         UIApplication.shared.applicationIconBadgeNumber = 0
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "Snapgroup.Snap2"), object: nil)
         
@@ -42,7 +47,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
                     DispatchQueue.main.async {
                         Messaging.messaging().delegate = self
                         UIApplication.shared.registerForRemoteNotifications()
-                        Messaging.messaging().subscribe(toTopic: "/topics/a123459")
                         application.registerForRemoteNotifications()
                         
                     }
@@ -60,9 +64,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
             Messaging.messaging().delegate = self
             UIApplication.shared.registerForRemoteNotifications()
             print("Successful Authorization")
-            
-            Messaging.messaging().subscribe(toTopic: "/topics/a123459")
-            
         }
         
         
@@ -84,6 +85,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
     }
     
     
+    func checkCurrentUser(){
+        print("hihihi")
+        let defaults = UserDefaults.standard
+        let id = defaults.integer(forKey: "member_id")
+        let first = defaults.string(forKey: "first_name")
+        let last = defaults.string(forKey: "last_name")
+        let email = defaults.string(forKey: "email")
+        let phone = defaults.string(forKey: "phone")
+        let profile_image = defaults.string(forKey: "profile_image")
+        let gender = defaults.string(forKey: "gender")
+        let isLogged = defaults.bool(forKey: "isLogged")
+        if isLogged == true{
+            MyVriables.currentMember = Member(email: email, phone: phone, id: id)
+        }
+    }
+    
+    
     func ConnectToFcm(){
         Messaging.messaging().shouldEstablishDirectChannel = true
         
@@ -93,10 +111,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
     }
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        print("didRegisterForRemoteNotificationsWithDeviceToken")
-        
         Messaging.messaging().apnsToken = deviceToken
-        Messaging.messaging().subscribe(toTopic: "/topics/a123459")
+        let currentTopic: String = MyVriables.CurrentTopic
+        if MyVriables.TopicSubscribe {
+            if currentTopic != "" {
+                print("CURRENT-TOPIC \(currentTopic)")
+                Messaging.messaging().subscribe(toTopic: "/topics/\(currentTopic)")
+            }
+        }
+        if !MyVriables.TopicSubscribe {
+            if currentTopic != "" {
+                Messaging.messaging().unsubscribe(fromTopic: "/topics/\(currentTopic)") 
+            }
+        }
     }
     
     func messaging(_ messaging: Messaging, didRefreshRegistrationToken fcmToken: String) {
@@ -233,25 +260,35 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
     }
     // new methods for remote message recevation
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        print("recieve in UNNotificationResponse \(notification.description)")
+      //  print("recieve in UNNotificationResponse \(notification.description)")
         
-        UIApplication.shared.applicationIconBadgeNumber = 0
+       UIApplication.shared.applicationIconBadgeNumber = 0
     }
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-        print("recieve in UIBackgroundFetchResult")
+        print("recieve in UIBackgroundFetchResult \(application.applicationState)")
+        
         UIApplication.shared.applicationIconBadgeNumber += 1
-        timedNotifications(inSeconds: 1) { (success) in
-            if success {
-                print("Successfully Notified")
-            }
-        }
+//        timedNotifications(inSeconds: 1) { (success) in
+//            if success {
+//                print("Successfully Notified")
+//            }
+//        }
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         print("recieve in UNNotificationResponse \(response.notification.description)")
-        UIApplication.shared.applicationIconBadgeNumber += 1
+       // UIApplication.shared.applicationIconBadgeNumber = 0
+        let mainStoryboard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let homePage = mainStoryboard.instantiateViewController(withIdentifier: "Chat") as! ChatViewController
+        self.window?.rootViewController = homePage
         completionHandler()
         
+    }
+    
+    public func setMainRoot(){
+        let mainStoryboard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let homePage = mainStoryboard.instantiateViewController(withIdentifier: "ViewController") as! ViewController
+        self.window?.rootViewController = homePage
     }
 }
 

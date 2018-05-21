@@ -49,6 +49,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet weak var memberPhoneLbl: UILabel!
     @IBOutlet weak var memberGenderLbl: UILabel!
     @IBOutlet weak var notificationsImageView: UIImageView!
+    @IBOutlet weak var noGroupsView: UIView!
+    
+    @IBOutlet weak var countryCodeVeiw: UIView!
     /********* Filter Buttons **********/
     @IBOutlet weak var myGroupsBt: UIButton!
     @IBOutlet weak var managamentBt: UIButton!
@@ -151,12 +154,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         super.viewDidLoad()
         NSLog("roleStatus",  "hihihi")
      //   UIApplication.shared.registerForRemoteNotifications()
-        if Messaging.messaging().fcmToken != nil {
-        print("subscribedddd")
-            UIApplication.shared.registerForRemoteNotifications()
-            MyVriables.CurrentTopic = "abd123"
-            
-        }
+       
         
         tableView.delegate = self
         tableView.dataSource = self
@@ -261,7 +259,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
         
     }
-    
+   
     
     @IBAction func memberMenuTapped(_ sender: Any) {
         if isMemberMenuShowing {
@@ -288,10 +286,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     func countryPhoneCodePicker(_ picker: MRCountryPicker, didSelectCountryWithName name: String, countryCode: String, phoneCode: String, flag: UIImage) {
         self.flagImageView.image = flag
         self.countryPrefLable.text = phoneCode
-        self.countryPicker.isHidden = true
         
     }
-    
+   
     
     
     func checkCurrentUser(){
@@ -307,6 +304,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let isLogged = defaults.bool(forKey: "isLogged")
         if isLogged == true{
                 self.isLogged = true
+                self.noGroupsView.isHidden = true
                 self.id = id
                 self.phoneNumberStackView.isHidden = true
                 self.chatHeaderStackView.isHidden = false
@@ -375,7 +373,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     print("chat tapped")
     
     performSegue(withIdentifier: "showChat", sender: self)
-
+ 
+    
     }
     
     func setNotificationTap(){
@@ -410,16 +409,18 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     @IBAction func onPickerTapped(_ sender: Any) {
-        self.countryPicker.isHidden = false
-
+        self.countryCodeVeiw.isHidden = false
     }
     
+    @IBAction func closeCountryViewTapped(_ sender: Any) {
+        self.countryCodeVeiw.isHidden = true
+    }
     
    
     
     
     func setCountryPicker(){
-        countryPicker.isHidden = true
+       
         countryPicker.countryPickerDelegate = self
         countryPicker.showPhoneNumbers = true
         if let countryCode = (Locale.current as NSLocale).object(forKey: .countryCode) as? String {
@@ -513,7 +514,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 do{
                     let  member = try JSONDecoder().decode(CurrentMember.self, from: response.data)
                     print(member)
-                    
                     self.currentMember = member
                     self.setToUserDefaults(value: true, key: "isLogged")
                     //  print(self.currentMember?.profile!)
@@ -525,9 +525,17 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                     self.setToUserDefaults(value: self.currentMember?.profile?.gender, key: "gender")
                      self.setToUserDefaults(value: self.currentMember?.profile?.birth_date, key: "birth_date")
                     self.setToUserDefaults(value: self.currentMember?.profile?.profile_image, key: "profile_image")
-                    
+                   
                     self.currentProfile = self.currentMember?.profile!
                     DispatchQueue.main.sync {
+                        if Messaging.messaging().fcmToken != nil {
+                            MyVriables.TopicSubscribe = true
+                             Messaging.messaging().subscribe(toTopic: "/topics/IOS-CHAT-\(String(describing: (self.currentMember?.profile?.member_id!)!))")
+                            
+                            Messaging.messaging().subscribe(toTopic: "/topics/IOS-INBOX-\(String(describing: (self.currentMember?.profile?.member_id!)!))")
+                            
+                            Messaging.messaging().subscribe(toTopic: "/topics/IOS-SYSTEM-\(String(describing: (self.currentMember?.profile?.member_id!)!))")
+                        }
                         self.myGrous = []
                         self.page = 1
                         self.tableView.reloadData()
@@ -726,7 +734,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             if isLogged {
                 print("is Logged - has Loaded More true")
                 self.getGroupsByFilter()
-                
             }else{
                 print("Not  Logged - has Loaded More false")
                 self.getSwiftGroups()
@@ -1037,13 +1044,25 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             if role!  == "null" {
                 if isOpen {
                     MyVriables.currentGroup = self.myGrous[currentIndex]
+                    
                     self.performSegue(withIdentifier: "groupDetailsBar", sender: self)
+                    let params: [String: Any] = ["member_id": (MyVriables.currentMember?.id!)! , "group_id": (MyVriables.currentGroup?.id!)! , "type": ApiRouts.VisitGroupType]
+                    print("PARAMS - \(params)")
+                    ApiRouts.actionRequest(parameters: params)
+                    
+                    
+                    
                 }else {
                     showCloseAlert()
                 }
             }else{
                 MyVriables.currentGroup = self.myGrous[currentIndex]
                 self.performSegue(withIdentifier: "groupDetailsBar", sender: self)
+                let params: [String: Any] = ["member_id": (MyVriables.currentMember?.id!)! , "group_id": (MyVriables.currentGroup?.id!)! , "type": ApiRouts.VisitGroupType]
+                print(params)
+                print("PARAMS - \(params)")
+                ApiRouts.actionRequest(parameters: params)
+
             }
         }
         

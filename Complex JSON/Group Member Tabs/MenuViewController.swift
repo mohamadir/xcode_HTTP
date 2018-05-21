@@ -182,7 +182,7 @@ class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UI
                 {
                    self.performSegue(withIdentifier: "showDocsSegue", sender: self)
                 }
-                
+
             }
            
 
@@ -350,6 +350,7 @@ class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UI
         {
             self.docsView.alpha = 0.3
         }
+      //   self.docsView.alpha = 0.3
         if (self.singleGroup?.group_tools?.checklist!)! == false
         {
             self.checkListView.alpha = 0.3

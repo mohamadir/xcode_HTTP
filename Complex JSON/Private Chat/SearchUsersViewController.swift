@@ -33,6 +33,14 @@ class SearchUsersViewController: UIViewController, UITableViewDelegate, UITableV
     }
 
     
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        if self.searchBar.text != "" && self.searchBar.text != nil
+        {
+            getGroupMembers(name: self.searchBar.text!)
+            view.endEditing(true)
+        }
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -45,8 +53,8 @@ class SearchUsersViewController: UIViewController, UITableViewDelegate, UITableV
      
         if searchBar.text == nil || searchBar.text  == "" {
             self.isSearching = false
-            dismissKeyboard()
-            view.endEditing(true)
+          //  dismissKeyboard()
+           // view.endEditing(true)
            
            
           //  membersCoView.reloadData()
@@ -131,16 +139,24 @@ class SearchUsersViewController: UIViewController, UITableViewDelegate, UITableV
     func getGroupMembers(name: String){
         let defaults = UserDefaults.standard
         let id = defaults.integer(forKey: "member_id")
+        let seachText = name.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)!
         print(ApiRouts.Web+"/api/members?search=\(name)")
         
-        HTTP.GET(ApiRouts.Web + "/api/members?search=\(name)" ){response in
+        HTTP.GET(ApiRouts.Web + "/api/members?search=\(seachText)" ){response in
             
             if let err = response.error {
                 print("error: \(err.localizedDescription)")
             }else {
                 do{
                     let  resp = try JSONDecoder().decode(ElasticMembers.self, from: response.data)
-                    self.members = resp.data!
+                   self.members = resp.data!
+                    self.members = []
+                    for mem in resp.data! {
+                        if mem.id!  != id {
+                            self.members.append(mem)
+                        }
+                    }
+                    print("myMembers: for search -> \(seachText) result is : \(self.members)")
                     DispatchQueue.main.sync {
                         self.tableview.reloadData()
                     }
