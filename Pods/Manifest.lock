@@ -8,17 +8,18 @@ PODS:
   - BmoViewPager (4.0.5)
   - Crashlytics (3.10.1):
     - Fabric (~> 1.7.5)
+  - Digger (0.0.5)
   - ExpandableLabel (0.4.0)
   - Fabric (1.7.6)
-  - Firebase/Core (5.0.0):
+  - Firebase/Core (5.0.1):
     - Firebase/CoreOnly
     - FirebaseAnalytics (= 5.0.0)
-  - Firebase/CoreOnly (5.0.0):
-    - FirebaseCore (= 5.0.0)
-  - Firebase/Database (5.0.0):
+  - Firebase/CoreOnly (5.0.1):
+    - FirebaseCore (= 5.0.1)
+  - Firebase/Database (5.0.1):
     - Firebase/CoreOnly
     - FirebaseDatabase (= 5.0.0)
-  - Firebase/Messaging (5.0.0):
+  - Firebase/Messaging (5.0.1):
     - Firebase/CoreOnly
     - FirebaseMessaging (= 3.0.0)
   - FirebaseAnalytics (5.0.0):
@@ -26,7 +27,7 @@ PODS:
     - FirebaseInstanceID (~> 3.0)
     - GoogleToolboxForMac/NSData+zlib (~> 2.1)
     - nanopb (~> 0.3)
-  - FirebaseCore (5.0.0):
+  - FirebaseCore (5.0.1):
     - GoogleToolboxForMac/NSData+zlib (~> 2.1)
   - FirebaseDatabase (5.0.0):
     - FirebaseCore (~> 5.0)
@@ -84,6 +85,7 @@ PODS:
   - SwiftEventBus (2.2.0)
   - SwiftHTTP (3.0.1)
   - SwiftyAvatar (1.1.3)
+  - SwiftyPickerPopover (6.2.0)
   - TabPageViewController (0.2.7)
   - Toast-Swift (3.0.1)
   - YNExpandableCell (1.1.0)
@@ -94,6 +96,7 @@ DEPENDENCIES:
   - Auk (~> 8.0)
   - BmoViewPager (~> 4.0.0)
   - Crashlytics (~> 3.10.0)
+  - Digger
   - ExpandableLabel
   - Firebase/Core
   - Firebase/Database
@@ -117,6 +120,7 @@ DEPENDENCIES:
   - SwiftEventBus (from `https://github.com/cesarferreira/SwiftEventBus.git`, tag `2.2.0`)
   - SwiftHTTP (~> 3.0.1)
   - SwiftyAvatar (~> 1.1)
+  - SwiftyPickerPopover
   - TabPageViewController
   - Toast-Swift (~> 3.0.1)
   - YNExpandableCell
@@ -138,11 +142,12 @@ SPEC CHECKSUMS:
   Auk: 82be62a2cf650437fe745c81b12ac2440a0f682c
   BmoViewPager: 1bbba2f3d9bad4e255b0e397dc035e9a0c434eb5
   Crashlytics: aee1a064cbbf99b32efa3f056a5f458d846bc8ff
+  Digger: c474bde76a91e0a36f12101c5dfe7e86774b15d3
   ExpandableLabel: 5f5f61fbf71433000cd7c3290617e6fcccb72c86
   Fabric: f8d42c893bb187326a7968b62abe55c36a987a46
-  Firebase: 4bd804448ab2596794698773d41520a0af101e65
+  Firebase: d6861c2059d8c32d1e6dd8932e22ada346d90a3a
   FirebaseAnalytics: 19812b49fa5f283dd6b23edf8a14b5d477029ab8
-  FirebaseCore: e46e4babb9de298fb2f736958edcc6da1dc60d73
+  FirebaseCore: cafc814b2d84fc8733f09e653041cc2165332ad7
   FirebaseDatabase: 697eb53e5b4fe7cd4fa8756c1f82a9fca011345f
   FirebaseInstanceID: 83e0040351565df711a5db3d8ebe5ea21aca998a
   FirebaseMessaging: f2360a966ecfb0d14facf0fbdf306efc2df0ddbe
@@ -169,10 +174,11 @@ SPEC CHECKSUMS:
   SwiftEventBus: 39cde57d1881f9d6e8afb1f9e41f973e331bf847
   SwiftHTTP: e94f1aa8cde58637dcc0100f6349de31a3337fde
   SwiftyAvatar: 33aecda825c91851cac2aabd06b33f3698b2414c
+  SwiftyPickerPopover: 84b5a08ffcbde84c9d313650f769be386278b7cf
   TabPageViewController: c37a1257a50c2b50712dde61bf499768eee95b67
   Toast-Swift: ba0b01b095aada709d915f9beb1d38184a2721c3
   YNExpandableCell: 47bf7cff721aa535c0e9e1163bf22b5573441bb4
 
-PODFILE CHECKSUM: a1c69098a40889b92105fb33cc6aa5b0b8f5d829
+PODFILE CHECKSUM: fee7d3ddc4c1d7db966c6a20a9e29dd54f1e22d5
 
 COCOAPODS: 1.4.0

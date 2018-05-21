@@ -27,6 +27,7 @@ struct ChatUser {
     static var currentUser: Partner?
     static var ChatId: Int?
 }
+
  struct PlanProvider {
  static var CurrentService: [Any]?
 }

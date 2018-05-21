@@ -18,6 +18,7 @@ import Toast_Swift
 import Firebase
 import FirebaseMessaging
 import FirebaseInstanceID
+import SwiftEventBus
 /***********************************************      VIEW CONTROLLER     *************************************************************/
 
 
@@ -71,6 +72,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     @IBOutlet weak var leadingConstraint: NSLayoutConstraint!
     
+    @IBAction func editProfile(_ sender: Any) {
+         performSegue(withIdentifier: "showModal", sender: self)
+        //showModal
+    }
     /******* VARIABLES *********/
     var menuIcon: String = "iMenuIcon"
     var myGrous: [TourGroup] = []
@@ -161,9 +166,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         setChatTap()
         setNotificationTap()
         setRefresher()
-       
         self.checkCurrentUser()
-       
+        SwiftEventBus.onMainThread(self, name: "changeProfileInfo") { result in
+              self.checkCurrentUser()
+        }
         setFilterView()
         setMemberMenuView()
     }
@@ -295,10 +301,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let first = defaults.string(forKey: "first_name")
         let last = defaults.string(forKey: "last_name")
         let email = defaults.string(forKey: "email")
+        let gender = defaults.string(forKey: "gender")
         let phone = defaults.string(forKey: "phone")
         let profile_image = defaults.string(forKey: "profile_image")
-        let gender = defaults.string(forKey: "gender")
-        
         let isLogged = defaults.bool(forKey: "isLogged")
         if isLogged == true{
                 self.isLogged = true
@@ -518,6 +523,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                     self.setToUserDefaults(value: self.currentMember?.member?.email, key: "email")
                     self.setToUserDefaults(value: self.currentMember?.member?.phone, key: "phone")
                     self.setToUserDefaults(value: self.currentMember?.profile?.gender, key: "gender")
+                     self.setToUserDefaults(value: self.currentMember?.profile?.birth_date, key: "birth_date")
                     self.setToUserDefaults(value: self.currentMember?.profile?.profile_image, key: "profile_image")
                     
                     self.currentProfile = self.currentMember?.profile!

@@ -40,7 +40,6 @@
 		74905903203D89E000C6B8C1 /* SignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74905902203D89E000C6B8C1 /* SignUpVC.swift */; };
 		74905905203DB5DA00C6B8C1 /* MainTabController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74905904203DB5DA00C6B8C1 /* MainTabController.swift */; };
 		74905909203DB9DC00C6B8C1 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74905908203DB9DC00C6B8C1 /* HomeViewController.swift */; };
-		7491937E20AACDAF008B5D31 /* ServicesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7491937D20AACDAE008B5D31 /* ServicesViewController.swift */; };
 		7491938420AAD236008B5D31 /* RecentGroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7491938220AAD236008B5D31 /* RecentGroupViewController.swift */; };
 		7491938520AAD236008B5D31 /* RecentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7491938320AAD236008B5D31 /* RecentTableViewCell.swift */; };
 		74A5A4392085D2DB00A97052 /* CheckListItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A5A4382085D2DB00A97052 /* CheckListItemCell.swift */; };
@@ -92,6 +91,7 @@
 		7EBD078320A1A9E700369E36 /* MeFileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EBD078220A1A9E700369E36 /* MeFileCell.swift */; };
 		7EBD078520A2DBBA00369E36 /* AddReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EBD078420A2DBBA00369E36 /* AddReviewViewController.swift */; };
 		7EBD078720A2F28300369E36 /* ReviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EBD078620A2F28300369E36 /* ReviewCell.swift */; };
+		7EE2FE9520AB141B00D3051E /* ServicesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE2FE9420AB141B00D3051E /* ServicesViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -173,7 +173,6 @@
 		74905902203D89E000C6B8C1 /* SignUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpVC.swift; sourceTree = "<group>"; };
 		74905904203DB5DA00C6B8C1 /* MainTabController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabController.swift; sourceTree = "<group>"; };
 		74905908203DB9DC00C6B8C1 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
-		7491937D20AACDAE008B5D31 /* ServicesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ServicesViewController.swift; path = ../../../../ServicesViewController.swift; sourceTree = "<group>"; };
 		7491938220AAD236008B5D31 /* RecentGroupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecentGroupViewController.swift; sourceTree = "<group>"; };
 		7491938320AAD236008B5D31 /* RecentTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecentTableViewCell.swift; sourceTree = "<group>"; };
 		74A5A4382085D2DB00A97052 /* CheckListItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckListItemCell.swift; sourceTree = "<group>"; };
@@ -227,6 +226,7 @@
 		7EBD078220A1A9E700369E36 /* MeFileCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeFileCell.swift; sourceTree = "<group>"; };
 		7EBD078420A2DBBA00369E36 /* AddReviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddReviewViewController.swift; sourceTree = "<group>"; };
 		7EBD078620A2F28300369E36 /* ReviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewCell.swift; sourceTree = "<group>"; };
+		7EE2FE9420AB141B00D3051E /* ServicesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ServicesViewController.swift; path = ../../../../../Documents/ServicesViewController.swift; sourceTree = "<group>"; };
 		89E7D6AE145D4989B1E4DBF6 /* Pods_Complex_JSON.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Complex_JSON.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		954F494034F6DE94FDE0436F /* Pods_SnapgroupUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SnapgroupUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E5676BA205AC6C3E7405219 /* Pods-SnapgroupTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SnapgroupTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SnapgroupTests/Pods-SnapgroupTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -517,7 +517,7 @@
 		74B3CDF12055691C00440EB0 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				7491937D20AACDAE008B5D31 /* ServicesViewController.swift */,
+				7EE2FE9420AB141B00D3051E /* ServicesViewController.swift */,
 				7E2D7B1E2090C06900DAC98F /* DefaultCell.swift */,
 				7E2D7B152090C06300DAC98F /* DestinationData.swift */,
 				7E2D7B1C2090C06900DAC98F /* ExpandableHeaderView.swift */,
@@ -907,6 +907,7 @@
 				"${BUILT_PRODUCTS_DIR}/AlamofireImage/AlamofireImage.framework",
 				"${BUILT_PRODUCTS_DIR}/Auk/Auk.framework",
 				"${BUILT_PRODUCTS_DIR}/BmoViewPager/BmoViewPager.framework",
+				"${BUILT_PRODUCTS_DIR}/Digger/Digger.framework",
 				"${BUILT_PRODUCTS_DIR}/ExpandableLabel/ExpandableLabel.framework",
 				"${BUILT_PRODUCTS_DIR}/GoneVisible/GoneVisible.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
@@ -925,6 +926,7 @@
 				"${BUILT_PRODUCTS_DIR}/SwiftEventBus/SwiftEventBus.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftHTTP/SwiftHTTP.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyAvatar/SwiftyAvatar.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyPickerPopover/SwiftyPickerPopover.framework",
 				"${BUILT_PRODUCTS_DIR}/Toast-Swift/Toast_Swift.framework",
 				"${BUILT_PRODUCTS_DIR}/YNExpandableCell/YNExpandableCell.framework",
 				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
@@ -938,6 +940,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AlamofireImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Auk.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BmoViewPager.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Digger.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ExpandableLabel.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoneVisible.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
@@ -956,6 +959,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftEventBus.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftHTTP.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyAvatar.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyPickerPopover.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Toast_Swift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/YNExpandableCell.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
@@ -1064,7 +1068,6 @@
 				749058FE203D605F00C6B8C1 /* CustomTableViewCell.swift in Sources */,
 				7E2ED4B22095B3A6002921A5 /* ServiceModalViewController.swift in Sources */,
 				7E2ED4BA2097048B002921A5 /* SearchTableViewCell.swift in Sources */,
-				7491937E20AACDAF008B5D31 /* ServicesViewController.swift in Sources */,
 				74A5A43B2085D31A00A97052 /* checkListCustomCellController.swift in Sources */,
 				7EBD0774209F2FC000369E36 /* ModelInfoViewController.swift in Sources */,
 				7491938520AAD236008B5D31 /* RecentTableViewCell.swift in Sources */,
@@ -1115,6 +1118,7 @@
 				7E2D7B1F2090C06900DAC98F /* DestinationData.swift in Sources */,
 				74FBD10C20518542002D223A /* MemberModalViewController.swift in Sources */,
 				7E2ED4BD20985633002921A5 /* ArrivleConfirmationViewController.swift in Sources */,
+				7EE2FE9520AB141B00D3051E /* ServicesViewController.swift in Sources */,
 				7E2D7B202090C06900DAC98F /* Section.swift in Sources */,
 				74F7AAA320595D6B00E66DF8 /* ItineraryServiceViewControllerCell.swift in Sources */,
 				7E8F2C6C20A9C13400854AF0 /* ReviewsViewController.swift in Sources */,
