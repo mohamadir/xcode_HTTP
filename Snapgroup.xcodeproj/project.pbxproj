@@ -14,6 +14,7 @@
 		74138E0220440E9D00F37028 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74138E0120440E9D00F37028 /* MenuViewController.swift */; };
 		74138E042044207700F37028 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74138E032044207700F37028 /* ChatViewController.swift */; };
 		74138E07204442FD00F37028 /* ChatCustomCellController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74138E06204442FD00F37028 /* ChatCustomCellController.swift */; };
+		7418822920B4566E0026D5D9 /* RolesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7418822820B4566E0026D5D9 /* RolesViewController.swift */; };
 		741D2A102042B40C00DB8975 /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 741D2A0F2042B40C00DB8975 /* DetailsViewController.swift */; };
 		742375082046DC0300B9A0C0 /* ApiRequests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742375072046DC0300B9A0C0 /* ApiRequests.swift */; };
 		7423757F20499FB600B9A0C0 /* PrivateChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7423757E20499FB600B9A0C0 /* PrivateChatViewController.swift */; };
@@ -123,6 +124,7 @@
 		74138E0120440E9D00F37028 /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 		74138E032044207700F37028 /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		74138E06204442FD00F37028 /* ChatCustomCellController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatCustomCellController.swift; sourceTree = "<group>"; };
+		7418822820B4566E0026D5D9 /* RolesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RolesViewController.swift; sourceTree = "<group>"; };
 		7418AFBA203EB3C1007BBC3D /* UIImage+AspectFit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+AspectFit.swift"; sourceTree = "<group>"; };
 		7418AFBB203EB3C1007BBC3D /* UIImageView+Tools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Tools.swift"; sourceTree = "<group>"; };
 		7418AFBC203EB3C1007BBC3D /* ImageSlideshowItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSlideshowItem.swift; sourceTree = "<group>"; };
@@ -290,6 +292,21 @@
 			path = "Private Chat";
 			sourceTree = "<group>";
 		};
+		7418822620B456520026D5D9 /* New Group */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "New Group";
+			sourceTree = "<group>";
+		};
+		7418822720B456580026D5D9 /* Group Roles */ = {
+			isa = PBXGroup;
+			children = (
+				7418822820B4566E0026D5D9 /* RolesViewController.swift */,
+			);
+			path = "Group Roles";
+			sourceTree = "<group>";
+		};
 		7418AFB7203EB3C1007BBC3D /* ImageSlideshow */ = {
 			isa = PBXGroup;
 			children = (
@@ -406,6 +423,8 @@
 		743A207F203C1B12008DF1AA /* Complex JSON */ = {
 			isa = PBXGroup;
 			children = (
+				7418822720B456580026D5D9 /* Group Roles */,
+				7418822620B456520026D5D9 /* New Group */,
 				7491938120AAD22E008B5D31 /* Recent Groups */,
 				7E8F2C6820A9C09C00854AF0 /* All Reviews */,
 				7EBD077520A052AD00369E36 /* Group Chat */,
@@ -1120,6 +1139,7 @@
 				746E9F382077B9CB009B3258 /* MemberInboxViewController.swift in Sources */,
 				74D5ED4A20A19CA200BEA038 /* DocsViewController.swift in Sources */,
 				7E2D7B212090C06900DAC98F /* ExpansionCell.swift in Sources */,
+				7418822920B4566E0026D5D9 /* RolesViewController.swift in Sources */,
 				74138E042044207700F37028 /* ChatViewController.swift in Sources */,
 				7E2D7B1F2090C06900DAC98F /* DestinationData.swift in Sources */,
 				74FBD10C20518542002D223A /* MemberModalViewController.swift in Sources */,

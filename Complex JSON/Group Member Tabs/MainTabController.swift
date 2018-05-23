@@ -32,10 +32,10 @@ class MainTabController: UITabBarController{
         }
 
 
-        self.navigationController?.setNavigationBarHidden(true, animated: false)
+    //    self.navigationController?.setNavigationBarHidden(true, animated: false)
     }
     override func viewWillDisappear(_ animated: Bool) {
-        self.navigationController?.setNavigationBarHidden(true, animated: false)
+    //    self.navigationController?.setNavigationBarHidden(true, animated: false)
 
     }
     override func viewDidLoad() {

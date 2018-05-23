@@ -382,6 +382,7 @@ class PrivateChatViewController: UIViewController ,UIImagePickerControllerDelega
     override func viewWillDisappear(_ animated: Bool) {
         self.resetMessages()
         markConvRead()
+         self.socket!.disconnect()
         self.navigationController?.setNavigationBarHidden(true, animated: false)
         //        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         //        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)

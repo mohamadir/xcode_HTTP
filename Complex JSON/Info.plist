@@ -60,7 +60,7 @@
 	<key>NSHumanReadableCopyright</key>
 	<string></string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Please let me use location :) </string>
+	<string>We display group members real time location on the map</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>$(PRODUCT_NAME) photo use</string>
 	<key>UIBackgroundModes</key>

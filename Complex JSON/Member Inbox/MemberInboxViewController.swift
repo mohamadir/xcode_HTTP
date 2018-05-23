@@ -19,8 +19,20 @@ class MemberInboxViewController: UIViewController , UITableViewDelegate,UITableV
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return messageArray.count
     }
-    
+    func setToUserDefaults(value: Any?, key: String){
+        if value != nil {
+            let defaults = UserDefaults.standard
+            defaults.set(value!, forKey: key)
+        }
+        else{
+            let defaults = UserDefaults.standard
+            defaults.set("no value", forKey: key)
+        }
+        
+        
+    }
     override func viewWillAppear(_ animated: Bool) {
+        setToUserDefaults(value: 0, key: "inbox_counter")
         if MyVriables.MemberInboxShouldRefresh {
             MyVriables.MemberInboxShouldRefresh = false
             refreshData()

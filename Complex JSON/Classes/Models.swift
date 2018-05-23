@@ -150,6 +150,7 @@ struct TourGroup: Codable {
     var translations: [GroupTranslation]?
     var group_tools: GroupTools?
     var chat: ChatObject?
+    var group_conditions: String?
     
 }
 struct ChatObject: Codable{
@@ -207,6 +208,8 @@ struct CurrentMember: Codable{
     //var message: String?
     var member: Member?
     var profile: MemberProfile?
+    var total_unread_messages: Int?
+    var total_unread_notifications: Int?
     
 }
 

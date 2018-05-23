@@ -50,8 +50,15 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet weak var memberGenderLbl: UILabel!
     @IBOutlet weak var notificationsImageView: UIImageView!
     @IBOutlet weak var noGroupsView: UIView!
-    
+    @IBOutlet weak var InboxCounterView: DesignableView!
+    @IBOutlet weak var ChatCounterView: DesignableView!
     @IBOutlet weak var countryCodeVeiw: UIView!
+    
+    @IBOutlet weak var chatView: UIView!
+    @IBOutlet weak var inboxView: UIView!
+    @IBOutlet weak var inboxCounterLbl: UILabel!
+    @IBOutlet weak var chatCounterLbl: UILabel!
+    
     /********* Filter Buttons **********/
     @IBOutlet weak var myGroupsBt: UIButton!
     @IBOutlet weak var managamentBt: UIButton!
@@ -127,7 +134,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+        setBadges()
+       
         // Hide the navigation bar on the this view controller
         
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
@@ -154,15 +162,26 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         super.viewDidLoad()
         NSLog("roleStatus",  "hihihi")
      //   UIApplication.shared.registerForRemoteNotifications()
-       
+        
+        chatView.addTapGestureRecognizer {
+            self.performSegue(withIdentifier: "showChat", sender: self)
+//            if let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "Chat") as? ChatViewController {
+//
+//                if let navigator = self.navigationController {
+//                    navigator.pushViewController(viewController, animated: true)
+//                }
+//            }
+           
+        }
+        inboxView.addTapGestureRecognizer {
+            self.performSegue(withIdentifier: "showNotifications", sender: self)
+        }
         
         tableView.delegate = self
         tableView.dataSource = self
         self.hideKeyboardWhenTappedAround()
         phoneNumberFeild.keyboardType = .numberPad
         setCountryPicker()
-        setChatTap()
-        setNotificationTap()
         setRefresher()
         self.checkCurrentUser()
         SwiftEventBus.onMainThread(self, name: "changeProfileInfo") { result in
@@ -303,6 +322,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let profile_image = defaults.string(forKey: "profile_image")
         let isLogged = defaults.bool(forKey: "isLogged")
         if isLogged == true{
+                setBadges()
+            SwiftEventBus.onMainThread(self, name: "counters") { (result) in
+                print("CHAT-COUNTER RECEIVED IN VIEW CONTROLLER ")
+                self.setBadges()
+            }
                 self.isLogged = true
                 self.noGroupsView.isHidden = true
                 self.id = id
@@ -350,6 +374,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             self.getGroupsByFilter()
             
             
+            
+            
+            
         }else{
             
           self.getSwiftGroups()
@@ -361,32 +388,33 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         
     }
-    
-    
-    func setChatTap(){
-        let singleTap = UITapGestureRecognizer(target: self, action: Selector("chatTapped"))
-        chatImageView.isUserInteractionEnabled = true
-        chatImageView.addGestureRecognizer(singleTap)
-    }
-    
-  @objc  func chatTapped(){
-    print("chat tapped")
-    
-    performSegue(withIdentifier: "showChat", sender: self)
- 
-    
-    }
-    
-    func setNotificationTap(){
-        let singleTap = UITapGestureRecognizer(target: self, action: Selector("notificationsTepped"))
-        notificationsImageView.isUserInteractionEnabled = true
-    notificationsImageView.addGestureRecognizer(singleTap)
-    }
-    @objc func notificationsTepped(){
-        performSegue(withIdentifier: "showNotifications", sender: self)
+    //badges counter
+    func setBadges(){
+        let defaults = UserDefaults.standard
+        let chat_counter = defaults.integer(forKey: "chat_counter")
+        let inbox_counter = defaults.integer(forKey: "inbox_counter")
+        print("ICOUNTER- notifications counters: \(inbox_counter)")
+        print("ICOUNTER- messages counters: \(chat_counter)")
+
+        if chat_counter
+            != 0 {
+            ChatCounterView.isHidden = false
+            chatCounterLbl.text = "\(chat_counter)"
+        }else {
+            ChatCounterView.isHidden = true
+        }
         
+        if inbox_counter != 0 {
+            InboxCounterView.isHidden = false
+            inboxCounterLbl.text = "\(inbox_counter)"
+        }else {
+            InboxCounterView.isHidden = true
+        }
 
     }
+
+    
+   
     
     @objc func refreshData(){
         print("refresh is loading")
@@ -525,6 +553,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                     self.setToUserDefaults(value: self.currentMember?.profile?.gender, key: "gender")
                      self.setToUserDefaults(value: self.currentMember?.profile?.birth_date, key: "birth_date")
                     self.setToUserDefaults(value: self.currentMember?.profile?.profile_image, key: "profile_image")
+                    self.setToUserDefaults(value: self.currentMember?.total_unread_messages, key: "chat_counter")
+                     self.setToUserDefaults(value: self.currentMember?.total_unread_notifications, key: "inbox_counter")
                    
                     self.currentProfile = self.currentMember?.profile!
                     DispatchQueue.main.sync {
@@ -711,14 +741,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
-        if let destination = segue.destination as? GroupViewController {
-            destination.singleGroup = self.myGrous[(tableView.indexPathForSelectedRow?.row)!]
-        }
-        
-        if let destination = segue.destination as? HomeViewController {
-            print("home destination")
-            destination.singleGroup = self.myGrous[(tableView.indexPathForSelectedRow?.row)!]
-        }
+//        if let destination = segue.destination as? GroupViewController {
+//            destination.singleGroup = self.myGrous[(tableView.indexPathForSelectedRow?.row)!]
+//        }
+//        
+//        if let destination = segue.destination as? HomeViewController {
+//            print("home destination")
+//            destination.singleGroup = self.myGrous[(tableView.indexPathForSelectedRow?.row)!]
+//        }
     }
 
 

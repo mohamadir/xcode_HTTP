@@ -49,15 +49,7 @@ class DetailsViewController: UIViewController {
     @IBOutlet weak var companyLbl: UILabel!
     @IBOutlet weak var groupLeaderNameLbl: UILabel!
     @IBOutlet weak var tripDurationLbl: UILabel!
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        self.navigationController?.setNavigationBarHidden(true, animated: false)
-
-        // Hide the navigation bar on the this view controller
-     //   self.navigationController?.isNavigationBarHidden = true
-    }
-    
-    
+  
     @IBAction func backTapped(_ sender: Any) {
         self.navigationController?.popViewController(animated: true)
     }

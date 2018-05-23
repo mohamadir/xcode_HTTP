@@ -14,6 +14,14 @@ import FirebaseInstanceID
 import GoogleMaps
 import GooglePlaces
 import SocketIO
+import SwiftEventBus
+import SwiftHTTP
+
+class Counters: Codable{
+    var total_unread_messages: Int?
+    var total_unread_notifications: Int?
+    
+}
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUserNotificationCenterDelegate {
@@ -48,6 +56,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
                         Messaging.messaging().delegate = self
                         UIApplication.shared.registerForRemoteNotifications()
                         application.registerForRemoteNotifications()
+                    
                         
                     }
                     
@@ -98,6 +107,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
         let isLogged = defaults.bool(forKey: "isLogged")
         if isLogged == true{
             MyVriables.currentMember = Member(email: email, phone: phone, id: id)
+            getNotificationsCounters()
         }
     }
     
@@ -111,20 +121,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
     }
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        print("FIREBASETOPIC: didRegisterForRemoteNotificationsWithDeviceToken")
         Messaging.messaging().apnsToken = deviceToken
         let currentTopic: String = MyVriables.CurrentTopic
         if MyVriables.TopicSubscribe {
             if currentTopic != "" {
-                print("CURRENT-TOPIC \(currentTopic)")
+                print("FIREBASETOPIC: subscribe  \(currentTopic)")
+
                 Messaging.messaging().subscribe(toTopic: "/topics/\(currentTopic)")
             }
         }
         if !MyVriables.TopicSubscribe {
+            print("FIREBASETOPIC: un subscribe \(currentTopic)")
+
             if currentTopic != "" {
                 Messaging.messaging().unsubscribe(fromTopic: "/topics/\(currentTopic)") 
             }
         }
     }
+    
     
     func messaging(_ messaging: Messaging, didRefreshRegistrationToken fcmToken: String) {
         let newToken = InstanceID.instanceID().token()
@@ -258,15 +273,49 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
             }
         }
     }
+    
+    func getNotificationsCounters(){
+        HTTP.GET(ApiRouts.Web + "/api/members/\((MyVriables.currentMember?.id!)!)/unread"){response in
+            let data = response.data
+            do {
+                if response.error != nil {
+                    return
+                }
+                let  counters = try JSONDecoder().decode(Counters.self, from: data)
+                print(response.description)
+                DispatchQueue.main.sync {
+                    print("TOTALOSH: \(counters.total_unread_notifications!)")
+                    print("TOTALOSH: \(counters.total_unread_messages!)")
+                    self.setToUserDefaults(value: counters.total_unread_notifications!, key: "inbox_counter")
+                    self.setToUserDefaults(value: counters.total_unread_messages!, key: "chat_counter")
+                    SwiftEventBus.post("counters")
+                    
+                }
+            }catch let error {
+                print(error)
+            }
+        }
+    }
+    
     // new methods for remote message recevation
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
       //  print("recieve in UNNotificationResponse \(notification.description)")
-        
+        print("recieve in UNUserNotificationCenter")
+
        UIApplication.shared.applicationIconBadgeNumber = 0
     }
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-        print("recieve in UIBackgroundFetchResult \(application.applicationState)")
-        
+        print("recieve in UIBackgroundFetchResult \(userInfo)")
+        if userInfo["total_unread_messages"] != nil {
+            print("CHAT-COUNTER IN RECEIVE REMOTE ")
+            self.setToUserDefaults(value: userInfo["total_unread_messages"]! , key: "chat_counter")
+            SwiftEventBus.post("counters")
+        }
+        if userInfo["total_unread_notifications"] != nil {
+            print("INBOX-COUNTER IN RECEIVE REMOTE ")
+            self.setToUserDefaults(value: userInfo["total_unread_notifications"]! , key: "inbox_counter")
+            SwiftEventBus.post("counters")
+        }
         UIApplication.shared.applicationIconBadgeNumber += 1
 //        timedNotifications(inSeconds: 1) { (success) in
 //            if success {
@@ -275,13 +324,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
 //        }
     }
     
+    func setToUserDefaults(value: Any?, key: String){
+        if value != nil {
+            let defaults = UserDefaults.standard
+            defaults.set(value!, forKey: key)
+        }
+        else{
+            let defaults = UserDefaults.standard
+            defaults.set("no value", forKey: key)
+        }
+        
+        
+    }
+    
+    
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         print("recieve in UNNotificationResponse \(response.notification.description)")
-       // UIApplication.shared.applicationIconBadgeNumber = 0
-        let mainStoryboard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let homePage = mainStoryboard.instantiateViewController(withIdentifier: "Chat") as! ChatViewController
-        self.window?.rootViewController = homePage
-        completionHandler()
+  UIApplication.shared.applicationIconBadgeNumber = 0
+//        let mainStoryboard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+//        let homePage = mainStoryboard.instantiateViewController(withIdentifier: "Chat") as! ChatViewController
+//        self.window?.rootViewController = homePage
+//        completionHandler()
         
     }
     

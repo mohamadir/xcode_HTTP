@@ -68,6 +68,7 @@ class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UI
     let date = Date()
     let formatter = DateFormatter()
     @IBOutlet weak var arrivalConfirmationView: UIControl!
+    @IBOutlet weak var rolesView: UIControl!
     @IBOutlet weak var roomlistView: UIControl!
     @IBOutlet weak var counterLbl: UILabel!
     @IBOutlet weak var mapsView: UIControl!
@@ -153,7 +154,10 @@ class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UI
             }
 
         }
-    
+        rolesView.addTapGestureRecognizer {
+            self.performSegue(withIdentifier: "rolesSegue", sender: self)
+            
+        }
         mapsView.addTapGestureRecognizer {
             if (self.singleGroup?.group_tools?.map!)! == true
             {

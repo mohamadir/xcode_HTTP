@@ -55,6 +55,18 @@ class ChatViewController: UIViewController , UITableViewDelegate, UITableViewDat
 //        self.socket!.disconnect()
 //    }
 //
+    func setToUserDefaults(value: Any?, key: String){
+        if value != nil {
+            let defaults = UserDefaults.standard
+            defaults.set(value!, forKey: key)
+        }
+        else{
+            let defaults = UserDefaults.standard
+            defaults.set("no value", forKey: key)
+        }
+        
+        
+    }
     @IBAction func dismissBt(_ sender: Any) {
         
         if var topController = UIApplication.shared.keyWindow?.rootViewController {
@@ -71,7 +83,7 @@ class ChatViewController: UIViewController , UITableViewDelegate, UITableViewDat
             performSegue(withIdentifier: "showMainSegue", sender: self)
           
         }
-        
+        setToUserDefaults(value: 0, key: "chat_counter")
         
         self.socket!.disconnect()
 
