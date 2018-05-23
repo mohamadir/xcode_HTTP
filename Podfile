@@ -35,6 +35,7 @@ pod 'Digger'
 pod 'SwiftyPickerPopover'
 pod 'Pushy', '1.0.12'
 pod 'SwiftEventBus', :tag => '2.2.0', :git => 'https://github.com/cesarferreira/SwiftEventBus.git'
+pod 'XLPagerTabStrip', '~> 8.0'
 
 
   # Pods for Snapgroup

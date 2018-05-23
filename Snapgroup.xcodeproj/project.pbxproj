@@ -80,6 +80,10 @@
 		7E2ED4BA2097048B002921A5 /* SearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2ED4B92097048B002921A5 /* SearchTableViewCell.swift */; };
 		7E2ED4BD20985633002921A5 /* ArrivleConfirmationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2ED4BC20985633002921A5 /* ArrivleConfirmationViewController.swift */; };
 		7E2ED4BF20986061002921A5 /* ArriceCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2ED4BE20986061002921A5 /* ArriceCollectionCell.swift */; };
+		7E5BB78620B2BC0C0029B4C4 /* UploadFilesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E5BB78520B2BC0C0029B4C4 /* UploadFilesViewController.swift */; };
+		7E5BB78920B2D6030029B4C4 /* Upload1ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E5BB78820B2D6030029B4C4 /* Upload1ViewController.swift */; };
+		7E5BB78B20B308110029B4C4 /* UploadItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E5BB78A20B308110029B4C4 /* UploadItemCell.swift */; };
+		7E5BB78D20B447460029B4C4 /* DownloadCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E5BB78C20B447460029B4C4 /* DownloadCell.swift */; };
 		7E8F2C6A20A9C0B500854AF0 /* AllReviewsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E8F2C6920A9C0B500854AF0 /* AllReviewsTableViewCell.swift */; };
 		7E8F2C6C20A9C13400854AF0 /* ReviewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E8F2C6B20A9C13400854AF0 /* ReviewsViewController.swift */; };
 		7EBD0774209F2FC000369E36 /* ModelInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EBD0773209F2FC000369E36 /* ModelInfoViewController.swift */; };
@@ -216,6 +220,10 @@
 		7E2ED4B92097048B002921A5 /* SearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewCell.swift; sourceTree = "<group>"; };
 		7E2ED4BC20985633002921A5 /* ArrivleConfirmationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrivleConfirmationViewController.swift; sourceTree = "<group>"; };
 		7E2ED4BE20986061002921A5 /* ArriceCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArriceCollectionCell.swift; sourceTree = "<group>"; };
+		7E5BB78520B2BC0C0029B4C4 /* UploadFilesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadFilesViewController.swift; sourceTree = "<group>"; };
+		7E5BB78820B2D6030029B4C4 /* Upload1ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Upload1ViewController.swift; sourceTree = "<group>"; };
+		7E5BB78A20B308110029B4C4 /* UploadItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadItemCell.swift; sourceTree = "<group>"; };
+		7E5BB78C20B447460029B4C4 /* DownloadCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadCell.swift; sourceTree = "<group>"; };
 		7E8F2C6920A9C0B500854AF0 /* AllReviewsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllReviewsTableViewCell.swift; sourceTree = "<group>"; };
 		7E8F2C6B20A9C13400854AF0 /* ReviewsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewsViewController.swift; sourceTree = "<group>"; };
 		7EBD0773209F2FC000369E36 /* ModelInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelInfoViewController.swift; sourceTree = "<group>"; };
@@ -559,6 +567,10 @@
 			children = (
 				74D5ED4920A19CA200BEA038 /* DocsViewController.swift */,
 				74D5ED4B20A19D0600BEA038 /* NewDocsViewController.swift */,
+				7E5BB78520B2BC0C0029B4C4 /* UploadFilesViewController.swift */,
+				7E5BB78820B2D6030029B4C4 /* Upload1ViewController.swift */,
+				7E5BB78A20B308110029B4C4 /* UploadItemCell.swift */,
+				7E5BB78C20B447460029B4C4 /* DownloadCell.swift */,
 			);
 			path = Documents;
 			sourceTree = "<group>";
@@ -932,6 +944,7 @@
 				"${BUILT_PRODUCTS_DIR}/SwiftyPickerPopover/SwiftyPickerPopover.framework",
 				"${BUILT_PRODUCTS_DIR}/TabPageViewController/TabPageViewController.framework",
 				"${BUILT_PRODUCTS_DIR}/Toast-Swift/Toast_Swift.framework",
+				"${BUILT_PRODUCTS_DIR}/XLPagerTabStrip/XLPagerTabStrip.framework",
 				"${BUILT_PRODUCTS_DIR}/YNExpandableCell/YNExpandableCell.framework",
 				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
 				"${BUILT_PRODUCTS_DIR}/moa/moa.framework",
@@ -966,6 +979,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyPickerPopover.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TabPageViewController.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Toast_Swift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/XLPagerTabStrip.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/YNExpandableCell.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/moa.framework",
@@ -1071,11 +1085,13 @@
 				74905905203DB5DA00C6B8C1 /* MainTabController.swift in Sources */,
 				7E8F2C6A20A9C0B500854AF0 /* AllReviewsTableViewCell.swift in Sources */,
 				749058FE203D605F00C6B8C1 /* CustomTableViewCell.swift in Sources */,
+				7E5BB78620B2BC0C0029B4C4 /* UploadFilesViewController.swift in Sources */,
 				7E2ED4B22095B3A6002921A5 /* ServiceModalViewController.swift in Sources */,
 				7E2ED4BA2097048B002921A5 /* SearchTableViewCell.swift in Sources */,
 				74A5A43B2085D31A00A97052 /* checkListCustomCellController.swift in Sources */,
 				7EBD0774209F2FC000369E36 /* ModelInfoViewController.swift in Sources */,
 				7491938520AAD236008B5D31 /* RecentTableViewCell.swift in Sources */,
+				7E5BB78920B2D6030029B4C4 /* Upload1ViewController.swift in Sources */,
 				7EBD078120A1A8E600369E36 /* PartnerFileCell.swift in Sources */,
 				74237583204BE0E100B9A0C0 /* PrivateChatMessageCelVc.swift in Sources */,
 				7E2ED4B02091B14F002921A5 /* ProviderModel.swift in Sources */,
@@ -1088,6 +1104,7 @@
 				7EBD077B20A05F7200369E36 /* MeTextCell.swift in Sources */,
 				74905901203D853200C6B8C1 /* DesignableView.swift in Sources */,
 				74BB5D51208DDC0D00248CA1 /* MessageViewController.swift in Sources */,
+				7E5BB78B20B308110029B4C4 /* UploadItemCell.swift in Sources */,
 				7EBD078520A2DBBA00369E36 /* AddReviewViewController.swift in Sources */,
 				7E2D7B262090C06900DAC98F /* ExpandableHeaderView.swift in Sources */,
 				74490C1B20529E22007AD4FA /* MapViewController.swift in Sources */,
@@ -1110,6 +1127,7 @@
 				746E9F3A2077BA88009B3258 /* NotificationCell.swift in Sources */,
 				7404F38220569F220017762F /* ItemViewController.swift in Sources */,
 				742375082046DC0300B9A0C0 /* ApiRequests.swift in Sources */,
+				7E5BB78D20B447460029B4C4 /* DownloadCell.swift in Sources */,
 				7E2D7B252090C06900DAC98F /* TableViewCell.swift in Sources */,
 				7428551F204FF16300637511 /* TestTabVc.swift in Sources */,
 				743A2081203C1B12008DF1AA /* AppDelegate.swift in Sources */,

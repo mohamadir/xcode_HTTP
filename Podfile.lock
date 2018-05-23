@@ -88,6 +88,7 @@ PODS:
   - SwiftyPickerPopover (6.2.0)
   - TabPageViewController (0.2.7)
   - Toast-Swift (3.0.1)
+  - XLPagerTabStrip (8.0.1)
   - YNExpandableCell (1.1.0)
 
 DEPENDENCIES:
@@ -123,6 +124,7 @@ DEPENDENCIES:
   - SwiftyPickerPopover
   - TabPageViewController
   - Toast-Swift (~> 3.0.1)
+  - XLPagerTabStrip (~> 8.0)
   - YNExpandableCell
 
 EXTERNAL SOURCES:
@@ -177,8 +179,9 @@ SPEC CHECKSUMS:
   SwiftyPickerPopover: 84b5a08ffcbde84c9d313650f769be386278b7cf
   TabPageViewController: c37a1257a50c2b50712dde61bf499768eee95b67
   Toast-Swift: ba0b01b095aada709d915f9beb1d38184a2721c3
+  XLPagerTabStrip: c908b17cbf42fcd2598ee1adfc49bae25444d88a
   YNExpandableCell: 47bf7cff721aa535c0e9e1163bf22b5573441bb4
 
-PODFILE CHECKSUM: fee7d3ddc4c1d7db966c6a20a9e29dd54f1e22d5
+PODFILE CHECKSUM: 48b4f18f751a1d8ad64dbce9f22d428d1b751c16
 
 COCOAPODS: 1.4.0
