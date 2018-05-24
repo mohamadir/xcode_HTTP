@@ -41,7 +41,7 @@
 	<key>CFBundleSignature</key>
 	<string></string>
 	<key>CFBundleVersion</key>
-	<string>10</string>
+	<string>11</string>
 	<key>FirebaseAppDelegateProxyEnabled</key>
 	<false/>
 	<key>LSApplicationCategoryType</key>
@@ -60,7 +60,7 @@
 	<key>NSHumanReadableCopyright</key>
 	<string></string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>We display group members real time location on the map</string>
+	<string>Please allow location permission to  display group members real time location on the map</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>$(PRODUCT_NAME) photo use</string>
 	<key>UIBackgroundModes</key>

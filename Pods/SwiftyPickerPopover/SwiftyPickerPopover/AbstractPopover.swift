@@ -40,6 +40,8 @@ open class AbstractPopover: NSObject {
     
     private(set) var cornerRadius: CGFloat?
     
+    private(set) var isAllowedOutsideTappingDismissing: Bool?
+    
     override public init(){
         //Get a string as stroyboard name from this class name.
         storyboardName = String(describing: type(of:self))
@@ -81,6 +83,11 @@ open class AbstractPopover: NSObject {
         return self
     }
     
+    open func setOutsideTapDismissing(allowed: Bool = true) -> Self {
+        self.isAllowedOutsideTappingDismissing = allowed
+        return self
+    }
+    
     // MARK: - Popover display
     
     /// Display the popover.
@@ -115,7 +122,9 @@ open class AbstractPopover: NSObject {
         let contentVC = configureContentViewController(navigationController: navigationController)
         navigationController.popoverPresentationController?.delegate = contentVC
         
-        navigationController.popoverPresentationController?.backgroundColor = self.backgroundColor ?? self.baseViewController?.view.backgroundColor
+        let color = self.backgroundColor ?? self.baseViewController?.navigationController?.navigationBar.barTintColor ?? self.baseViewController?.view.backgroundColor
+        navigationController.navigationBar.barTintColor = color
+        navigationController.popoverPresentationController?.backgroundColor = color?.withAlphaComponent(0.8)
         
         tintColor = baseViewController.view.tintColor
         
@@ -228,7 +237,6 @@ open class AbstractPopover: NSObject {
 		
 		// direction of arrow
 		navigationController.popoverPresentationController?.permittedArrowDirections = permittedArrowDirections        
-        
 		return navigationController
 	}
 }

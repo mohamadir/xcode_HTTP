@@ -119,14 +119,14 @@ class SignUpVC: UIViewController, UIPickerViewDelegate, UITextFieldDelegate, UIP
       
         
         /// Create StringPickerPopover:
-        let p = DatePickerPopover(title: "DatePicker")
+        let p = DatePickerPopover(title: "Birth Date")
             p.setDateMode(.date)
         let currentDate: Date = Date()
-     
+
         p.setMaximumDate(self.maximumDate!)
         p.setMinimumDate(self.minimumDate!)
            p.setSelectedDate(Date())
-            p.setDoneButton(action: { popover, selectedDate in print("selectedDate \(selectedDate + 1)")
+        p.setDoneButton(color: Colors.PrimaryColor, action: { popover, selectedDate in print("selectedDate \(selectedDate + 1)")
                 
                 self.dateString = selectedDate.description
                 var myString: String = self.dateString!;
@@ -134,7 +134,8 @@ class SignUpVC: UIViewController, UIPickerViewDelegate, UITextFieldDelegate, UIP
                 
               self.birthdayBt.setTitle(self.setDate(mydateis: myStringArr [0]), for: .normal)
             })
-            p.setCancelButton(action: { _, _ in
+        
+            p.setCancelButton(color: Colors.PrimaryColor, action: { _, _ in
                 print("cancel")})
             p.appear(originView: sender, baseViewController: self)
     

@@ -20,7 +20,6 @@ pod 'SwiftyAvatar', '~> 1.1'
 pod 'GooglePlaces'
 pod 'GooglePlacePicker'
 pod 'GoogleMaps'
-pod 'TabPageViewController'
 pod 'PageControl'
 pod 'BmoViewPager', '~> 4.0.0'
 pod 'GoneVisible'
@@ -34,7 +33,9 @@ pod 'SVProgressHUD'
 pod 'Digger'
 pod 'SwiftyPickerPopover'
 pod 'Pushy', '1.0.12'
+pod 'TTGSnackbar'
 pod 'SwiftEventBus', :tag => '2.2.0', :git => 'https://github.com/cesarferreira/SwiftEventBus.git'
+pod 'XLPagerTabStrip', '~> 8.0'
 
 
   # Pods for Snapgroup

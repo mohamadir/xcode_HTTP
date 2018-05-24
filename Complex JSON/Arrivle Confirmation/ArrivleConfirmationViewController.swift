@@ -8,6 +8,7 @@
 
 import UIKit
 import SwiftHTTP
+import TTGSnackbar
 
 class ArrivleConfirmationViewController: UIViewController ,UICollectionViewDelegate, UICollectionViewDataSource{
 
@@ -100,6 +101,7 @@ class ArrivleConfirmationViewController: UIViewController ,UICollectionViewDeleg
         if (self.stations?[indexPath.row].my_station)! == "false"
         {
         SetBusStation(rowNumber: indexPath.row , stationId: (self.stations?[indexPath.row].id)! )
+            
         }
         else
         {
@@ -107,6 +109,7 @@ class ArrivleConfirmationViewController: UIViewController ,UICollectionViewDeleg
             
             alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { action in
                 print("Yay! You brought your towel!")
+                
                 self.CancelConfurmation()
             }))
             alert.addAction(UIAlertAction(title: "No", style: .cancel, handler: nil))
@@ -124,6 +127,9 @@ class ArrivleConfirmationViewController: UIViewController ,UICollectionViewDeleg
                     self.getGroupStations()
                     MyVriables.shouldRefreshBusStation = true
                     self.cancelAriiveConfirmation.isHidden = true
+                    let snackbar = TTGSnackbar(message: "You canceld arrival confirmation", duration: .middle)
+                    snackbar.icon = UIImage(named: "AppIcon")
+                    snackbar.show()
                 }
                 return //also notify app of failure as needed
             }
@@ -158,7 +164,17 @@ class ArrivleConfirmationViewController: UIViewController ,UICollectionViewDeleg
                 DispatchQueue.main.sync {
                     self.getGroupStations()
                     MyVriables.shouldRefreshBusStation = true
-                  
+                    var station: String = (self.stations?[rowNumber].location!)!
+                    var snack_text: String = ""
+                    if station != "im_going" {
+                        snack_text = "You choose \((self.stations?[rowNumber].location!)!) station  !"
+                    }else {
+                        snack_text = "You chose to go alone"
+                    }
+                    
+                    let snackbar = TTGSnackbar(message: snack_text, duration: .middle)
+                    snackbar.icon = UIImage(named: "AppIcon")
+                    snackbar.show()
                 }
             }
             catch {

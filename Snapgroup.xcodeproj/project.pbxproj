@@ -55,8 +55,6 @@
 		74B4E90420A1862900AD873A /* ImageMeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B4E90020A1862900AD873A /* ImageMeTableViewCell.swift */; };
 		74B9BCFB205CF82D005A0C60 /* CheckListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B9BCFA205CF82D005A0C60 /* CheckListViewController.swift */; };
 		74BB5D51208DDC0D00248CA1 /* MessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74BB5D50208DDC0D00248CA1 /* MessageViewController.swift */; };
-		74D5ED4A20A19CA200BEA038 /* DocsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74D5ED4920A19CA200BEA038 /* DocsViewController.swift */; };
-		74D5ED4C20A19D0600BEA038 /* NewDocsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74D5ED4B20A19D0600BEA038 /* NewDocsViewController.swift */; };
 		74F1FF20208B2E3D00976958 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 74F1FF1F208B2E3C00976958 /* GoogleService-Info.plist */; };
 		74F7AAA120580D1F00E66DF8 /* ScrollTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F7AAA020580D1F00E66DF8 /* ScrollTestViewController.swift */; };
 		74F7AAA320595D6B00E66DF8 /* ItineraryServiceViewControllerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F7AAA220595D6B00E66DF8 /* ItineraryServiceViewControllerCell.swift */; };
@@ -81,6 +79,14 @@
 		7E2ED4BA2097048B002921A5 /* SearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2ED4B92097048B002921A5 /* SearchTableViewCell.swift */; };
 		7E2ED4BD20985633002921A5 /* ArrivleConfirmationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2ED4BC20985633002921A5 /* ArrivleConfirmationViewController.swift */; };
 		7E2ED4BF20986061002921A5 /* ArriceCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2ED4BE20986061002921A5 /* ArriceCollectionCell.swift */; };
+		7E843A1720B6B54200E36A69 /* WebViewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E843A1620B6B54200E36A69 /* WebViewViewController.swift */; };
+		7E843A1F20B6B55B00E36A69 /* UploadFilesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E843A1820B6B55700E36A69 /* UploadFilesViewController.swift */; };
+		7E843A2020B6B55B00E36A69 /* Upload1ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E843A1920B6B55800E36A69 /* Upload1ViewController.swift */; };
+		7E843A2120B6B55B00E36A69 /* WebViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E843A1A20B6B55900E36A69 /* WebViewCell.swift */; };
+		7E843A2220B6B55B00E36A69 /* NewDocsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E843A1B20B6B55900E36A69 /* NewDocsViewController.swift */; };
+		7E843A2320B6B55B00E36A69 /* DocsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E843A1C20B6B55900E36A69 /* DocsViewController.swift */; };
+		7E843A2420B6B55B00E36A69 /* DownloadCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E843A1D20B6B55A00E36A69 /* DownloadCell.swift */; };
+		7E843A2520B6B55B00E36A69 /* UploadItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E843A1E20B6B55B00E36A69 /* UploadItemCell.swift */; };
 		7E8F2C6A20A9C0B500854AF0 /* AllReviewsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E8F2C6920A9C0B500854AF0 /* AllReviewsTableViewCell.swift */; };
 		7E8F2C6C20A9C13400854AF0 /* ReviewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E8F2C6B20A9C13400854AF0 /* ReviewsViewController.swift */; };
 		7EBD0774209F2FC000369E36 /* ModelInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EBD0773209F2FC000369E36 /* ModelInfoViewController.swift */; };
@@ -190,8 +196,6 @@
 		74B4E90020A1862900AD873A /* ImageMeTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageMeTableViewCell.swift; sourceTree = "<group>"; };
 		74B9BCFA205CF82D005A0C60 /* CheckListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckListViewController.swift; sourceTree = "<group>"; };
 		74BB5D50208DDC0D00248CA1 /* MessageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageViewController.swift; sourceTree = "<group>"; };
-		74D5ED4920A19CA200BEA038 /* DocsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocsViewController.swift; sourceTree = "<group>"; };
-		74D5ED4B20A19D0600BEA038 /* NewDocsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewDocsViewController.swift; sourceTree = "<group>"; };
 		74F0521020657938009A4273 /* Complex JSON.xcworkspace */ = {isa = PBXFileReference; lastKnownFileType = wrapper.workspace; path = "Complex JSON.xcworkspace"; sourceTree = "<group>"; };
 		74F0521120657938009A4273 /* Snapgroup.xcworkspace */ = {isa = PBXFileReference; lastKnownFileType = wrapper.workspace; path = Snapgroup.xcworkspace; sourceTree = "<group>"; };
 		74F1FF1F208B2E3C00976958 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -218,6 +222,14 @@
 		7E2ED4B92097048B002921A5 /* SearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewCell.swift; sourceTree = "<group>"; };
 		7E2ED4BC20985633002921A5 /* ArrivleConfirmationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrivleConfirmationViewController.swift; sourceTree = "<group>"; };
 		7E2ED4BE20986061002921A5 /* ArriceCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArriceCollectionCell.swift; sourceTree = "<group>"; };
+		7E843A1620B6B54200E36A69 /* WebViewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebViewViewController.swift; sourceTree = "<group>"; };
+		7E843A1820B6B55700E36A69 /* UploadFilesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UploadFilesViewController.swift; sourceTree = "<group>"; };
+		7E843A1920B6B55800E36A69 /* Upload1ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Upload1ViewController.swift; sourceTree = "<group>"; };
+		7E843A1A20B6B55900E36A69 /* WebViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebViewCell.swift; sourceTree = "<group>"; };
+		7E843A1B20B6B55900E36A69 /* NewDocsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NewDocsViewController.swift; path = "../../../../SnapGroup Xcode Project After Merage/xcode_HTTP/Complex JSON/Documents/NewDocsViewController.swift"; sourceTree = "<group>"; };
+		7E843A1C20B6B55900E36A69 /* DocsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DocsViewController.swift; path = "../../../../SnapGroup Xcode Project After Merage/xcode_HTTP/Complex JSON/Documents/DocsViewController.swift"; sourceTree = "<group>"; };
+		7E843A1D20B6B55A00E36A69 /* DownloadCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DownloadCell.swift; sourceTree = "<group>"; };
+		7E843A1E20B6B55B00E36A69 /* UploadItemCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UploadItemCell.swift; sourceTree = "<group>"; };
 		7E8F2C6920A9C0B500854AF0 /* AllReviewsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllReviewsTableViewCell.swift; sourceTree = "<group>"; };
 		7E8F2C6B20A9C13400854AF0 /* ReviewsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewsViewController.swift; sourceTree = "<group>"; };
 		7EBD0773209F2FC000369E36 /* ModelInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelInfoViewController.swift; sourceTree = "<group>"; };
@@ -290,13 +302,6 @@
 				7E2ED4B92097048B002921A5 /* SearchTableViewCell.swift */,
 			);
 			path = "Private Chat";
-			sourceTree = "<group>";
-		};
-		7418822620B456520026D5D9 /* New Group */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = "New Group";
 			sourceTree = "<group>";
 		};
 		7418822720B456580026D5D9 /* Group Roles */ = {
@@ -423,9 +428,9 @@
 		743A207F203C1B12008DF1AA /* Complex JSON */ = {
 			isa = PBXGroup;
 			children = (
-				7418822720B456580026D5D9 /* Group Roles */,
-				7418822620B456520026D5D9 /* New Group */,
+				7E843A1520B6B51A00E36A69 /* Web View */,
 				7491938120AAD22E008B5D31 /* Recent Groups */,
+				7418822720B456580026D5D9 /* Group Roles */,
 				7E8F2C6820A9C09C00854AF0 /* All Reviews */,
 				7EBD077520A052AD00369E36 /* Group Chat */,
 				7E2ED4BB20985610002921A5 /* Arrivle Confirmation */,
@@ -576,8 +581,13 @@
 		74F7AAE0205BE69600E66DF8 /* Documents */ = {
 			isa = PBXGroup;
 			children = (
-				74D5ED4920A19CA200BEA038 /* DocsViewController.swift */,
-				74D5ED4B20A19D0600BEA038 /* NewDocsViewController.swift */,
+				7E843A1C20B6B55900E36A69 /* DocsViewController.swift */,
+				7E843A1D20B6B55A00E36A69 /* DownloadCell.swift */,
+				7E843A1B20B6B55900E36A69 /* NewDocsViewController.swift */,
+				7E843A1920B6B55800E36A69 /* Upload1ViewController.swift */,
+				7E843A1820B6B55700E36A69 /* UploadFilesViewController.swift */,
+				7E843A1E20B6B55B00E36A69 /* UploadItemCell.swift */,
+				7E843A1A20B6B55900E36A69 /* WebViewCell.swift */,
 			);
 			path = Documents;
 			sourceTree = "<group>";
@@ -607,6 +617,14 @@
 				7E2ED4BC20985633002921A5 /* ArrivleConfirmationViewController.swift */,
 			);
 			path = "Arrivle Confirmation";
+			sourceTree = "<group>";
+		};
+		7E843A1520B6B51A00E36A69 /* Web View */ = {
+			isa = PBXGroup;
+			children = (
+				7E843A1620B6B54200E36A69 /* WebViewViewController.swift */,
+			);
+			path = "Web View";
 			sourceTree = "<group>";
 		};
 		7E8F2C6820A9C09C00854AF0 /* All Reviews */ = {
@@ -949,8 +967,9 @@
 				"${BUILT_PRODUCTS_DIR}/SwiftHTTP/SwiftHTTP.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyAvatar/SwiftyAvatar.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyPickerPopover/SwiftyPickerPopover.framework",
-				"${BUILT_PRODUCTS_DIR}/TabPageViewController/TabPageViewController.framework",
+				"${BUILT_PRODUCTS_DIR}/TTGSnackbar/TTGSnackbar.framework",
 				"${BUILT_PRODUCTS_DIR}/Toast-Swift/Toast_Swift.framework",
+				"${BUILT_PRODUCTS_DIR}/XLPagerTabStrip/XLPagerTabStrip.framework",
 				"${BUILT_PRODUCTS_DIR}/YNExpandableCell/YNExpandableCell.framework",
 				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
 				"${BUILT_PRODUCTS_DIR}/moa/moa.framework",
@@ -983,8 +1002,9 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftHTTP.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyAvatar.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyPickerPopover.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TabPageViewController.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TTGSnackbar.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Toast_Swift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/XLPagerTabStrip.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/YNExpandableCell.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/moa.framework",
@@ -1090,11 +1110,14 @@
 				74905905203DB5DA00C6B8C1 /* MainTabController.swift in Sources */,
 				7E8F2C6A20A9C0B500854AF0 /* AllReviewsTableViewCell.swift in Sources */,
 				749058FE203D605F00C6B8C1 /* CustomTableViewCell.swift in Sources */,
+				7E843A1F20B6B55B00E36A69 /* UploadFilesViewController.swift in Sources */,
+				7E843A2320B6B55B00E36A69 /* DocsViewController.swift in Sources */,
 				7E2ED4B22095B3A6002921A5 /* ServiceModalViewController.swift in Sources */,
 				7E2ED4BA2097048B002921A5 /* SearchTableViewCell.swift in Sources */,
 				74A5A43B2085D31A00A97052 /* checkListCustomCellController.swift in Sources */,
 				7EBD0774209F2FC000369E36 /* ModelInfoViewController.swift in Sources */,
 				7491938520AAD236008B5D31 /* RecentTableViewCell.swift in Sources */,
+				7E843A2020B6B55B00E36A69 /* Upload1ViewController.swift in Sources */,
 				7EBD078120A1A8E600369E36 /* PartnerFileCell.swift in Sources */,
 				74237583204BE0E100B9A0C0 /* PrivateChatMessageCelVc.swift in Sources */,
 				7E2ED4B02091B14F002921A5 /* ProviderModel.swift in Sources */,
@@ -1113,6 +1136,7 @@
 				74905909203DB9DC00C6B8C1 /* HomeViewController.swift in Sources */,
 				743A20BE203C3A97008DF1AA /* GroupRequest.swift in Sources */,
 				74FBD106205009FD002D223A /* MembersViewController.swift in Sources */,
+				7E843A1720B6B54200E36A69 /* WebViewViewController.swift in Sources */,
 				7423757F20499FB600B9A0C0 /* PrivateChatViewController.swift in Sources */,
 				74FBD10A20514220002D223A /* MemberCollectionCell.swift in Sources */,
 				7EBD077D20A184A100369E36 /* ImagePartnerCell.swift in Sources */,
@@ -1137,21 +1161,23 @@
 				7E2ED4BF20986061002921A5 /* ArriceCollectionCell.swift in Sources */,
 				74F7AAA5205A976400E66DF8 /* GroupMapViewController.swift in Sources */,
 				746E9F382077B9CB009B3258 /* MemberInboxViewController.swift in Sources */,
-				74D5ED4A20A19CA200BEA038 /* DocsViewController.swift in Sources */,
 				7E2D7B212090C06900DAC98F /* ExpansionCell.swift in Sources */,
+				7E843A2120B6B55B00E36A69 /* WebViewCell.swift in Sources */,
 				7418822920B4566E0026D5D9 /* RolesViewController.swift in Sources */,
 				74138E042044207700F37028 /* ChatViewController.swift in Sources */,
 				7E2D7B1F2090C06900DAC98F /* DestinationData.swift in Sources */,
+				7E843A2420B6B55B00E36A69 /* DownloadCell.swift in Sources */,
 				74FBD10C20518542002D223A /* MemberModalViewController.swift in Sources */,
 				7E2ED4BD20985633002921A5 /* ArrivleConfirmationViewController.swift in Sources */,
 				7EE2FE9520AB141B00D3051E /* ServicesViewController.swift in Sources */,
 				7E2D7B202090C06900DAC98F /* Section.swift in Sources */,
 				74F7AAA320595D6B00E66DF8 /* ItineraryServiceViewControllerCell.swift in Sources */,
 				7E8F2C6C20A9C13400854AF0 /* ReviewsViewController.swift in Sources */,
+				7E843A2220B6B55B00E36A69 /* NewDocsViewController.swift in Sources */,
 				7E2ED4B42095BDB3002921A5 /* ModalTableViewCell.swift in Sources */,
-				74D5ED4C20A19D0600BEA038 /* NewDocsViewController.swift in Sources */,
 				7E2ED4AE2091AC80002921A5 /* ProviderViewController.swift in Sources */,
 				7491938420AAD236008B5D31 /* RecentGroupViewController.swift in Sources */,
+				7E843A2520B6B55B00E36A69 /* UploadItemCell.swift in Sources */,
 				74B4E90220A1862900AD873A /* ImagePartnerTableViewCell.swift in Sources */,
 				741D2A102042B40C00DB8975 /* DetailsViewController.swift in Sources */,
 				7E2ED4B82096FD7D002921A5 /* SearchUsersViewController.swift in Sources */,

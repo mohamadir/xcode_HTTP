@@ -138,7 +138,7 @@ class ServiceModalViewController: UIViewController , UITableViewDelegate, UITabl
         ProviderInfo.currentProviderId =  ProviderInfo.currentServiceDay?[indexPath.row].id
      
        self.performSegue(withIdentifier: "showServiceProvider", sender: self)
-        //dismiss(animated: true, completion: nil)
+        
 //        weak var pvc = self.presentingViewController as? ItineraryViewController
 //        self.dismiss(animated: true) {
 //            pvc?.performSegue(withIdentifier: "showServiceProvider", sender: self)

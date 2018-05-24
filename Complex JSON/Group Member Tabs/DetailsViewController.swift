@@ -36,7 +36,6 @@ class DetailsViewController: UIViewController {
     @IBOutlet weak var scrollView: UIScrollView!
     var singleGroup: TourGroup?
     
-    @IBOutlet weak var placeHoolderImageView: UIImageView!
     @IBOutlet weak var slideShow: ImageSlideshow!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var descriptionLbl: UILabel!
@@ -96,33 +95,29 @@ class DetailsViewController: UIViewController {
         slideShow.activityIndicator = DefaultActivityIndicator(style: .gray, color: UIColor.red)
         groupRequest.getGroupImages(id:( singleGroup?.id)!){ (output) in
             self.groupImages = output!
-            
+            var images2: [InputSource] = []
                 print("%%% \(self.groupImages.count)")
-            if self.groupImages.count != 0 {
-                self.placeHoolderImageView.isHidden = true
+            if self.groupImages.count == 0 {
+                self.slideShow.setImageInputs([
+                    ImageSource(image: UIImage(named: "Group Placeholder")!)])
             }else {
-                self.slideShow.isHidden = true
-                return
-            }
-                var images2: [InputSource] = []
-         //   print("group : \(self.singleGroup?.title!) images: \(self.groupImages)")
-
-                  // var images2: [InputSource]?
                 for image in self.groupImages {
                     if image.path !=  nil {
-                    let image_path: String = "\(ApiRouts.Web)\(image.path!)"
+                        let image_path: String = "\(ApiRouts.Web)\(image.path!)"
                         print("details image paths : \(image_path)")
-                    //print("%%%%%%%%%%%%%%%%%%%% \(image_path)")
+                        //print("%%%%%%%%%%%%%%%%%%%% \(image_path)")
                         if AlamofireSource(urlString: image_path) != nil  {
                             images2.append(AlamofireSource(urlString: image_path)!)
                         }
-                   // images2.append(AlamofireSource(urlString: image_path)!)
                     }
-                    // self.slideShow.setImageInputs(<#T##inputs: [InputSource]##[InputSource]#>)
-                    //  self.scrollView.auk.show(url: "https://api.snapgroup.co.il\((image.path)!)")
+   
                 }
+                
+                 self.slideShow.setImageInputs(images2)
+            }
+
             
-            self.slideShow.setImageInputs(images2)
+           
                 
 //                DispatchQueue.main.sync {
 //                    self.slideShow.setImageInputs(images2!)

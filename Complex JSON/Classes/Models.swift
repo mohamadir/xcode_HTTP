@@ -9,6 +9,9 @@
 import Foundation
 // ********************************    CURRENT OPJECT *****************************
 struct MyVriables {
+    static var fileName: String?
+    static var currntUrl: String?
+    static var currentType: String?
     static var currentGroup: TourGroup?
     static var isMember: Bool = false
     static var currentMember: Member?
@@ -376,7 +379,25 @@ struct RecentAction: Codable {
     var created_at: String?
     var group: TourGroup?
 }
+struct DocumentObject: Codable {
+    var required_documents: [ReqireDocuments]
+}
+struct DownloadDocObject: Codable {
+    var files: [FilesObecjt]
+}
 
+struct ReqireDocuments: Codable {
+    var id: Int?
+    var item: String?
+    var files: [FilesObecjt]
+}
+struct FilesObecjt: Codable {
+    var id: Int?
+    var filename: String?
+    var original_filename: String?
+    var mime: String?
+    var path: String?
+}
 
 
 
