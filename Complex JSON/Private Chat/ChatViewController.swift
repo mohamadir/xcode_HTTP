@@ -30,12 +30,13 @@ class ChatViewController: UIViewController , UITableViewDelegate, UITableViewDat
     var socket: SocketIOClient?
     var socketManager : SocketManager?
     override func viewWillDisappear(_ animated: Bool) {
-        self.navigationController?.setNavigationBarHidden(false, animated: false)
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
 
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationController?.setNavigationBarHidden(true, animated: true)
 
         setUpSocket()
 

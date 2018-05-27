@@ -19,6 +19,8 @@ class HeaderViewController: UIViewController {
     @IBOutlet weak var inboxView: UIView!
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        self.navigationController?.setNavigationBarHidden(true, animated: true)
         
         SwiftEventBus.onMainThread(self, name: "counters") { (result) in
             self.setBadges()
@@ -41,6 +43,9 @@ class HeaderViewController: UIViewController {
             }
         }
       print("IM HERE FROM NOTF AND CHAT")
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+         self.navigationController?.setNavigationBarHidden(true, animated: true)
     }
     override func viewWillAppear(_ animated: Bool) {
         setBadges()

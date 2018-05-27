@@ -181,6 +181,8 @@ class PrivateChatViewController: UIViewController ,UIImagePickerControllerDelega
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationController?.setNavigationBarHidden(true, animated: true)
+
         setSocket()
         print("chat id: \(ChatUser.ChatId)")
         self.messageUser = ChatUser.currentUser!
@@ -381,6 +383,8 @@ class PrivateChatViewController: UIViewController ,UIImagePickerControllerDelega
     
     override func viewWillDisappear(_ animated: Bool) {
         self.resetMessages()
+        self.navigationController?.setNavigationBarHidden(true, animated: true)
+
         markConvRead()
          self.socket!.disconnect()
         self.navigationController?.setNavigationBarHidden(true, animated: false)
