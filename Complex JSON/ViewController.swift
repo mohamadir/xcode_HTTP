@@ -19,6 +19,7 @@ import Firebase
 import FirebaseMessaging
 import FirebaseInstanceID
 import SwiftEventBus
+import Alamofire
 /***********************************************      VIEW CONTROLLER     *************************************************************/
 
 
@@ -135,7 +136,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setBadges()
-       
+        SwiftEventBus.onMainThread(self, name: "refreshGroups") { result in
+            print("im Here from Gdpr")
+            self.showPinDialogGdpr()
+        }
         // Hide the navigation bar on the this view controller
         
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
@@ -158,9 +162,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         Messaging.messaging().subscribe(toTopic: "/topics/a123458")
     }
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         NSLog("roleStatus",  "hihihi")
+      
      //   UIApplication.shared.registerForRemoteNotifications()
         
         chatView.addTapGestureRecognizer {
@@ -459,9 +466,64 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     
-    
+    func checkIfMember(phone: String) {
+        let strMethod = String(format : ApiRouts.Web + "/api/check_if_member" )
+        
+        let params: [String : Any] = ["phone": phone]
+        print(params)
+        let url = URL(string: strMethod)!
+        let data = try! JSONSerialization.data(withJSONObject: params, options: JSONSerialization.WritingOptions.prettyPrinted)
+        
+        let json = NSString(data: data, encoding: String.Encoding.utf8.rawValue)
+        
+        if let json = json {  print(json) }
+        
+        let jsonData = json!.data(using: String.Encoding.utf8.rawValue);
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = HTTPMethod.post.rawValue
+        request.setValue("application/json; charset=UTF-8", forHTTPHeaderField: "Content-Type")
+        
+        var isMmebr: Bool = false
+        request.httpBody = jsonData
+        
+        Alamofire.request(request).responseJSON {  (response) in
+            switch response.result {
+            case .success(let JSON2):
+                print("Success with JSON: \(JSON2)")
+                print("RESPONSE \(response.description)")
+                
+                break
+                
+            case .failure(let error):
+                print("Request failed with error: \(error)")
+                //callback(response.result.value as? NSMutableDictionary,error as NSError?)
+                break
+            }
+            }
+            .responseString { response in
+                if (response.result.value!.range(of: "true") != nil)
+                {
+                   
+                      self.showPinDialog()
+                    
+                }else {
+                    MyVriables.phoneNumber = phone
+                     self.dismiss(animated: true,completion: nil)
+            self.performSegue(withIdentifier: "showGdbr", sender: self)
+                 }
+               
+        }
+ 
+    }
     @IBAction func sendClick(_ sender: Any) {
         
+        
+        /// check if member
+     
+        
+        
+      
         print("\(self.countryPrefLable.text!)\(self.phoneNumberFeild.text!)")
         self.phoneNumber = "\(self.countryPrefLable.text!)\(self.phoneNumberFeild.text!)"
         
@@ -486,7 +548,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 }
                 print ("successed")
                 DispatchQueue.main.sync {
-                    self.showPinDialog()
+//
+                    self.checkIfMember(phone: "\(self.countryPrefLable.text!)\(self.phoneNumberFeild.text!)")
+                    
+                    
                 }
                 //do things...
             }
@@ -504,7 +569,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     
-    fileprivate func showPinDialog() {
+    public func showPinDialog() {
         let PinAlert = UIAlertController(title: "Please enter PIN code wer'e sent you", message: "Pin code", preferredStyle: .alert)
         print ("pin created")
         
@@ -1349,9 +1414,126 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBAction func onBackTapped(_ sender: Any) {
         
     }
+    public func showPinDialogGdpr() {
+        // dismiss(animated: true, completion: nil)
+        let PinAlert = UIAlertController(title: "Please enter PIN code wer'e sent you", message: "Pin code", preferredStyle: .alert)
+        print ("pin created")
+        
+        PinAlert.addTextField { (textField) in
+            textField.placeholder = "1234"
+            
+        }
+        print ("pin created")
+        
+        PinAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak PinAlert] (_) in
+            
+            print ("pin 1")
+            
+            let textField = PinAlert?.textFields![0] // Force unwrapping because we know it exists.
+            print ("pin 2")
+            
+            self.PINCODE = textField?.text
+            print("PIN CODE : \((textField?.text)!)")
+            let gdprArr: [String: Bool] = ["chat_messaging":(MyVriables.arrayGdpr?.chat_messaging)!,
+                                         "files_upload":(MyVriables.arrayGdpr?.files_upload)!,
+                                         "groups_relations":(MyVriables.arrayGdpr?.groups_relations)!,
+                                         "pairing":(MyVriables.arrayGdpr?.pairing)!,
+                                         "phone_number":(MyVriables.arrayGdpr?.phone_number)!,
+                                         "profile_details":(MyVriables.arrayGdpr?.profile_details)!,
+                                         "push_notifications":(MyVriables.arrayGdpr?.push_notifications)!,
+                                         "real_time_location":(MyVriables.arrayGdpr?.real_time_location)!,
+                                         "rating_reviews":(MyVriables.arrayGdpr?.rating_reviews)!]
+            print("GDPRARR- \(gdprArr)")
+            let params: [String: Any]
+            params = ["code": (textField?.text)!, "phone": MyVriables.phoneNumber!, "gdpr":gdprArr
+            ]
+            print("Parmas is \(params)")
+            print("GDPR = \(MyVriables.arrayGdpr!)")
+            HTTP.POST(ApiRouts.Register, parameters: params) { response in
+                //do things...
+                if response.error != nil {
+                    print(response.error)
+                    return
+                }
+                print(response.description)
+                do{
+                    let  member = try JSONDecoder().decode(CurrentMember.self, from: response.data)
+                    print(member)
+                    self.currentMember = member
+                    self.setToUserDefaults(value: true, key: "isLogged")
+                    //  print(self.currentMember?.profile!)
+                    self.setToUserDefaults(value: self.currentMember?.profile?.member_id!, key: "member_id")
+                    self.setToUserDefaults(value: self.currentMember?.profile?.first_name , key: "first_name")
+                    self.setToUserDefaults(value: self.currentMember?.profile?.last_name, key: "last_name")
+                    self.setToUserDefaults(value: self.currentMember?.member?.email, key: "email")
+                    self.setToUserDefaults(value: self.currentMember?.member?.phone, key: "phone")
+                    self.setToUserDefaults(value: self.currentMember?.profile?.gender, key: "gender")
+                    self.setToUserDefaults(value: self.currentMember?.profile?.birth_date, key: "birth_date")
+                    self.setToUserDefaults(value: self.currentMember?.profile?.profile_image, key: "profile_image")
+                    self.setToUserDefaults(value: self.currentMember?.total_unread_messages, key: "chat_counter")
+                    self.setToUserDefaults(value: self.currentMember?.total_unread_notifications, key: "inbox_counter")
+                    
+                    self.currentProfile = self.currentMember?.profile!
+                    DispatchQueue.main.sync {
+                       
+                        if Messaging.messaging().fcmToken != nil {
+                            MyVriables.TopicSubscribe = true
+                            Messaging.messaging().subscribe(toTopic: "/topics/IOS-CHAT-\(String(describing: (self.currentMember?.profile?.member_id!)!))")
+                            
+                            Messaging.messaging().subscribe(toTopic: "/topics/IOS-INBOX-\(String(describing: (self.currentMember?.profile?.member_id!)!))")
+                            
+                            Messaging.messaging().subscribe(toTopic: "/topics/IOS-SYSTEM-\(String(describing: (self.currentMember?.profile?.member_id!)!))")
+                        }
+                        self.myGrous = []
+                        self.page = 1
+                        self.tableView.reloadData()
+                        self.checkCurrentUser()
+                        //                                    self.phoneNumberStackView.isHidden = true
+                        //                                    self.chatHeaderStackView.isHidden = false
+                        //
+                        
+                    }
+                    
+                    MyVriables.isMember = true
+                    
+                    
+                }
+                catch {
+                    self.phoneNumberStackView.isHidden = false
+                    self.chatHeaderStackView.isHidden = true
+                    self.setToUserDefaults(value: false, key: "isLogged")
+                    print("catch error")
+
+                    
+                }
+                
+            }
+            
+            
+            
+            
+        }))
+        print ("pin after ok ")
+        
+        PinAlert.addAction(UIAlertAction(title: NSLocalizedString("CANCLE", comment: "Default action"), style: .`default`, handler: { _ in
+            print("no")
+            
+        }))
+        print ("pin after no ")
+        
+        self.present(PinAlert, animated: true, completion: nil)
+        
+        print ("pin after present ")
+    }
     
-   
+    func refreshDataFromGdbr() {
+        self.myGrous = []
+        self.page = 1
+        self.tableView.reloadData()
+        self.checkCurrentUser()
+    }
 }
+
 
 public extension UIViewController {
     func hideKeyboardWhenTappedAround() {

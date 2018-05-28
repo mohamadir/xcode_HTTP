@@ -99,6 +99,8 @@
 		7EBD078320A1A9E700369E36 /* MeFileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EBD078220A1A9E700369E36 /* MeFileCell.swift */; };
 		7EBD078520A2DBBA00369E36 /* AddReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EBD078420A2DBBA00369E36 /* AddReviewViewController.swift */; };
 		7EBD078720A2F28300369E36 /* ReviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EBD078620A2F28300369E36 /* ReviewCell.swift */; };
+		7ED602A920BAB7200073EEB9 /* GdbrViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ED602A820BAB7200073EEB9 /* GdbrViewController.swift */; };
+		7ED602AB20BAC6450073EEB9 /* GdbrCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ED602AA20BAC6450073EEB9 /* GdbrCell.swift */; };
 		7EE2FE9520AB141B00D3051E /* ServicesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE2FE9420AB141B00D3051E /* ServicesViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -242,6 +244,8 @@
 		7EBD078220A1A9E700369E36 /* MeFileCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeFileCell.swift; sourceTree = "<group>"; };
 		7EBD078420A2DBBA00369E36 /* AddReviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddReviewViewController.swift; sourceTree = "<group>"; };
 		7EBD078620A2F28300369E36 /* ReviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewCell.swift; sourceTree = "<group>"; };
+		7ED602A820BAB7200073EEB9 /* GdbrViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GdbrViewController.swift; sourceTree = "<group>"; };
+		7ED602AA20BAC6450073EEB9 /* GdbrCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GdbrCell.swift; sourceTree = "<group>"; };
 		7EE2FE9420AB141B00D3051E /* ServicesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ServicesViewController.swift; path = ../../../../../Documents/ServicesViewController.swift; sourceTree = "<group>"; };
 		89E7D6AE145D4989B1E4DBF6 /* Pods_Complex_JSON.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Complex_JSON.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		954F494034F6DE94FDE0436F /* Pods_SnapgroupUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SnapgroupUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -428,6 +432,7 @@
 		743A207F203C1B12008DF1AA /* Complex JSON */ = {
 			isa = PBXGroup;
 			children = (
+				7ED602A720BAB7060073EEB9 /* Gdpr */,
 				7E843A1520B6B51A00E36A69 /* Web View */,
 				7491938120AAD22E008B5D31 /* Recent Groups */,
 				7418822720B456580026D5D9 /* Group Roles */,
@@ -648,6 +653,15 @@
 				7EBD078220A1A9E700369E36 /* MeFileCell.swift */,
 			);
 			path = "Group Chat";
+			sourceTree = "<group>";
+		};
+		7ED602A720BAB7060073EEB9 /* Gdpr */ = {
+			isa = PBXGroup;
+			children = (
+				7ED602A820BAB7200073EEB9 /* GdbrViewController.swift */,
+				7ED602AA20BAC6450073EEB9 /* GdbrCell.swift */,
+			);
+			path = Gdpr;
 			sourceTree = "<group>";
 		};
 		C5D372449F7ECC4B78A74442 /* Pods */ = {
@@ -1112,6 +1126,7 @@
 				749058FE203D605F00C6B8C1 /* CustomTableViewCell.swift in Sources */,
 				7E843A1F20B6B55B00E36A69 /* UploadFilesViewController.swift in Sources */,
 				7E843A2320B6B55B00E36A69 /* DocsViewController.swift in Sources */,
+				7ED602AB20BAC6450073EEB9 /* GdbrCell.swift in Sources */,
 				7E2ED4B22095B3A6002921A5 /* ServiceModalViewController.swift in Sources */,
 				7E2ED4BA2097048B002921A5 /* SearchTableViewCell.swift in Sources */,
 				74A5A43B2085D31A00A97052 /* checkListCustomCellController.swift in Sources */,
@@ -1148,6 +1163,7 @@
 				7443303F2063EC7400D4073F /* JoinViewController.swift in Sources */,
 				74490C19205298D6007AD4FA /* CustomMarkerView.swift in Sources */,
 				7EBD077F20A1851300369E36 /* ImageMeCell.swift in Sources */,
+				7ED602A920BAB7200073EEB9 /* GdbrViewController.swift in Sources */,
 				7EBD077720A052CF00369E36 /* GroupChatViewController.swift in Sources */,
 				74B9BCFB205CF82D005A0C60 /* CheckListViewController.swift in Sources */,
 				746E9F3A2077BA88009B3258 /* NotificationCell.swift in Sources */,

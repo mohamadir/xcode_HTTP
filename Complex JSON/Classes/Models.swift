@@ -9,7 +9,10 @@
 import Foundation
 // ********************************    CURRENT OPJECT *****************************
 struct MyVriables {
+     static var prefContry: String?
+     static var phoneNumber: String?
     static var fileName: String?
+    static var arrayGdpr : GdprPost?
     static var currntUrl: String?
     static var currentType: String?
     static var currentGroup: TourGroup?
@@ -367,7 +370,6 @@ struct Message: Codable{
     var sender_name: String?
     
 }
-
 /********** CHAT *****************/
 
 struct RecentAction: Codable {
@@ -397,6 +399,18 @@ struct FilesObecjt: Codable {
     var original_filename: String?
     var mime: String?
     var path: String?
+}
+struct GdprPost {
+    var profile_details: Bool
+    var phone_number: Bool
+    var groups_relations: Bool
+    var chat_messaging: Bool
+    var pairing: Bool
+    var real_time_location: Bool
+    var files_upload: Bool
+    var push_notifications: Bool
+    var rating_reviews: Bool
+    
 }
 
 
