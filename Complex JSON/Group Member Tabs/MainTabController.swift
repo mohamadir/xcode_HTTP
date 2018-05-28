@@ -15,10 +15,13 @@ class MainTabController: UITabBarController{
     
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.setNavigationBarHidden(true, animated: false)
+       
         if MyVriables.IsFromArrival {
             self.selectedIndex = 0
             self.selectedIndex = 2
             
+            
+        }else {
             
         }
 
@@ -78,7 +81,9 @@ class MainTabController: UITabBarController{
                     
                 }else{
                     print("role = nil and is close ")
-                    viewControllers?.remove(at: 1)
+                    viewControllers?[1].removeFromParentViewController()
+
+//                    viewControllers?.remove(at: 1)
                     // closed group - cannot enter group
                 }
             }else if role! == "member" {
@@ -106,8 +111,10 @@ class MainTabController: UITabBarController{
             }
         }else {
             print("is not available")
-            viewControllers?.remove(at: 1)
+           // viewControllers?.remove(at: 1)
+            viewControllers?[1].removeFromParentViewController()
         }
+     
         
     }
     func isAvailable(date: String) -> Bool{

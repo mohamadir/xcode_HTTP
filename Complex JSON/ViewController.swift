@@ -32,12 +32,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     var phoneNumber: String?
     ///////// GROUP SETTINGS
 
-    
+    //import MRCountryPicker
     /********  VIEWS ***********/
     @IBOutlet weak var countryPicker: MRCountryPicker!
     @IBOutlet weak var flagImageView: UIImageView!
-    @IBOutlet weak var chatImageView: UIImageView!
     @IBOutlet weak var countryPrefLable: UILabel!
+    @IBOutlet weak var chatImageView: UIImageView!
     @IBOutlet weak var chatHeaderStackView: UIView!
     @IBOutlet weak var phoneNumberStackView: UIView!
     @IBOutlet weak var tableView: UITableView!
@@ -716,7 +716,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         print("request PAGE = \(self.page)")
 
         var groups: [TourGroup]?
-        let withoutFilter = "/api/groups/members/\(self.id)?page=\(self.page)&sort=\(self.sort)"
+         //let withoutFilter = "/api/groups/members/\(self.id)?page=\(self.page)&sort=\(self.sort)"
+        let withoutFilter = "/api/groups?page=\(self.page)&sort=\(self.sort)"
         let withRole = "/api/groups/members/\(self.id)?page=\(self.page)&role=group_leader&sort=\(self.sort)"
         let withFilter = "/api/groups?member_id=\(self.id)&page=\(self.page)&filter=\(self.filter)&sort=\(self.sort)"
         let allGroupsFilter = "/api/groups?member_id=\(self.id)&page=\(self.page)&sort=\(self.sort)"

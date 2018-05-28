@@ -37,6 +37,8 @@
 		746E9F382077B9CB009B3258 /* MemberInboxViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 746E9F372077B9CB009B3258 /* MemberInboxViewController.swift */; };
 		746E9F3A2077BA88009B3258 /* NotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 746E9F392077BA88009B3258 /* NotificationCell.swift */; };
 		74730C4F205666680091D657 /* ItineraryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74730C4E205666680091D657 /* ItineraryViewController.swift */; };
+		74895C5C20BC1EC8005E73B6 /* DocsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74895C5A20BC1EC7005E73B6 /* DocsViewController.swift */; };
+		74895C5D20BC1EC8005E73B6 /* NewDocsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74895C5B20BC1EC7005E73B6 /* NewDocsViewController.swift */; };
 		749058FE203D605F00C6B8C1 /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749058FD203D605F00C6B8C1 /* CustomTableViewCell.swift */; };
 		74905901203D853200C6B8C1 /* DesignableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74905900203D853200C6B8C1 /* DesignableView.swift */; };
 		74905903203D89E000C6B8C1 /* SignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74905902203D89E000C6B8C1 /* SignUpVC.swift */; };
@@ -83,8 +85,6 @@
 		7E843A1F20B6B55B00E36A69 /* UploadFilesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E843A1820B6B55700E36A69 /* UploadFilesViewController.swift */; };
 		7E843A2020B6B55B00E36A69 /* Upload1ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E843A1920B6B55800E36A69 /* Upload1ViewController.swift */; };
 		7E843A2120B6B55B00E36A69 /* WebViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E843A1A20B6B55900E36A69 /* WebViewCell.swift */; };
-		7E843A2220B6B55B00E36A69 /* NewDocsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E843A1B20B6B55900E36A69 /* NewDocsViewController.swift */; };
-		7E843A2320B6B55B00E36A69 /* DocsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E843A1C20B6B55900E36A69 /* DocsViewController.swift */; };
 		7E843A2420B6B55B00E36A69 /* DownloadCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E843A1D20B6B55A00E36A69 /* DownloadCell.swift */; };
 		7E843A2520B6B55B00E36A69 /* UploadItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E843A1E20B6B55B00E36A69 /* UploadItemCell.swift */; };
 		7E8F2C6A20A9C0B500854AF0 /* AllReviewsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E8F2C6920A9C0B500854AF0 /* AllReviewsTableViewCell.swift */; };
@@ -180,6 +180,8 @@
 		746E9F372077B9CB009B3258 /* MemberInboxViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberInboxViewController.swift; sourceTree = "<group>"; };
 		746E9F392077BA88009B3258 /* NotificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCell.swift; sourceTree = "<group>"; };
 		74730C4E205666680091D657 /* ItineraryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItineraryViewController.swift; sourceTree = "<group>"; };
+		74895C5A20BC1EC7005E73B6 /* DocsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DocsViewController.swift; path = ../../../../../Documents/DocsViewController.swift; sourceTree = "<group>"; };
+		74895C5B20BC1EC7005E73B6 /* NewDocsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NewDocsViewController.swift; path = ../../../../../Documents/NewDocsViewController.swift; sourceTree = "<group>"; };
 		749058FD203D605F00C6B8C1 /* CustomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = "<group>"; };
 		74905900203D853200C6B8C1 /* DesignableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignableView.swift; sourceTree = "<group>"; };
 		74905902203D89E000C6B8C1 /* SignUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpVC.swift; sourceTree = "<group>"; };
@@ -228,8 +230,6 @@
 		7E843A1820B6B55700E36A69 /* UploadFilesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UploadFilesViewController.swift; sourceTree = "<group>"; };
 		7E843A1920B6B55800E36A69 /* Upload1ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Upload1ViewController.swift; sourceTree = "<group>"; };
 		7E843A1A20B6B55900E36A69 /* WebViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebViewCell.swift; sourceTree = "<group>"; };
-		7E843A1B20B6B55900E36A69 /* NewDocsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NewDocsViewController.swift; path = "../../../../SnapGroup Xcode Project After Merage/xcode_HTTP/Complex JSON/Documents/NewDocsViewController.swift"; sourceTree = "<group>"; };
-		7E843A1C20B6B55900E36A69 /* DocsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DocsViewController.swift; path = "../../../../SnapGroup Xcode Project After Merage/xcode_HTTP/Complex JSON/Documents/DocsViewController.swift"; sourceTree = "<group>"; };
 		7E843A1D20B6B55A00E36A69 /* DownloadCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DownloadCell.swift; sourceTree = "<group>"; };
 		7E843A1E20B6B55B00E36A69 /* UploadItemCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UploadItemCell.swift; sourceTree = "<group>"; };
 		7E8F2C6920A9C0B500854AF0 /* AllReviewsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllReviewsTableViewCell.swift; sourceTree = "<group>"; };
@@ -586,9 +586,9 @@
 		74F7AAE0205BE69600E66DF8 /* Documents */ = {
 			isa = PBXGroup;
 			children = (
-				7E843A1C20B6B55900E36A69 /* DocsViewController.swift */,
+				74895C5A20BC1EC7005E73B6 /* DocsViewController.swift */,
+				74895C5B20BC1EC7005E73B6 /* NewDocsViewController.swift */,
 				7E843A1D20B6B55A00E36A69 /* DownloadCell.swift */,
-				7E843A1B20B6B55900E36A69 /* NewDocsViewController.swift */,
 				7E843A1920B6B55800E36A69 /* Upload1ViewController.swift */,
 				7E843A1820B6B55700E36A69 /* UploadFilesViewController.swift */,
 				7E843A1E20B6B55B00E36A69 /* UploadItemCell.swift */,
@@ -1125,7 +1125,6 @@
 				7E8F2C6A20A9C0B500854AF0 /* AllReviewsTableViewCell.swift in Sources */,
 				749058FE203D605F00C6B8C1 /* CustomTableViewCell.swift in Sources */,
 				7E843A1F20B6B55B00E36A69 /* UploadFilesViewController.swift in Sources */,
-				7E843A2320B6B55B00E36A69 /* DocsViewController.swift in Sources */,
 				7ED602AB20BAC6450073EEB9 /* GdbrCell.swift in Sources */,
 				7E2ED4B22095B3A6002921A5 /* ServiceModalViewController.swift in Sources */,
 				7E2ED4BA2097048B002921A5 /* SearchTableViewCell.swift in Sources */,
@@ -1155,6 +1154,7 @@
 				7423757F20499FB600B9A0C0 /* PrivateChatViewController.swift in Sources */,
 				74FBD10A20514220002D223A /* MemberCollectionCell.swift in Sources */,
 				7EBD077D20A184A100369E36 /* ImagePartnerCell.swift in Sources */,
+				74895C5D20BC1EC8005E73B6 /* NewDocsViewController.swift in Sources */,
 				74B4E90120A1862900AD873A /* PartnerViewCell.swift in Sources */,
 				74B4E90320A1862900AD873A /* ImageViewController.swift in Sources */,
 				7EBD077920A05F5400369E36 /* PartnerTextCell.swift in Sources */,
@@ -1176,6 +1176,7 @@
 				74A5A43E2085D64900A97052 /* GroupLeaderViewController.swift in Sources */,
 				7E2ED4BF20986061002921A5 /* ArriceCollectionCell.swift in Sources */,
 				74F7AAA5205A976400E66DF8 /* GroupMapViewController.swift in Sources */,
+				74895C5C20BC1EC8005E73B6 /* DocsViewController.swift in Sources */,
 				746E9F382077B9CB009B3258 /* MemberInboxViewController.swift in Sources */,
 				7E2D7B212090C06900DAC98F /* ExpansionCell.swift in Sources */,
 				7E843A2120B6B55B00E36A69 /* WebViewCell.swift in Sources */,
@@ -1189,7 +1190,6 @@
 				7E2D7B202090C06900DAC98F /* Section.swift in Sources */,
 				74F7AAA320595D6B00E66DF8 /* ItineraryServiceViewControllerCell.swift in Sources */,
 				7E8F2C6C20A9C13400854AF0 /* ReviewsViewController.swift in Sources */,
-				7E843A2220B6B55B00E36A69 /* NewDocsViewController.swift in Sources */,
 				7E2ED4B42095BDB3002921A5 /* ModalTableViewCell.swift in Sources */,
 				7E2ED4AE2091AC80002921A5 /* ProviderViewController.swift in Sources */,
 				7491938420AAD236008B5D31 /* RecentGroupViewController.swift in Sources */,

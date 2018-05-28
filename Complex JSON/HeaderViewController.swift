@@ -11,6 +11,8 @@ import SwiftEventBus
 class HeaderViewController: UIViewController {
 
 
+    @IBOutlet weak var pickerView: UIView!
+    @IBOutlet weak var countryCodeview: UIView!
     @IBOutlet weak var inboxCounterLbl: UILabel!
     @IBOutlet weak var InboxCounterView: DesignableView!
     @IBOutlet weak var chatCounterLbl: UILabel!
@@ -20,8 +22,14 @@ class HeaderViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.navigationController?.setNavigationBarHidden(true, animated: true)
-        
+        let defaults = UserDefaults.standard
+        let id = defaults.integer(forKey: "member_id")
+        let isLogged = defaults.bool(forKey: "isLogged")
+        if isLogged == true{
+        pickerView.isHidden = true
+        }else {
+            pickerView.isHidden = false
+        }
         SwiftEventBus.onMainThread(self, name: "counters") { (result) in
             self.setBadges()
         }
@@ -49,6 +57,10 @@ class HeaderViewController: UIViewController {
     }
     override func viewWillAppear(_ animated: Bool) {
         setBadges()
+    }
+    @IBAction func onPickerTaped(_ sender: Any) {
+        countryCodeview.isHidden = false
+        
     }
     
     func setBadges(){

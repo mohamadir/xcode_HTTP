@@ -17,7 +17,7 @@ struct MyVriables {
     static var currentType: String?
     static var currentGroup: TourGroup?
     static var isMember: Bool = false
-    static var currentMember: Member?
+    static var currentMember: Member? = Member(email: "", phone : "", id : -1)
     static var roleStatus: String = ""
     static var shouldRefresh: Bool = false
     static var currentInboxMessage: InboxMessage?
