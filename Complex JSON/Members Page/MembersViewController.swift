@@ -8,17 +8,18 @@
 
 import UIKit
 import SwiftHTTP
-
+import SwiftEventBus
 
 struct GroupMember: Codable{
     var id: Int?
     var email: String?
     var first_name: String?
     var last_name: String?
-    var path: String?
+    var profile_image: String?
     var status: String?
     var role: String?
 }
+
 class MembersViewController: UIViewController,UICollectionViewDelegate, UICollectionViewDataSource , UISearchBarDelegate{
     
     
@@ -65,12 +66,12 @@ class MembersViewController: UIViewController,UICollectionViewDelegate, UICollec
 //        cell.memberImage.layer.masksToBounds = false
 //        cell.memberImage.layer.cornerRadius = cell.memberImage.frame.height/2
 //        cell.memberImage.clipsToBounds = true
-        if self.filterdMembers[indexPath.row].path != nil {
-        var urlString = ApiRouts.Web + (self.filterdMembers[indexPath.row].path)!
+        if self.filterdMembers[indexPath.row].profile_image != nil {
+        var urlString = ApiRouts.Web + (self.filterdMembers[indexPath.row].profile_image)!
             print(urlString)
-        if self.filterdMembers[indexPath.row].path?.contains("https") == true {
+        if self.filterdMembers[indexPath.row].profile_image?.contains("https") == true {
             print("in IF ")
-           urlString =  (self.filterdMembers[indexPath.row].path)!
+           urlString =  (self.filterdMembers[indexPath.row].profile_image)!
         }
         var url = URL(string: urlString)
 
@@ -92,6 +93,13 @@ class MembersViewController: UIViewController,UICollectionViewDelegate, UICollec
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        SwiftEventBus.onMainThread(self, name: "refreshMembers") { result in
+            self.getMembers()
+        }
+        SwiftEventBus.onMainThread(self, name: "GoToPrivateChat") { result in
+            self.performSegue(withIdentifier: "privateChatSegue", sender: self)
+        }
+
         self.singleGroup  = MyVriables.currentGroup!
         self.membersCoView.delegate = self
         self.membersCoView.dataSource = self
@@ -110,7 +118,8 @@ class MembersViewController: UIViewController,UICollectionViewDelegate, UICollec
         // Dispose of any resources that can be recreated.
     }
     func getMembers(){
-        HTTP.GET(ApiRouts.Web+"/api/group/\((self.singleGroup?.id!)!)/74/members", parameters: ["hello": "world", "param2": "value2"]) { response in
+        print("Url get member is " + ApiRouts.Web+"/api/members/\((MyVriables.currentMember?.id)!)/groups/\((MyVriables.currentGroup?.id)!)")
+        HTTP.GET(ApiRouts.Web+"/api/members/\((MyVriables.currentMember?.id)!)/groups/\((MyVriables.currentGroup?.id)!)", parameters: ["hello": "world", "param2": "value2"]) { response in
             if let err = response.error {
                 print("error: \(err.localizedDescription)")
                 DispatchQueue.main.sync {
@@ -139,6 +148,7 @@ class MembersViewController: UIViewController,UICollectionViewDelegate, UICollec
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         GroupMembers.currentMemmber = self.filterdMembers[indexPath.row]
+        
         performSegue(withIdentifier: "showMemberModal", sender: self)
 
     }

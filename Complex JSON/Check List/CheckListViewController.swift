@@ -17,7 +17,7 @@ import SwiftHTTP
 class CheckListViewController: UIViewController , UITableViewDelegate, UITableViewDataSource {
      var check_list: [GroupCheckList]?
     typealias sectionType = [(HeaderVew: UIView, height: CGFloat)]
-    let sectionTitleArray = ["Required","Recomnded"]
+    var sectionTitleArray : [String] = []
     // Data Array
     var exam: [GroupCheckList] = []
     var examp: [GroupCheckList] = []
@@ -42,11 +42,10 @@ class CheckListViewController: UIViewController , UITableViewDelegate, UITableVi
   
         
         // Create Section Header Data
-        sectionItemArray = self.generateSectionHeader(titleArray: sectionTitleArray, parentView: self.view)
+//        sectionItemArray = self.generateSectionHeader(titleArray: sectionTitleArray, parentView: self.view)
         
-        tableViewCheckList.tableFooterView = UIView()
-        tableViewCheckList.estimatedRowHeight = 20
-        tableViewCheckList.rowHeight = UITableViewAutomaticDimension
+//        tableViewCheckList.tableFooterView = UIView()
+//        tableViewCheckList.rowHeight = UITableViewAutomaticDimension
         tableViewCheckList.allowsSelection = false
         tableViewCheckList.delegate = self
         tableViewCheckList.dataSource = self
@@ -89,8 +88,19 @@ class CheckListViewController: UIViewController , UITableViewDelegate, UITableVi
     
     // Section Header Height
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        print(sectionItemArray[section].height)
-        return sectionItemArray[section].height
+      
+        print("Section is \(section)")
+        if section < sectionItemArray.count {
+        if sectionItemArray[section].height != nil {
+            return sectionItemArray[section].height
+        }
+        else {
+        return 0
+        }
+        } else
+        {
+            return 0
+        }
     }
     
     // Section Count
@@ -109,6 +119,7 @@ class CheckListViewController: UIViewController , UITableViewDelegate, UITableVi
     // Generate Cell
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellCheckListItem", for: indexPath) as! CheckListItemCell
+        
        // print(dataArrayGroup[indexPath.section][indexPath.row])
 
             cell.itemLbl.text = dataArrayGroup[indexPath.section][indexPath.row].item
@@ -123,11 +134,11 @@ class CheckListViewController: UIViewController , UITableViewDelegate, UITableVi
             }
         cell.itemSwitch.tag = dataArrayGroup[indexPath.section][indexPath.row].id! // for detect which row switch Changed
 
-        cell.itemSwitch.transform = CGAffineTransform(scaleX: 0.75, y: 0.75)
+        cell.itemSwitch.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+       
+        cell.itemSwitch.addTarget(self, action:#selector(switchChanged(_:)), for: .valueChanged)
+        cell.accessoryView = cell.itemSwitch
         
-        
-            cell.itemSwitch.addTarget(self, action:#selector(switchChanged(_:)), for: .valueChanged)
-            cell.accessoryView = cell.itemSwitch
         
        
         return cell
@@ -193,6 +204,13 @@ class CheckListViewController: UIViewController , UITableViewDelegate, UITableVi
                     }
                     else
                     {
+                        if self.dataArray1.count != 0 {
+                            self.sectionTitleArray.append("Required")
+                        }
+                        if self.dataArray2.count != 0 {
+                             self.sectionTitleArray.append("Recomnded")
+                        }
+                        self.sectionItemArray = self.generateSectionHeader(titleArray: self.sectionTitleArray, parentView: self.view)
                         self.dataArrayGroup = [self.dataArray1, self.dataArray2]
                          self.tableViewCheckList.reloadData()
                     }

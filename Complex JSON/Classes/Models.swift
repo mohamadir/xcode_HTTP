@@ -9,6 +9,7 @@
 import Foundation
 // ********************************    CURRENT OPJECT *****************************
 struct MyVriables {
+    static var fromGroup: String? = ""
      static var prefContry: String?
      static var phoneNumber: String?
     static var fileName: String?
@@ -39,7 +40,7 @@ struct ChatUser {
  static var CurrentService: [Any]?
 }
 struct GroupMembers{
-    static var currentMemmber: GroupMember?
+    static var currentMemmber: GroupMember? = GroupMember(id : -1, email : "", first_name : "", last_name : "", profile_image : "", status : "", role : "")
     static var isGoing: Bool?
 }
 
@@ -304,14 +305,6 @@ struct GroupCheckList: Codable{
     var required : Bool?
     var id : Int?
     var checked : Bool?
-    
-    init(item : String? , required : Bool? , id : Int? , checked : Bool?)
-    {
-        self.item = item
-        self.required = required
-        self.id = id
-        self.checked = checked
-    }
 }
 
 

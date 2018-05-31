@@ -93,7 +93,7 @@ class ItineraryViewController: UIViewController, BmoViewPagerDelegate, BmoViewPa
         daysPicker.transform = CGAffineTransform(rotationAngle: rotationAngle )
      //   var y = daysPicker.frame.origin.y
 //
-        daysPicker.frame = CGRect(x: 0 , y: 80, width: view.frame.width , height: 45)
+        daysPicker.frame = CGRect(x: 0 , y: 130, width: view.frame.width , height: 45)
 //        let shadowPath = UIBezierPath()
 //        shadowPath.move(to: CGPoint(x: daysPicker.bounds.origin.y, y: daysPicker.frame.size.width))
 //        shadowPath.addLine(to: CGPoint(x: daysPicker.bounds.height / 2, y: daysPicker.bounds.width + 7.0))

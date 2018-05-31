@@ -8,6 +8,8 @@
 
 import UIKit
 import SwiftHTTP
+import SwiftEventBus
+
 extension UIView {
     
     // In order to create computed properties for extensions, we need a key to
@@ -118,11 +120,20 @@ class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UI
     
     override func viewDidAppear(_ animated: Bool) {
         print("hioooosh")
+        self.setAlphaView()
     }
     override func viewDidLoad() {
         super.viewDidLoad()
               print("view xcontroler 231 \(MyVriables.shouldRefreshBusStation)")
         self.singleGroup  = MyVriables.currentGroup!
+        if self.singleGroup?.role != nil {
+            print("Role is not nil == \((self.singleGroup?.role)!)")
+        }
+        else
+        {
+             print("Role is  nil == nil")
+        }
+       
         if singleGroup?.translations?.count == 0 {
             self.groupNameLbl.text = singleGroup?.title
         }
@@ -324,6 +335,15 @@ class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UI
                 self.docsView.alpha = 0.3
                 self.arrivalConfirmationView.alpha = 0.3
                   self.groupChatView.alpha = 0.3
+            }
+            else
+             {
+                
+                self.checkListView.alpha = 1
+                self.roomlistView.alpha = 1
+                self.docsView.alpha = 1
+                self.arrivalConfirmationView.alpha = 1
+                self.groupChatView.alpha = 1
             }
         }
         if (self.singleGroup?.group_tools?.chat!)! == false

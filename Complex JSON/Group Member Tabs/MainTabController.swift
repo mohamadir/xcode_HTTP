@@ -7,20 +7,27 @@
 //
 
 import Foundation
-
+import SwiftEventBus
 import UIKit
-
+//extension UITabBar {
+//    
+//    open override func sizeThatFits(_ size: CGSize) -> CGSize {
+//        super.sizeThatFits(size)
+//        var sizeThatFits = super.sizeThatFits(size)
+//        sizeThatFits.height = 60
+//        return sizeThatFits
+//    }
+//}
 class MainTabController: UITabBarController{
     
     
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.setNavigationBarHidden(true, animated: false)
-       
+        
+        //refreshGroupRole
         if MyVriables.IsFromArrival {
             self.selectedIndex = 0
             self.selectedIndex = 2
-            
-            
         }else {
             
         }
@@ -43,6 +50,7 @@ class MainTabController: UITabBarController{
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+      
         print("from the Main")
     
         // self.tabBar.itmes?[i].image = UIIMage...
@@ -69,27 +77,31 @@ class MainTabController: UITabBarController{
             
         }
         
-        if isGroupAvailable != nil && isGroupAvailable! {
             
             if role == nil {
                 if isOpen == true  {
-                    print("role = nil and is open ")
-                    self.tabBar.items?[1].image = UIImage(named: "join group")
-                    self.tabBar.items?[1].title = "Join"
-                    MyVriables.roleStatus = "observer"
+                    if isGroupAvailable != nil && isGroupAvailable! {
+                        print("role = nil and is open ")
+                        self.tabBar.items?[1].image = UIImage(named: "JoinFooter")
+                        self.tabBar.items?[1].title = "Join"
+                        MyVriables.roleStatus = "observer"
+                    }
+                    else
+                    {
+                        viewControllers?[1].removeFromParentViewController()
+                    }
+                    
                     //
                     
                 }else{
                     print("role = nil and is close ")
                     viewControllers?[1].removeFromParentViewController()
-
-//                    viewControllers?.remove(at: 1)
                     // closed group - cannot enter group
                 }
             }else if role! == "member" {
                 print("role = member")
-                self.tabBar.items?[1].image = UIImage(named: "joined")
-                self.tabBar.items?[1].title = "Joined"
+                self.tabBar.items?[1].image = UIImage(named: "joinedFooter")
+                self.tabBar.items?[1].title = "joined"
                 MyVriables.roleStatus = "member"
 
                 // leave group
@@ -98,22 +110,26 @@ class MainTabController: UITabBarController{
                 print("role = group leader")
                 self.tabBar.items?[1].accessibilityElementsHidden = true
                 MyVriables.roleStatus = "group_leader"
+                
                 // hide item bar
 
             } else if role! == "observer" {
                 print("role = observer")
-                self.tabBar.items?[1].image = UIImage(named: "join group")
-                self.tabBar.items?[1].title = "Join"
-                MyVriables.roleStatus = "observer"
+                   if isGroupAvailable != nil && isGroupAvailable! {
+                    self.tabBar.items?[1].image = UIImage(named: "JoinFooter")
+                    self.tabBar.items?[1].title = "Join"
+                    MyVriables.roleStatus = "observer"
+                }
+                else
+                   {
+                    viewControllers?[1].removeFromParentViewController()
+                }
+ 
 
 
 
             }
-        }else {
-            print("is not available")
-           // viewControllers?.remove(at: 1)
-            viewControllers?[1].removeFromParentViewController()
-        }
+
      
         
     }
@@ -142,7 +158,7 @@ class MainTabController: UITabBarController{
     
     
     public func changeToJoin(){
-        self.tabBar.items?[1].image = UIImage(named: "joined")
+        self.tabBar.items?[1].image = UIImage(named: "joinedFooter")
         self.tabBar.items?[1].title = "Joined"
         MyVriables.roleStatus = "member"
     }

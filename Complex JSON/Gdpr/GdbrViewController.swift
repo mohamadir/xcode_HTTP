@@ -118,7 +118,14 @@ class GdbrViewController: UIViewController, UITableViewDelegate, UITableViewData
         if  arrayGdpr[2].isChecked  == true &&  arrayGdpr[3].isChecked  == true  &&  arrayGdpr[4].isChecked  == true &&  arrayGdpr[1].isChecked  == true
         {
             self.dismiss(animated: true, completion: nil)
+            if (MyVriables.fromGroup)! == "true"
+            {
+                MyVriables.fromGroup = ""
+                 SwiftEventBus.post("refreshFromGroup")
+            }
+            else {
              SwiftEventBus.post("refreshGroups")
+            }
             var gdpr : GdprPost = GdprPost(profile_details: arrayGdpr[0].isChecked, phone_number: arrayGdpr[1].isChecked, groups_relations: arrayGdpr[2].isChecked, chat_messaging: arrayGdpr[3].isChecked, pairing: arrayGdpr[4].isChecked, real_time_location: arrayGdpr[5].isChecked, files_upload: arrayGdpr[6].isChecked, push_notifications: arrayGdpr[7].isChecked, rating_reviews: arrayGdpr[8].isChecked)
             MyVriables.arrayGdpr = gdpr
             

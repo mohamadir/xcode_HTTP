@@ -20,20 +20,31 @@ import FirebaseMessaging
 import FirebaseInstanceID
 import SwiftEventBus
 import Alamofire
+import CountryPickerView
+import PhoneNumberKit
+import TTGSnackbar
+
 /***********************************************      VIEW CONTROLLER     *************************************************************/
 
 
-class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource ,  MRCountryPickerDelegate , UIImagePickerControllerDelegate, UINavigationControllerDelegate, UISearchBarDelegate {
+class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource ,  MRCountryPickerDelegate , UIImagePickerControllerDelegate, UINavigationControllerDelegate, UISearchBarDelegate, CountryPickerViewDelegate, CountryPickerViewDataSource {
+    
+    
     
     // header views
     
-
+    var contryCodeString : String = ""
+    var contryCode : String = ""
+    @IBOutlet weak var menuView: UIView!
+    
     var PINCODE: String?
     var phoneNumber: String?
     ///////// GROUP SETTINGS
 
     //import MRCountryPicker
     /********  VIEWS ***********/
+    @IBOutlet weak var menuImage: UIImageView!
+    @IBOutlet weak var countyCodePickerView: CountryPickerView!
     @IBOutlet weak var countryPicker: MRCountryPicker!
     @IBOutlet weak var flagImageView: UIImageView!
     @IBOutlet weak var countryPrefLable: UILabel!
@@ -43,7 +54,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var phoneNumberFeild: UITextField!
     @IBOutlet weak var profileImageView: UIImageView!
-    @IBOutlet weak var menuButton: UIButton!
     @IBOutlet weak var filterView: UIView!
     @IBOutlet weak var memberMenuView: UIView!
     @IBOutlet weak var memberNameLbl: UILabel!
@@ -119,7 +129,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
         else{
             if isMemberMenuShowing {
-                menuButton.setImage(UIImage(named: menuIcon), for: .normal)
+                menuImage.image = UIImage(named: menuIcon)
                 UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded();})
                 memberLeadingConstraints.constant = 190
                 isMemberMenuShowing = !isMemberMenuShowing
@@ -135,11 +145,19 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        SwiftEventBus.onMainThread(self, name: "changeProfileInfo") { result in
+            self.checkCurrentUser()
+        }
         setBadges()
         SwiftEventBus.onMainThread(self, name: "refreshGroups") { result in
             print("im Here from Gdpr")
             self.showPinDialogGdpr()
         }
+        SwiftEventBus.onMainThread(self, name: "refreshData") { result in
+            print("im Here from Gdpr")
+            self.refreshList()
+        }
+        //refreshData
         // Hide the navigation bar on the this view controller
         
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
@@ -166,6 +184,35 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        countyCodePickerView.delegate = self
+        countyCodePickerView.dataSource = self
+        menuView.addTapGestureRecognizer {
+            if self.isMemberMenuShowing {
+                self.menuImage.image = UIImage(named: self.menuIcon)
+                UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded();})
+                self.memberLeadingConstraints.constant = 190
+                UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded();})
+            } else {
+                if self.isFilterShowing {
+                    self.leadingConstraint.constant = -199
+                    self.isFilterShowing = !self.isFilterShowing
+                    UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded();})
+                }
+                
+                self.menuImage.image = UIImage(named: "arrow right")
+                UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded();})
+                self.memberLeadingConstraints.constant = 0
+                UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded();})
+            }
+            
+            self.isMemberMenuShowing = !self.isMemberMenuShowing
+        }
+        countyCodePickerView.showPhoneCodeInView = true
+        countyCodePickerView.showCountryCodeInView = false
+        let cpv = CountryPickerView(frame: CGRect(x: 0, y: 0, width: 120, height: 20))
+        let country = cpv.selectedCountry
+        contryCodeString = country.phoneCode
+        contryCode = country.code
         NSLog("roleStatus",  "hihihi")
       
      //   UIApplication.shared.registerForRemoteNotifications()
@@ -191,9 +238,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         setCountryPicker()
         setRefresher()
         self.checkCurrentUser()
-        SwiftEventBus.onMainThread(self, name: "changeProfileInfo") { result in
-              self.checkCurrentUser()
-        }
+       
         setFilterView()
         setMemberMenuView()
     }
@@ -287,28 +332,28 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
    
     
-    @IBAction func memberMenuTapped(_ sender: Any) {
-        if isMemberMenuShowing {
-             menuButton.setImage(UIImage(named: menuIcon), for: .normal)
-            UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded();})
-            memberLeadingConstraints.constant = 190
-            UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded();})
-        } else {
-            if isFilterShowing {
-                leadingConstraint.constant = -199
-                isFilterShowing = !isFilterShowing
-                 UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded();})
-            }
-            
-            menuButton.setImage(UIImage(named: "arrow right"), for: .normal)
-            UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded();})
-            memberLeadingConstraints.constant = 0
-            UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded();})
-        }
-     
-        isMemberMenuShowing = !isMemberMenuShowing
-    }
-    
+//    @IBAction func memberMenuTapped(_ sender: Any) {
+//        if isMemberMenuShowing {
+//             menuButton.image = UIImage(named: menuIcon)
+//            UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded();})
+//            memberLeadingConstraints.constant = 190
+//            UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded();})
+//        } else {
+//            if isFilterShowing {
+//                leadingConstraint.constant = -199
+//                isFilterShowing = !isFilterShowing
+//                 UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded();})
+//            }
+//
+//            menuButton.image = UIImage(named: "arrow right")
+//            UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded();})
+//            memberLeadingConstraints.constant = 0
+//            UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded();})
+//        }
+//
+//        isMemberMenuShowing = !isMemberMenuShowing
+//    }
+//
     func countryPhoneCodePicker(_ picker: MRCountryPicker, didSelectCountryWithName name: String, countryCode: String, phoneCode: String, flag: UIImage) {
         self.flagImageView.image = flag
         self.countryPrefLable.text = phoneCode
@@ -516,27 +561,52 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
  
     }
+
+    func isValidPhone(phone: String) -> Bool {
+    let phoneNumberKit = PhoneNumberKit()
+        do {
+            print("phone number   \(phone)")
+        
+            let phoneNumber = try phoneNumberKit.parse(phone)
+            print("phone number before parsing \(phoneNumber)")
+            let phoneNumberCustomDefaultRegion = try phoneNumberKit.parse(phone, withRegion: contryCode, ignoreType: true)
+            print("phone number after parsing \(phoneNumberCustomDefaultRegion)")
+            return true
+            }
+            catch {
+            
+            let snackbar = TTGSnackbar(message: "Phone Number is eror please enter a valditae phone number ", duration: .middle)
+            snackbar.icon = UIImage(named: "AppIcon")
+            snackbar.show()
+            print("Generic parser error")
+            return false
+            }
+            print("Phone is \(phone)")
+        
+            return false
+    }
     @IBAction func sendClick(_ sender: Any) {
         
         
         /// check if member
      
         
-        
+        if isValidPhone(phone: contryCodeString+phoneNumberFeild.text!)
+        {
       
-        print("\(self.countryPrefLable.text!)\(self.phoneNumberFeild.text!)")
-        self.phoneNumber = "\(self.countryPrefLable.text!)\(self.phoneNumberFeild.text!)"
-        
-        let VerifyAlert = UIAlertController(title: "Verify", message: "is this is your phone number? \n \(self.countryPrefLable.text!)\(self.phoneNumberFeild.text!)", preferredStyle: .alert)
-        if self.countryPrefLable.text! == "+972" {
-            if self.phoneNumberFeild.text!.count > 4 && self.phoneNumberFeild.text![0...0] == "0" {
-                self.phoneNumberFeild.text!.remove(at: self.phoneNumberFeild.text!.startIndex)
-               self.phoneNumber = "\(self.countryPrefLable.text!)\(self.phoneNumberFeild.text!)"
-                print("yes im inside \(self.phoneNumber)")
-
-               
+            print("\(self.contryCodeString)\(self.phoneNumberFeild.text!)")
+        self.phoneNumber = contryCodeString+phoneNumberFeild.text!
+            if self.contryCodeString == "+972" {
+                if self.phoneNumberFeild.text!.count > 4 && self.phoneNumberFeild.text![0...0] == "0" {
+                    self.phoneNumberFeild.text!.remove(at: self.phoneNumberFeild.text!.startIndex)
+                    self.phoneNumber = "\(self.contryCodeString)\(self.phoneNumberFeild.text!)"
+                    print("yes im inside \(self.phoneNumber)")
+                    
+                    
+                }
             }
-        }
+        let VerifyAlert = UIAlertController(title: "Verify", message: "is this is your phone number? \n \(phoneNumber!)", preferredStyle: .alert)
+      
         
         VerifyAlert.addAction(UIAlertAction(title: NSLocalizedString("Yes", comment: "Default action"), style: .`default`, handler: { _ in
             let params = ["phone": self.phoneNumber]
@@ -549,7 +619,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 print ("successed")
                 DispatchQueue.main.sync {
 //
-                    self.checkIfMember(phone: "\(self.countryPrefLable.text!)\(self.phoneNumberFeild.text!)")
+                    self.checkIfMember(phone: "\(self.contryCodeString)\(self.phoneNumberFeild.text!)")
                     
                     
                 }
@@ -566,6 +636,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             
         }))
         self.present(VerifyAlert, animated: true, completion: nil)
+        }
     }
     
     
@@ -676,9 +747,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func getSwiftGroups(){
         print("request PAGE = \(self.page)")
+        print(ApiRouts.AllGroupsRequest +  "/api/groups?page=\(self.page)&sort=created_at&order=des")
         let params = ["page": self.page]
         var groups: [TourGroup]?
-        HTTP.GET(ApiRouts.AllGroupsRequest + "?page=\(self.page)") { response in
+        HTTP.GET(ApiRouts.AllGroupsRequest +  "?page=\(self.page)&sort=created_at&order=des") { response in
             print(ApiRouts.AllGroupsRequest)
             //do things...
           //  print(response.description)
@@ -716,8 +788,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         print("request PAGE = \(self.page)")
 
         var groups: [TourGroup]?
-         //let withoutFilter = "/api/groups/members/\(self.id)?page=\(self.page)&sort=\(self.sort)"
-        let withoutFilter = "/api/groups?page=\(self.page)&sort=\(self.sort)"
+        let withoutFilter = "/api/groups/members/\(self.id)?page=\(self.page)&sort=\(self.sort)"
+       // let withoutFilter = "/api/groups?page=\(self.page)&sort=\(self.sort)"
         let withRole = "/api/groups/members/\(self.id)?page=\(self.page)&role=group_leader&sort=\(self.sort)"
         let withFilter = "/api/groups?member_id=\(self.id)&page=\(self.page)&filter=\(self.filter)&sort=\(self.sort)"
         let allGroupsFilter = "/api/groups?member_id=\(self.id)&page=\(self.page)&sort=\(self.sort)"
@@ -739,6 +811,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }else{
             lastFilter = withFilter
         }
+        print("The url is \(ApiRouts.Web+lastFilter)")
         HTTP.GET(ApiRouts.Web+lastFilter) { response in
             if ARSLineProgress.shown == true {
                 ARSLineProgress.hide()
@@ -1122,7 +1195,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 self.isFilterShowing = !self.isFilterShowing
             }
        else  if isMemberMenuShowing {
-            menuButton.setImage(UIImage(named: menuIcon), for: .normal)
+            menuImage.image = UIImage(named: menuIcon)
             UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded();})
             memberLeadingConstraints.constant = 190
             isMemberMenuShowing = !isMemberMenuShowing
@@ -1532,6 +1605,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         self.page = 1
         self.tableView.reloadData()
         self.checkCurrentUser()
+    }
+    func countryPickerView(_ countryPickerView: CountryPickerView, didSelectCountry country: Country) {
+        contryCodeString = country.phoneCode
+        contryCode = country.code
     }
 }
 

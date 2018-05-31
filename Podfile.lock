@@ -6,6 +6,7 @@ PODS:
   - Auk (8.0.2):
     - moa
   - BmoViewPager (4.0.5)
+  - CountryPickerView (2.1.0)
   - Crashlytics (3.10.1):
     - Fabric (~> 1.7.5)
   - Digger (0.0.5)
@@ -71,6 +72,12 @@ PODS:
   - nanopb/decode (0.3.8)
   - nanopb/encode (0.3.8)
   - PageControl (1.0.1)
+  - PhoneNumberKit (2.1.0):
+    - PhoneNumberKit/PhoneNumberKitCore (= 2.1.0)
+    - PhoneNumberKit/UIKit (= 2.1.0)
+  - PhoneNumberKit/PhoneNumberKitCore (2.1.0)
+  - PhoneNumberKit/UIKit (2.1.0):
+    - PhoneNumberKit/PhoneNumberKitCore
   - Protobuf (3.5.0)
   - Pushy (1.0.12)
   - Scrollable (2.0.1)
@@ -96,6 +103,7 @@ DEPENDENCIES:
   - ARSLineProgress (~> 2.0)
   - Auk (~> 8.0)
   - BmoViewPager (~> 4.0.0)
+  - CountryPickerView
   - Crashlytics (~> 3.10.0)
   - Digger
   - ExpandableLabel
@@ -112,6 +120,7 @@ DEPENDENCIES:
   - moa (~> 9.0)
   - MRCountryPicker (~> 0.0.7)
   - PageControl
+  - PhoneNumberKit (~> 2.1)
   - Pushy (= 1.0.12)
   - Scrollable (~> 2.0)
   - SDWebImage (~> 4.0)
@@ -143,6 +152,7 @@ SPEC CHECKSUMS:
   ARSLineProgress: b344944496913e98d8fe7bab94ea5d488fbf41fb
   Auk: 82be62a2cf650437fe745c81b12ac2440a0f682c
   BmoViewPager: 1bbba2f3d9bad4e255b0e397dc035e9a0c434eb5
+  CountryPickerView: 25a85d08e993e2ed7d3f06d59bb66017851115ff
   Crashlytics: aee1a064cbbf99b32efa3f056a5f458d846bc8ff
   Digger: c474bde76a91e0a36f12101c5dfe7e86774b15d3
   ExpandableLabel: 5f5f61fbf71433000cd7c3290617e6fcccb72c86
@@ -165,6 +175,7 @@ SPEC CHECKSUMS:
   MRCountryPicker: 1aeea66de25cdef79dce3b91d8ad9db643c1cc01
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
   PageControl: fbe258f0e874c30c30b867278fa04f9fd3381844
+  PhoneNumberKit: 62003f40ff75315fd3738286558bc365365ac222
   Protobuf: 8a9838fba8dae3389230e1b7f8c104aa32389c03
   Pushy: 831bf204b25e24e50c74548d3ac5a80236806842
   Scrollable: dba6216e71841f516b2f7b826e05479e25b086ac
@@ -182,6 +193,6 @@ SPEC CHECKSUMS:
   XLPagerTabStrip: c908b17cbf42fcd2598ee1adfc49bae25444d88a
   YNExpandableCell: 47bf7cff721aa535c0e9e1163bf22b5573441bb4
 
-PODFILE CHECKSUM: 21bd2bc71d5d21bd2b69c8aa46b8958ac81e225e
+PODFILE CHECKSUM: da524bd9cb29c4ae0e86ed9b18b581ff8cb95ca4
 
 COCOAPODS: 1.4.0

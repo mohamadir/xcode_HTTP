@@ -11,9 +11,12 @@ import SwiftHTTP
 import SkyFloatingLabelTextField
 import Toast_Swift
 import FirebaseMessaging
+import SwiftEventBus
+import TTGSnackbar
 class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDataSource{
    
-    
+
+ 
     @IBOutlet weak var lastNameTextFeild: SkyFloatingLabelTextField!
     @IBOutlet weak var firstNameTextFeild: SkyFloatingLabelTextField!
     var gender: String = "Male"
@@ -24,8 +27,30 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
     let genderData: [String] = ["Male","Female","Other"]
     override func viewDidLoad() {
         super.viewDidLoad()
-    
+        phoneTextFeild.title = "Phone Number"
+        phoneTextFeild.placeholder = " phone Number"
+        firstNameTextFeild.title = "First Name"
+        firstNameTextFeild.placeholder = " First Name"
+        lastNameTextFeild.title = "Last Name"
+        lastNameTextFeild.placeholder = " Last Name"
+        setFontType(phoneTextFeild)
+         setFontType(firstNameTextFeild)
+         setFontType(lastNameTextFeild)
+//        if (MyVriables.currentMember?.id)! == -1 {
+//            self.phoneTextFeild.isEnabled = false
+//        }
+//        else {
+            self.phoneTextFeild.isEnabled = false
+        //}
+            SwiftEventBus.onMainThread(self, name: "refreshGroupRole") { result in
+                self.getGroup()
+            }
       
+    }
+    fileprivate func setFontType(_ tf: SkyFloatingLabelTextField) {
+        tf.font = UIFont(name: "Arial", size: 16)
+        tf.titleFont = UIFont(name: "Arial", size: 16)!
+        tf.placeholderFont = UIFont(name: "Arial", size: 16)
     }
     func showToast(_ message: String,_ duration: Double){
         var style = ToastStyle()
@@ -35,15 +60,40 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
         self.view.makeToast(message, duration: duration, position: .bottom, style: style)
     }
     
+
+    func getGroup(){
+        print("Url is " + ApiRouts.Web + "/api/groups/\((MyVriables.currentInboxMessage?.group_id!)!)/details/\((MyVriables.currentMember?.id!)!)")
+        HTTP.GET(ApiRouts.Web + "/api/groups/\((MyVriables.currentInboxMessage?.group_id!)!)/details/\((MyVriables.currentMember?.id!)!)"){response in
+            if response.error != nil {
+                return
+            }
+            do {
+                let  group2  = try JSONDecoder().decode(InboxGroup.self, from: response.data)
+                MyVriables.currentGroup = group2.group
+                DispatchQueue.main.sync {
+                  
+                    if MyVriables.currentGroup?.role != nil {
+                        self.changeStatusTo(type: (MyVriables.currentGroup?.role!)!)
+                    }
+                      print("Role is \((MyVriables.currentGroup?.role!)!)")
+                }
+            }
+            catch let error{
+                print("getGroup : \(error)")
+                
+            }
+        }
+    }
     
     override func viewWillAppear(_ animated: Bool) {
         print("roleStatus" +  MyVriables.roleStatus)
+
         if MyVriables.roleStatus == "member" {
             observerView.isHidden = true
             memberView.isHidden = false
-            self.tabBarController?.tabBar.items![1].image = UIImage(named: "joined")
+            self.tabBarController?.tabBar.items![1].image = UIImage(named: "joinedFooter")
             self.tabBarController?.tabBar.items![1].title = "Joined"
-            self.tabBarController?.tabBar.items![1].selectedImage =  UIImage(named: "joined")
+            self.tabBarController?.tabBar.items![1].selectedImage =  UIImage(named: "joinedFooter")
 
             
         }
@@ -69,13 +119,14 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
         self.phoneTextFeild.text = phone
         self.firstNameTextFeild.text = first
         self.lastNameTextFeild.text = last
-        self.phoneTextFeild.isEnabled = false
+        
     }
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
     
     @IBAction func joinGroup(_ sender: Any) {
+        if (MyVriables.currentMember?.id)! != -1 {
         if MyVriables.roleStatus == "observer" {
             joinGroupRequest()
         }
@@ -83,11 +134,17 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
             changeStatusTo(type: "observer")
 
         }
+        }
+        else {
+            let snackbar = TTGSnackbar(message: "Please Login in the header and after you can join to the group !", duration: .middle)
+            snackbar.icon = UIImage(named: "AppIcon")
+            snackbar.show()
+        }
 
 
     }
     func joinGroupRequest(){
-        print(ApiRouts.Web + "/api/groups/join/\((MyVriables.currentGroup?.id!)!)/\((MyVriables.currentMember?.id!)!)/member")
+        print(ApiRouts.Web + "/api/groups/join/\((MyVriables.currentGroup?.id!)!)/\((MyVriables.currentMember?.id!)!)/member"+"    Leave GROUP")
         HTTP.POST(ApiRouts.Web + "/api/groups/\((MyVriables.currentGroup?.id!)!)/members/\((MyVriables.currentMember?.id!)!)/join", parameters: []) { response in
             if response.error != nil {
                 print("errory \(response.error?.localizedDescription)")
@@ -95,6 +152,10 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
                 return
             }else{
                 DispatchQueue.main.sync {
+                    
+                    MyVriables.currentGroup?.role = "member"
+                    SwiftEventBus.post("refreshGroupChangeRole")
+                        print("Sucess and role after  = \(MyVriables.currentGroup?.role!)")
                     if Messaging.messaging().fcmToken != nil {
                         MyVriables.TopicSubscribe = true
                         print("/topics/\(MyVriables.CurrentTopic)")
@@ -113,16 +174,18 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
     }
     
     @IBAction func leaveGroup(_ sender: Any) {
-        print(ApiRouts.Web + "/api/groups/\((MyVriables.currentGroup?.id!)!)/members/\((MyVriables.currentMember?.id!)!)/leave")
+        print(ApiRouts.Web + "/api/groups/\((MyVriables.currentGroup?.id!)!)/members/\((MyVriables.currentMember?.id!)!)/leave"+"    JOIN GROUP")
         HTTP.DELETE(ApiRouts.Web + "/api/groups/\((MyVriables.currentGroup?.id!)!)/members/\((MyVriables.currentMember?.id!)!)/leave") { response in
             //do things...
             if response.error != nil {
                 print("errory \(response.error)")
-                
                 return
             }else{
                 print("descc "+response.description)
                 DispatchQueue.main.sync {
+                    SwiftEventBus.post("refreshGroupChangeRole")
+                    MyVriables.currentGroup?.role = "observer"
+
                     if Messaging.messaging().fcmToken != nil {
                         MyVriables.TopicSubscribe = true
                         MyVriables.CurrentTopic = "IOS-Group-\(String(describing: (MyVriables.currentGroup?.id!)!))"
@@ -146,7 +209,7 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
     func changeStatusTo(type: String){
         if type == "member" {
             MyVriables.roleStatus = "member"
-            self.tabBarController?.tabBar.items![1].image = UIImage(named: "joined")
+            self.tabBarController?.tabBar.items![1].image = UIImage(named: "joinedFooter")
             self.tabBarController?.tabBar.items![1].title = "Joined"
             self.tabBarController?.selectedIndex = 0
         }

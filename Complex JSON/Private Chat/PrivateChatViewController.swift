@@ -181,7 +181,6 @@ class PrivateChatViewController: UIViewController ,UIImagePickerControllerDelega
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationController?.setNavigationBarHidden(true, animated: true)
 
         setSocket()
         print("chat id: \(ChatUser.ChatId)")
@@ -328,6 +327,7 @@ class PrivateChatViewController: UIViewController ,UIImagePickerControllerDelega
         
     }
     override func viewWillAppear(_ animated: Bool) {
+        print("Navigation-Test: in viewwillappear")
         self.navigationController?.setNavigationBarHidden(false, animated: false)
         navigationController?.navigationBar.shadowImage = .none
         let nav = self.navigationController?.navigationBar
@@ -346,7 +346,7 @@ class PrivateChatViewController: UIViewController ,UIImagePickerControllerDelega
             imageView.layer.borderColor =  Colors.PrimaryColor.cgColor
         }
         imageView.clipsToBounds = true
-        if ChatUser.currentUser?.profile_image != nil {
+        if ChatUser.currentUser?.profile_image != nil && (ChatUser.currentUser?.profile_image)! != "" {
             var urlString = ApiRouts.Web + (ChatUser.currentUser?.profile_image)!
             if (ChatUser.currentUser?.profile_image)!.contains("http") {
                 urlString = (ChatUser.currentUser?.profile_image)!
@@ -383,11 +383,9 @@ class PrivateChatViewController: UIViewController ,UIImagePickerControllerDelega
     
     override func viewWillDisappear(_ animated: Bool) {
         self.resetMessages()
-        self.navigationController?.setNavigationBarHidden(true, animated: true)
 
         markConvRead()
          self.socket!.disconnect()
-        self.navigationController?.setNavigationBarHidden(true, animated: false)
         //        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         //        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
