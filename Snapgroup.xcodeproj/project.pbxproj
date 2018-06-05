@@ -78,6 +78,8 @@
 		7E2ED4BA2097048B002921A5 /* SearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2ED4B92097048B002921A5 /* SearchTableViewCell.swift */; };
 		7E2ED4BD20985633002921A5 /* ArrivleConfirmationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2ED4BC20985633002921A5 /* ArrivleConfirmationViewController.swift */; };
 		7E2ED4BF20986061002921A5 /* ArriceCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2ED4BE20986061002921A5 /* ArriceCollectionCell.swift */; };
+		7E433AE720C3DF350047C032 /* PrivacyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E433AE620C3DF350047C032 /* PrivacyViewController.swift */; };
+		7E7F0A0020C402C600C508CB /* PrivacyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E7F09FF20C402C600C508CB /* PrivacyCell.swift */; };
 		7E843A1720B6B54200E36A69 /* WebViewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E843A1620B6B54200E36A69 /* WebViewViewController.swift */; };
 		7E843A1F20B6B55B00E36A69 /* UploadFilesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E843A1820B6B55700E36A69 /* UploadFilesViewController.swift */; };
 		7E843A2020B6B55B00E36A69 /* Upload1ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E843A1920B6B55800E36A69 /* Upload1ViewController.swift */; };
@@ -226,6 +228,8 @@
 		7E2ED4B92097048B002921A5 /* SearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewCell.swift; sourceTree = "<group>"; };
 		7E2ED4BC20985633002921A5 /* ArrivleConfirmationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrivleConfirmationViewController.swift; sourceTree = "<group>"; };
 		7E2ED4BE20986061002921A5 /* ArriceCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArriceCollectionCell.swift; sourceTree = "<group>"; };
+		7E433AE620C3DF350047C032 /* PrivacyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyViewController.swift; sourceTree = "<group>"; };
+		7E7F09FF20C402C600C508CB /* PrivacyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyCell.swift; sourceTree = "<group>"; };
 		7E843A1620B6B54200E36A69 /* WebViewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebViewViewController.swift; sourceTree = "<group>"; };
 		7E843A1820B6B55700E36A69 /* UploadFilesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UploadFilesViewController.swift; sourceTree = "<group>"; };
 		7E843A1920B6B55800E36A69 /* Upload1ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Upload1ViewController.swift; sourceTree = "<group>"; };
@@ -677,6 +681,8 @@
 			children = (
 				7ED602A820BAB7200073EEB9 /* GdbrViewController.swift */,
 				7ED602AA20BAC6450073EEB9 /* GdbrCell.swift */,
+				7E433AE620C3DF350047C032 /* PrivacyViewController.swift */,
+				7E7F09FF20C402C600C508CB /* PrivacyCell.swift */,
 			);
 			path = Gdpr;
 			sourceTree = "<group>";
@@ -1150,6 +1156,7 @@
 				7ED602AB20BAC6450073EEB9 /* GdbrCell.swift in Sources */,
 				7E2ED4B22095B3A6002921A5 /* ServiceModalViewController.swift in Sources */,
 				7E2ED4BA2097048B002921A5 /* SearchTableViewCell.swift in Sources */,
+				7E7F0A0020C402C600C508CB /* PrivacyCell.swift in Sources */,
 				74A5A43B2085D31A00A97052 /* checkListCustomCellController.swift in Sources */,
 				7EBD0774209F2FC000369E36 /* ModelInfoViewController.swift in Sources */,
 				7491938520AAD236008B5D31 /* RecentTableViewCell.swift in Sources */,
@@ -1215,6 +1222,7 @@
 				74F7AAA320595D6B00E66DF8 /* ItineraryServiceViewControllerCell.swift in Sources */,
 				7E8F2C6C20A9C13400854AF0 /* ReviewsViewController.swift in Sources */,
 				7E2ED4B42095BDB3002921A5 /* ModalTableViewCell.swift in Sources */,
+				7E433AE720C3DF350047C032 /* PrivacyViewController.swift in Sources */,
 				7E2ED4AE2091AC80002921A5 /* ProviderViewController.swift in Sources */,
 				7491938420AAD236008B5D31 /* RecentGroupViewController.swift in Sources */,
 				7E843A2520B6B55B00E36A69 /* UploadItemCell.swift in Sources */,

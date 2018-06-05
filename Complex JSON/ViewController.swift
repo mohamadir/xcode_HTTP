@@ -143,6 +143,15 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         isFilterShowing = !isFilterShowing
     }
     
+    @IBAction func privacyClick(_ sender: Any) {
+        menuImage.image = UIImage(named: menuIcon)
+        UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded();})
+        self.memberLeadingConstraints.constant = 190
+        performSegue(withIdentifier: "showPrivacy", sender: self)
+    }
+    @IBAction func settingClick(_ sender: Any) {
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         SwiftEventBus.onMainThread(self, name: "changeProfileInfo") { result in
@@ -170,7 +179,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         // Show the navigation bar on other view controllers
-        self.navigationController?.setNavigationBarHidden(false, animated: animated)
+        self.navigationController?.setNavigationBarHidden(true, animated: animated)
     }
     
    
