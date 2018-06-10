@@ -13,12 +13,17 @@ struct ElasticMembers: Codable{
 }
 class SearchUsersViewController: UIViewController, UITableViewDelegate, UITableViewDataSource,UISearchBarDelegate {
 
+    @IBOutlet weak var backView: UIView!
     @IBOutlet weak var searchBar: UISearchBar!
     var isSearching = false
     @IBOutlet weak var tableview: UITableView!
     var members: [ElasticMember] = []
     override func viewDidLoad() {
         super.viewDidLoad()
+        backView.addTapGestureRecognizer {
+        self.navigationController?.popViewController(animated: true)
+          
+        }
         tableview.tableFooterView = UIView()
         tableview.delegate = self
         tableview.dataSource = self

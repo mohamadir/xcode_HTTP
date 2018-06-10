@@ -11,6 +11,7 @@ import SwiftHTTP
 
 class MemberInboxViewController: UIViewController , UITableViewDelegate,UITableViewDataSource{
     @IBOutlet weak var inboxTableView: UITableView!
+    @IBOutlet weak var backView: UIView!
     var refresher: UIRefreshControl!
     var messageArray: [InboxMessage] = []
     var page: Int = 1
@@ -85,6 +86,9 @@ class MemberInboxViewController: UIViewController , UITableViewDelegate,UITableV
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        backView.addTapGestureRecognizer {
+            self.navigationController?.popViewController(animated: true)
+        }
         inboxTabelView.separatorStyle = .none
         inboxTabelView.delegate = self
         inboxTabelView.dataSource = self

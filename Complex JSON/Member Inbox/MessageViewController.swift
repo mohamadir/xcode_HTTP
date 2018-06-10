@@ -14,6 +14,7 @@ struct InboxGroup: Codable {
 class MessageViewController: UIViewController {
 
     
+    @IBOutlet weak var backView: UIView!
     @IBOutlet weak var pairView: UIView!
     @IBOutlet weak var messageTitlelbl: UILabel!
     @IBOutlet weak var messageImageView: UIImageView!
@@ -37,6 +38,9 @@ class MessageViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        backView.addTapGestureRecognizer {
+        self.navigationController?.popViewController(animated: true)
+        }
         if MyVriables.currentInboxMessage?.type! == "invite_group" {
             messageTitlelbl.text = "Group invitation"
             subjectLbl.text = MyVriables.currentInboxMessage?.subject!

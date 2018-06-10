@@ -47,6 +47,8 @@ public class CountryPickerView: NibView {
         didSet { setup() }
     }
     
+    
+    
     // Show/Hide the phone code on the view.
     public var showPhoneCodeInView = true {
         didSet { setup() }

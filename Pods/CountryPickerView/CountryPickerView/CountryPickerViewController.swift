@@ -31,6 +31,7 @@ class CountryPickerViewController: UITableViewController {
         prepareTableItems()
         prepareNavItem()
         prepareSearchBar()
+        navigationController?.navigationBar.backItem?.title = "Cancel"
     }
    
 }
@@ -85,7 +86,6 @@ extension CountryPickerViewController {
     
     func prepareNavItem() {
         navigationItem.title = countryPickerView.navigationTitle
-
         // Add a close button if this is the root view controller
         if navigationController?.viewControllers.count == 1 {
             let closeButton = countryPickerView.closeButtonNavigationItem
@@ -93,6 +93,7 @@ extension CountryPickerViewController {
             closeButton.action = #selector(close)
             navigationItem.leftBarButtonItem = closeButton
         }
+        navigationItem.backBarButtonItem?.title = "Cancel"
     }
     
     func prepareSearchBar() {
@@ -105,15 +106,17 @@ extension CountryPickerViewController {
         searchController?.dimsBackgroundDuringPresentation = false
         searchController?.hidesNavigationBarDuringPresentation = searchBarPosition == .tableViewHeader
         searchController?.searchBar.delegate = self
-
+        
         switch searchBarPosition {
         case .tableViewHeader: tableView.tableHeaderView = searchController?.searchBar
         case .navigationBar: navigationItem.titleView = searchController?.searchBar
         default: break
         }
+        navigationController?.navigationBar.backItem?.title = "Cancel"
     }
     
     @objc private func close() {
+        navigationController?.navigationBar.backItem?.title = "Cancel"
         self.navigationController?.dismiss(animated: true, completion: nil)
     }
 }
@@ -129,6 +132,16 @@ extension CountryPickerViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return isSearchMode ? searchResults.count : countries[sectionsTitles[section]]!.count
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        var nav = self.navigationController?.navigationBar
+        nav?.barStyle = UIBarStyle.black
+        nav?.tintColor = UIColor.black
+        nav?.titleTextAttributes = [kCTForegroundColorAttributeName: UIColor.black] as [NSAttributedStringKey : Any]
+        nav?.backItem?.title = "Cancel"
+        navigationController?.setNavigationBarHidden(false, animated: animated)
+    }
+  
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell")
@@ -223,6 +236,7 @@ extension CountryPickerViewController: UISearchBarDelegate {
     public func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         // Hide the back/left navigationItem button
         navigationItem.leftBarButtonItem = nil
+        navigationItem.backBarButtonItem?.title = "Cancel"
         navigationItem.hidesBackButton = true
     }
     
@@ -230,6 +244,7 @@ extension CountryPickerViewController: UISearchBarDelegate {
         // Show the back/left navigationItem button
         prepareNavItem()
         navigationItem.hidesBackButton = false
+         navigationItem.backBarButtonItem?.title = "Cancel"
     }
     
 }

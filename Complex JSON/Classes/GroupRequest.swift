@@ -74,12 +74,7 @@ struct Main: Codable{
     
     
     func uploadImageToServer(){
-        let fileUrl = URL(fileURLWithPath: "/Users/snapmac/Downloads/leader.png")
-        HTTP.POST("https://api.snapgroup.co.il/api/upload_single_image/Member/74/profile", parameters: ["single_image": Upload(fileUrl: fileUrl)]) { response in
-            
-           // print(response.description)
-            //do things...
-        }
+  
     }
 }
 

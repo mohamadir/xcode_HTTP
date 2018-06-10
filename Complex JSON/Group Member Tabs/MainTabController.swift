@@ -51,6 +51,11 @@ class MainTabController: UITabBarController{
     override func viewDidLoad() {
         super.viewDidLoad()
       
+        SwiftEventBus.onMainThread(self, name: "refreshGroupRolee") { (result) in
+            print("IM HERE IN MAIN TAB")
+            
+        }
+        //refreshGroupRolee
         print("from the Main")
     
         // self.tabBar.itmes?[i].image = UIIMage...

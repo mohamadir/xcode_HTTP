@@ -183,21 +183,16 @@ class GroupViewController: UIViewController   , UIImagePickerControllerDelegate,
     
     func upImage(url: URL){
         print("the url is === \(url)")
-        HTTP.POST("https://api.snapgroup.co.il/api/upload_single_image/Member/74/profile", parameters: ["single_image": Upload(fileUrl: url)]) { response in
-            
-            print(response.error)
-            //do things...
-        }
+//        HTTP.POST("https://api.snapgroup.co.il/api/upload_single_image/Member/74/profile", parameters: ["single_image": Upload(fileUrl: url)]) { response in
+//
+//            print(response.error)
+//            //do things...
+//        }
     }
     @IBAction func notifyPressed(_ sender: Any) {
         
         
-        let fileUrl = URL(fileURLWithPath: "/Users/snapmac/Downloads/leader.png")
-        HTTP.POST("https://api.snapgroup.co.il/api/upload_single_image/Member/74/profile", parameters: ["single_image": Upload(fileUrl: fileUrl)]) { response in
-            
-            print(response.description)
-            //do things...
-        }
+      
 //        HTTP.GET("https://api.snapgroup.co.il/api/groups/24/images") { response in
 //            if let err = response.error {
 //                print("error: \(err.localizedDescription)")

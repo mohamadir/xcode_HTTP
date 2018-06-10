@@ -21,6 +21,7 @@ import FirebaseInstanceID
 import SwiftEventBus
 import Alamofire
 import CountryPickerView
+import AlamofireImage
 import PhoneNumberKit
 import TTGSnackbar
 
@@ -179,13 +180,34 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         UIApplication.shared.registerForRemoteNotifications()
         Messaging.messaging().subscribe(toTopic: "/topics/a123458")
     }
-    
-    
+    func downloadfile(){
+        let destination = DownloadRequest.suggestedDownloadDestination(for: .picturesDirectory)
+        
+        Alamofire.download(
+            "https://www.w3schools.com/w3images/lights.jpg",
+            method: .get,
+            parameters: nil,
+            encoding: JSONEncoding.default,
+            headers: nil,
+            to: destination).downloadProgress(closure: { (progress) in
+                //progress closure
+            }).response(completionHandler: { (DefaultDownloadResponse) in
+                
+                print("DefaultDownloadResponse \(DefaultDownloadResponse.destinationURL)")
+                //here you able to access the DefaultDownloadResponse
+                //result closure
+            })
+    }
+  
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
         countyCodePickerView.delegate = self
         countyCodePickerView.dataSource = self
+        let destination = DownloadRequest.suggestedDownloadDestination(for: .documentDirectory)
+        
+        //downloadfile()
         menuView.addTapGestureRecognizer {
             if self.isMemberMenuShowing {
                 self.menuImage.image = UIImage(named: self.menuIcon)
@@ -265,6 +287,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     @IBAction func changePhotoTapped(_ sender: Any) {
+        
+       // print(photolibrary)
         let controller = UIImagePickerController()
         controller.delegate = self
         controller.sourceType = .photoLibrary
@@ -276,59 +300,156 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         dismiss(animated: true, completion: nil)
         
     }
+//    func checkPhotoLibraryPermission() {
+//        let photos = PHPhotoLibrary.authorizationStatus()
+//        if photos == .notDetermined {
+//            PHPhotoLibrary.requestAuthorization({status in
+//                if status == .authorized{
+//                    ...
+//                } else {}
+//            })
+//        }
+//    }
+    fileprivate func uploadImageProfile(_ info: [String : Any]) {
     
+//        var image: URL
+//        if #available(iOS 11.0, *) {
+//            print("image info: \(info)" )
+//
+//            image = info[UIImagePickerControllerImageURL] as! URL
+//            print("image info: \(image.isFileURL) ")
+//        } else {
+//            // Fallback on earlier versions
+//            print("image info: \(info)" )
+//
+//            image = info[UIImagePickerControllerReferenceURL] as! URL
+//            print("image info: \(image.isFileURL) ")
+//        }
+//        ARSLineProgress.show()
+//        print("image ref: \(image.standardizedFileURL.absoluteURL)" )
+//        let par: [String: Any]
+//        if #available(iOS 11.0, *) {
+//            par = ["single_image": Upload(fileUrl: image.absoluteURL)]
+//        }else {
+//            par = ["single_image": Upload(fileUrl: image.standardizedFileURL)]
+//
+//        }
+//        dismiss(animated: true, completion: nil)
+//        print("UPLOADIMAGE- url - "+"https://api.snapgroup.co.il/api/upload_single_image/Member/\(MyVriables.currentMember?.id!)/profile")
+//        HTTP.POST("https://api.snapgroup.co.il/api/upload_single_image/Member/\((MyVriables.currentMember?.id!)!)/profile", parameters: par) { response in
+//            print("response is : \(response.data)")
+//            ARSLineProgress.hide()
+//            let data = response.data
+//            do {
+//                if response.error != nil {
+//                    print("response is : ERROR \(response.error)")
+//
+//                    return
+//                }
+//                let  image2 = try JSONDecoder().decode(ImageServer.self, from: data)
+//                print("response is :")
+//                print(response.description)
+//                self.setToUserDefaults(value: image2.image?.path, key: "profile_image")
+//                try  DispatchQueue.main.sync {
+//                    self.profileImageView.layer.borderWidth = 0
+//                    self.profileImageView.layer.masksToBounds = false
+//
+//                    self.profileImageView.layer.cornerRadius = self.profileImageView.frame.height/2
+//                    self.profileImageView.clipsToBounds = true
+//
+//                    print("--UPLOADIMAGE \(image2)")
+//                    let urlString = try ApiRouts.Web + (image2.image?.path)!
+//                    var url = URL(string: urlString)
+//                    self.profileImageView.sd_setImage(with: url!, completed: nil)
+//                }
+//            }catch let error {
+//                print(error)
+//            }
+//            print(response.data)
+//            print(response.data.description)
+//            if response.error != nil {
+//                print(response.error)
+//            }
+//            //do things...
+//
+//        }
+    }
+    // image picker did finish
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        var image: URL
-        if #available(iOS 11.0, *) {
-             image = info[UIImagePickerControllerImageURL] as! URL
-        } else {
-            // Fallback on earlier versions
-            image = info[UIImagePickerControllerReferenceURL] as! URL
-            
+      //  uploadImageProfile(info)
+        guard let image = info[UIImagePickerControllerOriginalImage] as? UIImage else {
+            return
         }
-        ARSLineProgress.show()
-        print("image ref: \(image)" )
         
+        
+        // We use document directory to place our cloned image
+        let documentDirectory: NSString = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first! as NSString
+        
+        // Set static name, so everytime image is cloned, it will be named "temp", thus rewrite the last "temp" image.
+        // *Don't worry it won't be shown in Photos app.
+        let imageName = "temp.png"
+        let imagePath = documentDirectory.appendingPathComponent(imageName)
+        print("IMAGEPATHOSH: " + imagePath)
+        self.profileImageView.layer.borderWidth = 0
+        self.profileImageView.layer.masksToBounds = false
+        self.profileImageView.layer.cornerRadius = self.profileImageView.frame.height/2
+        self.profileImageView.clipsToBounds = true
+        self.profileImageView.image = image
         dismiss(animated: true, completion: nil)
-        print("UPLOADIMAGE- url - "+"https://api.snapgroup.co.il/api/upload_single_image/Member/\(MyVriables.currentMember?.id!)/profile")
-        HTTP.POST("https://api.snapgroup.co.il/api/upload_single_image/Member/\((MyVriables.currentMember?.id!)!)/profile", parameters: ["single_image": Upload(fileUrl: image.absoluteURL)]) { response in
-            print("response is : \(response.data)")
-            ARSLineProgress.hide()
-            let data = response.data
-            do {
-                if response.error != nil {
-                    print("response is : ERROR \(response.error)")
-                    
-                    return
-                }
-                let  image2 = try JSONDecoder().decode(ImageServer.self, from: data)
-                print("response is :")
-                print(response.description)
-                self.setToUserDefaults(value: image2.image?.path, key: "profile_image")
-              try  DispatchQueue.main.sync {
-                self.profileImageView.layer.borderWidth = 0
-                self.profileImageView.layer.masksToBounds = false
-                
-               self.profileImageView.layer.cornerRadius = self.profileImageView.frame.height/2
-                self.profileImageView.clipsToBounds = true
-                
-                print("--UPLOADIMAGE \(image2)")
-                    let urlString = try ApiRouts.Web + (image2.image?.path)!
-                    var url = URL(string: urlString)
-                    self.profileImageView.sd_setImage(with: url!, completed: nil)
-                }
-            }catch let error {
-                print(error)
-            }
-            print(response.data)
-            print(response.data.description)
-            if response.error != nil {
-                print(response.error)
-            }
-            //do things...
-            
-        }
+        let imageData = UIImagePNGRepresentation(image)!
+        print("AlamoUpload: START")
+        let imgData = UIImageJPEGRepresentation(image, 0.2)!
+       ARSLineProgress.show()
         
+        
+        Alamofire.upload(multipartFormData: { multipartFormData in
+            multipartFormData.append(imgData, withName: "single_image",fileName: "profile_image.jpg", mimeType: "image/jpg")
+        },to:"https://api.snapgroup.co.il/api/upload_single_image/Member/\((MyVriables.currentMember?.id!)!)/profile")
+        { (result) in
+            switch result {
+            case .success(let upload, _, _):
+                
+                upload.uploadProgress(closure: { (progress) in
+                    print("Upload Progress: \(progress.fractionCompleted)")
+                })
+                
+                upload.responseJSON { response in
+                    ARSLineProgress.hide()
+                    if let object = response.result.value as? Dictionary<String,AnyObject>{
+                        if let imageobj = object["image"] as? Dictionary<String,Any>{
+
+
+                            if let path = imageobj["path"] as? String{
+                                print("DICTIONARY: LEVEL 2")
+                                do{
+                                    DispatchQueue.global().async(execute: {
+
+                                  DispatchQueue.main.sync {
+                                        self.profileImageView.layer.borderWidth = 0
+                                        self.profileImageView.layer.masksToBounds = false
+                                        self.profileImageView.layer.cornerRadius = self.profileImageView.frame.height/2
+                                        self.profileImageView.clipsToBounds = true
+                                        let urlString =  ApiRouts.Web + path
+                                        var url = URL(string: urlString)
+                                        self.profileImageView.sd_setImage(with: url!, completed: nil)
+                                        self.setToUserDefaults(value: path, key: "profile_image")
+                                    }
+                                })
+                                }
+                                catch {
+                                    
+                                }
+                            }
+                            
+                        }
+                    }
+                }
+                
+            case .failure(let encodingError):
+                print(encodingError)
+            }
+        }
+     
     }
    
     

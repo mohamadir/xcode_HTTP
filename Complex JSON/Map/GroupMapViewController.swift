@@ -78,11 +78,11 @@ class GroupMapViewController: UIViewController , GMSMapViewDelegate, CLLocationM
      
         
         
-        let polyline = GMSPolyline(path: path)
-        polyline.strokeColor = Colors.PrimaryColor
-        polyline.strokeWidth = 3.0
+       // let polyline = GMSPolyline(path: path)
+       // polyline.strokeColor = Colors.PrimaryColor
+       // polyline.strokeWidth = 3.0
      //   polyline.spans = [GMSStyleSpan(color: .red)]
-        polyline.geodesic = true
+       // polyline.geodesic = true
        // let polyline = GMSPolyline(path: path)
 //        let solidRed = GMSStrokeStyle.solidColor(.red)
 //        let redYellow =
@@ -91,7 +91,7 @@ class GroupMapViewController: UIViewController , GMSMapViewDelegate, CLLocationM
 //                          GMSStyleSpan(style: solidRed),
 //                          GMSStyleSpan(style: redYellow)]
 //
-        polyline.map = googleMaps
+       // polyline.map = googleMaps
         googleMaps.animate(with: GMSCameraUpdate.fit(bounds))
     }
     

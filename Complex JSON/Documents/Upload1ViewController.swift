@@ -10,7 +10,7 @@ import UIKit
 import XLPagerTabStrip
 import SwiftHTTP
 import ARSLineProgress
-
+import Alamofire
 class Upload1ViewController: UIViewController ,UITableViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate ,UITableViewDataSource, IndicatorInfoProvider
 {
 
@@ -118,47 +118,93 @@ class Upload1ViewController: UIViewController ,UITableViewDelegate, UIImagePicke
         ARSLineProgress.hide()
         
     }
-    
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        var image: URL
-        if #available(iOS 11.0, *) {
-            image = info[UIImagePickerControllerImageURL] as! URL
-        } else {
-            // Fallback on earlier versions
-            image = info[UIImagePickerControllerReferenceURL] as! URL
-            
+    func imagePickerController2(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        
+        //  uploadImageProfile(info)
+        guard let image = info[UIImagePickerControllerOriginalImage] as? UIImage else {
+            return
         }
+        
+        
+        let documentDirectory: NSString = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first! as NSString
+        let imageName = "temp.png"
+        let imagePath = documentDirectory.appendingPathComponent(imageName)
+        print("IMAGEPATHOSH: " + imagePath)
+        dismiss(animated: true, completion: nil)
+        let imageData = UIImagePNGRepresentation(image)!
+        print("AlamoUpload: START")
+        let imgData = UIImageJPEGRepresentation(image, 0.2)!
+        ARSLineProgress.show()
         var urlString: String = ApiRouts.Web + "/api/upload/\((MyVriables.currentMember?.id!)!)?upload_type=group&group_id=\((MyVriables.currentGroup?.id)!)&file_type=\((self.documents?.required_documents[indexMedia].item)!)"
         urlString = urlString.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)!
-        ARSLineProgress.show()
-        print("image ref: \(image)" )
-        print("print INFO : \(info)")
-        print("URL IS =" + ApiRouts.Web + "/api/upload/\((MyVriables.currentMember?.id!)!)?upload_type=group&group_id=\((MyVriables.currentGroup?.id)!)&file_type=\((self.documents?.required_documents[indexMedia].item)!)")
-        dismiss(animated: true, completion: nil)
-        HTTP.POST(urlString, parameters: ["file": Upload(fileUrl: image.absoluteURL)]) { response in
-            print("response is : \(response.data)")
-            ARSLineProgress.hide()
-            let data = response.data
-            do {
-                if response.error != nil {
-                    print("response is : ERROR \(response.error)")
-                    return
+        Alamofire.upload(multipartFormData: { multipartFormData in
+            multipartFormData.append(imgData, withName: "file",fileName: "profile_image.jpg", mimeType: "image/jpg")
+            
+        },to:urlString)
+        { (result) in
+            switch result {
+            case .success(let upload, _, _):
+                
+                upload.uploadProgress(closure: { (progress) in
+                    print("Upload Progress: \(progress.fractionCompleted)")
+                })
+                
+                upload.responseJSON { response in
+                    ARSLineProgress.hide()
+                    self.getFilesUpload()
                 }
-                print("response is :")
-                print(response.description)
-               
-            }catch let error {
-                print(error)
+                
+                
+            case .failure(let encodingError):
+                print(encodingError)
+                ARSLineProgress.hide()
+                
             }
+        }
+        
+        
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        guard let image = info[UIImagePickerControllerOriginalImage] as? UIImage else {
+            return
+        }
+        
+        
+        let documentDirectory: NSString = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first! as NSString
+        let imageName = "temp.png"
+        let imagePath = documentDirectory.appendingPathComponent(imageName)
+        print("IMAGEPATHOSH: " + imagePath)
+        dismiss(animated: true, completion: nil)
+        let imageData = UIImagePNGRepresentation(image)!
+        print("AlamoUpload: START")
+        let imgData = UIImageJPEGRepresentation(image, 0.2)!
+        ARSLineProgress.show()
+        var urlString: String = ApiRouts.Web + "/api/upload/\((MyVriables.currentMember?.id!)!)?upload_type=group&group_id=\((MyVriables.currentGroup?.id)!)&file_type=\((self.documents?.required_documents[indexMedia].item)!)"
+        urlString = urlString.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)!
+        Alamofire.upload(multipartFormData: { multipartFormData in
+            multipartFormData.append(imgData, withName: "file",fileName: "profile_image.jpg", mimeType: "image/jpg")
             
-            self.getFilesUpload()
-            print(response.data)
-            print(response.data.description)
-            if response.error != nil {
-                print(response.error)
+        },to:urlString)
+        { (result) in
+            switch result {
+            case .success(let upload, _, _):
+                
+                upload.uploadProgress(closure: { (progress) in
+                    print("Upload Progress: \(progress.fractionCompleted)")
+                })
+                
+                upload.responseJSON { response in
+                    ARSLineProgress.hide()
+                    self.getFilesUpload()
+                }
+                
+                
+            case .failure(let encodingError):
+                print(encodingError)
+                ARSLineProgress.hide()
+                
             }
-            //do things...
-            
         }
         
     }

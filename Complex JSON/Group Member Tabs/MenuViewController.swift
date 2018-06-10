@@ -23,6 +23,7 @@ extension UIView {
     // Set our computed property type to a closure
     fileprivate var tapGestureRecognizerAction: Action? {
         set {
+            
             if let newValue = newValue {
                 // Computed properties get stored as associated objects
                 objc_setAssociatedObject(self, &AssociatedObjectKeys.tapGestureRecognizer, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN)
@@ -469,18 +470,18 @@ class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UI
             // self.uploadImage(image: image)
             print(photoURL)
             print("before post ")
-            HTTP.POST("https://api.snapgroup.co.il/api/upload_single_image/Member/74/profile", parameters: ["single_image": Upload(fileUrl: photoURL)]) { response in
-                print("during post ")
-    
-                if let err = response.error {
-                    print("error: \(err.localizedDescription)")
-                    return //also notify app of failure as needed
-                }
-                print(response)
-                //do things...
-    
-            
-        }
+//            HTTP.POST("https://api.snapgroup.co.il/api/upload_single_image/Member/74/profile", parameters: ["single_image": Upload(fileUrl: photoURL)]) { response in
+//                print("during post ")
+//
+//                if let err = response.error {
+//                    print("error: \(err.localizedDescription)")
+//                    return //also notify app of failure as needed
+//                }
+//                print(response)
+//                //do things...
+//
+//
+//        }
     
         
         

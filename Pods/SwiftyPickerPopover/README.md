@@ -74,6 +74,7 @@ All popovers have the following APIs.
 * setCornerRadius()
 * setValueChange(action:)
 * setOutsideTapDismissing(allowed:)
+* setsetDimmedBackgroundView(enabled:)
 
 * appear(originView:, baseViewWhenOriginViewHasNoSuperview:, baseViewController:, completion:)
 * appear(barButtonItem:, baseViewWhenOriginViewHasNoSuperview:, baseViewController:, completion:)
@@ -94,6 +95,7 @@ All popovers have the following APIs.
 * setDisplayStringFor()
 * setDoneButton(title:, font:, color:, action:)
 * setCancelButton(title:, font:,  color:, action:)
+* setClearButton(title:, font:,  color:, action:)
 
 ##### You can use StringPickerPopover like this:
 ```swift
@@ -199,6 +201,7 @@ p.appear(originView: originView, baseViewController: self)
 * setDisplayStringFor()
 * setDoneButton(title:, font:, color:, action:)
 * setCancelButton(title:, font:, color:, action:)
+* setClearButton(title:, font:,  color:, action:)
 
 ##### ColumnStringPickerPopover can have multiple String values:
 ```swift

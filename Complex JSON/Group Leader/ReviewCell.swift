@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import SwiftyAvatar
 
 class ReviewCell: UITableViewCell {
 
@@ -18,7 +17,7 @@ class ReviewCell: UITableViewCell {
     @IBOutlet weak var fullNameLbl: UILabel!
     @IBOutlet weak var ratingNumber: UILabel!
     @IBOutlet weak var reviewLbl: UILabel!
-    @IBOutlet weak var profileImage: SwiftyAvatar!
+    @IBOutlet weak var profileImage: UIImageView!
     
 
 }

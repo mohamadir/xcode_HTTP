@@ -9,6 +9,7 @@
 import UIKit
 import SwiftHTTP
 import SwiftEventBus
+import TTGSnackbar
 
 struct GroupMember: Codable{
     var id: Int?
@@ -58,6 +59,7 @@ class MembersViewController: UIViewController,UICollectionViewDelegate, UICollec
             
         }
     }
+    
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = membersCoView.dequeueReusableCell(withReuseIdentifier: "memberCell", for: indexPath) as! MemberCollectionCell
@@ -125,6 +127,9 @@ class MembersViewController: UIViewController,UICollectionViewDelegate, UICollec
                 DispatchQueue.main.sync {
                     // add to table view
                     self.membersCountLbl.text = "Members (0)"
+                    let snackbar = TTGSnackbar(message: "In order to see the members list, please sign in at the top bar", duration: .long)
+                    snackbar.icon = UIImage(named: "AppIcon")
+                    snackbar.show()
                 }
                 return //also notify app of failure as needed
             }

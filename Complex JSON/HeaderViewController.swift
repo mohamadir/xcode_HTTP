@@ -9,13 +9,14 @@
 import UIKit
 import SwiftEventBus
 import CountryPickerView
-import PhoneNumberKit
 import TTGSnackbar
 import SwiftHTTP
 import Alamofire
 import Firebase
 import FirebaseMessaging
 import FirebaseInstanceID
+import PhoneNumberKit
+
 
 
 class HeaderViewController: UIViewController, CountryPickerViewDelegate, CountryPickerViewDataSource  {
@@ -23,7 +24,11 @@ class HeaderViewController: UIViewController, CountryPickerViewDelegate, Country
     var currentProfile: MemberProfile?
     var currentMember: CurrentMember?
     var PINCODE: String?
+    var contryCodeString : String = ""
+    var contryCode : String = ""
     var phoneNumber: String?
+
+    @IBOutlet weak var backView: UIView!
     @IBOutlet weak var pickerView: UIView!
     @IBOutlet weak var countryPickerView: CountryPickerView!
     @IBOutlet weak var inboxCounterLbl: UILabel!
@@ -33,8 +38,7 @@ class HeaderViewController: UIViewController, CountryPickerViewDelegate, Country
     @IBOutlet weak var chatView: UIView!
     @IBOutlet weak var inboxView: UIView!
     @IBOutlet weak var phoneLbl: UITextField!
-    var contryCodeString : String = ""
-     var contryCode : String = ""
+    
     @IBAction func sendClick(_ sender: Any) {
 
         print("isValidPhone \(isValidPhone(phone: contryCodeString+phoneLbl.text!))")
@@ -180,13 +184,38 @@ class HeaderViewController: UIViewController, CountryPickerViewDelegate, Country
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        SwiftEventBus.onMainThread(self, name: "refreshGroupRolee") { result in
+            //self
+             self.pickerView.isHidden = true
+        }
+        //refreshGroupRolee
+        
+    }
+    override func dismissKeyboard() {
+        //Causes the view (or one of its embedded text fields) to resign the first responder status.
+        view.endEditing(true)
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+         self.navigationController?.setNavigationBarHidden(true, animated: true)
+    }
+    func countryPickerView(_ countryPickerView: CountryPickerView, didSelectCountry country: Country) {
+        print(country)
+        contryCodeString = country.phoneCode
+        contryCode = country.code
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        setBadges()
+        backView.addTapGestureRecognizer {
+            self.navigationController?.popViewController(animated: true)
+        }
         SwiftEventBus.onMainThread(self, name: "refreshFromGroup") { result in
             self.showPinDialogGdpr()
         }
-        
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "dismissKeyboard")
+        view.addGestureRecognizer(tap)
         countryPickerView.delegate = self
         countryPickerView.dataSource = self
-       
+        
         countryPickerView.showPhoneCodeInView = true
         countryPickerView.showCountryCodeInView = false
         let cpv = CountryPickerView(frame: CGRect(x: 0, y: 0, width: 120, height: 20))
@@ -196,8 +225,9 @@ class HeaderViewController: UIViewController, CountryPickerViewDelegate, Country
         let defaults = UserDefaults.standard
         let id = defaults.integer(forKey: "member_id")
         let isLogged = defaults.bool(forKey: "isLogged")
+        print("ISLOGGED = \(isLogged)")
         if isLogged == true{
-        pickerView.isHidden = true
+            pickerView.isHidden = true
         }else {
             pickerView.isHidden = false
         }
@@ -208,7 +238,7 @@ class HeaderViewController: UIViewController, CountryPickerViewDelegate, Country
         inboxView.addTapGestureRecognizer {
             print("INBOX PRESSE")
             if let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "Notifications") as? MemberInboxViewController {
-
+                
                 if let navigator = self.navigationController {
                     navigator.pushViewController(viewController, animated: true)
                 }
@@ -221,18 +251,7 @@ class HeaderViewController: UIViewController, CountryPickerViewDelegate, Country
                 }
             }
         }
-      print("IM HERE FROM NOTF AND CHAT")
-    }
-    override func viewWillDisappear(_ animated: Bool) {
-         self.navigationController?.setNavigationBarHidden(true, animated: true)
-    }
-    func countryPickerView(_ countryPickerView: CountryPickerView, didSelectCountry country: Country) {
-        print(country)
-        contryCodeString = country.phoneCode
-        contryCode = country.code
-    }
-    override func viewWillAppear(_ animated: Bool) {
-        setBadges()
+        print("IM HERE FROM NOTF AND CHAT")
     }
     
     
@@ -302,6 +321,7 @@ class HeaderViewController: UIViewController, CountryPickerViewDelegate, Country
                 do{
                     let  member = try JSONDecoder().decode(CurrentMember.self, from: response.data)
                     print(member)
+                    SwiftEventBus.post("refreshGroupRolee")
                     self.currentMember = member
                     self.setToUserDefaults(value: true, key: "isLogged")
                     //  print(self.currentMember?.profile!)
@@ -396,19 +416,19 @@ class HeaderViewController: UIViewController, CountryPickerViewDelegate, Country
     func changeStatusTo(type: String){
         if type == "member" {
             MyVriables.roleStatus = "member"
-            self.tabBarController?.tabBar.items![1].image = UIImage(named: "joined")
+            self.tabBarController?.tabBar.items![1].image = UIImage(named: "joinedFooter")
             self.tabBarController?.tabBar.items![1].title = "Joined"
             self.tabBarController?.selectedIndex = 0
         }
         if type == "observer" {
             MyVriables.roleStatus = "observer"
-            self.tabBarController?.tabBar.items![1].image = UIImage(named: "join group")
+            self.tabBarController?.tabBar.items![1].image = UIImage(named: "JoinFooter")
             self.tabBarController?.tabBar.items![1].title = "Join"
             self.tabBarController?.selectedIndex = 0
         }
         if type == "null" {
             MyVriables.roleStatus = "null"
-            self.tabBarController?.tabBar.items![1].image = UIImage(named: "join group")
+            self.tabBarController?.tabBar.items![1].image = UIImage(named: "JoinFooter")
             self.tabBarController?.tabBar.items![1].title = "Join"
             self.tabBarController?.selectedIndex = 0
         }

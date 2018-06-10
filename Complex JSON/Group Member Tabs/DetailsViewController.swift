@@ -9,7 +9,6 @@
 import UIKit
 import Auk
 import UserNotifications
-import SocketIO
 import ImageSlideshow
 import SwiftHTTP
 import Scrollable
@@ -28,6 +27,7 @@ extension String {
 }
 class DetailsViewController: UIViewController {
    
+    @IBOutlet weak var groupLeaderView: UIView!
     
     @IBOutlet weak var leftToJoinLbl: UILabel!
     
@@ -57,6 +57,9 @@ class DetailsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        groupLeaderView.addTapGestureRecognizer {
+          self.performSegue(withIdentifier: "showGroupLeader", sender: self)
+        }
         setGroupDetails()
         self.singleGroup  = MyVriables.currentGroup!
 

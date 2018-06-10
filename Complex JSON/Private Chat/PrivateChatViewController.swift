@@ -10,6 +10,7 @@ import UIKit
 import SwiftHTTP
 import SocketIO
 import ARSLineProgress
+import Alamofire
 struct privateChatMessage: Codable {
     var member_id: Int?
     var message: String?
@@ -46,9 +47,12 @@ class PrivateChatViewController: UIViewController ,UIImagePickerControllerDelega
     
     @IBOutlet weak var keyboardConstraints: NSLayoutConstraint!
     @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
-    
+    @IBOutlet weak var headerView: UIView!
+    @IBOutlet weak var profileImageHeader: UIImageView!
     @IBOutlet weak var chatTableView: UITableView!
-    
+    @IBOutlet weak var nameHeader: UILabel!
+
+    @IBOutlet weak var backView: UIView!
     @IBOutlet weak var usernamelb: UILabel!
     @IBOutlet weak var userImage: UIImageView!
     var socket: SocketIOClient?
@@ -74,70 +78,81 @@ class PrivateChatViewController: UIViewController ,UIImagePickerControllerDelega
         // moveTextField(textField, moveDistance: -250, up: true)
         
     }
+    
+    
+   
+    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         
-        var image: URL
-        print(info)
-        if #available(iOS 11.0, *) {
-            image = info[UIImagePickerControllerImageURL] as! URL
-        } else {
-            // Fallback on earlier versions
-            image = info[UIImagePickerControllerReferenceURL] as! URL
-            
+        //  uploadImageProfile(info)
+        guard let image = info[UIImagePickerControllerOriginalImage] as? UIImage else {
+            return
         }
-        ARSLineProgress.show()
-        print("image ref: \(image)" )
         
+        
+        let documentDirectory: NSString = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first! as NSString
+        let imageName = "temp.png"
+        let imagePath = documentDirectory.appendingPathComponent(imageName)
+        print("IMAGEPATHOSH: " + imagePath)
         dismiss(animated: true, completion: nil)
-        print("UPLOADIMAGE- url - "+"https://api.snapgroup.co.il/api/upload_single_image/Member/\(MyVriables.currentMember?.id!)/media")
-        HTTP.POST("https://api.snapgroup.co.il/api/upload_single_image/Member/\((MyVriables.currentMember?.id!)!)/media", parameters: ["single_image": Upload(fileUrl: image.absoluteURL)]) { response in
+        let imageData = UIImagePNGRepresentation(image)!
+        print("AlamoUpload: START")
+        let imgData = UIImageJPEGRepresentation(image, 0.2)!
+        ARSLineProgress.show()
+        
+        Alamofire.upload(multipartFormData: { multipartFormData in
+            multipartFormData.append(imgData, withName: "single_image",fileName: "profile_image.jpg", mimeType: "image/jpg")
             
-            ARSLineProgress.hide()
-            if response.error != nil {
-                print(response.error)
-                return
-            }
-            let data = response.data
-            do {
-                if response.error != nil {
-                    print("response is : ERROR \(response.error)")
-                    
-                    return
-                }
-                let  image2 = try JSONDecoder().decode(ImageServer.self, from: data)
-                print("image response is : \(image2.image?.path)")
-                print(response.description)
-                // send image here
-                var oponent_id =  ChatUser.currentUser?.id!
-                var image_path = ApiRouts.Web +  (image2.image?.path!)!
-                let params = ["type":"image","image_path": image_path  , "message": "", "sender_id": (MyVriables.currentMember?.id!)!, "chat_type" : "private", "receiver_id" : oponent_id!] as [String : Any]
-                print("params: \(params)")
+        },to:"https://api.snapgroup.co.il/api/upload_single_image/Member/\((MyVriables.currentMember?.id!)!)/media")
+        { (result) in
+            switch result {
+            case .success(let upload, _, _):
                 
-                HTTP.POST(ApiRouts.Web + "/api/chats", parameters: params) { response in
-                    print("send chat: \(response.statusCode)" )
-                    var newMessage :Message = Message()
-                    newMessage.message = ""
-                    newMessage.type = "image"
-                    newMessage.image_path = image_path
-                    newMessage.member_id = MyVriables.currentMember?.id!
-                    print(newMessage)
-                    DispatchQueue.main.async {
-                        self.dismissKeyboard()
-                        self.allMessages.append(newMessage)
-                        self.chatTableView.reloadData()
-                        self.scrollToLast()
+                upload.uploadProgress(closure: { (progress) in
+                    print("Upload Progress: \(progress.fractionCompleted)")
+                })
+                
+                upload.responseJSON { response in
+                    ARSLineProgress.hide()
+                    if let object = response.result.value as? Dictionary<String,AnyObject>{
+                        if let imageobj = object["image"] as? Dictionary<String,Any>{
+                            if let path = imageobj["path"] as? String{
+                                print("DICTIONARY: LEVEL 2")
+                                var oponent_id =  ChatUser.currentUser?.id!
+                                var image_path = ApiRouts.Web + path
+                                let params = ["type":"image","image_path": image_path  , "message": "", "sender_id": (MyVriables.currentMember?.id!)!, "chat_type" : "private", "receiver_id" : oponent_id!] as [String : Any]
+                                print("params: \(params)")
+                                HTTP.POST(ApiRouts.Web + "/api/chats", parameters: params) { response in
+                                    print("send chat: \(response.statusCode)" )
+                                    var newMessage :Message = Message()
+                                    newMessage.message = ""
+                                    newMessage.type = "image"
+                                    newMessage.image_path = image_path
+                                    newMessage.member_id = MyVriables.currentMember?.id!
+                                    print(newMessage)
+                                    do{
+                                        DispatchQueue.global().async(execute: {
+                                            DispatchQueue.main.async {
+                                                self.dismissKeyboard()
+                                                self.allMessages.append(newMessage)
+                                                self.chatTableView.reloadData()
+                                                self.scrollToLast()
+                                            }
+                                        })
+                                        
+                                    }catch {}
+                                }
+                            }
+                            
+                        }
                     }
                 }
                 
-            }catch let error {
-                print(error)
+            case .failure(let encodingError):
+                print(encodingError)
             }
-            print(response.data)
-            print(response.data.description)
-            
-            
-            
         }
+        
         
     }
     @available(iOS 10.0, *)
@@ -182,6 +197,9 @@ class PrivateChatViewController: UIViewController ,UIImagePickerControllerDelega
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        backView.addTapGestureRecognizer {
+            self.navigationController?.popViewController(animated: true)
+        }
         setSocket()
         print("chat id: \(ChatUser.ChatId)")
         self.messageUser = ChatUser.currentUser!
@@ -327,8 +345,17 @@ class PrivateChatViewController: UIViewController ,UIImagePickerControllerDelega
         
     }
     override func viewWillAppear(_ animated: Bool) {
+       // headerView.
+      
+        
+        headerView.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25).cgColor
+        headerView.layer.shadowOffset = CGSize(width: 0.0, height: 2.0)
+        headerView.layer.shadowOpacity = 1.0
+        headerView.layer.shadowRadius = 0.0
+        headerView.layer.masksToBounds = false
+        headerView.layer.cornerRadius = 4.0
         print("Navigation-Test: in viewwillappear")
-        self.navigationController?.setNavigationBarHidden(false, animated: false)
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
         navigationController?.navigationBar.shadowImage = .none
         let nav = self.navigationController?.navigationBar
         nav?.backgroundColor = UIColor.white
@@ -338,6 +365,8 @@ class PrivateChatViewController: UIViewController ,UIImagePickerControllerDelega
         imageView.layer.masksToBounds = false
         imageView.layer.cornerRadius = imageView.frame.height/2
         imageView.layer.borderWidth = 1
+        
+        
         
         if #available(iOS 11.0, *) {
             imageView.layer.borderColor = UIColor(named: "Primary")?.cgColor
@@ -353,11 +382,16 @@ class PrivateChatViewController: UIViewController ,UIImagePickerControllerDelega
             }
             let url = URL(string: urlString)
             imageView.downloadedFrom(url: url!)
+            profileImageHeader.downloadedFrom(url: url!)
+            profileImageHeader.contentMode = .scaleAspectFill
         }else {
+            //    profileImageHeader profileImageHeader
             imageView.layer.borderColor =  UIColor.white.cgColor
-            imageView.image =  UIImage(named: "default user")
+            imageView.image =  UIImage(named: "default member 2")
+
+            profileImageHeader.image =  UIImage(named: "default member 2")
         }
-        
+        nameHeader.text = (ChatUser.currentUser?.first_name!)! + " " + (ChatUser.currentUser?.last_name!)!
         navigationItem.titleView = imageView
         navigationItem.titleView = imageView
         print("view will appeard \((ChatUser.currentUser?.first_name!)! + " " + (ChatUser.currentUser?.last_name!)!)")
@@ -664,6 +698,9 @@ class PrivateChatViewController: UIViewController ,UIImagePickerControllerDelega
     
     
     
+    @IBAction func clickBack(_ sender: Any) {
+        navigationController?.popViewController(animated: true)
+    }
     
     func scrollToLast(){
         //        let numberOfSections = self.chatTableView.numberOfSections

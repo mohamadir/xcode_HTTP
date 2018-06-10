@@ -196,6 +196,9 @@ class GroupChatViewController: UIViewController, UITableViewDelegate, UITableVie
     override func viewWillAppear(_ animated: Bool) {
          getGroupHistory()
     }
+    override func viewWillDisappear(_ animated: Bool) {
+        socket?.disconnect()
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

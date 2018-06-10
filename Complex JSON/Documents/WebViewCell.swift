@@ -15,7 +15,6 @@ class WebViewCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
     }
-    @IBOutlet weak var webVuew: WKWebView!
     @IBOutlet weak var progressBar: UIProgressView!
     @IBOutlet weak var viewWebView: UIView!
     @IBOutlet weak var indictorProgress: UIActivityIndicatorView!

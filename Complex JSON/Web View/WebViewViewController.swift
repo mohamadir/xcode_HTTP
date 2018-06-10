@@ -7,17 +7,15 @@
 //
 
 import UIKit
-import WebKit
 
-class WebViewViewController: UIViewController, WKNavigationDelegate {
-    @IBOutlet weak var erorMesage: UILabel!
+class WebViewViewController: UIViewController {
     
+    @IBOutlet weak var erorMesage: UILabel!
     @IBOutlet weak var fileName: UILabel!
     @IBOutlet weak var viewShadow: UIView!
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var indictorProgress: UIActivityIndicatorView!
     var urlStringa: String = ""
-    @IBOutlet weak var webView: WKWebView!
     override func viewDidLoad() {
         super.viewDidLoad()
        viewShadow.layer.borderWidth = 1
@@ -33,7 +31,7 @@ class WebViewViewController: UIViewController, WKNavigationDelegate {
         indictorProgress.show()
         if (MyVriables.currentType)!.range(of: "image/") != nil {
              indictorProgress.isHidden = true
-            webView.isHidden = true
+          //  webView.isHidden = true
             imageView.isHidden = false
            
             var urlString: String =  (MyVriables.currntUrl)!
@@ -49,16 +47,16 @@ class WebViewViewController: UIViewController, WKNavigationDelegate {
             
         }
         else {
-            webView.isHidden = false
+            //webView.isHidden = false
             imageView.isHidden = true
-        webView.navigationDelegate = self
+        //webView.navigationDelegate = self
         if MyVriables.currntUrl != nil
         {
             urlStringa = MyVriables.currntUrl!
         }
         if verifyUrl(urlString: urlStringa)
         {
-            webView.load(URLRequest(url: NSURL(string: urlStringa)! as URL))
+//            webView.load(URLRequest(url: NSURL(string: urlStringa)! as URL))
         }
         else
         {
@@ -68,12 +66,12 @@ class WebViewViewController: UIViewController, WKNavigationDelegate {
         }
         
     }
-    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!)
-    {
-            indictorProgress.hide()
-            indictorProgress.isHidden = true
-        
-    }
+//    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!)
+//    {
+//            indictorProgress.hide()
+//            indictorProgress.isHidden = true
+//
+//    }
     
 
     func verifyUrl (urlString: String?) -> Bool {

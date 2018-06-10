@@ -14,7 +14,7 @@ import SwiftHTTP
 
 
 
-class UploadFilesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, WKNavigationDelegate, IndicatorInfoProvider {
+class UploadFilesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, IndicatorInfoProvider {
 
     @IBOutlet weak var viewNoFiles: UIView!
     @IBOutlet weak var tableView: UITableView!
@@ -51,10 +51,12 @@ class UploadFilesViewController: UIViewController, UITableViewDataSource, UITabl
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell2 = tableView.dequeueReusableCell(withIdentifier: "webViewCell", for: indexPath) as! WebViewCell
         cell2.selectionStyle = .none
-        cell2.webVuew.navigationDelegate = self
+        
+        
+       // cell2.webVuew.navigationDelegate = self
         cell2.erorMesage.isHidden = true
-        cell2.webVuew.tag = indexPath.row
-        cell2.webVuew.scrollView.isScrollEnabled = false
+        //cell2.webVuew.tag = indexPath.row
+        //cell2.webVuew.scrollView.isScrollEnabled = false
         cell2.viewWebView.layer.borderWidth = 1
         cell2.viewWebView.layer.borderColor = UIColor.gray.cgColor
         cell2.viewWebView.layer.shadowColor = UIColor.black.cgColor
@@ -74,14 +76,14 @@ class UploadFilesViewController: UIViewController, UITableViewDataSource, UITabl
                 MyVriables.currentType = (self.documents?.files[indexPath.row].mime)!
                 MyVriables.fileName = (self.documents?.files[indexPath.row].original_filename)!
             }
-            self.performSegue(withIdentifier: "showWebView", sender: self)
+           // self.performSegue(withIdentifier: "showWebView", sender: self)
         }
         cell2.indictorProgress.show()
         cell2.tag = indexPath.row
         if verifyUrl(urlString: "https://api.snapgroup.co.il" + (self.documents?.files[indexPath.row].path)!)
             {
-                cell2.webVuew.load(URLRequest(url: NSURL(string:
-                    "https://api.snapgroup.co.il" + (self.documents?.files[indexPath.row].path)!)! as URL))
+//                cell2.webVuew.load(URLRequest(url: NSURL(string:
+//                    "https://api.snapgroup.co.il" + (self.documents?.files[indexPath.row].path)!)! as URL))
             }
             else
             {
@@ -134,20 +136,20 @@ class UploadFilesViewController: UIViewController, UITableViewDataSource, UITabl
             
         }
     }
-    func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
-        print("noooo \(webView.tag)")
-        tableView?.visibleCells.forEach { cell in
-            
-            if let cell = cell as? WebViewCell {
-                if cell.tag == webView.tag {
-                    cell.indictorProgress.hide()
-                    cell.indictorProgress.isHidden = true
-                    cell.erorMesage.isHidden = false
-                }
-            }
-            
-        }
-    }
+//    func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
+//        print("noooo \(webView.tag)")
+//        tableView?.visibleCells.forEach { cell in
+//
+//            if let cell = cell as? WebViewCell {
+//                if cell.tag == webView.tag {
+//                    cell.indictorProgress.hide()
+//                    cell.indictorProgress.isHidden = true
+//                    cell.erorMesage.isHidden = false
+//                }
+//            }
+//
+//        }
+//    }
     func getFilesUpload() {
         
 

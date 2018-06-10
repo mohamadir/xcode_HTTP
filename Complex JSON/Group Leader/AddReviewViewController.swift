@@ -36,12 +36,22 @@ class AddReviewViewController: UIViewController,UITextViewDelegate {
         
         //Uncomment the line below if you want the tap not not interfere and cancel other interactions.
         //tap.cancelsTouchesInView = false
-        
-        viewModel.addGestureRecognizer(tap)
+        view.addGestureRecognizer(tap)
         
       
 
         // Do any additional setup after loading the view.
+    }
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if text == "\n" {
+            textView.resignFirstResponder()
+            return false
+        }
+        return true
+    }
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.addComment.endEditing(true)
+        return false
     }
     override func dismissKeyboard() {
         //Causes the view (or one of its embedded text fields) to resign the first responder status.
