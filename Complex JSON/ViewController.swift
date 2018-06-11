@@ -1602,7 +1602,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             print("no")
             
         }))
-        print ("pin after no ")
+        print ("p in after no ")
         
         self.present(PinAlert, animated: true, completion: nil)
         
@@ -1615,7 +1615,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         self.tableView.reloadData()
         self.checkCurrentUser()
     }
-    func countryPickerView(_ countryPickerView: CountryPickerView, didSelectCountry country: Country) {
+    func countryPickerView(_ countryPickerView: CountryPickerView, didSelectCountry country: Country){
         contryCodeString = country.phoneCode
         contryCode = country.code
     }
