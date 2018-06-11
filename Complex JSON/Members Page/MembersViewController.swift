@@ -79,8 +79,13 @@ class MembersViewController: UIViewController,UICollectionViewDelegate, UICollec
 
         cell.memberImage.downloadedFrom(url: url!)
         }
+        else {
+            cell.memberImage.image = UIImage(named: "default member 2")
+        }
 
+        if filterdMembers[indexPath.row].first_name != nil && filterdMembers[indexPath.row].last_name != nil {
         cell.memberNameLbl.text = filterdMembers[indexPath.row].first_name! + " " + filterdMembers[indexPath.row].last_name!
+        }
        
         return cell
     }

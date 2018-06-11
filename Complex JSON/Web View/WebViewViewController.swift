@@ -7,9 +7,11 @@
 //
 
 import UIKit
+import WebKit
 
-class WebViewViewController: UIViewController {
+class WebViewViewController: UIViewController, WKNavigationDelegate {
     
+    @IBOutlet weak var viewAddWebView: UIView!
     @IBOutlet weak var erorMesage: UILabel!
     @IBOutlet weak var fileName: UILabel!
     @IBOutlet weak var viewShadow: UIView!
@@ -35,7 +37,7 @@ class WebViewViewController: UIViewController {
             imageView.isHidden = false
            
             var urlString: String =  (MyVriables.currntUrl)!
-            if (MyVriables.currntUrl)! != nil{
+            if (MyVriables.currntUrl) != nil{
                 print(urlString)
                 
             }
@@ -47,16 +49,20 @@ class WebViewViewController: UIViewController {
             
         }
         else {
+            let webview = WKWebView()
+            webview.frame  = CGRect(x: 0, y: 0, width: viewAddWebView.bounds.width, height: viewAddWebView.bounds.height)
+            viewAddWebView.addSubview(webview)
+            
             //webView.isHidden = false
             imageView.isHidden = true
-        //webView.navigationDelegate = self
+        webview.navigationDelegate = self
         if MyVriables.currntUrl != nil
         {
             urlStringa = MyVriables.currntUrl!
         }
         if verifyUrl(urlString: urlStringa)
         {
-//            webView.load(URLRequest(url: NSURL(string: urlStringa)! as URL))
+            webview.load(URLRequest(url: NSURL(string: urlStringa)! as URL))
         }
         else
         {
@@ -66,12 +72,12 @@ class WebViewViewController: UIViewController {
         }
         
     }
-//    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!)
-//    {
-//            indictorProgress.hide()
-//            indictorProgress.isHidden = true
-//
-//    }
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!)
+    {
+            indictorProgress.hide()
+            indictorProgress.isHidden = true
+
+    }
     
 
     func verifyUrl (urlString: String?) -> Bool {

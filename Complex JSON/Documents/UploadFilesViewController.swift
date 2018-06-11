@@ -14,7 +14,7 @@ import SwiftHTTP
 
 
 
-class UploadFilesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, IndicatorInfoProvider {
+class UploadFilesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, IndicatorInfoProvider, WKNavigationDelegate {
 
     @IBOutlet weak var viewNoFiles: UIView!
     @IBOutlet weak var tableView: UITableView!
@@ -52,17 +52,38 @@ class UploadFilesViewController: UIViewController, UITableViewDataSource, UITabl
         let cell2 = tableView.dequeueReusableCell(withIdentifier: "webViewCell", for: indexPath) as! WebViewCell
         cell2.selectionStyle = .none
         
+        let webview = WKWebView()
+        webview.frame  = CGRect(x: 0, y: 0, width: cell2.viewWebV.bounds.width, height: cell2.viewWebV.bounds.height)
+      
+       
         
-       // cell2.webVuew.navigationDelegate = self
+       webview.navigationDelegate = self
         cell2.erorMesage.isHidden = true
-        //cell2.webVuew.tag = indexPath.row
-        //cell2.webVuew.scrollView.isScrollEnabled = false
+        webview.tag = indexPath.row
+        webview.scrollView.isScrollEnabled = false
         cell2.viewWebView.layer.borderWidth = 1
         cell2.viewWebView.layer.borderColor = UIColor.gray.cgColor
         cell2.viewWebView.layer.shadowColor = UIColor.black.cgColor
         cell2.viewWebView.layer.shadowOpacity = 1
         cell2.viewWebView.layer.shadowOffset = CGSize.zero
-        cell2.viewWebView.layer.shadowRadius = 4
+        cell2.viewWebView.layer.shadowRadius = 1
+        cell2.indictorProgress.show()
+        cell2.tag = indexPath.row
+        var urlString: String = "https://api.snapgroup.co.il" + (self.documents?.files[indexPath.row].path)!
+        urlString = urlString.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)!
+        if verifyUrl(urlString: urlString)
+        {
+                           webview.load(URLRequest(url: NSURL(string:
+                                urlString)! as URL))
+        }
+        else
+        {
+            cell2.indictorProgress.isHidden = true
+            cell2.erorMesage.isHidden = false
+        }
+        
+        cell2.viewWebV.addSubview(webview)
+
         cell2.viewOverWeb.addTapGestureRecognizer {
             print("clickible \(indexPath.row)")
         }
@@ -70,26 +91,17 @@ class UploadFilesViewController: UIViewController, UITableViewDataSource, UITabl
         {
             cell2.fileName.text = (self.documents?.files[indexPath.row].original_filename)!
         }
-        cell2.viewOverWeb.addTapGestureRecognizer {
+        cell2.vieClickWebView.addTapGestureRecognizer {
             if (self.documents?.files[indexPath.row].path) != nil {
-            MyVriables.currntUrl = "https://api.snapgroup.co.il" + (self.documents?.files[indexPath.row].path)!
+                var urlString2: String = "https://api.snapgroup.co.il" + (self.documents?.files[indexPath.row].path)!
+                urlString2 = urlString2.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)!
+            MyVriables.currntUrl = urlString2
                 MyVriables.currentType = (self.documents?.files[indexPath.row].mime)!
                 MyVriables.fileName = (self.documents?.files[indexPath.row].original_filename)!
             }
-           // self.performSegue(withIdentifier: "showWebView", sender: self)
+           self.performSegue(withIdentifier: "showWebView", sender: self)
         }
-        cell2.indictorProgress.show()
-        cell2.tag = indexPath.row
-        if verifyUrl(urlString: "https://api.snapgroup.co.il" + (self.documents?.files[indexPath.row].path)!)
-            {
-//                cell2.webVuew.load(URLRequest(url: NSURL(string:
-//                    "https://api.snapgroup.co.il" + (self.documents?.files[indexPath.row].path)!)! as URL))
-            }
-            else
-            {
-                cell2.indictorProgress.isHidden = true
-                cell2.erorMesage.isHidden = false
-            }
+        
         
     
         return cell2
@@ -136,20 +148,20 @@ class UploadFilesViewController: UIViewController, UITableViewDataSource, UITabl
             
         }
     }
-//    func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
-//        print("noooo \(webView.tag)")
-//        tableView?.visibleCells.forEach { cell in
-//
-//            if let cell = cell as? WebViewCell {
-//                if cell.tag == webView.tag {
-//                    cell.indictorProgress.hide()
-//                    cell.indictorProgress.isHidden = true
-//                    cell.erorMesage.isHidden = false
-//                }
-//            }
-//
-//        }
-//    }
+    func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
+        print("noooo \(webView.tag)")
+        tableView?.visibleCells.forEach { cell in
+
+            if let cell = cell as? WebViewCell {
+                if cell.tag == webView.tag {
+                    cell.indictorProgress.hide()
+                    cell.indictorProgress.isHidden = true
+                    cell.erorMesage.isHidden = false
+                }
+            }
+
+        }
+    }
     func getFilesUpload() {
         
 

@@ -38,8 +38,10 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
     let genderData: [String] = ["Male","Female","Other"]
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
+        //MyVriables.fromGroup = ""
+        SwiftEventBus.onMainThread(self, name: "refreshFromGroupJoin") { result in
+            self.showPinDialog()
+        }
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "dismissKeyboard")
         
         //Uncomment the line below if you want the tap not not interfere and cancel other interactions.
@@ -132,6 +134,7 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
         pickerView.dataSource = self
         pickerView.showPhoneCodeInView = true
         pickerView.showCountryCodeInView = false
+        
         let cpv = CountryPickerView(frame: CGRect(x: 0, y: 0, width: 120, height: 20))
         let country = cpv.selectedCountry
         contryCodeString = country.phoneCode
@@ -331,7 +334,7 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
     }
     public func showPinDialog() {
         let PinAlert = UIAlertController(title: "Please enter PIN code wer'e sent you", message: "Pin code", preferredStyle: .alert)
-        print ("pin created")
+        print ("pin created from join")
         
         PinAlert.addTextField { (textField) in
             textField.placeholder = "1234"
@@ -361,8 +364,11 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
                 do{
                     let  member = try JSONDecoder().decode(CurrentMember.self, from: response.data)
                     print(member)
+                    
                     SwiftEventBus.post("refreshGroupRolee")
                     self.currentMember = member
+            
+
                     self.setToUserDefaults(value: true, key: "isLogged")
                     //  print(self.currentMember?.profile!)
                     self.setToUserDefaults(value: self.currentMember?.profile?.member_id!, key: "member_id")
@@ -414,7 +420,7 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
                 
             }
             
-            
+             self.view.endEditing(true)
             
             
         }))
@@ -422,7 +428,7 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
         
         PinAlert.addAction(UIAlertAction(title: NSLocalizedString("CANCLE", comment: "Default action"), style: .`default`, handler: { _ in
             print("no")
-            
+             self.view.endEditing(true)
         }))
         print ("pin after no ")
         
@@ -468,8 +474,9 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
         
         
     }
+    
     func joinGroupRequest(){
-        print(ApiRouts.Web + "/api/groups/join/\((MyVriables.currentGroup?.id!)!)/\((MyVriables.currentMember?.id!)!)/member"+"    Leave GROUP")
+        print("Join group url is "+ApiRouts.Web + "/api/groups/join/\((MyVriables.currentGroup?.id!)!)/\((MyVriables.currentMember?.id!)!)/member"+"    Leave GROUP")
         HTTP.POST(ApiRouts.Web + "/api/groups/\((MyVriables.currentGroup?.id!)!)/members/\((MyVriables.currentMember?.id!)!)/join", parameters: []) { response in
             if response.error != nil {
                 print("errory \(response.error?.localizedDescription)")

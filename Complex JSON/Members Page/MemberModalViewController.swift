@@ -135,7 +135,7 @@ class MemberModalViewController: UIViewController {
         }
         print("profile_image: \(ProfileImage)")
         
-        ChatUser.currentUser = Partner(id: (self.currentMember?.id)!, email: (self.currentMember?.email)!, profile_image: ProfileImage , first_name: (self.currentMember?.first_name)! , last_name: (self.currentMember?.last_name)!)
+        ChatUser.currentUser = Partner(id: (self.currentMember?.id)!, email: (self.currentMember?.email) != nil ? (self.currentMember?.email)! : "", profile_image: ProfileImage , first_name: (self.currentMember?.first_name) != nil ? (self.currentMember?.first_name)! : "User \((self.currentMember?.id)!)" , last_name: (self.currentMember?.last_name) != nil ? (self.currentMember?.last_name)! : "")
         dismiss(animated: true, completion: nil)
         
     }
@@ -149,11 +149,15 @@ class MemberModalViewController: UIViewController {
     }
     
     func setMemberDetails(){
-        print((self.currentMember?.first_name!)! + " " + (currentMember?.last_name!)!)
+        //print((self.currentMember?.first_name!)! + " " + (currentMember?.last_name!)!)
+        if self.currentMember?.first_name != nil && self.currentMember?.last_name != nil {
         memberNameLbl.text = (self.currentMember?.first_name!)! + " " + (currentMember?.last_name!)!
+        }
         self.memberRoleLbl.text = currentMember?.role!
+        if currentMember?.role != nil {
         if currentMember?.role! == "group_leader" {
             self.memberRoleLbl.text = "Group Leader"
+        }
         }
         if currentMember?.profile_image != nil {
             var urlString = ApiRouts.Web + (currentMember?.profile_image)!
@@ -165,6 +169,9 @@ class MemberModalViewController: UIViewController {
             let url = URL(string: urlString)
             
            memberImageView.downloadedFrom(url: url!)
+        }
+        else {
+            memberImageView.image = UIImage(named: "default member 2")
         }
         
     }

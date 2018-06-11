@@ -207,6 +207,7 @@ class HeaderViewController: UIViewController, CountryPickerViewDelegate, Country
         setBadges()
         backView.addTapGestureRecognizer {
             self.navigationController?.popViewController(animated: true)
+             self.dismiss(animated: true, completion: nil)
         }
         SwiftEventBus.onMainThread(self, name: "refreshFromGroup") { result in
             self.showPinDialogGdpr()
@@ -300,7 +301,7 @@ class HeaderViewController: UIViewController, CountryPickerViewDelegate, Country
         print ("pin created")
         
         PinAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak PinAlert] (_) in
-            
+             self.view.endEditing(true)
             print ("pin 1")
             
             let textField = PinAlert?.textFields![0] // Force unwrapping because we know it exists.
@@ -445,7 +446,7 @@ class HeaderViewController: UIViewController, CountryPickerViewDelegate, Country
         print ("pin created")
         
         PinAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak PinAlert] (_) in
-            
+             self.view.endEditing(true)
             print ("pin 1")
             
             let textField = PinAlert?.textFields![0] // Force unwrapping because we know it exists.

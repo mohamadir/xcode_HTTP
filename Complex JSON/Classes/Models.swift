@@ -10,6 +10,7 @@ import Foundation
 // ********************************    CURRENT OPJECT *****************************
 struct MyVriables {
     static var fromGroup: String? = ""
+    static var joinToGroup: String? = ""
      static var prefContry: String?
      static var phoneNumber: String?
     static var fileName: String?

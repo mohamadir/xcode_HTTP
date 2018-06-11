@@ -173,15 +173,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         // Show the navigation bar on other view controllers
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
     }
-    
-   
-    
     func subScribe(){
         UIApplication.shared.registerForRemoteNotifications()
         Messaging.messaging().subscribe(toTopic: "/topics/a123458")
     }
     func downloadfile(){
-        let destination = DownloadRequest.suggestedDownloadDestination(for: .picturesDirectory)
+        let destination = DownloadRequest.suggestedDownloadDestination(for: .documentDirectory)
         
         Alamofire.download(
             "https://www.w3schools.com/w3images/lights.jpg",
@@ -1092,7 +1089,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         // if company
         if self.myGrous[currentIndex].is_company == 0 {
             
-            cell.groupLeaderLbl.text = self.myGrous[currentIndex].group_leader_first_name! + " " + self.myGrous[currentIndex].group_leader_last_name!
+            cell.groupLeaderLbl.text = (self.myGrous[currentIndex].group_leader_first_name != nil ? self.myGrous[currentIndex].group_leader_first_name! : "" ) + " " + (self.myGrous[currentIndex].group_leader_last_name != nil ? self.myGrous[currentIndex].group_leader_last_name! : "" )
             
             if self.myGrous[currentIndex].group_leader_image != nil{
                 do{
@@ -1114,6 +1111,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             cell.groupLeaderImageView.layer.borderColor = UIColor.gray.cgColor
         } // if just group leader
         else{
+            cell.groupLeaderLbl.text = self.myGrous[currentIndex].group_leader_company_name != nil ? self.myGrous[currentIndex].group_leader_company_name! : "Company"
             if self.myGrous[currentIndex].group_leader_company_image != nil{
                 
                 do{
@@ -1135,7 +1133,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             cell.groupLeaderImageView.layer.borderWidth = 0
             cell.groupLeaderImageView.layer.cornerRadius = 0;
             cell.groupLeaderImageView.clipsToBounds = false;
-         //   cell.groupLeaderLbl.text =   self.myGrous[currentIndex].group_leader_company_name!
         }
         cell.selectionStyle = .none
         
