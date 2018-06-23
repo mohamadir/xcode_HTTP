@@ -47,7 +47,7 @@ class MemberModalViewController: UIViewController {
     }
     
     fileprivate func showPairModal() {
-        let VerifyAlert = UIAlertController(title: "Pair with \((GroupMembers.currentMemmber?.first_name)!) \((GroupMembers.currentMemmber?.last_name)!)", message: "Pairing allows you to request from the group leader to relate to you and your paired friend as a couple or group. For example to share a room, to sit next to each other during meals or trips, etc.", preferredStyle: .alert)
+        let VerifyAlert = UIAlertController(title: "Pair with \((GroupMembers.currentMemmber?.first_name) != nil ? (GroupMembers.currentMemmber?.first_name)! : "") \((GroupMembers.currentMemmber?.last_name) != nil ? (GroupMembers.currentMemmber?.last_name)! : "")", message: "Pairing allows you to request from the group leader to relate to you and your paired friend as a couple or group. For example to share a room, to sit next to each other during meals or trips, etc.", preferredStyle: .alert)
         
         VerifyAlert.addAction(UIAlertAction(title: NSLocalizedString("Request Pairung", comment: "Default action"), style: .`default`, handler: { _ in
             
@@ -60,7 +60,7 @@ class MemberModalViewController: UIViewController {
         self.present(VerifyAlert, animated: true, completion: nil)
     }
     fileprivate func cancelPair() {
-        let VerifyAlert = UIAlertController(title: "Pair with \((GroupMembers.currentMemmber?.first_name)!) \((GroupMembers.currentMemmber?.last_name)!)", message: "Would you like to cancel the pairing with this member?" + "\nIf you already sent a paring request, it will be canceled", preferredStyle: .alert)
+        let VerifyAlert = UIAlertController(title: "Pair with \((GroupMembers.currentMemmber?.first_name) != nil ? (GroupMembers.currentMemmber?.first_name)! : "") \((GroupMembers.currentMemmber?.last_name) != nil ? (GroupMembers.currentMemmber?.last_name)! : "")", message: "Would you like to cancel the pairing with this member?" + "\nIf you already sent a paring request, it will be canceled", preferredStyle: .alert)
         
         VerifyAlert.addAction(UIAlertAction(title: NSLocalizedString("Cancel pairing", comment: "Default action"), style: .`default`, handler: { _ in
             self.removePair()
@@ -74,7 +74,7 @@ class MemberModalViewController: UIViewController {
         self.present(VerifyAlert, animated: true, completion: nil)
     }
     
-    
+  
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -173,10 +173,13 @@ class MemberModalViewController: UIViewController {
         else {
             memberImageView.image = UIImage(named: "default member 2")
         }
+        memberImageView.contentMode = .scaleAspectFill
         
     }
+    override func viewWillDisappear(_ animated: Bool) {
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
+    }
     func sendPair(){
-        
         print("Url send Pair is " + ApiRouts.Web+"/api/pairs?sender_id=\((MyVriables.currentMember?.id)!)&receiver_id=\((GroupMembers.currentMemmber?.id)!)&group_id=\((MyVriables.currentGroup?.id)!)")
         HTTP.POST(ApiRouts.Web+"/api/pairs?sender_id=\((MyVriables.currentMember?.id)!)&receiver_id=\((GroupMembers.currentMemmber?.id)!)&group_id=\((MyVriables.currentGroup?.id)!)", parameters: []) { response in
             if let err = response.error {

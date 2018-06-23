@@ -17,6 +17,7 @@ class CustomTableViewCell: UITableViewCell {
     @IBOutlet weak var groupLeaderLbl: UILabel!
     @IBOutlet weak var groupLeaderImageView: UIImageView!
     
+    @IBOutlet weak var contsratWidthImage: NSLayoutConstraint!
     @IBOutlet weak var totalDaysLbl: UILabel!
     @IBOutlet weak var groupLabel: UILabel!
     

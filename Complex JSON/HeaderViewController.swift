@@ -337,6 +337,7 @@ class HeaderViewController: UIViewController, CountryPickerViewDelegate, Country
                     self.setToUserDefaults(value: self.currentMember?.total_unread_messages, key: "chat_counter")
                     self.setToUserDefaults(value: self.currentMember?.total_unread_notifications, key: "inbox_counter")
                     
+                    MyVriables.shouldRefresh = true
                     self.currentProfile = self.currentMember?.profile!
                     DispatchQueue.main.sync {
                         self.getGroup(memberId: "\((self.currentMember?.profile?.member_id!)!)")
@@ -420,18 +421,45 @@ class HeaderViewController: UIViewController, CountryPickerViewDelegate, Country
             self.tabBarController?.tabBar.items![1].image = UIImage(named: "joinedFooter")
             self.tabBarController?.tabBar.items![1].title = "Joined"
             self.tabBarController?.selectedIndex = 0
+             MyVriables.isAvailble = true
         }
+        else {
         if type == "observer" {
             MyVriables.roleStatus = "observer"
-            self.tabBarController?.tabBar.items![1].image = UIImage(named: "JoinFooter")
+            self.tabBarController?.tabBar.items![1].image = UIImage(named: "join group")
             self.tabBarController?.tabBar.items![1].title = "Join"
             self.tabBarController?.selectedIndex = 0
+             MyVriables.isAvailble = true
+            
         }
-        if type == "null" {
-            MyVriables.roleStatus = "null"
-            self.tabBarController?.tabBar.items![1].image = UIImage(named: "JoinFooter")
-            self.tabBarController?.tabBar.items![1].title = "Join"
+        else {
+        if type == "group_leader" {
+            MyVriables.roleStatus = "group_leader"
+            self.tabBarController?.tabBar.items![1].image = UIImage(named: "joined")
+            self.tabBarController?.tabBar.items![1].title = "Manage"
             self.tabBarController?.selectedIndex = 0
+            MyVriables.isAvailble = true
+            
+        }
+        else {
+        if type == "null" {
+            if MyVriables.isAvailble == false {
+                self.tabBarController?.tabBar.items![1].image = UIImage(named: "timeout25")
+                self.tabBarController?.tabBar.items![1].title = "Registration closed"
+                self.tabBarController?.tabBar.items![1].selectedImage =   UIImage(named: "timeout25")
+                 MyVriables.isAvailble = false
+            }
+            else
+            {
+                MyVriables.roleStatus = "null"
+                self.tabBarController?.tabBar.items![1].image = UIImage(named: "join group")
+                self.tabBarController?.tabBar.items![1].title = "Join"
+                self.tabBarController?.selectedIndex = 0
+                 MyVriables.isAvailble = true
+            }
+            }
+            }
+        }
         }
     }
     public func showPinDialogGdpr() {
@@ -492,7 +520,7 @@ class HeaderViewController: UIViewController, CountryPickerViewDelegate, Country
                     self.setToUserDefaults(value: self.currentMember?.profile?.profile_image, key: "profile_image")
                     self.setToUserDefaults(value: self.currentMember?.total_unread_messages, key: "chat_counter")
                     self.setToUserDefaults(value: self.currentMember?.total_unread_notifications, key: "inbox_counter")
-                    
+                     MyVriables.shouldRefresh = true
                     self.currentProfile = self.currentMember?.profile!
                     DispatchQueue.main.sync {
                         SwiftEventBus.post("changeProfileInfo")

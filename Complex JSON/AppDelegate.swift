@@ -30,18 +30,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
     var socket: SocketIOClient?
     var socketManager : SocketManager?
     
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
-        //        UNUserNotificationCenter.current().delegate = self
-        checkCurrentUser()
-       
-        
-        
-        FirebaseApp.configure()
-        print()
-        UIApplication.shared.applicationIconBadgeNumber = 0
-        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "Snapgroup.Snap2"), object: nil)
-        
+    fileprivate func setRemoteNotfactionSettings(_ application: UIApplication) {
         if #available(iOS 10.0, *){
             UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { (isGranted, err) in
                 
@@ -56,7 +45,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
                         Messaging.messaging().delegate = self
                         UIApplication.shared.registerForRemoteNotifications()
                         application.registerForRemoteNotifications()
-                    
+                        
                         
                     }
                     
@@ -81,6 +70,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
         
         
         application.registerForRemoteNotifications()
+    }
+    
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        // Override point for customization after application launch.
+        //        UNUserNotificationCenter.current().delegate = self
+        checkCurrentUser()
+       
+        
+        
+        FirebaseApp.configure()
+        print()
+        UIApplication.shared.applicationIconBadgeNumber = 0
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "Snapgroup.Snap2"), object: nil)
+
+        
+        setRemoteNotfactionSettings(application)
+        
+       // UIApplication.shared.unregisterForRemoteNotifications()
         
         ConnectToFcm()
         
@@ -106,7 +113,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
         let gender = defaults.string(forKey: "gender")
         let isLogged = defaults.bool(forKey: "isLogged")
         if isLogged == true{
-            MyVriables.currentMember = Member(email: email, phone: phone, id: id)
+           // MyVriables.currentMember = Member(email: email, phone: phone, id: id)
             getNotificationsCounters()
         }
     }
@@ -114,7 +121,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
     
     func ConnectToFcm(){
         Messaging.messaging().shouldEstablishDirectChannel = true
-        
         if let token = InstanceID.instanceID().token() {
             print("DCS: " + token)
         }
@@ -243,6 +249,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
                 print("Successfully Notified")
             }
         }
+        print("New budges \(UIApplication.shared.applicationIconBadgeNumber)")
     }
     
     

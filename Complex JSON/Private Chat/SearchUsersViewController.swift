@@ -9,7 +9,7 @@
 import UIKit
 import SwiftHTTP
 struct ElasticMembers: Codable{
-    var data: [ElasticMember]?
+    var members: [ElasticMember]?
 }
 class SearchUsersViewController: UIViewController, UITableViewDelegate, UITableViewDataSource,UISearchBarDelegate {
 
@@ -37,7 +37,7 @@ class SearchUsersViewController: UIViewController, UITableViewDelegate, UITableV
         // Do any additional setup after loading the view.
     }
 
-    
+
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         if self.searchBar.text != "" && self.searchBar.text != nil
         {
@@ -45,6 +45,7 @@ class SearchUsersViewController: UIViewController, UITableViewDelegate, UITableV
             view.endEditing(true)
         }
     }
+    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -56,24 +57,21 @@ class SearchUsersViewController: UIViewController, UITableViewDelegate, UITableV
     }
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
      
+        print("Search is \(searchBar.text!)")
         if searchBar.text == nil || searchBar.text  == "" {
-            self.isSearching = false
-          //  dismissKeyboard()
-           // view.endEditing(true)
-           
-           
-          //  membersCoView.reloadData()
+             print("Search is Empity")
             
+             self.members = []
+               self.tableview.reloadData()
+                view.endEditing(true)
+           
         }
         else{
-//           // self.filterdMembers =  members.filter({ (member) -> Bool in
-//                let memberFullName: String = member.first_name! + " " + member.last_name!
-//                if (memberFullName.lowercased().contains(searchBar.text!.lowercased())) {
-//                    return true
-//                }
-//                return false
-//            })
-          //  self.membersCoView.reloadData()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2, execute: {
+                self.getGroupMembers(name: self.searchBar.text!)
+                
+            })
+            
             
         }
     }
@@ -101,17 +99,16 @@ class SearchUsersViewController: UIViewController, UITableViewDelegate, UITableV
         cell.selectionStyle = .none
         
         cell.personName.text = members[indexPath.row].first_name! + " " + members[indexPath.row].last_name!
-        print(members[indexPath.row].images?.count)
-        if (members[indexPath.row].images?.count)!  != 0 {
-            print("im in \((members[indexPath.row].images?.count)!)")
-            var urlString = ApiRouts.Web + (members[indexPath.row].images?[0].path!)!
-            if (members[indexPath.row].images?[0].path!)!.contains("http")
+        if members[indexPath.row].profile_image != nil {
+            var urlString = ApiRouts.Web + (members[indexPath.row].profile_image)!
+            if (members[indexPath.row].profile_image)!.contains("http")
             {
-                urlString = (members[indexPath.row].images?[0].path!)!
+                urlString = (members[indexPath.row].profile_image!)
             }
              print("im in \(urlString)")
             var url = URL(string: urlString)
             cell.pesonImage.downloadedFrom(url: url!)
+        
         }
         return cell
     }
@@ -131,12 +128,11 @@ class SearchUsersViewController: UIViewController, UITableViewDelegate, UITableV
         
 
         var ProfileImage: String = ""
-        if (members[indexPath.row].images?.count)! != 0 {
-            ProfileImage = (members[indexPath.row].images?[0].path!)!
-        }
+        if (members[indexPath.row].profile_image) != nil {
+            ProfileImage = (members[indexPath.row].profile_image)!
         print("profile_image: \(ProfileImage)")
-
-        ChatUser.currentUser = Partner(id: members[indexPath.row].id, email: members[indexPath.row].email, profile_image: ProfileImage , first_name: members[indexPath.row].first_name , last_name: members[indexPath.row].last_name)
+        }
+        ChatUser.currentUser = Partner(id: members[indexPath.row].id, email: members[indexPath.row].email != nil ? (members[indexPath.row].email)! : "", profile_image: ProfileImage , first_name: members[indexPath.row].first_name != nil ? (members[indexPath.row].first_name)! : "", last_name: (members[indexPath.row].last_name) != nil ? (members[indexPath.row].last_name)! : "")
         performSegue(withIdentifier: "privateChatSegue", sender: self)
 
         
@@ -154,15 +150,15 @@ class SearchUsersViewController: UIViewController, UITableViewDelegate, UITableV
             }else {
                 do{
                     let  resp = try JSONDecoder().decode(ElasticMembers.self, from: response.data)
-                   self.members = resp.data!
-                    self.members = []
-                    for mem in resp.data! {
+                    DispatchQueue.main.sync {
+                        self.members = []
+                        for mem in resp.members! {
                         if mem.id!  != id {
                             self.members.append(mem)
                         }
                     }
                     print("myMembers: for search -> \(seachText) result is : \(self.members)")
-                    DispatchQueue.main.sync {
+                    
                         self.tableview.reloadData()
                     }
                 }catch {

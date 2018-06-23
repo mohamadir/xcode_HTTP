@@ -9,17 +9,23 @@
 import Foundation
 // ********************************    CURRENT OPJECT *****************************
 struct MyVriables {
+    
+    static var currentGdbr: ModalGDPR?
+    static var enableGdpr: GdprObject?
     static var fromGroup: String? = ""
     static var joinToGroup: String? = ""
-     static var prefContry: String?
-     static var phoneNumber: String?
+    static var prefContry: String?
+    static var phoneNumber: String?
     static var fileName: String?
     static var arrayGdpr : GdprPost?
     static var currntUrl: String?
     static var currentType: String?
     static var currentGroup: TourGroup?
+    static var isAvailble: Bool = true
     static var isMember: Bool = false
-    static var currentMember: Member? = Member(email: "", phone : "", id : -1)
+    var profile: MemberProfile?
+    var gdpr: GdprStruct?
+    static var currentMember: Member? = Member(email: "", phone : "", id : -1, profile_image: "", profile : MemberProfile(member_id : -1, first_name : "", last_name: "", email: "", gender: "male", birth_date: "", profile_image: nil), gdpr : GdprStruct(profile_details: false, phone_number: true, groups_relations: true, chat_messaging: true, pairing: true, real_time_location: true, files_upload: true, push_notifications: true, rating_reviews: true, group_details: true, billing_payments : false, checkAllSwitch: false))
     static var roleStatus: String = ""
     static var shouldRefresh: Bool = false
     static var currentInboxMessage: InboxMessage?
@@ -35,6 +41,13 @@ struct MyVriables {
 struct ChatUser {
     static var currentUser: Partner?
     static var ChatId: Int?
+}
+struct ModalGDPR {
+    var title: String
+    var description: String
+    var gdbrParmter: String
+    var isDeleteAcount: Bool
+    
 }
 
  struct PlanProvider {
@@ -126,8 +139,12 @@ struct ProviderImages: Codable {
     var id: Int?
     var path: String?
 }
+
 struct ContactsModel: Codable {
     var email: String?
+}
+struct GdprUpdate: Codable {
+    var gdpr: GdprStruct?
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -220,19 +237,44 @@ struct CurrentMember: Codable{
     var total_unread_notifications: Int?
     
 }
+struct MyMemberInfo: Codable{
+    //var message: String?
+    var member: Member?
+    var total_unread_messages: Int?
+    var total_unread_notifications: Int?
+}
 
 struct Member: Codable{
     var email: String?
     var phone: String?
     var id: Int?
+    var profile_image: String?
+    var profile: MemberProfile?
+    var gdpr: GdprStruct?
+    
 }
+struct GdprStruct: Codable{
+    var profile_details: Bool?
+    var phone_number: Bool?
+    var groups_relations: Bool?
+    var chat_messaging: Bool?
+    var pairing: Bool?
+    var real_time_location: Bool?
+    var files_upload: Bool?
+    var push_notifications: Bool?
+    var rating_reviews: Bool?
+    var group_details: Bool?
+    var billing_payments: Bool?
+    var checkAllSwitch: Bool?
+}
+
 
 struct ElasticMember : Codable{
     var id: Int?
     var email: String?
     var first_name: String?
     var last_name: String?
-    var images: [Memberimage]?
+    var profile_image: String?
 }
 struct Memberimage: Codable{
     var path: String?

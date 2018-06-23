@@ -20,6 +20,7 @@
 		7423757F20499FB600B9A0C0 /* PrivateChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7423757E20499FB600B9A0C0 /* PrivateChatViewController.swift */; };
 		74237583204BE0E100B9A0C0 /* PrivateChatMessageCelVc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74237582204BE0E100B9A0C0 /* PrivateChatMessageCelVc.swift */; };
 		7428551F204FF16300637511 /* TestTabVc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7428551E204FF16300637511 /* TestTabVc.swift */; };
+		7428788C20DBC05900EBE998 /* HeaderPrivacyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7428788B20DBC05900EBE998 /* HeaderPrivacyCell.swift */; };
 		742BE2B220B2B0A2005922D1 /* HeaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742BE2B120B2B0A2005922D1 /* HeaderViewController.swift */; };
 		743A2081203C1B12008DF1AA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 743A2080203C1B12008DF1AA /* AppDelegate.swift */; };
 		743A2083203C1B12008DF1AA /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 743A2082203C1B12008DF1AA /* ViewController.swift */; };
@@ -31,6 +32,8 @@
 		743A2102203C6468008DF1AA /* GroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 743A2101203C6468008DF1AA /* GroupViewController.swift */; };
 		7443303F2063EC7400D4073F /* JoinViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7443303E2063EC7400D4073F /* JoinViewController.swift */; };
 		74438D2020C969100072558D /* ToyataJoinGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74438D1F20C969100072558D /* ToyataJoinGroup.swift */; };
+		74438D2320CE5B5A0072558D /* PrivacyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74438D2120CE5B580072558D /* PrivacyCell.swift */; };
+		74438D2420CE5B5A0072558D /* PrivacyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74438D2220CE5B590072558D /* PrivacyViewController.swift */; };
 		74490C19205298D6007AD4FA /* CustomMarkerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74490C18205298D6007AD4FA /* CustomMarkerView.swift */; };
 		74490C1B20529E22007AD4FA /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74490C1A20529E22007AD4FA /* MapViewController.swift */; };
 		74490C1D2052B8F0007AD4FA /* KeyboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74490C1C2052B8F0007AD4FA /* KeyboardViewController.swift */; };
@@ -50,6 +53,7 @@
 		74905909203DB9DC00C6B8C1 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74905908203DB9DC00C6B8C1 /* HomeViewController.swift */; };
 		7491938420AAD236008B5D31 /* RecentGroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7491938220AAD236008B5D31 /* RecentGroupViewController.swift */; };
 		7491938520AAD236008B5D31 /* RecentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7491938320AAD236008B5D31 /* RecentTableViewCell.swift */; };
+		749D5E5220CFC2D300B04010 /* ModalPrivacyController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749D5E5120CFC2D300B04010 /* ModalPrivacyController.swift */; };
 		74A5A4392085D2DB00A97052 /* CheckListItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A5A4382085D2DB00A97052 /* CheckListItemCell.swift */; };
 		74A5A43B2085D31A00A97052 /* checkListCustomCellController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A5A43A2085D31A00A97052 /* checkListCustomCellController.swift */; };
 		74A5A43E2085D64900A97052 /* GroupLeaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A5A43D2085D64900A97052 /* GroupLeaderViewController.swift */; };
@@ -61,6 +65,7 @@
 		74B4E90420A1862900AD873A /* ImageMeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B4E90020A1862900AD873A /* ImageMeTableViewCell.swift */; };
 		74B9BCFB205CF82D005A0C60 /* CheckListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B9BCFA205CF82D005A0C60 /* CheckListViewController.swift */; };
 		74BB5D51208DDC0D00248CA1 /* MessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74BB5D50208DDC0D00248CA1 /* MessageViewController.swift */; };
+		74D73CCB20DB806A0094F7AB /* EnableGdprModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74D73CCA20DB806A0094F7AB /* EnableGdprModal.swift */; };
 		74F7AAA120580D1F00E66DF8 /* ScrollTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F7AAA020580D1F00E66DF8 /* ScrollTestViewController.swift */; };
 		74F7AAA320595D6B00E66DF8 /* ItineraryServiceViewControllerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F7AAA220595D6B00E66DF8 /* ItineraryServiceViewControllerCell.swift */; };
 		74F7AAA5205A976400E66DF8 /* GroupMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F7AAA4205A976400E66DF8 /* GroupMapViewController.swift */; };
@@ -161,6 +166,7 @@
 		7423757E20499FB600B9A0C0 /* PrivateChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivateChatViewController.swift; sourceTree = "<group>"; };
 		74237582204BE0E100B9A0C0 /* PrivateChatMessageCelVc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivateChatMessageCelVc.swift; sourceTree = "<group>"; };
 		7428551E204FF16300637511 /* TestTabVc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestTabVc.swift; sourceTree = "<group>"; };
+		7428788B20DBC05900EBE998 /* HeaderPrivacyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderPrivacyCell.swift; sourceTree = "<group>"; };
 		742BE2B120B2B0A2005922D1 /* HeaderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderViewController.swift; sourceTree = "<group>"; };
 		743A207D203C1B12008DF1AA /* Snapgroup.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Snapgroup.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		743A2080203C1B12008DF1AA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -178,6 +184,8 @@
 		743A2101203C6468008DF1AA /* GroupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupViewController.swift; sourceTree = "<group>"; };
 		7443303E2063EC7400D4073F /* JoinViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinViewController.swift; sourceTree = "<group>"; };
 		74438D1F20C969100072558D /* ToyataJoinGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToyataJoinGroup.swift; sourceTree = "<group>"; };
+		74438D2120CE5B580072558D /* PrivacyCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrivacyCell.swift; sourceTree = "<group>"; };
+		74438D2220CE5B590072558D /* PrivacyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrivacyViewController.swift; sourceTree = "<group>"; };
 		74490C18205298D6007AD4FA /* CustomMarkerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomMarkerView.swift; sourceTree = "<group>"; };
 		74490C1A20529E22007AD4FA /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		74490C1C2052B8F0007AD4FA /* KeyboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardViewController.swift; sourceTree = "<group>"; };
@@ -198,6 +206,7 @@
 		74905908203DB9DC00C6B8C1 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		7491938220AAD236008B5D31 /* RecentGroupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecentGroupViewController.swift; sourceTree = "<group>"; };
 		7491938320AAD236008B5D31 /* RecentTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecentTableViewCell.swift; sourceTree = "<group>"; };
+		749D5E5120CFC2D300B04010 /* ModalPrivacyController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalPrivacyController.swift; sourceTree = "<group>"; };
 		74A5A4382085D2DB00A97052 /* CheckListItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckListItemCell.swift; sourceTree = "<group>"; };
 		74A5A43A2085D31A00A97052 /* checkListCustomCellController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = checkListCustomCellController.swift; sourceTree = "<group>"; };
 		74A5A43D2085D64900A97052 /* GroupLeaderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupLeaderViewController.swift; sourceTree = "<group>"; };
@@ -209,6 +218,7 @@
 		74B4E90020A1862900AD873A /* ImageMeTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageMeTableViewCell.swift; sourceTree = "<group>"; };
 		74B9BCFA205CF82D005A0C60 /* CheckListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckListViewController.swift; sourceTree = "<group>"; };
 		74BB5D50208DDC0D00248CA1 /* MessageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageViewController.swift; sourceTree = "<group>"; };
+		74D73CCA20DB806A0094F7AB /* EnableGdprModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnableGdprModal.swift; sourceTree = "<group>"; };
 		74F0521020657938009A4273 /* Complex JSON.xcworkspace */ = {isa = PBXFileReference; lastKnownFileType = wrapper.workspace; path = "Complex JSON.xcworkspace"; sourceTree = "<group>"; };
 		74F0521120657938009A4273 /* Snapgroup.xcworkspace */ = {isa = PBXFileReference; lastKnownFileType = wrapper.workspace; path = Snapgroup.xcworkspace; sourceTree = "<group>"; };
 		74F7AAA020580D1F00E66DF8 /* ScrollTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollTestViewController.swift; sourceTree = "<group>"; };
@@ -683,6 +693,11 @@
 			children = (
 				7ED602A820BAB7200073EEB9 /* GdbrViewController.swift */,
 				7ED602AA20BAC6450073EEB9 /* GdbrCell.swift */,
+				74438D2120CE5B580072558D /* PrivacyCell.swift */,
+				74438D2220CE5B590072558D /* PrivacyViewController.swift */,
+				749D5E5120CFC2D300B04010 /* ModalPrivacyController.swift */,
+				74D73CCA20DB806A0094F7AB /* EnableGdprModal.swift */,
+				7428788B20DBC05900EBE998 /* HeaderPrivacyCell.swift */,
 			);
 			path = Gdpr;
 			sourceTree = "<group>";
@@ -1151,8 +1166,10 @@
 				74905905203DB5DA00C6B8C1 /* MainTabController.swift in Sources */,
 				7E8F2C6A20A9C0B500854AF0 /* AllReviewsTableViewCell.swift in Sources */,
 				749058FE203D605F00C6B8C1 /* CustomTableViewCell.swift in Sources */,
+				74D73CCB20DB806A0094F7AB /* EnableGdprModal.swift in Sources */,
 				748B842420C03841005D45D4 /* NewDocsViewController.swift in Sources */,
 				7E843A1F20B6B55B00E36A69 /* UploadFilesViewController.swift in Sources */,
+				74438D2320CE5B5A0072558D /* PrivacyCell.swift in Sources */,
 				7E869DD820BFDA3A00DD8E5E /* TitleCell.swift in Sources */,
 				7ED602AB20BAC6450073EEB9 /* GdbrCell.swift in Sources */,
 				7E2ED4B22095B3A6002921A5 /* ServiceModalViewController.swift in Sources */,
@@ -1162,7 +1179,9 @@
 				7491938520AAD236008B5D31 /* RecentTableViewCell.swift in Sources */,
 				7E843A2020B6B55B00E36A69 /* Upload1ViewController.swift in Sources */,
 				7EBD078120A1A8E600369E36 /* PartnerFileCell.swift in Sources */,
+				74438D2420CE5B5A0072558D /* PrivacyViewController.swift in Sources */,
 				74237583204BE0E100B9A0C0 /* PrivateChatMessageCelVc.swift in Sources */,
+				7428788C20DBC05900EBE998 /* HeaderPrivacyCell.swift in Sources */,
 				7E2ED4B02091B14F002921A5 /* ProviderModel.swift in Sources */,
 				74B3CDF0205538F700440EB0 /* Colors.swift in Sources */,
 				74FBD10E20528D2D002D223A /* Models.swift in Sources */,
@@ -1172,6 +1191,7 @@
 				74138E0220440E9D00F37028 /* MenuViewController.swift in Sources */,
 				7EBD077B20A05F7200369E36 /* MeTextCell.swift in Sources */,
 				74905901203D853200C6B8C1 /* DesignableView.swift in Sources */,
+				749D5E5220CFC2D300B04010 /* ModalPrivacyController.swift in Sources */,
 				74BB5D51208DDC0D00248CA1 /* MessageViewController.swift in Sources */,
 				7EBD078520A2DBBA00369E36 /* AddReviewViewController.swift in Sources */,
 				7E2D7B262090C06900DAC98F /* ExpandableHeaderView.swift in Sources */,

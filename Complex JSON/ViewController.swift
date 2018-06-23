@@ -71,6 +71,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet weak var inboxCounterLbl: UILabel!
     @IBOutlet weak var chatCounterLbl: UILabel!
     
+    @IBOutlet weak var noGroupText: UILabel!
     /********* Filter Buttons **********/
     @IBOutlet weak var myGroupsBt: UIButton!
     @IBOutlet weak var managamentBt: UIButton!
@@ -98,6 +99,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
          performSegue(withIdentifier: "showModal", sender: self)
         //showModal
     }
+    
+    @IBAction func privacyClick(_ sender: Any) {
+        menuImage.image = UIImage(named: menuIcon)
+        UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded();})
+        self.memberLeadingConstraints.constant = 190
+         performSegue(withIdentifier: "showPrivacy", sender: self)
+    }
+    @IBOutlet weak var settingClick: UIButton!
     /******* VARIABLES *********/
     var menuIcon: String = "iMenuIcon"
     var myGrous: [TourGroup] = []
@@ -171,7 +180,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         // Show the navigation bar on other view controllers
-        self.navigationController?.setNavigationBarHidden(false, animated: animated)
+        self.navigationController?.setNavigationBarHidden(true, animated: animated)
     }
     func subScribe(){
         UIApplication.shared.registerForRemoteNotifications()
@@ -233,7 +242,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         contryCodeString = country.phoneCode
         contryCode = country.code
         NSLog("roleStatus",  "hihihi")
-      
+        
      //   UIApplication.shared.registerForRemoteNotifications()
         
         chatView.addTapGestureRecognizer {
@@ -484,15 +493,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         print("hihihi")
         let defaults = UserDefaults.standard
         let id = defaults.integer(forKey: "member_id")
-        let first = defaults.string(forKey: "first_name")
-        let last = defaults.string(forKey: "last_name")
-        let email = defaults.string(forKey: "email")
-        let gender = defaults.string(forKey: "gender")
-        let phone = defaults.string(forKey: "phone")
-        let profile_image = defaults.string(forKey: "profile_image")
         let isLogged = defaults.bool(forKey: "isLogged")
         if isLogged == true{
-                setBadges()
+
+            print("IS logged = true")
+        self.getMember(memberId: id)
+         
+                // self.getMember(memberId: id)
+            setBadges()
             SwiftEventBus.onMainThread(self, name: "counters") { (result) in
                 print("CHAT-COUNTER RECEIVED IN VIEW CONTROLLER ")
                 self.setBadges()
@@ -506,32 +514,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 self.profileImageView.layer.masksToBounds = false
                 self.profileImageView.layer.cornerRadius = self.profileImageView.frame.height/2
                 self.profileImageView.clipsToBounds = true
-                MyVriables.currentMember = Member(email: email, phone: phone, id: id)
 
-            if first != nil && last != nil {
-                self.memberNameLbl.text = (first)! + " " + (last)!
-            }
             
-            if phone != nil {
-                self.memberPhoneLbl.text = (phone)!
-            }
-            if gender != nil {
-                if (gender)! == "male" {
-                    self.memberGenderLbl.text = "Male"
-                }else {
-                    self.memberGenderLbl.text = "Female"
-
-                }
-            }
-            
-            if profile_image != nil {
-                let urlString = try ApiRouts.Web + (profile_image)!
-                var url = URL(string: urlString)
-                if url != nil {
-                    self.profileImageView.sd_setImage(with: url!, completed: nil)
-                }
-                
-            }
             
             self.sort = standart_sort
             if #available(iOS 11.0, *) {
@@ -548,7 +532,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             
             
         }else{
-            
+            print("Refresh groups without filter")
+            self.phoneNumberFeild.text = ""
+            self.phoneNumberStackView.isHidden = false
+            self.chatHeaderStackView.isHidden = true
+            self.isLogged = false
+             print("IS logged = false")
           self.getSwiftGroups()
             
         }
@@ -764,6 +753,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         PinAlert.addTextField { (textField) in
             textField.placeholder = "1234"
+            //textField.shouldChangeText(in: 6, replacementText: "")
             
         }
         print ("pin created")
@@ -878,11 +868,19 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             do {
                 let  groups2 = try JSONDecoder().decode(Main.self, from: data)
                 groups = groups2.data!
-                if groups?.count == 0 {
-                    self.hasLoadMore = false
+                if (groups2.total)! == 0
+                {
+                    DispatchQueue.main.async {
+                        self.hasLoadMore = false
+                        self.noGroupsView.isHidden = false
+                    }
                     return
+                }else
+                {
+                    DispatchQueue.main.async {
+                        self.noGroupsView.isHidden = true
+                    }
                 }
-
                 DispatchQueue.main.sync {
                     for group in groups! {
                         self.myGrous.append(group)
@@ -890,8 +888,22 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                  //   self.myGrous = groups!
                     self.tableView.reloadData()
                     self.refresher.endRefreshing()
+                    
                     self.page += 1
                 }
+                DispatchQueue.main.sync {
+                    if self.page > groups2.last_page!
+                    {
+                        self.hasLoadMore = false
+                        print("request page is false ")
+                         self.refresher.endRefreshing()
+                        
+                        return
+                    }
+                }
+                
+               
+               
 
               //  print(self.myGrous.count)
             }
@@ -919,9 +931,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             lastFilter = allGroupsFilter
         }
         else if filter == "search" {
+            noGroupText.text = " We could not find groups using the search words you provided. Please try again later."
             lastFilter = searchUrl
         }
         else if filter == "leader" {
+             noGroupText.text = " You currently do not have any groups that you create or mange."
             lastFilter = withRole
         }
         else if filter == "no-filter" {
@@ -946,6 +960,18 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 groups = groups2.data!
                 print("------------- \(lastFilter)  Page: \(self.page) groups count: \(groups?.count)")
 
+                if (groups2.total)! == 0
+                {
+                    DispatchQueue.main.async {
+                        self.noGroupsView.isHidden = false
+                    }
+                }else
+                {
+                    DispatchQueue.main.async {
+                        self.noGroupsView.isHidden = true
+                    }
+                }
+                // self.noGroupsView.isHidden = true
                 
                 if groups2.last_page! < self.page {
 
@@ -994,7 +1020,121 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
 
-    
+    func getMember(memberId: Int){
+        
+        print("Im in get Member")
+        print("Url is " + ApiRouts.Web +  "/api/members/member/\(memberId)")
+        HTTP.GET(ApiRouts.Web +  "/api/members/member/\(memberId)", parameters: []) { response in
+            //do things...
+            if response.error != nil {
+                print(response.error)
+                return
+            }
+            print(response.description)
+            do{
+                let  member : MyMemberInfo = try JSONDecoder().decode(MyMemberInfo.self, from: response.data)
+                if response.error != nil {
+                    print("Memberinfo is \(response.error)")
+                }else {
+                    print("MemberInfo is" + "*************")
+                    print(member.member?.gdpr)
+                    print("*************")
+
+                }
+                
+                self.currentMember = CurrentMember(member: member.member, profile: member.member?.profile, total_unread_messages: (member.total_unread_messages)!, total_unread_notifications: (member.total_unread_notifications)!)
+                MyVriables.currentMember =  (self.currentMember?.member)!
+                print("All profile  is \((MyVriables.currentMember)!)")
+                MyVriables.currentMember?.id = (member.member?.profile?.member_id)!
+                print("Member id is \(MyVriables.currentMember?.id!)")
+                print("Gdpr : \((MyVriables.currentMember)!)")
+                
+                self.setToUserDefaults(value: self.currentMember?.profile?.first_name , key: "first_name")
+                self.setToUserDefaults(value: self.currentMember?.profile?.last_name, key: "last_name")
+                self.setToUserDefaults(value: self.currentMember?.member?.email, key: "email")
+                self.setToUserDefaults(value: self.currentMember?.member?.phone, key: "phone")
+                self.setToUserDefaults(value: self.currentMember?.profile?.gender, key: "gender")
+                self.setToUserDefaults(value: self.currentMember?.profile?.birth_date, key: "birth_date")
+                self.setToUserDefaults(value: (self.currentMember?.member?.profile_image) != nil ? (self.currentMember?.member?.profile_image)! : nil, key: "profile_image")
+                self.setToUserDefaults(value: self.currentMember?.total_unread_messages, key: "chat_counter")
+                self.setToUserDefaults(value: self.currentMember?.total_unread_notifications, key: "inbox_counter")
+                //print("Current profile image is \(self.currentMember?.profile?.profile_image != nil ? (self.currentMember?.profile?.profile_image)! : "")")
+
+                do {
+                    try DispatchQueue.main.sync {
+                    let defaults = UserDefaults.standard
+                    let first = defaults.string(forKey: "first_name")
+                    let last = defaults.string(forKey: "last_name")
+                    let gender = defaults.string(forKey: "gender")
+                    let phone = defaults.string(forKey: "phone")
+                    let id = defaults.integer(forKey: "member_id")
+                    let profile_image = defaults.string(forKey: "profile_image")
+                    let chat_counter = defaults.integer(forKey: "chat_counter")
+                    let inbox_counter = defaults.integer(forKey: "inbox_counter")
+                        
+                    print("notfaction is \(inbox_counter) and chats is \(chat_counter)")
+                    if let profile =  member.member?.profile {
+                        print("PROFILE: OK")
+                        
+                        self.currentProfile = member.member?.profile
+                    }else {
+                        print("PROFILE: NULL")
+                    }
+                    if first != nil && last != nil {
+                        if first == "no value" || last == "no value" {
+                            var z = 1500 + id
+                            self.memberNameLbl.text = "Guest\(z)"
+                        }
+                        else {
+                           self.memberNameLbl.text = (first)! + " " + (last)!
+                        }
+                        
+                    }
+                    
+                    if phone != nil {
+                        self.memberPhoneLbl.text = (phone)!
+                    }
+                    if gender != nil {
+                        if (gender)! == "male" {
+                            self.memberGenderLbl.text = "Male"
+                        }else {
+                            self.memberGenderLbl.text = "Female"
+                            
+                        }
+                    }
+                    //urstri
+                    if profile_image != nil {
+                        if profile_image == "no value"
+                        {
+                            self.profileImageView.image = UIImage(named : "default user")
+                        }
+                        else {
+                        var urlString = try ApiRouts.Web + (profile_image)!
+                        print("Url string is \(urlString)")
+                        urlString = urlString.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)!
+                        var url = URL(string: urlString)
+                        if url != nil {
+                            self.profileImageView.sd_setImage(with: url!, completed: nil)
+                        }
+                        }
+                        
+                    }
+                    
+                }
+                }catch {
+                    
+                }
+                
+            }
+            catch {
+                
+                
+            }
+            
+        }
+        
+        
+    }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
@@ -1086,6 +1226,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 cell.totalMembersLbl.text = "\(self.myGrous[currentIndex].target_members!)"
             }
         }
+        
         // if company
         if self.myGrous[currentIndex].is_company == 0 {
             
@@ -1109,6 +1250,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             cell.groupLeaderImageView.clipsToBounds = true;
             cell.groupLeaderImageView.layer.borderWidth = 1.0
             cell.groupLeaderImageView.layer.borderColor = UIColor.gray.cgColor
+            cell.groupLeaderImageView.contentMode = .scaleAspectFill
         } // if just group leader
         else{
             cell.groupLeaderLbl.text = self.myGrous[currentIndex].group_leader_company_name != nil ? self.myGrous[currentIndex].group_leader_company_name! : "Company"
@@ -1133,9 +1275,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             cell.groupLeaderImageView.layer.borderWidth = 0
             cell.groupLeaderImageView.layer.cornerRadius = 0;
             cell.groupLeaderImageView.clipsToBounds = false;
+             cell.groupLeaderImageView.contentMode = .scaleAspectFit
         }
-        cell.selectionStyle = .none
         
+        cell.selectionStyle = .none
         if self.myGrous[currentIndex].translations?.count != 0 {
             cell.groupLabel.text = self.myGrous[currentIndex].translations?[0].title
             
@@ -1219,6 +1362,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             
         }
         
+        
         return cell
     }
     
@@ -1295,6 +1439,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
         else{
             let defaults = UserDefaults.standard
+            
             defaults.set("no value", forKey: key)
         }
 
@@ -1613,7 +1758,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         PinAlert.addTextField { (textField) in
             textField.placeholder = "1234"
-            
+            //textField.shouldChangeText(in: 6, replacementText: "")
         }
         print ("pin created")
         
@@ -1652,6 +1797,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                     let  member = try JSONDecoder().decode(CurrentMember.self, from: response.data)
                     print(member)
                     self.currentMember = member
+                    //getMember(memberId: self.currentMember?.member?.id
                     self.setToUserDefaults(value: true, key: "isLogged")
                     //  print(self.currentMember?.profile!)
                     self.setToUserDefaults(value: self.currentMember?.profile?.member_id!, key: "member_id")
@@ -1742,4 +1888,10 @@ public extension UIViewController {
         view.endEditing(true)
     }
 }
-
+extension ViewController: UITextFieldDelegate {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        guard let text = textField.text else { return true }
+        let newLength = text.characters.count + string.characters.count - range.length
+        return newLength <= 6 //
+    }
+}

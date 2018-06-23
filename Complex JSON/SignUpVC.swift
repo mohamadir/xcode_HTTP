@@ -12,6 +12,7 @@ import SwiftyAvatar
 import SwiftyPickerPopover
 import SwiftHTTP
 import SwiftEventBus
+import TTGSnackbar
 
 
 class SignUpVC: UIViewController, UIPickerViewDelegate, UITextFieldDelegate, UIPickerViewDataSource {
@@ -64,14 +65,22 @@ class SignUpVC: UIViewController, UIPickerViewDelegate, UITextFieldDelegate, UIP
         let email = defaults.string(forKey: "email")
         let gender = defaults.string(forKey: "gender")
          let birth_date = defaults.string(forKey: "birth_date")
+        if firstName != "no value"{ // last == "no value" {
         firstNameTf.text = firstName
+        }
+        if lastName != "no value" {
         lastNameTf.text = lastName
+        }
         if birth_date != nil {
             print("BIRTHDAY \(birth_date)")
+            if birth_date != "no value" {
             birthdayBt.setTitle(birth_date!, for: .normal)
+            }
         }
         if emailTf.text != nil {
+            if email != "no value" {
             emailTf.text = email
+            }
         }
         if gender != nil {
             getGenderIndex(gender: gender!)
@@ -174,7 +183,17 @@ class SignUpVC: UIViewController, UIPickerViewDelegate, UITextFieldDelegate, UIP
     
     @IBAction func saveProfileInfo(_ sender: Any) {
         print("data is \(valueSelected)")
-        saveProfileRequset()
+        if firstNameTf.text == "" || lastNameTf.text == ""
+        {
+            let snackbar = TTGSnackbar(message: "Please fill first name and last name", duration: .middle)
+            snackbar.icon = UIImage(named: "AppIcon")
+            snackbar.show()
+        }
+        else
+        {
+            saveProfileRequset()
+        }
+        
     }
     func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
         var pickerLabel: UILabel? = (view as? UILabel)
@@ -226,7 +245,7 @@ class SignUpVC: UIViewController, UIPickerViewDelegate, UITextFieldDelegate, UIP
             self.pickerData = ["other","Female","Male"]
             break
         default:
-            self.pickerData = ["other","Female","Male"]
+            self.pickerData = ["Male", "Female", "other"]
         }
 
     }

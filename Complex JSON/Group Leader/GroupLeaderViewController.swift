@@ -15,8 +15,6 @@ class GroupLeaderViewController: UIViewController,UITableViewDelegate,UITableVie
 
     @IBOutlet weak var allReviewLbl: UIButton!
     @IBOutlet weak var scrollView: UIScrollView!
-    // hi hi
-    //bye bye
     @IBOutlet weak var ratingTbaleview: UITableView!
     @IBOutlet weak var leaderImageview: UIImageView!
     var singleGroup: TourGroup?
@@ -42,6 +40,13 @@ class GroupLeaderViewController: UIViewController,UITableViewDelegate,UITableVie
         SwiftEventBus.onMainThread(self, name: "newComment") { result in
             self.getRatings()
         }
+       // print("Refresh is \((MyVriables.enableGdpr?.parmter)!)")
+        SwiftEventBus.onMainThread(self, name: "refresh-rating_reviews") { result in
+            ProviderInfo.model_type = "members"
+            ProviderInfo.model_id =  (MyVriables.currentGroup?.group_leader_id) != nil ? (MyVriables.currentGroup?.group_leader_id)! : -1
+            self.performSegue(withIdentifier: "showAddReview", sender: self)
+        }
+        //"refresh\((MyVriables.enableGdpr?.parmter)!)"
         self.singleGroup  = MyVriables.currentGroup!
         ratingTbaleview.delegate = self
         ratingTbaleview.dataSource = self
@@ -116,9 +121,17 @@ class GroupLeaderViewController: UIViewController,UITableViewDelegate,UITableVie
     }
     @IBAction func showAddReview(_ sender: Any) {
         //showAddReview
+        if  (MyVriables.currentMember?.gdpr?.rating_reviews)! == true {
        ProviderInfo.model_type = "members"
        ProviderInfo.model_id =  (MyVriables.currentGroup?.group_leader_id)!
         performSegue(withIdentifier: "showAddReview", sender: self)
+        }else
+        {
+            var gdprObkectas : GdprObject = GdprObject(title: "Rating a& reviews", descrption: "If you choose to rate and write a review on a group leader or a service provider, your review will be displayed next to profile details on the reviews page.", isChecked: (MyVriables.currentMember?.gdpr?.rating_reviews) != nil ? (MyVriables.currentMember?.gdpr?.rating_reviews)! : false, parmter: "rating_reviews", image: "In order to write a review, please approve the review save and usage:")
+            MyVriables.enableGdpr = gdprObkectas
+            performSegue(withIdentifier: "showEnableModal", sender: self)
+            
+        }
 
     }
     func getRatings() {

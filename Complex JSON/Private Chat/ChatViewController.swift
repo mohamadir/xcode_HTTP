@@ -36,13 +36,15 @@ class ChatViewController: UIViewController , UITableViewDelegate, UITableViewDat
 
     }
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.setNavigationBarHidden(true, animated: true)
 
         setUpSocket()
+        
 
-        self.reloadView()
+       // self.reloadView()
         backView.addTapGestureRecognizer {
         self.navigationController?.popViewController(animated: true)
         }
@@ -99,6 +101,7 @@ class ChatViewController: UIViewController , UITableViewDelegate, UITableViewDat
         
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        print("Count chats is \((self.messagesNoPartner?.count)!)")
         return (self.messagesNoPartner?.count)!
     }
     
@@ -121,7 +124,7 @@ class ChatViewController: UIViewController , UITableViewDelegate, UITableViewDat
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "customChatCell") as! ChatCustomCellController
         cell.tag = indexPath.row
-        cell.userNameLbl.text = "\((self.messagesNoPartner?[indexPath.row].partner?.first_name)!) \((self.messagesNoPartner?[indexPath.row].partner?.last_name)!)"
+        cell.userNameLbl.text = "\((self.messagesNoPartner?[indexPath.row].partner?.first_name) != nil ? (self.messagesNoPartner?[indexPath.row].partner?.first_name)! : "User \(self.messagesNoPartner?[indexPath.row].id!)" ) \((self.messagesNoPartner?[indexPath.row].partner?.last_name) != nil ? (self.messagesNoPartner?[indexPath.row].partner?.last_name)! : "" )"
         cell.messageLbl.text = self.messagesNoPartner?[indexPath.row].last_message?.message!
         if self.messagesNoPartner?[indexPath.row].total_unread! != 0 {
             
@@ -133,7 +136,7 @@ class ChatViewController: UIViewController , UITableViewDelegate, UITableViewDat
 
         }
      
-        //if cell.tag == indexPath.row
+        //if cell.tag == indexPath.rowow
         if self.messagesNoPartner?[indexPath.row].partner?.profile_image != nil {
             var urlString = ApiRouts.Web + (self.messagesNoPartner?[indexPath.row].partner?.profile_image)!
             if self.messagesNoPartner?[indexPath.row].partner?.profile_image?.contains("https") == true {
@@ -167,6 +170,7 @@ class ChatViewController: UIViewController , UITableViewDelegate, UITableViewDat
         
     }
     func getConversations(){
+        self.messagesNoPartner = []
         print("Url is " + "\(ApiRouts.Web)/api/chats?member_id=\((MyVriables.currentMember?.id!)!)")
         HTTP.GET("\(ApiRouts.Web)/api/chats?member_id=\((MyVriables.currentMember?.id!)!)", parameters: []) { response in
             if let err = response.error {
@@ -209,7 +213,8 @@ class ChatViewController: UIViewController , UITableViewDelegate, UITableViewDat
             
         }
         socket!.on("member-\((MyVriables.currentMember?.id!)!):member-channel") {data, ack in
-            self.getConversations()
+            print("In socket on")
+           self.getConversations()
             if let data2 = data[0] as? Dictionary<String, Any> {
                 if let messageClass = data2["messageClass"] as? Dictionary<String, Any> {
                     print(messageClass)

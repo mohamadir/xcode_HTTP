@@ -10,7 +10,9 @@ import UIKit
 import SwiftHTTP
 import SocketIO
 import ARSLineProgress
+import SwiftEventBus
 import Alamofire
+
 struct privateChatMessage: Codable {
     var member_id: Int?
     var message: String?
@@ -45,6 +47,7 @@ public extension UIColor {
 
 class PrivateChatViewController: UIViewController ,UIImagePickerControllerDelegate, UINavigationControllerDelegate , UITableViewDelegate, UITableViewDataSource , UITextFieldDelegate {
     
+    @IBOutlet weak var progressStar: UIActivityIndicatorView!
     @IBOutlet weak var keyboardConstraints: NSLayoutConstraint!
     @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var headerView: UIView!
@@ -196,7 +199,12 @@ class PrivateChatViewController: UIViewController ,UIImagePickerControllerDelega
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+    //    chatTableView.scroll(to: .top, animated: true)
+        SwiftEventBus.onMainThread(self, name: "refresh-files_upload") { result in
+            self.imagePicker.allowsEditing = false
+            self.imagePicker.sourceType = .photoLibrary
+            self.present(self.imagePicker, animated: true, completion: nil)
+        }
         backView.addTapGestureRecognizer {
             self.navigationController?.popViewController(animated: true)
         }
@@ -277,11 +285,18 @@ class PrivateChatViewController: UIViewController ,UIImagePickerControllerDelega
     
     
     @IBAction func attachImageTapped(_ sender: Any) {
-        imagePicker.allowsEditing = false
-        imagePicker.sourceType = .photoLibrary
         dismissKeyboard()
+        if  (MyVriables.currentMember?.gdpr?.files_upload)! == true {
+            imagePicker.allowsEditing = false
+            imagePicker.sourceType = .photoLibrary
+            present(imagePicker, animated: true, completion: nil)
+        }else
+        {
+            var gdprObkectas : GdprObject = GdprObject(title: "Files upload and sharing", descrption: "Group leaders may request certain files and media to be uploaded for each group. These files will be available for the leader of the group you uploaded the files to. We will also save the uploaded files for you to use again. We may save these files for up to 3 months", isChecked: (MyVriables.currentMember?.gdpr?.files_upload) != nil ? (MyVriables.currentMember?.gdpr?.files_upload)! : false, parmter: "files_upload", image: "In order to use the files tools, please approve the files usage:")
+            MyVriables.enableGdpr = gdprObkectas
+            self.performSegue(withIdentifier: "showEnableDocuments", sender: self)
+        }
         
-        present(imagePicker, animated: true, completion: nil)
     }
     
     @objc func keyboardWillShow(notification:NSNotification) {
@@ -311,6 +326,70 @@ class PrivateChatViewController: UIViewController ,UIImagePickerControllerDelega
         }
         
     }
+    var topVisibleIndexPath:IndexPath? = nil
+    var isLoading: Bool = false
+    var isFirstTime: Bool = true
+    var randomMessages = ["nkbsdkajs hd","askdhh1123","123","jfd111","njfdvb3","8854sda","114345675789","jjjjjjj","9998766","askdhh1123","123"]
+    func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if isFirstTime {
+            return
+        }
+        topVisibleIndexPath = self.chatTableView.indexPathsForVisibleRows![0]
+
+        print("topVisibliosh: \(topVisibleIndexPath)")
+        if topVisibleIndexPath?.row == 0 {
+            if !isLoading {
+                                print("TESTTEST- load more data .. ")
+
+                isLoading = true
+                progressStar.isHidden = false
+                print("TESTTEST- load more data .. ")
+                DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500)) {
+
+                    
+                // HERE LOAD NEW MESSAGES ...
+                    
+                for i in 1...10 {
+                    var newMessage : Message = Message()
+                    newMessage.created_at = "2018-04-09 19:23:42"
+                    newMessage.member_id = 74
+                    newMessage.type = "text"
+                    var number = Int(arc4random_uniform(UInt32(10)) + UInt32(0));
+                    newMessage.message = self.randomMessages[number]
+                    var oponent_id =  ChatUser.currentUser?.id!
+                    self.allMessages.insert(newMessage, at: 0)
+                    self.progressStar.isHidden = true
+
+
+                }
+                    
+               // FINISH LOAD NEW ITMES
+                    
+                    
+                    
+                    
+                self.chatTableView.reloadData()
+                self.topVisibleIndexPath = self.chatTableView.indexPathsForVisibleRows![0]
+                
+                if self.allMessages.count > 0 {
+                    let indexPath = IndexPath(row: (self.chatTableView.indexPathsForVisibleRows![0].row)+2 , section: 0)
+                    self.chatTableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
+                }
+
+                self.isLoading = false
+                
+                
+            
+            }
+        }
+            //
+            //
+            
+        }
+        
+        
+    }
+    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
         
@@ -458,8 +537,9 @@ class PrivateChatViewController: UIViewController ,UIImagePickerControllerDelega
         let params = ["member_id": MyVriables.currentMember?.id!] as [String : Any]
         print("params: \(params)")
         if ChatUser.ChatId != nil {
-            HTTP.POST(ApiRouts.Web + "/api/chats/\(ChatUser.ChatId!)", parameters: params) { response in
+            HTTP.POST(ApiRouts.Web + "/api/chats/\(ChatUser.ChatId!)?member_id=\((MyVriables.currentMember?.id)!)", parameters: params) { response in
                 print("mark conv: \(response.description)" )
+               
             }
         }
     }
@@ -548,6 +628,8 @@ class PrivateChatViewController: UIViewController ,UIImagePickerControllerDelega
     }
     override func viewDidDisappear(_ animated: Bool) {
         self.resetMessages( )
+        self.markConvRead()
+        
     }
     
     fileprivate func sendMessage() {
@@ -712,10 +794,45 @@ class PrivateChatViewController: UIViewController ,UIImagePickerControllerDelega
             let indexPath = IndexPath(row: allMessages.count - 1 , section: 0)
             chatTableView.scrollToRow(at: indexPath, at: .bottom, animated: false)
         }
+        isFirstTime = false
         
     }
     
     
+}
+extension UITableView {
+    public func reloadData(_ completion: @escaping ()->()) {
+        UIView.animate(withDuration: 0, animations: {
+            self.reloadData()
+        }, completion:{ _ in
+            completion()
+        })
+    }
+    
+    func scroll(to: scrollsTo, animated: Bool) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(300)) {
+            let numberOfSections = self.numberOfSections
+            let numberOfRows = self.numberOfRows(inSection: numberOfSections-1)
+            switch to{
+            case .top:
+                if numberOfRows > 0 {
+                    let indexPath = IndexPath(row: 0, section: 0)
+                    self.scrollToRow(at: indexPath, at: .top, animated: animated)
+                }
+                break
+            case .bottom:
+                if numberOfRows > 0 {
+                    let indexPath = IndexPath(row: numberOfRows-1, section: (numberOfSections-1))
+                    self.scrollToRow(at: indexPath, at: .bottom, animated: animated)
+                }
+                break
+            }
+        }
+    }
+    
+    enum scrollsTo {
+        case top,bottom
+    }
 }
 
 

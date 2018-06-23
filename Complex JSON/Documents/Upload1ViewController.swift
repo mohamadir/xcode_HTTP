@@ -11,6 +11,7 @@ import XLPagerTabStrip
 import SwiftHTTP
 import ARSLineProgress
 import Alamofire
+import SwiftEventBus
 class Upload1ViewController: UIViewController ,UITableViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate ,UITableViewDataSource, IndicatorInfoProvider
 {
 
@@ -21,7 +22,12 @@ class Upload1ViewController: UIViewController ,UITableViewDelegate, UIImagePicke
     @IBOutlet weak var tableView: UITableView!
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        SwiftEventBus.onMainThread(self, name: "refresh-files_upload") { result in
+            let controller = UIImagePickerController()
+            controller.delegate = self
+            controller.sourceType = .photoLibrary
+            self.present(controller, animated: true, completion: nil)
+        }
         tableView.separatorStyle = .none
     }
     override func viewWillAppear(_ animated: Bool) {
@@ -72,20 +78,21 @@ class Upload1ViewController: UIViewController ,UITableViewDelegate, UIImagePicke
             
         }
         cell.downloadView.addTapGestureRecognizer {
-            self.indexMedia = indexPath.row
+             self.indexMedia = indexPath.row
+            if  (MyVriables.currentMember?.gdpr?.files_upload)! == true {
             let controller = UIImagePickerController()
             controller.delegate = self
             controller.sourceType = .photoLibrary
             self.present(controller, animated: true, completion: nil)
+            }else
+            {
+                var gdprObkectas : GdprObject = GdprObject(title: "Files upload and sharing", descrption: "Group leaders may request certain files and media to be uploaded for each group. These files will be available for the leader of the group you uploaded the files to. We will also save the uploaded files for you to use again. We may save these files for up to 3 months", isChecked: (MyVriables.currentMember?.gdpr?.files_upload) != nil ? (MyVriables.currentMember?.gdpr?.files_upload)! : false, parmter: "files_upload", image: "In order to use the files tools, please approve the files usage:")
+                MyVriables.enableGdpr = gdprObkectas
+                 self.performSegue(withIdentifier: "showEnableDocuments", sender: self)
+            }
             //self.uploadFile(id: (self.documents?.required_documents[indexPath.row].id)!)
         }
-        cell.editView.addTapGestureRecognizer {
-//            let controller = UIImagePickerController()
-//            controller.delegate = self
-//            controller.sourceType = .photoLibrary
-//            self.present(controller, animated: true, completion: nil)
-           // self.uploadFile(id: (self.documents?.required_documents[indexPath.row].id)!)
-        }
+
         return cell
     }
     func removeFile(id: Int){

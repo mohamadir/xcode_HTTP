@@ -87,6 +87,7 @@ class MembersViewController: UIViewController,UICollectionViewDelegate, UICollec
         cell.memberNameLbl.text = filterdMembers[indexPath.row].first_name! + " " + filterdMembers[indexPath.row].last_name!
         }
        
+        cell.memberImage.contentMode = .scaleAspectFill
         return cell
     }
     override func viewWillAppear(_ animated: Bool) {

@@ -14,6 +14,7 @@ struct Main: Codable{
     var data: [TourGroup]?
     var last_page: Int?
     var current_page: Int?
+     var total: Int?
     
     // POST METHOD TO GET GROUPS REQUEST
     func  getGroups(completionBlock: @escaping ([TourGroup]?) -> Void) -> Void {

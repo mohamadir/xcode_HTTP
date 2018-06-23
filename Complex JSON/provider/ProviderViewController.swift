@@ -30,14 +30,23 @@ class ProviderViewController: UIViewController,UITableViewDelegate,UITableViewDa
     var ratingsArray: [RatingModel]?
     @IBAction func addReviewClick(_ sender: Any) {
        
+        if  (MyVriables.currentMember?.gdpr?.rating_reviews)! == true {
         performSegue(withIdentifier: "showAddReview", sender: self)
+        }else
+        {
+            var gdprObkectas : GdprObject = GdprObject(title: "Rating a& reviews", descrption: "If you choose to rate and write a review on a group leader or a service provider, your review will be displayed next to profile details on the reviews page.", isChecked: (MyVriables.currentMember?.gdpr?.rating_reviews) != nil ? (MyVriables.currentMember?.gdpr?.rating_reviews)! : false, parmter: "rating_reviews", image: "In order to write a review, please approve the review save and usage:")
+            MyVriables.enableGdpr = gdprObkectas
+            performSegue(withIdentifier: "showEnable", sender: self)
+        }
         
         
     }
     var providerModel : ProviderModel?
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        SwiftEventBus.onMainThread(self, name: "refresh-rating_reviews") { result in
+            self.performSegue(withIdentifier: "showAddReview", sender: self)
+        }
         tableViewRatings.delegate = self
         tableViewRatings.dataSource = self
         tableViewRatings.isScrollEnabled = false

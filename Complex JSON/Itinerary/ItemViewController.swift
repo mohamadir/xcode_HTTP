@@ -70,6 +70,7 @@ class ItemViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
         else{
             var urlString = ApiRouts.Web + dayImagePath
+            urlString = urlString.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)!
             var url = URL(string: urlString)
             //print("URL STRING \(url!)")
 //            do{
@@ -80,7 +81,6 @@ class ItemViewController: UIViewController, UITableViewDelegate, UITableViewData
 //            }
             if url != nil{
                 dayImageView.sd_setImage(with: url!, completed: nil)
-
             }
         }
         restaurantView.addTapGestureRecognizer {

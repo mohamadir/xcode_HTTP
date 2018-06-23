@@ -17,6 +17,8 @@ public  struct GdprObject {
     var title: String
     var descrption: String
     var isChecked: Bool
+    var parmter: String
+    var image: String
 }
 class GdbrViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
@@ -36,16 +38,15 @@ class GdbrViewController: UIViewController, UITableViewDelegate, UITableViewData
         checkAllSwitch.addTarget(self, action: #selector(self.switchChangeed(_:)), for: .valueChanged)
         ////fill array
    // 2 3 4 5
-        arrayGdpr.append(GdprObject(title: "Profile details", descrption: "Full name, profile image, date of birth and gender and hometown. These details will be saved to identify you among other members and will be displayed for members on the app. You can choose not to provide any of all of these details.", isChecked: false))
-        arrayGdpr.append(GdprObject(title: "Phone number and receiving text messages (required)", descrption: "The phone number will be used as your username and will also be used to invite you to a group. Your number will be visible to group leaders and they would be able to call you. You will also receive sms messages for verification purposes and for group invitation.", isChecked: false))
-        arrayGdpr.append(GdprObject(title: "Groups relations (required)", descrption: "Every group you decide to join will be saved in our database. Your profile will be displayed as a member on those groups and the group leader will be able to send you updates, ask you for file upload and manage you as a group member", isChecked: false))
-         arrayGdpr.append(GdprObject(title: "Chat messaging (required)", descrption: "You approve we can save your text and media you share using the private and group chats. Messages you send through the private chat will be visible only to you and your chat participant. Messages sent on the group chat will be available to all of the groups members", isChecked: false))
-        arrayGdpr.append(GdprObject(title: "Pairing (required)", descrption: "You have the option to join a fellow group members as a pair so you can share bedrooms, bus seats and more. The members you pair with will be displayed to other group members.", isChecked: false))
-        arrayGdpr.append(GdprObject(title: "Real time Location", descrption: "Your group members may have the option to see your location on a map. You will be able to see the group members on a real time map using GPS positioning. You may disable this option on the settings page", isChecked: false))
-        arrayGdpr.append(GdprObject(title: "Files upload and sharing", descrption: "Group leaders may request certain files and media to be uploaded for each group. These files will be available for the leader of the group you uploaded the files to. We will also save the uploaded files for you to use again. We may save these files for up to 3 months", isChecked: false))
-        arrayGdpr.append(GdprObject(title: "Push notifications", descrption: "Snapgroup may send you push notifications from time to time (only for mobile apps). The push notifications can be for groups invitations, group leader updates or system messages of any type. You can disable each type of push messages on the settings page", isChecked: false))
-        arrayGdpr.append(GdprObject(title: "Rating a& reviews", descrption: "If you choose to rate and write a review on a group leader or a service provider, your review will be displayed next to profile details on the reviews page.", isChecked: false))
-
+        arrayGdpr.append(GdprObject(title: "Profile details (required)", descrption: "Full name, profile image, date of birth and gender and hometown. These details will be saved to identify you among other members and will be displayed for members on the app. You can choose not to provide any of all of these details.", isChecked:  false, parmter: "profile_details", image: ""))
+        arrayGdpr.append(GdprObject(title: "Phone number and receiving text messages (required)", descrption: "The phone number will be used as your username and will also be used to invite you to a group. Your number will be visible to group leaders and they would be able to call you. You will also receive sms messages for verification purposes and for group invitation.", isChecked: false, parmter: "phone_number", image: ""))
+        arrayGdpr.append(GdprObject(title: "Groups relations (required)", descrption: "Every group you decide to join will be saved in our database. Your profile will be displayed as a member on those groups and the group leader will be able to send you updates, ask you for file upload and manage you as a group member", isChecked:  false, parmter: "groups_relations", image: ""))
+        arrayGdpr.append(GdprObject(title: "Chat messaging (required)", descrption: "You approve we can save your text and media you share using the private and group chats. Messages you send through the private chat will be visible only to you and your chat participant. Messages sent on the group chat will be available to all of the groups members", isChecked:  false, parmter: "chat_messaging", image: ""))
+        arrayGdpr.append(GdprObject(title: "Pairing (required)", descrption: "You have the option to join a fellow group members as a pair so you can share bedrooms, bus seats and more. The members you pair with will be displayed to other group members.", isChecked:  false, parmter: "pairing", image: ""))
+        arrayGdpr.append(GdprObject(title: "Real time Location", descrption: "Your group members may have the option to see your location on a map. You will be able to see the group members on a real time map using GPS positioning. You may disable this option on the settings page", isChecked: false, parmter: "real_time_location", image: ""))
+        arrayGdpr.append(GdprObject(title: "Files upload and sharing", descrption: "Group leaders may request certain files and media to be uploaded for each group. These files will be available for the leader of the group you uploaded the files to. We will also save the uploaded files for you to use again. We may save these files for up to 3 months", isChecked:  false, parmter: "files_upload", image: ""))
+        arrayGdpr.append(GdprObject(title: "Push notifications", descrption: "Snapgroup may send you push notifications from time to time (only for mobile apps). The push notifications can be for groups invitations, group leader updates or system messages of any type. You can disable each type of push messages on the settings page", isChecked:  false, parmter: "push_notifications", image: ""))
+        arrayGdpr.append(GdprObject(title: "Rating a& reviews", descrption: "If you choose to rate and write a review on a group leader or a service provider, your review will be displayed next to profile details on the reviews page.", isChecked:  false, parmter: "rating_reviews", image: ""))
         
         
         
@@ -115,14 +116,13 @@ class GdbrViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBAction func confirmClick(_ sender: Any) {
       //  print("THIS OK 2 = \(arraySiwtch[2]) 3 = \(arraySiwtch[2])")
 
-        if  arrayGdpr[2].isChecked  == true &&  arrayGdpr[3].isChecked  == true  &&  arrayGdpr[4].isChecked  == true &&  arrayGdpr[1].isChecked  == true
+        if  arrayGdpr[0].isChecked  == true && arrayGdpr[1].isChecked  == true &&  arrayGdpr[2].isChecked  == true  &&  arrayGdpr[3].isChecked  == true &&  arrayGdpr[4].isChecked  == true
         {
             var gdpr : GdprPost = GdprPost(profile_details: arrayGdpr[0].isChecked, phone_number: arrayGdpr[1].isChecked, groups_relations: arrayGdpr[2].isChecked, chat_messaging: arrayGdpr[3].isChecked, pairing: arrayGdpr[4].isChecked, real_time_location: arrayGdpr[5].isChecked, files_upload: arrayGdpr[6].isChecked, push_notifications: arrayGdpr[7].isChecked, rating_reviews: arrayGdpr[8].isChecked)
             MyVriables.arrayGdpr = gdpr
             self.dismiss(animated: true, completion: nil)
             if (MyVriables.fromGroup)! == "true-join"
             {
-                MyVriables.fromGroup = ""
                 MyVriables.joinToGroup = "yes-Join"
                  SwiftEventBus.post("refreshFromGroupJoin")
                 
@@ -135,11 +135,17 @@ class GdbrViewController: UIViewController, UITableViewDelegate, UITableViewData
                         }
                         else
                         {
+                            if (MyVriables.fromGroup)! == "true-1"
+                            {
+                                SwiftEventBus.post("joinGroup")
+                            }
+                            else
+                            {
                             SwiftEventBus.post("refreshGroups")
+                            }
 
                         }
             }
-            
             
 
           
