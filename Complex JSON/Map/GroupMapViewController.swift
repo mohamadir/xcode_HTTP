@@ -84,6 +84,7 @@ class GroupMapViewController: UIViewController , GMSMapViewDelegate
                 if MyVriables.currentGroup?.role != nil{
                     if MyVriables.currentGroup?.role! == "member" || MyVriables.currentGroup?.role! == "group_leader"
                     {
+                        self.sendFcm()
                         self.memberMapLine.backgroundColor = Colors.PrimaryColor
                         self.meberMapLbl.textColor = Colors.PrimaryColor
                         self.tripMemberLine.backgroundColor = UIColor.white
@@ -115,6 +116,10 @@ class GroupMapViewController: UIViewController , GMSMapViewDelegate
         }
 
         self.refreshView.addTapGestureRecognizer {
+            if isLogged == true{
+                if MyVriables.currentGroup?.role != nil{
+                    if MyVriables.currentGroup?.role! == "member" || MyVriables.currentGroup?.role! == "group_leader"
+                    {
             self.memberMapLine.backgroundColor = Colors.PrimaryColor
             self.meberMapLbl.textColor = Colors.PrimaryColor
             self.tripMemberLine.backgroundColor = UIColor.white
@@ -125,18 +130,9 @@ class GroupMapViewController: UIViewController , GMSMapViewDelegate
             self.setView(view: self.socketView, hidden: true)
             
             self.googleMapConstrate.constant = 56
-            
-        }
-
-        if isLogged == true{
-            if MyVriables.currentGroup?.role != nil{
-                  if MyVriables.currentGroup?.role! == "member" || MyVriables.currentGroup?.role! == "group_leader"
-                  {
-                    sendFcm()
-                    
+                    }
                 }
             }
-            
         }
         //sendFcm
 //        self.infoWindow = loadNiB()
@@ -247,24 +243,62 @@ class GroupMapViewController: UIViewController , GMSMapViewDelegate
     func mapView(_ mapView: GMSMapView, didTap overlay: GMSOverlay) {
         print("im clicked")
     }
-
-    func createMarker(titleMarker: String , lat: CLLocationDegrees, long: CLLocationDegrees, isMemberMap: Bool, dayNumber: String, postion: Int){
+    
+    func createMarker(titleMarker: String , lat: CLLocationDegrees, long: CLLocationDegrees, isMemberMap: Bool, dayNumber: String, postion: Int, isMyId : String, j : Int){
         
         let marker = GMSMarker()
         marker.position = CLLocationCoordinate2DMake(lat, long)
         marker.title = titleMarker
+        
         if isMemberMap == true
         {
-              markcon = resizeImage(image: UIImage(named: "MyMarker")!, targetSize: CGSize(width: 44.0, height: 50.0))
+         
+            if isMyId == "true"
+            {
+                    markcon = UIImage(named: "mylocation")!
+            }
+            else {
+                   markcon = UIImage(named: "membersMarkers")!
+            }
         }else{
-              markcon = resizeImage(image: UIImage(named: "map marker")!, targetSize: CGSize(width: 44.0, height: 50.0))
+            print("Count is \((self.mapDays.count - 1)) and postion is \(postion)")
+
+            let DynamicView=UIView(frame: CGRect(origin: CGPoint(x: 0,y :0), size: CGSize(width: 50, height: 50)))
+            DynamicView.backgroundColor=UIColor.clear
+            var imageViewForPinMarker : UIImageView
+            imageViewForPinMarker  = UIImageView(frame:CGRect(origin: CGPoint(x: 0,y :0), size: CGSize(width: 44, height: 50)))
+            if isMyId == "first"{
+                imageViewForPinMarker.image = UIImage(named:"markerStart")
+
+            }
+            else{
+                if (self.mapDays.count - 1) == postion {
+                    imageViewForPinMarker.image = UIImage(named:"markerEnd")
+
+                }else {
+                    imageViewForPinMarker.image = UIImage(named:"markerEmpty")
+                }
+            }
+            let text = UILabel(frame:CGRect(origin: CGPoint(x: 2,y :2), size: CGSize(width: 40, height: 30)))
+            
+            text.text = "\(j + 1)"
+            text.textColor = Colors.PrimaryColor
+            text.textAlignment = .center
+            text.font = UIFont(name: text.font.fontName, size: 15)
+            text.textAlignment = NSTextAlignment.center
+            imageViewForPinMarker.addSubview(text)
+            DynamicView.addSubview(imageViewForPinMarker)
+            UIGraphicsBeginImageContextWithOptions(DynamicView.frame.size, false, UIScreen.main.scale)
+            DynamicView.layer.render(in: UIGraphicsGetCurrentContext()!)
+            let imageConverted: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+            UIGraphicsEndImageContext()
+              markcon = imageConverted
         }
         marker.accessibilityLabel = "\(isMemberMap)"
         marker.icon = markcon
         marker.snippet = "\(postion)"
         marker.map = googleMaps
         self.markerList.append(marker)
-
     }
 
     func resizeImage(image: UIImage, targetSize: CGSize) -> UIImage {
@@ -316,6 +350,7 @@ class GroupMapViewController: UIViewController , GMSMapViewDelegate
         {
         let customInfoWindow = UINib(nibName: "MemberMapView", bundle: nil).instantiate(withOwner: self, options: nil).first as! MemberMapView
         customInfoWindow.memberName.text = marker.title!
+            customInfoWindow.lastSeen.text = self.memberMap[Int(marker.snippet!)!].updated_at != nil ? self.memberMap[Int(marker.snippet!)!].updated_at! : ""
             if self.memberMap[Int(marker.snippet!)!].profile_image != nil
             {
                 let urlString = try ApiRouts.Web + (self.memberMap[Int(marker.snippet!)!].profile_image!)
@@ -435,11 +470,11 @@ class GroupMapViewController: UIViewController , GMSMapViewDelegate
                 var postion: Int = 0
                 var items : [SearchTextFieldItem] = []
                 var suggestionListWithUrl : [ModernSearchBarModel] = []
-                
+                var isMyId :Bool = false
                try DispatchQueue.main.sync {
                 let theImageView = UIImageView()
                     for member in self.memberMap {
-                        
+                        if member.lat != nil && member.lon != nil {
                         if member.profile_image != nil {
                             var urlString: String = try ApiRouts.Web + (member.profile_image)!
                             urlString = urlString.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)!
@@ -454,10 +489,16 @@ class GroupMapViewController: UIViewController , GMSMapViewDelegate
                         }
                         theImageView.contentMode = .scaleToFill
                         items.append(SearchTextFieldItem(title: member.first_name != nil && member.last_name != nil ? "\(member.first_name!) \(member.last_name!)" : "User \(member.member_id!)", subtitle: "", image: theImageView.image!, postion : postion))
-                        self.createMarker(titleMarker: member.first_name != nil && member.last_name != nil ? "\(member.first_name!) \(member.last_name!)" : "User \(member.member_id!)", lat: CLLocationDegrees((member.lat! as NSString).floatValue), long: CLLocationDegrees((member.lon! as NSString).floatValue), isMemberMap: true, dayNumber: "", postion: postion)
+                            if MyVriables.currentMember?.id! == member.member_id!{
+                                self.createMarker(titleMarker: member.first_name != nil && member.last_name != nil ? "\(member.first_name!) \(member.last_name!)" : "User \(member.member_id!)", lat: CLLocationDegrees((member.lat! as NSString).floatValue), long: CLLocationDegrees((member.lon! as NSString).floatValue), isMemberMap: true, dayNumber: "", postion: postion, isMyId: "true", j: postion)
+                            }
+                            else {
+                                self.createMarker(titleMarker: member.first_name != nil && member.last_name != nil ? "\(member.first_name!) \(member.last_name!)" : "User \(member.member_id!)", lat: CLLocationDegrees((member.lat! as NSString).floatValue), long: CLLocationDegrees((member.lon! as NSString).floatValue), isMemberMap: true, dayNumber: "", postion: postion, isMyId: "false", j: postion)
+                            }
+                            
                         index = index + 1
                          postion = postion + 1
-                   
+                        }
                         
                     }
                 self.modernSearchBar.setDatasWithUrl(datas: suggestionListWithUrl)
@@ -500,15 +541,46 @@ class GroupMapViewController: UIViewController , GMSMapViewDelegate
                 let days  = try JSONDecoder().decode(PlanDays.self, from: response.data)
                 self.mapDays = days.days!
                 var index : Int = 1
+                var j: Int = 0
                 var postion: Int = 0
+                var count: Int = 0
                 DispatchQueue.main.sync {
+                    
                     for day in self.mapDays {
                         for loc in day.locations! {
-                            self.createMarker(titleMarker: loc.title != nil ? loc.title! : "", lat: CLLocationDegrees((loc.lat! as NSString).floatValue), long: CLLocationDegrees((loc.long! as NSString).floatValue), isMemberMap: false, dayNumber: "Day \(index)", postion: postion)
+                            if j == 0 && postion == 0 {
+                                self.createMarker(titleMarker: loc.title != nil ? loc.title! : "", lat: CLLocationDegrees((loc.lat! as NSString).floatValue), long: CLLocationDegrees((loc.long! as NSString).floatValue), isMemberMap: false, dayNumber: "Day \(index)", postion: postion, isMyId: "first", j: j)
+                            }else {
+                                self.createMarker(titleMarker: loc.title != nil ? loc.title! : "", lat: CLLocationDegrees((loc.lat! as NSString).floatValue), long: CLLocationDegrees((loc.long! as NSString).floatValue), isMemberMap: false, dayNumber: "Day \(index)", postion: postion, isMyId: "false", j : j)
+                            }
+                            j = j + 1
                         }
                         index = index + 1
                         postion = postion + 1
                     }
+                    let DynamicView=UIView(frame: CGRect(origin: CGPoint(x: 0,y :0), size: CGSize(width: 50, height: 50)))
+                    DynamicView.backgroundColor=UIColor.clear
+                    var imageViewForPinMarker : UIImageView
+                    imageViewForPinMarker  = UIImageView(frame:CGRect(origin: CGPoint(x: 0,y :0), size: CGSize(width: 44, height: 50)))
+                    imageViewForPinMarker.image = UIImage(named:"markerEnd")
+                    let text = UILabel(frame:CGRect(origin: CGPoint(x: 2,y :2), size: CGSize(width: 40, height: 30)))
+                    print("Postion is \(postion)")
+                    text.text = "\(j)"
+                    text.textColor = Colors.PrimaryColor
+                    text.textAlignment = .center
+                    text.font = UIFont(name: text.font.fontName, size: 15)
+                    text.textAlignment = NSTextAlignment.center
+                    imageViewForPinMarker.addSubview(text)
+                    DynamicView.addSubview(imageViewForPinMarker)
+                    UIGraphicsBeginImageContextWithOptions(DynamicView.frame.size, false, UIScreen.main.scale)
+                    DynamicView.layer.render(in: UIGraphicsGetCurrentContext()!)
+                    let imageConverted: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+                    UIGraphicsEndImageContext()
+                    self.markcon = imageConverted
+
+                    self.markerList[self.markerList.count-1].icon = self.markcon
+
+                    
                     ARSLineProgress.hide()
                     self.fitAllMarkers()
                 }

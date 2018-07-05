@@ -765,7 +765,11 @@ class PrivateChatViewController: UIViewController ,UIImagePickerControllerDelega
         var urlString = ""
        
         if isViaChatId {
-            urlString = ApiRouts.Web + "/api/chats/messages?chat_id=\((ChatUser.ChatId!))&page=\(self.curentPage)"
+            if ChatUser.ChatId != nil
+            {
+              urlString = ApiRouts.Web + "/api/chats/messages?chat_id=\((ChatUser.ChatId!))&page=\(self.curentPage)"
+            }
+            
         }else {
             urlString = ApiRouts.Web + "/api/chats/messages?member_id=\((MyVriables.currentMember?.id!)!)&partner_id=\((ChatUser.currentUser?.id!)!)&page=\(self.curentPage)"
         }

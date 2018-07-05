@@ -368,30 +368,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
                         snackbar.show()
                         navigationController.popToRootViewController(animated: true)
                         print("[ABCController] is visible after")
-                        
                     }
-//                    if let viewControllers = window?.rootViewController?.childViewControllers {
-//
-//                        let prefs = UserDefaults.standard
-//
-//                        if viewControllers[viewControllers.count - 1] is DetailsViewController || viewControllers[viewControllers.count - 1] is MainTabController {
-//                            print("[ABCController] is visible")
-//                            if let navigationController = self.window?.rootViewController as? UINavigationController {
-//                                 print("[ABCController] is visible before")
-//                                navigationController.popToRootViewController(animated: true)
-//                                print("[ABCController] is visible after")
-//
-//                                }
-//
-//                        }
-//                    }
-                    
-//                    if self.window?.rootViewController is MainTabController || self.window?.rootViewController is DetailsViewController{
-//                        print("Im here from app delgete")
-//                        if let navigationController = self.window?.rootViewController as? UINavigationController {
-//                            navigationController.popToRootViewController(animated: true)
-//                        }
-//                    }
+                }
+            }
+            else
+            {
+                if "\(userInfo["click_action"]!)" == "LOCATION-NOTIFICATION"
+                {
+                    setMemberLocaion()
                 }
             }
         }
@@ -433,6 +417,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
         let mainStoryboard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let homePage = mainStoryboard.instantiateViewController(withIdentifier: "ViewController") as! ViewController
         self.window?.rootViewController = homePage
+    }
+    func setMemberLocaion() {
+        var currentLocation: CLLocation!
+        var locManager = CLLocationManager()
+        locManager.requestWhenInUseAuthorization()
+        if( CLLocationManager.authorizationStatus() == .authorizedWhenInUse ||
+            CLLocationManager.authorizationStatus() ==  .authorizedAlways){
+            currentLocation = locManager.location
+            print("App delgete Location lat is \(currentLocation.coordinate.longitude) and location long is \(currentLocation.coordinate.latitude)")
+            let defaults = UserDefaults.standard
+            let id = defaults.integer(forKey: "member_id")
+            HTTP.POST(ApiRouts.Web+"/api/members/locations/member/\(id)", parameters: ["lat": currentLocation.coordinate.latitude, "lon": currentLocation.coordinate.longitude]) { response in
+                if let err = response.error {
+                    print("error: \(err.localizedDescription)")
+                    return //also notify app of failure as needed
+                }
+                print("Response app delgete is \(response.description)")
+            }
+            
+        }
+        
     }
 }
 

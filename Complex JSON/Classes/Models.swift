@@ -341,6 +341,7 @@ struct MemberStruct: Codable{
     var first_name: String?
     var last_name: String?
     var member_id: Int?
+    var updated_at: String?
 }
 
 struct DayImage: Codable {
