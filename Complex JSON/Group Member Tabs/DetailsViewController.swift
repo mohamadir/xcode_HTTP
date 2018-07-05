@@ -11,6 +11,7 @@ import Auk
 import UserNotifications
 import ImageSlideshow
 import SwiftHTTP
+import SwiftEventBus
 import Scrollable
 extension String {
     subscript (bounds: CountableClosedRange<Int>) -> String {
@@ -29,6 +30,7 @@ class DetailsViewController: UIViewController {
    
     @IBOutlet weak var groupLeaderView: UIView!
     
+    @IBOutlet weak var joinView: UIView!
     @IBOutlet weak var leftToJoinLbl: UILabel!
     
     let cvv: ViewController  = ViewController()
@@ -36,6 +38,7 @@ class DetailsViewController: UIViewController {
     @IBOutlet weak var scrollView: UIScrollView!
     var singleGroup: TourGroup?
     
+    @IBOutlet weak var groupAppView: UIView!
     @IBOutlet weak var slideShow: ImageSlideshow!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var descriptionLbl: UILabel!
@@ -43,6 +46,9 @@ class DetailsViewController: UIViewController {
     var isCollapsed: Bool = false
     
     
+    @IBOutlet weak var member_status_view: UIView!
+    @IBOutlet weak var member_status_lbl: UILabel!
+    @IBOutlet weak var member_Status_Im: UIImageView!
     @IBOutlet weak var groupLeaderImageView: UIImageView!
     
     @IBOutlet weak var companyLbl: UILabel!
@@ -57,9 +63,29 @@ class DetailsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        joinView.layer.borderColor = Colors.PrimaryColor.cgColor
+        joinView.layer.borderWidth = 1
+        /*
+         self.tabBarController?.tabBar.items![1].image = UIImage(named: "joinedFooter")
+         self.tabBarController?.tabBar.items![1].title = "Joined"
+ */
+        //member
+        SwiftEventBus.onMainThread(self, name: "roleChanges") { result in
+            self.member_status_lbl.text = self.tabBarController?.tabBar.items![1].title
+            self.member_Status_Im.image = self.tabBarController?.tabBar.items![1].image
+        }
+        member_status_lbl.text = self.tabBarController?.tabBar.items![1].title
+        member_Status_Im.image = self.tabBarController?.tabBar.items![1].image
         groupLeaderView.addTapGestureRecognizer {
           self.performSegue(withIdentifier: "showGroupLeader", sender: self)
         }
+        member_status_view.addTapGestureRecognizer {
+            self.tabBarController?.selectedIndex = 1
+        }
+        groupAppView.addTapGestureRecognizer {
+            self.tabBarController?.selectedIndex = 2
+        }
+        
         setGroupDetails()
         self.singleGroup  = MyVriables.currentGroup!
 

@@ -6,36 +6,37 @@ PODS:
   - Auk (8.0.2):
     - moa
   - BmoViewPager (4.0.5)
-  - CountryPickerView (2.1.0)
-  - Crashlytics (3.10.2):
-    - Fabric (~> 1.7.7)
+  - CCAutocomplete (0.0.4)
+  - CountryPickerView (2.1.1)
+  - Crashlytics (3.10.3):
+    - Fabric (~> 1.7.8)
   - Digger (0.0.5)
   - ExpandableLabel (0.4.0)
-  - Fabric (1.7.7)
-  - Firebase/Core (5.1.0):
+  - Fabric (1.7.8)
+  - Firebase/Core (5.4.0):
     - Firebase/CoreOnly
     - FirebaseAnalytics (= 5.0.1)
-  - Firebase/CoreOnly (5.1.0):
-    - FirebaseCore (= 5.0.2)
-  - Firebase/Database (5.1.0):
+  - Firebase/CoreOnly (5.4.0):
+    - FirebaseCore (= 5.0.5)
+  - Firebase/Database (5.4.0):
     - Firebase/CoreOnly
-    - FirebaseDatabase (= 5.0.1)
-  - Firebase/Messaging (5.1.0):
+    - FirebaseDatabase (= 5.0.2)
+  - Firebase/Messaging (5.4.0):
     - Firebase/CoreOnly
-    - FirebaseMessaging (= 3.0.1)
+    - FirebaseMessaging (= 3.0.3)
   - FirebaseAnalytics (5.0.1):
     - FirebaseCore (~> 5.0)
     - FirebaseInstanceID (~> 3.0)
     - GoogleToolboxForMac/NSData+zlib (~> 2.1)
     - nanopb (~> 0.3)
-  - FirebaseCore (5.0.2):
+  - FirebaseCore (5.0.5):
     - GoogleToolboxForMac/NSData+zlib (~> 2.1)
-  - FirebaseDatabase (5.0.1):
+  - FirebaseDatabase (5.0.2):
     - FirebaseCore (~> 5.0)
     - leveldb-library (~> 1.18)
-  - FirebaseInstanceID (3.0.0):
+  - FirebaseInstanceID (3.1.1):
     - FirebaseCore (~> 5.0)
-  - FirebaseMessaging (3.0.1):
+  - FirebaseMessaging (3.0.3):
     - FirebaseCore (~> 5.0)
     - FirebaseInstanceID (~> 3.0)
     - GoogleToolboxForMac/Logger (~> 2.1)
@@ -56,15 +57,16 @@ PODS:
     - GoogleToolboxForMac/Defines (= 2.1.4)
   - GoogleToolboxForMac/NSData+zlib (2.1.4):
     - GoogleToolboxForMac/Defines (= 2.1.4)
-  - ImageSlideshow (1.6.0):
-    - ImageSlideshow/Core (= 1.6.0)
-  - ImageSlideshow/Alamofire (1.6.0):
+  - ImageSlideshow (1.6.1):
+    - ImageSlideshow/Core (= 1.6.1)
+  - ImageSlideshow/Alamofire (1.6.1):
     - AlamofireImage (~> 3.0)
     - ImageSlideshow/Core
-  - ImageSlideshow/Core (1.6.0)
+  - ImageSlideshow/Core (1.6.1)
   - leveldb-library (1.20)
   - M13Checkbox (3.2.2)
   - moa (9.0.2)
+  - ModernSearchBar (1.5)
   - MRCountryPicker (0.0.8)
   - nanopb (0.3.8):
     - nanopb/decode (= 0.3.8)
@@ -78,21 +80,22 @@ PODS:
   - PhoneNumberKit/PhoneNumberKitCore (2.1.0)
   - PhoneNumberKit/UIKit (2.1.0):
     - PhoneNumberKit/PhoneNumberKitCore
-  - Protobuf (3.5.0)
+  - Protobuf (3.6.0)
   - Pushy (1.0.12)
   - Scrollable (2.0.1)
-  - SDWebImage (4.4.0):
-    - SDWebImage/Core (= 4.4.0)
-  - SDWebImage/Core (4.4.0)
+  - SDWebImage (4.4.1):
+    - SDWebImage/Core (= 4.4.1)
+  - SDWebImage/Core (4.4.1)
+  - SearchTextField (1.2.1)
   - SkyFloatingLabelTextField (3.5.1)
-  - Socket.IO-Client-Swift (13.2.0):
+  - Socket.IO-Client-Swift (13.2.1):
     - Starscream (~> 3.0.2)
   - Starscream (3.0.5)
   - SVProgressHUD (2.2.5)
   - SwiftEventBus (2.2.0)
   - SwiftHTTP (3.0.1)
   - SwiftyAvatar (1.1.3)
-  - SwiftyPickerPopover (6.6.0)
+  - SwiftyPickerPopover (6.6.2)
   - Toast-Swift (3.0.1)
   - TTGSnackbar (1.7.3)
   - XLPagerTabStrip (8.0.1)
@@ -103,6 +106,7 @@ DEPENDENCIES:
   - ARSLineProgress (~> 2.0)
   - Auk (~> 8.0)
   - BmoViewPager (~> 4.0.0)
+  - CCAutocomplete
   - CountryPickerView
   - Crashlytics (~> 3.10.0)
   - Digger
@@ -118,12 +122,14 @@ DEPENDENCIES:
   - ImageSlideshow/Alamofire
   - M13Checkbox
   - moa (~> 9.0)
+  - ModernSearchBar
   - MRCountryPicker (~> 0.0.7)
   - PageControl
   - PhoneNumberKit (~> 2.1)
   - Pushy (= 1.0.12)
   - Scrollable (~> 2.0)
   - SDWebImage (~> 4.0)
+  - SearchTextField (~> 1.2.0)
   - SkyFloatingLabelTextField (~> 3.0)
   - Socket.IO-Client-Swift
   - SVProgressHUD
@@ -152,47 +158,50 @@ SPEC CHECKSUMS:
   ARSLineProgress: b344944496913e98d8fe7bab94ea5d488fbf41fb
   Auk: 82be62a2cf650437fe745c81b12ac2440a0f682c
   BmoViewPager: 1bbba2f3d9bad4e255b0e397dc035e9a0c434eb5
-  CountryPickerView: 25a85d08e993e2ed7d3f06d59bb66017851115ff
-  Crashlytics: 0360624eea1c978a743feddb2fb1ef8b37fb7a0d
+  CCAutocomplete: 7e54cab43d10eb9e5385d5b3409e9dee0b7af714
+  CountryPickerView: 8b20263f2d4e1953045e608c2594b50e8a2ee65c
+  Crashlytics: 2aea305161a2122492698c75af27f2b98aa49a25
   Digger: c474bde76a91e0a36f12101c5dfe7e86774b15d3
   ExpandableLabel: 5f5f61fbf71433000cd7c3290617e6fcccb72c86
-  Fabric: bda89e242bce1b7b8ab264248cf3407774ce0095
-  Firebase: e08fb0795f35707aeb1d8a715c731c45bdf6fd56
+  Fabric: fba4684a95df789565b0b27fc5b6e68f1755af32
+  Firebase: d66f4f29c23f22d96808d9abc174d81d8eee968f
   FirebaseAnalytics: b3628aea54c50464c32c393fb2ea032566e7ecc2
-  FirebaseCore: b81044df1044c0857a0737c6324678b72d4f7f00
-  FirebaseDatabase: 482bad9c2abd422bb2321194fb8c937e67426a89
-  FirebaseInstanceID: 83e0040351565df711a5db3d8ebe5ea21aca998a
-  FirebaseMessaging: ec6fde5a77824c6da0218f9ca220feb251aa17d5
+  FirebaseCore: 42b3267233bd21a5abd54117ccc38ca3dd0f8e83
+  FirebaseDatabase: 27be5ac5bc75e0b17537b2bbfada8258addcc8cd
+  FirebaseInstanceID: f3f0657372592ecdfdfe2cac604a5a75758376a6
+  FirebaseMessaging: f43eb0c0e1da096e659de6f713038e74862a62cd
   GoneVisible: c552940cd9df7548427f6bffd000dcbcc6de187f
   GoogleMaps: f79af95cb24d869457b1f961c93d3ce8b2f3b848
   GooglePlacePicker: 59ea44db173c58486ad6123993e81feefcbce9c3
   GooglePlaces: 3d06e6c99654545b4738ce49648745779c25f2ef
   GoogleToolboxForMac: 91c824d21e85b31c2aae9bb011c5027c9b4e738f
-  ImageSlideshow: 9a1038da5669d2d337ae5ecda2ee8282ff14e9c5
+  ImageSlideshow: f0f33e1a20668e83d77f5fb7729e4ae4437c0759
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
   M13Checkbox: a8c2491cfbbca10797925fd0b9154a782bf40d89
   moa: b73dc5e0efa1fad00711c4608e41b197f4d15b12
+  ModernSearchBar: 5dd19c94b1e04f1f83dd9b9950d05153ef2535e5
   MRCountryPicker: 1aeea66de25cdef79dce3b91d8ad9db643c1cc01
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
   PageControl: fbe258f0e874c30c30b867278fa04f9fd3381844
   PhoneNumberKit: 62003f40ff75315fd3738286558bc365365ac222
-  Protobuf: 8a9838fba8dae3389230e1b7f8c104aa32389c03
+  Protobuf: 0fc0ad8bec688b2a3017a139953e01374fedbd5f
   Pushy: 831bf204b25e24e50c74548d3ac5a80236806842
   Scrollable: dba6216e71841f516b2f7b826e05479e25b086ac
-  SDWebImage: b534502786e43dde36dfcaee89356fe6df30e203
+  SDWebImage: 47e9b5b925cbce75946c23f0c42dd19464189af4
+  SearchTextField: 261b0febd49194492f29555fff3c5c0019ca84d2
   SkyFloatingLabelTextField: 4cbeece9c3aae97c6019d8fae511cb5b755874f7
-  Socket.IO-Client-Swift: 4698ea9eb2955eecf7fdf06c487ff1597e4cd779
+  Socket.IO-Client-Swift: b94943e2fb916fe2f95244b9ed21828634002280
   Starscream: faf918b2f2eff7d5dd21180646bf015a669673bd
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
   SwiftEventBus: 39cde57d1881f9d6e8afb1f9e41f973e331bf847
   SwiftHTTP: e94f1aa8cde58637dcc0100f6349de31a3337fde
   SwiftyAvatar: 33aecda825c91851cac2aabd06b33f3698b2414c
-  SwiftyPickerPopover: 1ceaaddbad1cfc7f4f273acdde0e4153a6c747c4
+  SwiftyPickerPopover: 5aac0360e82dcc11a5036ac9fb60061b2c43eddd
   Toast-Swift: ba0b01b095aada709d915f9beb1d38184a2721c3
   TTGSnackbar: a66e929fd17d662152ec0964990a86e966310edb
   XLPagerTabStrip: c908b17cbf42fcd2598ee1adfc49bae25444d88a
   YNExpandableCell: 47bf7cff721aa535c0e9e1163bf22b5573441bb4
 
-PODFILE CHECKSUM: acd901348dd39c5fe26df09570a7ec7548b1f18b
+PODFILE CHECKSUM: ab53913866ae501231c1520ed5bae1b509d4174c
 
 COCOAPODS: 1.4.0

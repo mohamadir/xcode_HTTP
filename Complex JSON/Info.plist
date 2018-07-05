@@ -31,15 +31,19 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.1.4</string>
+	<string>1.1.6</string>
 	<key>CFBundleSignature</key>
 	<string></string>
 	<key>CFBundleVersion</key>
-	<string>21</string>
+	<string>24</string>
 	<key>FirebaseAppDelegateProxyEnabled</key>
 	<false/>
 	<key>LSApplicationCategoryType</key>
 	<string></string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>waze</string>
+	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -53,6 +57,12 @@
 	<string>$(PRODUCT_NAME) camera use</string>
 	<key>NSHumanReadableCopyright</key>
 	<string></string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Please allow location permission to  display group members real time location on the map</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Please allow location permission to  display group members real time location on the map</string>
+	<key>NSLocationUsageDescription</key>
+	<string>Please allow location permission to  display group members real time location on the map</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Please allow location permission to  display group members real time location on the map</string>
 	<key>NSPhotoLibraryUsageDescription</key>

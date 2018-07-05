@@ -90,7 +90,7 @@ class Upload1ViewController: UIViewController ,UITableViewDelegate, UIImagePicke
                 MyVriables.enableGdpr = gdprObkectas
                  self.performSegue(withIdentifier: "showEnableDocuments", sender: self)
             }
-            //self.uploadFile(id: (self.documents?.required_documents[indexPath.row].id)!)
+
         }
 
         return cell
@@ -125,53 +125,7 @@ class Upload1ViewController: UIViewController ,UITableViewDelegate, UIImagePicke
         ARSLineProgress.hide()
         
     }
-    func imagePickerController2(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        
-        //  uploadImageProfile(info)
-        guard let image = info[UIImagePickerControllerOriginalImage] as? UIImage else {
-            return
-        }
-        
-        
-        let documentDirectory: NSString = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first! as NSString
-        let imageName = "temp.png"
-        let imagePath = documentDirectory.appendingPathComponent(imageName)
-        print("IMAGEPATHOSH: " + imagePath)
-        dismiss(animated: true, completion: nil)
-        let imageData = UIImagePNGRepresentation(image)!
-        print("AlamoUpload: START")
-        let imgData = UIImageJPEGRepresentation(image, 0.2)!
-        ARSLineProgress.show()
-        var urlString: String = ApiRouts.Web + "/api/upload/\((MyVriables.currentMember?.id!)!)?upload_type=group&group_id=\((MyVriables.currentGroup?.id)!)&file_type=\((self.documents?.required_documents[indexMedia].item)!)"
-        urlString = urlString.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)!
-        Alamofire.upload(multipartFormData: { multipartFormData in
-            multipartFormData.append(imgData, withName: "file",fileName: "profile_image.jpg", mimeType: "image/jpg")
-            
-        },to:urlString)
-        { (result) in
-            switch result {
-            case .success(let upload, _, _):
-                
-                upload.uploadProgress(closure: { (progress) in
-                    print("Upload Progress: \(progress.fractionCompleted)")
-                })
-                
-                upload.responseJSON { response in
-                    ARSLineProgress.hide()
-                    self.getFilesUpload()
-                }
-                
-                
-            case .failure(let encodingError):
-                print(encodingError)
-                ARSLineProgress.hide()
-                
-            }
-        }
-        
-        
-    }
-    
+
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         guard let image = info[UIImagePickerControllerOriginalImage] as? UIImage else {
             return

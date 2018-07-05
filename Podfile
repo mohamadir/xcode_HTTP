@@ -37,7 +37,10 @@ pod 'TTGSnackbar'
 pod 'SwiftEventBus', :tag => '2.2.0', :git => 'https://github.com/cesarferreira/SwiftEventBus.git'
 pod 'XLPagerTabStrip', '~> 8.0'
 pod 'CountryPickerView'
+pod 'CCAutocomplete'
 pod 'PhoneNumberKit', '~> 2.1'
+pod 'SearchTextField', '~> 1.2.0'
+pod 'ModernSearchBar' 
 
 
   # Pods for Snapgroup

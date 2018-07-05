@@ -86,6 +86,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet weak var DepratureSortBt: UIButton!
     @IBOutlet weak var totalDaysBt: UIButton!
     
+    @IBOutlet weak var notficationLbl: UILabel!
+    @IBOutlet weak var notficationView: UIView!
+    @IBOutlet weak var notficicationIcon: UIImageView!
     
    
     
@@ -153,6 +156,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         isFilterShowing = !isFilterShowing
     }
     
+    @IBAction func settingsClick(_ sender: Any) {
+        performSegue(withIdentifier: "showSettings", sender: sender)
+    }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         SwiftEventBus.onMainThread(self, name: "changeProfileInfo") { result in
@@ -205,15 +211,75 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             })
     }
   
-
+    func setCheck(isChecked : Bool, chekAll : Bool, postion : Int){
+        var params: [String: Any]
+        params = ["push_notifications": isChecked]
+        HTTP.PUT(ApiRouts.Web +  "/api/members/\((MyVriables.currentMember?.id)!)/gdpr", parameters: params) {
+            response in
+            if response.error != nil {
+                //print(response.error)
+                return
+            }
+            do {
+                let  gdprUpdate : GdprUpdate = try JSONDecoder().decode(GdprUpdate.self, from: response.data)
+                MyVriables.currentMember?.gdpr = GdprStruct(profile_details: (gdprUpdate.gdpr?.profile_details)!, phone_number: (gdprUpdate.gdpr?.phone_number)!, groups_relations: (gdprUpdate.gdpr?.groups_relations)!, chat_messaging: (gdprUpdate.gdpr?.chat_messaging)!, pairing: (gdprUpdate.gdpr?.pairing)!, real_time_location: (gdprUpdate.gdpr?.real_time_location)!, files_upload: (gdprUpdate.gdpr?.files_upload)!, push_notifications: (gdprUpdate.gdpr?.push_notifications)!, rating_reviews: (gdprUpdate.gdpr?.rating_reviews)!, group_details: (gdprUpdate.gdpr?.profile_details)!, billing_payments : true, checkAllSwitch: true)
+                DispatchQueue.main.async {
+                    if isChecked == false
+                    {
+                        
+                        self.notficicationIcon.image = UIImage(named: "pushNotiOff")
+                        self.notficationLbl.alpha = 0.3
+                        UIApplication.shared.unregisterForRemoteNotifications()
+                    }
+                    else
+                    {
+                        if isChecked == true{
+                            self.notficicationIcon.image = UIImage(named: "pushNotiOn")
+                            self.notficationLbl.alpha = 1
+                            SwiftEventBus.post("shouldRefreshGdpr")
+                            
+                        }
+                    }
+                   
+                }
+               
+            }
+            catch {
+                
+            }
+            
+        }
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        if Messaging.messaging().fcmToken != nil {
+            print("Fcm subscribe to " + "/topics/LOCATION-357")
+            Messaging.messaging().subscribe(toTopic: "/topics/IOS-LOCATION-351")
+        }
+        else {
+            print("Fcm token is nil")
+        }
         countyCodePickerView.delegate = self
         countyCodePickerView.dataSource = self
-        let destination = DownloadRequest.suggestedDownloadDestination(for: .documentDirectory)
         
-        //downloadfile()
+        let destination = DownloadRequest.suggestedDownloadDestination(for: .documentDirectory)
+        notficationView.addTapGestureRecognizer {
+            if  MyVriables.currentMember?.gdpr?.push_notifications != nil
+            {
+                if MyVriables.currentMember?.gdpr?.push_notifications! == true
+                {
+                   self.setCheck(isChecked : false, chekAll : false, postion : 0)
+                }
+                else
+                {
+                    self.setCheck(isChecked : true, chekAll : false, postion : 0)
+                }
+                
+                
+            }
+            
+        }
+
         menuView.addTapGestureRecognizer {
             if self.isMemberMenuShowing {
                 self.menuImage.image = UIImage(named: self.menuIcon)
@@ -360,7 +426,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 //                    self.profileImageView.layer.borderWidth = 0
 //                    self.profileImageView.layer.masksToBounds = false
 //
-//                    self.profileImageView.layer.cornerRadius = self.profileImageView.frame.height/2
+                    self.profileImageView.layer.cornerRadius = self.profileImageView.frame.height/2
 //                    self.profileImageView.clipsToBounds = true
 //
 //                    print("--UPLOADIMAGE \(image2)")
@@ -1049,6 +1115,30 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 print("Member id is \(MyVriables.currentMember?.id!)")
                 print("Gdpr : \((MyVriables.currentMember)!)")
                 
+                /*
+ (MyVriables.currentMember?.gdpr?.files_upload) != nil ? (MyVriables.currentMember?.gdpr?.files_upload)! : false
+                */
+                DispatchQueue.main.async {
+                    if (MyVriables.currentMember?.gdpr?.push_notifications) != nil
+                    {
+                        if (MyVriables.currentMember?.gdpr?.push_notifications)! == false
+                        {
+                            self.notficicationIcon.image = UIImage(named: "pushNotiOff")
+                            self.notficationLbl.alpha = 0.3
+                            
+                            UIApplication.shared.unregisterForRemoteNotifications()
+                        }
+                        else
+                        {
+                            self.notficicationIcon.image = UIImage(named: "pushNotiOn")
+                            self.notficationLbl.alpha = 1
+                            SwiftEventBus.post("shouldRefreshGdpr")
+                            
+                        }
+                        
+                    }
+                }
+               
                 self.setToUserDefaults(value: self.currentMember?.profile?.first_name , key: "first_name")
                 self.setToUserDefaults(value: self.currentMember?.profile?.last_name, key: "last_name")
                 self.setToUserDefaults(value: self.currentMember?.member?.email, key: "email")
@@ -1102,6 +1192,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                             
                         }
                     }
+                    
                     //urstri
                     if profile_image != nil {
                         if profile_image == "no value"
@@ -1119,6 +1210,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                         }
                         
                     }
+                     SwiftEventBus.post("counters")
                     
                 }
                 }catch {
@@ -1246,6 +1338,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 }
                 
             }
+            else
+            {
+                cell.groupLeaderImageView.image = UIImage(named: "default user")
+            }
             cell.groupLeaderImageView.layer.cornerRadius = cell.groupLeaderImageView.frame.size.width / 2;
             cell.groupLeaderImageView.clipsToBounds = true;
             cell.groupLeaderImageView.layer.borderWidth = 1.0
@@ -1271,6 +1367,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 }catch {
                     
                 }
+            }
+            else
+            {
+                cell.groupLeaderImageView.image = UIImage(named: "group tools title")
             }
             cell.groupLeaderImageView.layer.borderWidth = 0
             cell.groupLeaderImageView.layer.cornerRadius = 0;
@@ -1801,6 +1901,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                     self.setToUserDefaults(value: true, key: "isLogged")
                     //  print(self.currentMember?.profile!)
                     self.setToUserDefaults(value: self.currentMember?.profile?.member_id!, key: "member_id")
+                     self.setToUserDefaults(value: self.currentMember?.profile?.member_id!, key: "gdprNotfication")
                     self.setToUserDefaults(value: self.currentMember?.profile?.first_name , key: "first_name")
                     self.setToUserDefaults(value: self.currentMember?.profile?.last_name, key: "last_name")
                     self.setToUserDefaults(value: self.currentMember?.member?.email, key: "email")
@@ -1820,7 +1921,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                             
                             Messaging.messaging().subscribe(toTopic: "/topics/IOS-INBOX-\(String(describing: (self.currentMember?.profile?.member_id!)!))")
                             
-                            Messaging.messaging().subscribe(toTopic: "/topics/IOS-SYSTEM-\(String(describing: (self.currentMember?.profile?.member_id!)!))")
+                            Messaging.messaging().subscribe(toTopic: "/topics/IOS-SYSTEM-\(String(describing: (self.currentMember? .profile?.member_id!)!))")
                         }
                         self.myGrous = []
                         self.page = 1

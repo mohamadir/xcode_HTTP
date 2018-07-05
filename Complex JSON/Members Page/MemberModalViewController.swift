@@ -121,13 +121,18 @@ class MemberModalViewController: UIViewController {
           
             }
         }
+        if ((GroupMembers.currentMemmber?.status) != nil){
+            if (GroupMembers.currentMemmber?.status)! == "nil"
+            {
+                self.pairView.isHidden = true
+            }
+        }
         setLayoutShadow()
         setMemberDetails()
         // Do any additional setup after loading the view.
     }
     @IBAction func chatClick(_ sender: Any) {
         
-        SwiftEventBus.post("GoToPrivateChat")
         isChatId = false
         var ProfileImage: String = ""
         if (self.currentMember?.profile_image) != nil {
@@ -136,7 +141,12 @@ class MemberModalViewController: UIViewController {
         print("profile_image: \(ProfileImage)")
         
         ChatUser.currentUser = Partner(id: (self.currentMember?.id)!, email: (self.currentMember?.email) != nil ? (self.currentMember?.email)! : "", profile_image: ProfileImage , first_name: (self.currentMember?.first_name) != nil ? (self.currentMember?.first_name)! : "User \((self.currentMember?.id)!)" , last_name: (self.currentMember?.last_name) != nil ? (self.currentMember?.last_name)! : "")
-        dismiss(animated: true, completion: nil)
+         dismiss(animated: true, completion: {
+             SwiftEventBus.post("GoToPrivateChat")
+         })
+       
+
+       
         
     }
    

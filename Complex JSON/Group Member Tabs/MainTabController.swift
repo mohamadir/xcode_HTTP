@@ -80,6 +80,7 @@ class MainTabController: UITabBarController, UITabBarControllerDelegate{
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.tabBarController?.tabBar.isHidden = true
       self.delegate = self
         SwiftEventBus.onMainThread(self, name: "refreshGroupRolee") { (result) in
             print("IM HERE IN MAIN TAB")
@@ -182,6 +183,7 @@ class MainTabController: UITabBarController, UITabBarControllerDelegate{
      
         
     }
+ 
     func isAvailable(date: String) -> Bool{
         let currentDate = Date()
         let formatter = DateFormatter()

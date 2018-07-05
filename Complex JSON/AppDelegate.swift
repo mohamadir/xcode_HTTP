@@ -16,6 +16,7 @@ import GooglePlaces
 import SocketIO
 import SwiftEventBus
 import SwiftHTTP
+import TTGSnackbar
 
 class Counters: Codable{
     var total_unread_messages: Int?
@@ -31,11 +32,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
     var socketManager : SocketManager?
     
     fileprivate func setRemoteNotfactionSettings(_ application: UIApplication) {
+        print("Im here in notfaction fire base function")
         if #available(iOS 10.0, *){
+            //notificationContent.sound = UNNotificationSound(named: "out.mp3")
             UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { (isGranted, err) in
                 
                 if err != nil {
-                    print("Firebase Error: \(err)")
+                    print("Firebase Error: \(String(describing: err))")
                 }else {
                     print("Successful Authorization")
                     
@@ -43,6 +46,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
                     
                     DispatchQueue.main.async {
                         Messaging.messaging().delegate = self
+                        //UNNotificationSound.sound = UNNotificationSound(named: "out.caf")
                         UIApplication.shared.registerForRemoteNotifications()
                         application.registerForRemoteNotifications()
                         
@@ -63,13 +67,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
             UIApplication.shared.registerForRemoteNotifications()
             print("Successful Authorization")
         }
-        
-        
-        
-        
-        
-        
+        setUpSocket()
+       
         application.registerForRemoteNotifications()
+        
+      
     }
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
@@ -91,7 +93,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
         
         ConnectToFcm()
         
-        
+        SwiftEventBus.onMainThread(self, name: "registerRemote") { result in
+            self.setRemoteNotfactionSettings(application)
+        }
         // AIzaSyDv9JFsM6elRHpluMelqZZvLBoRBL6JK6I
         // AIzaSyDmGEPxVxdVhfUgFXMQ5L-2nJ3QeRs_XUg
         GMSServices.provideAPIKey("AIzaSyDmGEPxVxdVhfUgFXMQ5L-2nJ3QeRs_XUg")
@@ -99,6 +103,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
         
         return true
     }
+    
+    
     
     
     func checkCurrentUser(){
@@ -135,6 +141,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
                 print("FIREBASETOPIC: subscribe  \(currentTopic)")
 
                 Messaging.messaging().subscribe(toTopic: "/topics/\(currentTopic)")
+
             }
         }
         if !MyVriables.TopicSubscribe {
@@ -152,17 +159,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
         ConnectToFcm()
     }
     func setUpSocket(){
-        print("----- ABED -----")
+        print("App delegt socket")
+        let defaults = UserDefaults.standard
+        let id = defaults.integer(forKey: "member_id")
+        let isLogged = defaults.bool(forKey: "isLogged")
+       // if isLogged == true
         var  manager = SocketManager(socketURL: URL(string: ApiRouts.ChatServer)!, config: [.log(true),.forcePolling(true)])
         print("chat api: "+ApiRouts.ChatServer)
         socket = manager.defaultSocket
         socket!.on(clientEvent: .connect) {data, ack in
-            self.socket!.emit("subscribe", "member-ֿ\((MyVriables.currentMember?.id!)!)")
+            self.socket!.emit("subscribe", "member-ֿ\(id)")
             
         }
-        print("member-\((MyVriables.currentMember?.id!)!):member-channel")
+        print("member-\(id):member-channel")
         
-        self.socket!.on("member-\((MyVriables.currentMember?.id!)!):member-channel") {data, ack in
+        self.socket!.on("member-\(id):member-channel") {data, ack in
             
             print("got message from socket")
             if let data2 = data[0] as? Dictionary<String, Any> {
@@ -236,20 +247,35 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
     
     
     func messaging(_ messaging: Messaging, didReceive remoteMessage: MessagingRemoteMessage) {
-        print("recieve in MessagingRemoteMessage")
-        
-        
-        // \((remoteMessage.appData["message"]!))"
-        
+        print("recieve in MessagingRemoteMessage \(remoteMessage.appData["total_unread_messages"])")
+        print("recieve in MessagingRemoteMessage \(remoteMessage.appData["click_action"])")
+        if remoteMessage.appData["click_action"] != nil
+        {
+            if "\((remoteMessage.appData["click_action"])!)" == "DELETE_FROM_GROUP"
+            {
+                print("Im here is equal")
+                SwiftEventBus.post("refreshGroupChangeRole")
+                if Messaging.messaging().fcmToken != nil {
+                    MyVriables.TopicSubscribe = true
+                    MyVriables.CurrentTopic = "IOS-Group-\(String(describing: (remoteMessage.appData["group_id"])!))"
+                    Messaging.messaging().unsubscribe(fromTopic: "/topics/IOS-GROUP-\(String(describing: (remoteMessage.appData["group_id"])!))")
+                }
+            }
+        }
+        else
+        {
+
         UIApplication.shared.applicationIconBadgeNumber += 1
         
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "Snapgroup.Snap2"), object: nil)
+        
         timedNotifications(inSeconds: 1) { (success) in
             if success {
                 print("Successfully Notified")
             }
         }
         print("New budges \(UIApplication.shared.applicationIconBadgeNumber)")
+        }
     }
     
     
@@ -323,7 +349,55 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
             self.setToUserDefaults(value: userInfo["total_unread_notifications"]! , key: "inbox_counter")
             SwiftEventBus.post("counters")
         }
+        if userInfo["click_action"] != nil
+        {
+            if "\((userInfo["click_action"])!)" == "DELETE_FROM_GROUP"
+            {
+                print("Im here is equal")
+                MyVriables.shouldRefresh = true
+                SwiftEventBus.post("refreshData")
+                if Messaging.messaging().fcmToken != nil {
+                    MyVriables.TopicSubscribe = true
+                    MyVriables.CurrentTopic = "IOS-Group-\(String(describing: (userInfo["group_id"])!))"
+                    Messaging.messaging().unsubscribe(fromTopic: "/topics/IOS-GROUP-\(String(describing: (userInfo["group_id"])!))")
+                
+                    if let navigationController = self.window?.rootViewController as? UINavigationController {
+                        print("[ABCController] is visible before")
+                        let snackbar = TTGSnackbar(message: "You've been removed from \((userInfo["group_name"])!). Contact the group leader for details.", duration: .middle)
+                        snackbar.icon = UIImage(named: "AppIcon")
+                        snackbar.show()
+                        navigationController.popToRootViewController(animated: true)
+                        print("[ABCController] is visible after")
+                        
+                    }
+//                    if let viewControllers = window?.rootViewController?.childViewControllers {
+//
+//                        let prefs = UserDefaults.standard
+//
+//                        if viewControllers[viewControllers.count - 1] is DetailsViewController || viewControllers[viewControllers.count - 1] is MainTabController {
+//                            print("[ABCController] is visible")
+//                            if let navigationController = self.window?.rootViewController as? UINavigationController {
+//                                 print("[ABCController] is visible before")
+//                                navigationController.popToRootViewController(animated: true)
+//                                print("[ABCController] is visible after")
+//
+//                                }
+//
+//                        }
+//                    }
+                    
+//                    if self.window?.rootViewController is MainTabController || self.window?.rootViewController is DetailsViewController{
+//                        print("Im here from app delgete")
+//                        if let navigationController = self.window?.rootViewController as? UINavigationController {
+//                            navigationController.popToRootViewController(animated: true)
+//                        }
+//                    }
+                }
+            }
+        }
+        else {
         UIApplication.shared.applicationIconBadgeNumber += 1
+        }
 //        timedNotifications(inSeconds: 1) { (success) in
 //            if success {
 //                print("Successfully Notified")

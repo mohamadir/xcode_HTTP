@@ -30,11 +30,14 @@ class GroupLeaderViewController: UIViewController,UITableViewDelegate,UITableVie
     @IBOutlet weak var tableViewHeightConstrans: NSLayoutConstraint!
     
     
+    @IBOutlet weak var companyName: UILabel!
+    @IBOutlet weak var isCompanyView: UIView!
     @IBAction func allReviewClick(_ sender: Any) {
         performSegue(withIdentifier: "showAllReview", sender: self)
         ProviderInfo.nameProvider = leaderNameLbl.text!
         ProviderInfo.urlRatings = "https://api.snapgroup.co.il/api/getratings/members/\((MyVriables.currentGroup?.group_leader_id)!)"
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         SwiftEventBus.onMainThread(self, name: "newComment") { result in
@@ -46,21 +49,42 @@ class GroupLeaderViewController: UIViewController,UITableViewDelegate,UITableVie
             ProviderInfo.model_id =  (MyVriables.currentGroup?.group_leader_id) != nil ? (MyVriables.currentGroup?.group_leader_id)! : -1
             self.performSegue(withIdentifier: "showAddReview", sender: self)
         }
+        self.isCompanyView.addTapGestureRecognizer {
+            self.performSegue(withIdentifier: "showCompany", sender: self)
+        }
         //"refresh\((MyVriables.enableGdpr?.parmter)!)"
+         //ratingTbaleview.reloadData()
+        
+        
+    }
+    override func viewWillAppear(_ animated: Bool) {
         self.singleGroup  = MyVriables.currentGroup!
         ratingTbaleview.delegate = self
         ratingTbaleview.dataSource = self
         ratingTbaleview.isScrollEnabled = false
-       ratingTbaleview.separatorStyle = .none
+        ratingTbaleview.separatorStyle = .none
         
-        ratingTbaleview.allowsSelection = false 
+        ratingTbaleview.allowsSelection = false
+        if MyVriables.currentGroup?.is_company != nil
+        {
+            if MyVriables.currentGroup?.is_company! == 1
+            {
+                self.isCompanyView.isHidden = false
+                self.companyName.text = MyVriables.currentGroup?.group_leader_company_name != nil ? MyVriables.currentGroup?.group_leader_company_name! : "Company name"
+            }
+
+            
+        }
         groupNameLbl.text = singleGroup?.translations?.count != 0 ? singleGroup?.translations?[0].title! : "There is no group name"
         activeGroupLbl.text = singleGroup?.translations?.count != 0 ? singleGroup?.translations?[0].title! : ""
         leadeAboutLbl.text = singleGroup?.group_leader_about != nil ? singleGroup?.group_leader_about : "There no description right now"
         leaderEmailLbl.text = singleGroup?.group_leader_email != nil ? singleGroup?.group_leader_email : "There is no email"
         leaderGenderLbl.text = singleGroup?.group_leader_gender != nil ? singleGroup?.group_leader_gender : "There is no gender"
+        
         leaderBiryhdayLbl.text = singleGroup?.group_leader_birth_date != nil ? singleGroup?.group_leader_birth_date : "There is no Birthday"
-        leaderNameLbl.text = singleGroup?.group_leader_first_name != nil ? singleGroup?.group_leader_first_name : ""
+        if singleGroup?.group_leader_first_name != nil && singleGroup?.group_leader_last_name != nil {
+            leaderNameLbl.text = "\((singleGroup?.group_leader_first_name)!) \((singleGroup?.group_leader_last_name)!)" as String
+        }
         do{
             if singleGroup?.group_leader_image != nil{
                 var urlString = try ApiRouts.Web + (singleGroup?.group_leader_image)!
@@ -72,11 +96,7 @@ class GroupLeaderViewController: UIViewController,UITableViewDelegate,UITableVie
             print(error)
         }
         
-        ratingTbaleview.reloadData()
-        
-        
-    }
-    override func viewWillAppear(_ animated: Bool) {
+      
         getRatings()
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -101,7 +121,7 @@ class GroupLeaderViewController: UIViewController,UITableViewDelegate,UITableVie
         let cell = tableView.dequeueReusableCell(withIdentifier: "reviewCell", for: indexPath) as! ReviewCell
         cell.selectionStyle = .none
         if self.ratingsArray != nil {
-            cell.fullNameLbl.text = "\((self.ratingsArray?[indexPath.row].first_name)!) \((self.ratingsArray?[indexPath.row].last_name)!)"
+            cell.fullNameLbl.text = self.ratingsArray?[indexPath.row].first_name != nil && self.ratingsArray?[indexPath.row] != nil ? "\((self.ratingsArray?[indexPath.row].first_name)!) \((self.ratingsArray?[indexPath.row].last_name)!)" : "User \(self.ratingsArray?[indexPath.row].reviewer_id!)"
             cell.reviewLbl.text = "\((self.ratingsArray?[indexPath.row].review)!) "
             cell.ratingNumber.text = "\((self.ratingsArray?[indexPath.row].rating)!) out of 10"
             

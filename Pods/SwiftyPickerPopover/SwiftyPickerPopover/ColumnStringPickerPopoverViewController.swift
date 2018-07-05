@@ -85,7 +85,8 @@ public class ColumnStringPickerPopoverViewController: AbstractPickerPopoverViewC
         let selectedRows = popover.selectedRows
         let selectedChoices = selectedValues()
         button?.action?(popover, selectedRows, selectedChoices)
-        popover.disappear()
+        popover.removeDimmedView()
+        dismiss(animated: false)
     }
     
     @IBAction func tappedClear(_ sender: AnyObject? = nil) {

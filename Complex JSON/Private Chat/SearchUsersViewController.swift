@@ -97,8 +97,7 @@ class SearchUsersViewController: UIViewController, UITableViewDelegate, UITableV
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "serachTableView", for: indexPath) as! SearchTableViewCell
         cell.selectionStyle = .none
-        
-        cell.personName.text = members[indexPath.row].first_name! + " " + members[indexPath.row].last_name!
+        cell.personName.text = (members[indexPath.row].first_name != nil ?  members[indexPath.row].first_name! : "Guset" ) + " " + (members[indexPath.row].last_name != nil ? members[indexPath.row].last_name! : "\((members[indexPath.row].member_id)!)")
         if members[indexPath.row].profile_image != nil {
             var urlString = ApiRouts.Web + (members[indexPath.row].profile_image)!
             if (members[indexPath.row].profile_image)!.contains("http")
@@ -108,7 +107,13 @@ class SearchUsersViewController: UIViewController, UITableViewDelegate, UITableV
              print("im in \(urlString)")
             var url = URL(string: urlString)
             cell.pesonImage.downloadedFrom(url: url!)
+           // cell.pesonImage.image.
+         cell.pesonImage.contentMode = .scaleAspectFill
         
+        }
+        else
+        {
+            cell.pesonImage.image = UIImage(named: "default member 2")
         }
         return cell
     }
@@ -118,21 +123,13 @@ class SearchUsersViewController: UIViewController, UITableViewDelegate, UITableV
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         isChatId = false
-        /*
-         var id: Int?
-         var email: String?
-         var profile_image: String?
-         var first_name: String?
-         var last_name: String?
-         */
-        
-
         var ProfileImage: String = ""
         if (members[indexPath.row].profile_image) != nil {
             ProfileImage = (members[indexPath.row].profile_image)!
         print("profile_image: \(ProfileImage)")
         }
-        ChatUser.currentUser = Partner(id: members[indexPath.row].id, email: members[indexPath.row].email != nil ? (members[indexPath.row].email)! : "", profile_image: ProfileImage , first_name: members[indexPath.row].first_name != nil ? (members[indexPath.row].first_name)! : "", last_name: (members[indexPath.row].last_name) != nil ? (members[indexPath.row].last_name)! : "")
+        print("member id is = \(members[indexPath.row].member_id!)")
+        ChatUser.currentUser = Partner(id: members[indexPath.row].member_id, email: members[indexPath.row].email != nil ? (members[indexPath.row].email)! : "", profile_image: ProfileImage , first_name: members[indexPath.row].first_name != nil ? (members[indexPath.row].first_name)! : "", last_name: (members[indexPath.row].last_name) != nil ? (members[indexPath.row].last_name)! : "")
         performSegue(withIdentifier: "privateChatSegue", sender: self)
 
         
@@ -153,7 +150,7 @@ class SearchUsersViewController: UIViewController, UITableViewDelegate, UITableV
                     DispatchQueue.main.sync {
                         self.members = []
                         for mem in resp.members! {
-                        if mem.id!  != id {
+                        if mem.member_id!  != id {
                             self.members.append(mem)
                         }
                     }

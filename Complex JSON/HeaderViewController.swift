@@ -461,6 +461,7 @@ class HeaderViewController: UIViewController, CountryPickerViewDelegate, Country
             }
         }
         }
+        SwiftEventBus.post("roleChanges")
     }
     public func showPinDialogGdpr() {
         // dismiss(animated: true, completion: nil)

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="MemberMapView" customModule="Snapgroup" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="220" height="120"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VcL-Jg-dWt">
+                    <rect key="frame" x="0.0" y="0.0" width="220" height="120"/>
+                    <subviews>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="default member 2" translatesAutoresizingMaskIntoConstraints="NO" id="Rk2-Us-kBh" customClass="SwiftyAvatar" customModule="SwiftyAvatar">
+                            <rect key="frame" x="85" y="5" width="50" height="50"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="50" id="19K-1g-6fG"/>
+                                <constraint firstAttribute="width" constant="50" id="hZa-N5-8h3"/>
+                            </constraints>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                    <real key="value" value="1"/>
+                                </userDefinedRuntimeAttribute>
+                                <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                    <color key="value" red="0.75686274509999996" green="0.70196078429999997" blue="0.43137254899999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
+                        </imageView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hosen jaber" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LyE-RZ-f6d">
+                            <rect key="frame" x="10" y="60" width="200" height="21"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" red="0.26274509800000001" green="0.26274509800000001" blue="0.26274509800000001" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Last seen" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FYi-Qd-HcJ">
+                            <rect key="frame" x="10" y="89" width="63" height="17"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="63" id="yWK-lI-Mws"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <color key="textColor" red="0.26274509800000001" green="0.26274509800000001" blue="0.26274509800000001" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=": Few seconds ago" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cGb-vy-nbJ">
+                            <rect key="frame" x="81" y="89" width="129" height="17"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <color key="textColor" red="0.75686274509999996" green="0.70196078429999997" blue="0.43137254899999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="FYi-Qd-HcJ" firstAttribute="leading" secondItem="VcL-Jg-dWt" secondAttribute="leading" constant="10" id="06R-uI-xKd"/>
+                        <constraint firstAttribute="trailing" secondItem="LyE-RZ-f6d" secondAttribute="trailing" constant="10" id="CRa-8M-X9x"/>
+                        <constraint firstItem="FYi-Qd-HcJ" firstAttribute="top" secondItem="LyE-RZ-f6d" secondAttribute="bottom" constant="8" id="Tfq-ke-rTj"/>
+                        <constraint firstItem="LyE-RZ-f6d" firstAttribute="leading" secondItem="VcL-Jg-dWt" secondAttribute="leading" constant="10" id="XnT-Bh-ar9"/>
+                        <constraint firstAttribute="trailing" secondItem="cGb-vy-nbJ" secondAttribute="trailing" constant="10" id="cvs-Hy-8zi"/>
+                        <constraint firstItem="cGb-vy-nbJ" firstAttribute="top" secondItem="LyE-RZ-f6d" secondAttribute="bottom" constant="8" id="ljI-pw-Mcy"/>
+                        <constraint firstItem="Rk2-Us-kBh" firstAttribute="top" secondItem="VcL-Jg-dWt" secondAttribute="top" constant="5" id="mKr-Nt-2po"/>
+                        <constraint firstItem="LyE-RZ-f6d" firstAttribute="top" secondItem="Rk2-Us-kBh" secondAttribute="bottom" constant="5" id="nPt-TD-Ge6"/>
+                        <constraint firstItem="Rk2-Us-kBh" firstAttribute="centerX" secondItem="VcL-Jg-dWt" secondAttribute="centerX" id="spA-J9-u1y"/>
+                        <constraint firstItem="cGb-vy-nbJ" firstAttribute="leading" secondItem="FYi-Qd-HcJ" secondAttribute="trailing" constant="8" id="vZJ-Hh-lf0"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="VcL-Jg-dWt" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="2xw-Mh-s0H"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="VcL-Jg-dWt" secondAttribute="bottom" id="5gl-pv-OzE"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="VcL-Jg-dWt" secondAttribute="trailing" id="LRk-85-tOo"/>
+                <constraint firstItem="VcL-Jg-dWt" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="YO9-WD-uHZ"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <connections>
+                <outlet property="lastSeen" destination="cGb-vy-nbJ" id="lfG-PZ-53X"/>
+                <outlet property="memberImage" destination="Rk2-Us-kBh" id="9xD-1L-yVC"/>
+                <outlet property="memberName" destination="LyE-RZ-f6d" id="bgZ-FU-qAT"/>
+            </connections>
+        </view>
+    </objects>
+    <resources>
+        <image name="default member 2" width="282" height="283"/>
+    </resources>
+</document>

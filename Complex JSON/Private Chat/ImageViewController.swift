@@ -16,6 +16,7 @@ class ImageViewController: UIViewController {
     
     
     @IBOutlet weak var imageSlideShow: ImageSlideshow!
+    @IBOutlet weak var backView: UIView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,6 +28,10 @@ class ImageViewController: UIViewController {
         imageSlideShow.zoomEnabled = true
         // slideShow.draggingEnabled = false
         imageSlideShow.isMultipleTouchEnabled = false
+        backView.addTapGestureRecognizer {
+            self.navigationController?.popViewController(animated: true)
+
+        }
         imageSlideShow.pageControlPosition = .insideScrollView
         //        slideShow.pageControlPosition = .custom(padding: CGFloat(12))
         imageSlideShow.activityIndicator = DefaultActivityIndicator(style: .gray, color: UIColor.red)

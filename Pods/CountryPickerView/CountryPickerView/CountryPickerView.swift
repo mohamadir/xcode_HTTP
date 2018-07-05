@@ -47,12 +47,20 @@ public class CountryPickerView: NibView {
         didSet { setup() }
     }
     
-    
-    
     // Show/Hide the phone code on the view.
     public var showPhoneCodeInView = true {
         didSet { setup() }
     }
+    
+    /// Change the font of phone code
+    public var font = UIFont.systemFont(ofSize: 17.0) {
+        didSet { setup() }
+    }
+    /// Change the text color of phone code
+    public var textColor = UIColor.black {
+        didSet { setup() }
+    }
+    
     
     /// The spacing between the flag image and the text.
     public var flagSpacingInView: CGFloat {
@@ -92,6 +100,8 @@ public class CountryPickerView: NibView {
     
     func setup() {
         flagImageView.image = selectedCountry.flag
+        countryDetailsLabel.font = font
+        countryDetailsLabel.textColor = textColor
         if showPhoneCodeInView && showCountryCodeInView {
             countryDetailsLabel.text = "(\(selectedCountry.code)) \(selectedCountry.phoneCode)"
             return
@@ -120,10 +130,16 @@ public class CountryPickerView: NibView {
         let countryVc = CountryPickerViewController(style: .grouped)
         countryVc.countryPickerView = self
         if let viewController = viewController as? UINavigationController {
-            viewController.pushViewController(countryVc, animated: true)
+            delegate?.countryPickerView(self, willShow: countryVc)
+            viewController.pushViewController(countryVc, animated: true) {
+                self.delegate?.countryPickerView(self, didShow: countryVc)
+            }
         } else {
-            viewController.present(UINavigationController(rootViewController: countryVc),
-                                   animated: true)
+            let navigationVC = UINavigationController(rootViewController: countryVc)
+            delegate?.countryPickerView(self, willShow: countryVc)
+            viewController.present(navigationVC, animated: true) {
+                self.delegate?.countryPickerView(self, didShow: countryVc)
+            }
         }
     }
     

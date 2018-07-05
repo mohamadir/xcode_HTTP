@@ -16,6 +16,7 @@
 		74138E07204442FD00F37028 /* ChatCustomCellController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74138E06204442FD00F37028 /* ChatCustomCellController.swift */; };
 		7418822920B4566E0026D5D9 /* RolesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7418822820B4566E0026D5D9 /* RolesViewController.swift */; };
 		741D2A102042B40C00DB8975 /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 741D2A0F2042B40C00DB8975 /* DetailsViewController.swift */; };
+		741E7B8820EB9F420029497C /* DesignableUITextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 741E7B8720EB9F420029497C /* DesignableUITextField.swift */; };
 		742375082046DC0300B9A0C0 /* ApiRequests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742375072046DC0300B9A0C0 /* ApiRequests.swift */; };
 		7423757F20499FB600B9A0C0 /* PrivateChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7423757E20499FB600B9A0C0 /* PrivateChatViewController.swift */; };
 		74237583204BE0E100B9A0C0 /* PrivateChatMessageCelVc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74237582204BE0E100B9A0C0 /* PrivateChatMessageCelVc.swift */; };
@@ -57,6 +58,11 @@
 		74A5A4392085D2DB00A97052 /* CheckListItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A5A4382085D2DB00A97052 /* CheckListItemCell.swift */; };
 		74A5A43B2085D31A00A97052 /* checkListCustomCellController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A5A43A2085D31A00A97052 /* checkListCustomCellController.swift */; };
 		74A5A43E2085D64900A97052 /* GroupLeaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A5A43D2085D64900A97052 /* GroupLeaderViewController.swift */; };
+		74AE7C3B20E4ED7B00C11492 /* CompanyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74AE7C3A20E4ED7B00C11492 /* CompanyViewController.swift */; };
+		74AE7C3D20E8E55E00C11492 /* MapMarkerWindowView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 74AE7C3C20E8E55E00C11492 /* MapMarkerWindowView.xib */; };
+		74AE7C3F20E8E5DA00C11492 /* MapMarkerWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74AE7C3E20E8E5DA00C11492 /* MapMarkerWindow.swift */; };
+		74AE7C4120EA00E900C11492 /* MemberMapView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 74AE7C4020EA00E900C11492 /* MemberMapView.xib */; };
+		74AE7C4320EA00FF00C11492 /* MemberMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74AE7C4220EA00FF00C11492 /* MemberMapView.swift */; };
 		74B3CDF0205538F700440EB0 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B3CDEF205538F700440EB0 /* Colors.swift */; };
 		74B4E8F4209F47A200AD873A /* SearchGroupViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B4E8F3209F47A200AD873A /* SearchGroupViewCell.swift */; };
 		74B4E90120A1862900AD873A /* PartnerViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B4E8FD20A1862800AD873A /* PartnerViewCell.swift */; };
@@ -161,6 +167,7 @@
 		7418AFCB203EB3C1007BBC3D /* .gitkeep */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitkeep; sourceTree = "<group>"; };
 		7418AFCC203EB3C1007BBC3D /* ic_cross_white@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_cross_white@2x.png"; sourceTree = "<group>"; };
 		741D2A0F2042B40C00DB8975 /* DetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
+		741E7B8720EB9F420029497C /* DesignableUITextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignableUITextField.swift; sourceTree = "<group>"; };
 		741F63482099C17D006D3CD6 /* OneSignalNotificationServiceExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = OneSignalNotificationServiceExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		742375072046DC0300B9A0C0 /* ApiRequests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiRequests.swift; sourceTree = "<group>"; };
 		7423757E20499FB600B9A0C0 /* PrivateChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivateChatViewController.swift; sourceTree = "<group>"; };
@@ -210,6 +217,11 @@
 		74A5A4382085D2DB00A97052 /* CheckListItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckListItemCell.swift; sourceTree = "<group>"; };
 		74A5A43A2085D31A00A97052 /* checkListCustomCellController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = checkListCustomCellController.swift; sourceTree = "<group>"; };
 		74A5A43D2085D64900A97052 /* GroupLeaderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupLeaderViewController.swift; sourceTree = "<group>"; };
+		74AE7C3A20E4ED7B00C11492 /* CompanyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompanyViewController.swift; sourceTree = "<group>"; };
+		74AE7C3C20E8E55E00C11492 /* MapMarkerWindowView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MapMarkerWindowView.xib; sourceTree = "<group>"; };
+		74AE7C3E20E8E5DA00C11492 /* MapMarkerWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapMarkerWindow.swift; sourceTree = "<group>"; };
+		74AE7C4020EA00E900C11492 /* MemberMapView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MemberMapView.xib; sourceTree = "<group>"; };
+		74AE7C4220EA00FF00C11492 /* MemberMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberMapView.swift; sourceTree = "<group>"; };
 		74B3CDEF205538F700440EB0 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		74B4E8F3209F47A200AD873A /* SearchGroupViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchGroupViewCell.swift; sourceTree = "<group>"; };
 		74B4E8FD20A1862800AD873A /* PartnerViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PartnerViewCell.swift; sourceTree = "<group>"; };
@@ -516,6 +528,10 @@
 				74490C18205298D6007AD4FA /* CustomMarkerView.swift */,
 				74490C1A20529E22007AD4FA /* MapViewController.swift */,
 				74F7AAA4205A976400E66DF8 /* GroupMapViewController.swift */,
+				74AE7C3C20E8E55E00C11492 /* MapMarkerWindowView.xib */,
+				74AE7C3E20E8E5DA00C11492 /* MapMarkerWindow.swift */,
+				74AE7C4020EA00E900C11492 /* MemberMapView.xib */,
+				74AE7C4220EA00FF00C11492 /* MemberMapView.swift */,
 			);
 			path = Map;
 			sourceTree = "<group>";
@@ -546,6 +562,7 @@
 			isa = PBXGroup;
 			children = (
 				74905900203D853200C6B8C1 /* DesignableView.swift */,
+				741E7B8720EB9F420029497C /* DesignableUITextField.swift */,
 			);
 			path = IBDesignable;
 			sourceTree = "<group>";
@@ -565,6 +582,7 @@
 				74A5A43D2085D64900A97052 /* GroupLeaderViewController.swift */,
 				7EBD078420A2DBBA00369E36 /* AddReviewViewController.swift */,
 				7EBD078620A2F28300369E36 /* ReviewCell.swift */,
+				74AE7C3A20E4ED7B00C11492 /* CompanyViewController.swift */,
 			);
 			path = "Group Leader";
 			sourceTree = "<group>";
@@ -900,7 +918,9 @@
 				743A2086203C1B12008DF1AA /* Main.storyboard in Resources */,
 				748B842020C03832005D45D4 /* GoogleService-Info.plist in Resources */,
 				7E2D7B222090C06900DAC98F /* ExpandableHeaderView.xib in Resources */,
+				74AE7C4120EA00E900C11492 /* MemberMapView.xib in Resources */,
 				7472404920C821870054FB35 /* Assets.xcassets in Resources */,
+				74AE7C3D20E8E55E00C11492 /* MapMarkerWindowView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -999,6 +1019,7 @@
 				"${BUILT_PRODUCTS_DIR}/AlamofireImage/AlamofireImage.framework",
 				"${BUILT_PRODUCTS_DIR}/Auk/Auk.framework",
 				"${BUILT_PRODUCTS_DIR}/BmoViewPager/BmoViewPager.framework",
+				"${BUILT_PRODUCTS_DIR}/CCAutocomplete/CCAutocomplete.framework",
 				"${BUILT_PRODUCTS_DIR}/CountryPickerView/CountryPickerView.framework",
 				"${BUILT_PRODUCTS_DIR}/Digger/Digger.framework",
 				"${BUILT_PRODUCTS_DIR}/ExpandableLabel/ExpandableLabel.framework",
@@ -1007,6 +1028,7 @@
 				"${BUILT_PRODUCTS_DIR}/ImageSlideshow/ImageSlideshow.framework",
 				"${BUILT_PRODUCTS_DIR}/M13Checkbox/M13Checkbox.framework",
 				"${BUILT_PRODUCTS_DIR}/MRCountryPicker/MRCountryPicker.framework",
+				"${BUILT_PRODUCTS_DIR}/ModernSearchBar/ModernSearchBar.framework",
 				"${BUILT_PRODUCTS_DIR}/PageControl/PageControl.framework",
 				"${BUILT_PRODUCTS_DIR}/PhoneNumberKit/PhoneNumberKit.framework",
 				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
@@ -1014,6 +1036,7 @@
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 				"${BUILT_PRODUCTS_DIR}/SVProgressHUD/SVProgressHUD.framework",
 				"${BUILT_PRODUCTS_DIR}/Scrollable/Scrollable.framework",
+				"${BUILT_PRODUCTS_DIR}/SearchTextField/SearchTextField.framework",
 				"${BUILT_PRODUCTS_DIR}/SkyFloatingLabelTextField/SkyFloatingLabelTextField.framework",
 				"${BUILT_PRODUCTS_DIR}/Socket.IO-Client-Swift/SocketIO.framework",
 				"${BUILT_PRODUCTS_DIR}/Starscream/Starscream.framework",
@@ -1036,6 +1059,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AlamofireImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Auk.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BmoViewPager.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CCAutocomplete.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CountryPickerView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Digger.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ExpandableLabel.framework",
@@ -1044,6 +1068,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ImageSlideshow.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/M13Checkbox.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MRCountryPicker.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ModernSearchBar.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PageControl.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PhoneNumberKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
@@ -1051,6 +1076,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SVProgressHUD.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Scrollable.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SearchTextField.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SkyFloatingLabelTextField.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SocketIO.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Starscream.framework",
@@ -1169,9 +1195,11 @@
 				74D73CCB20DB806A0094F7AB /* EnableGdprModal.swift in Sources */,
 				748B842420C03841005D45D4 /* NewDocsViewController.swift in Sources */,
 				7E843A1F20B6B55B00E36A69 /* UploadFilesViewController.swift in Sources */,
+				74AE7C4320EA00FF00C11492 /* MemberMapView.swift in Sources */,
 				74438D2320CE5B5A0072558D /* PrivacyCell.swift in Sources */,
 				7E869DD820BFDA3A00DD8E5E /* TitleCell.swift in Sources */,
 				7ED602AB20BAC6450073EEB9 /* GdbrCell.swift in Sources */,
+				741E7B8820EB9F420029497C /* DesignableUITextField.swift in Sources */,
 				7E2ED4B22095B3A6002921A5 /* ServiceModalViewController.swift in Sources */,
 				7E2ED4BA2097048B002921A5 /* SearchTableViewCell.swift in Sources */,
 				74A5A43B2085D31A00A97052 /* checkListCustomCellController.swift in Sources */,
@@ -1199,6 +1227,7 @@
 				74905909203DB9DC00C6B8C1 /* HomeViewController.swift in Sources */,
 				743A20BE203C3A97008DF1AA /* GroupRequest.swift in Sources */,
 				74FBD106205009FD002D223A /* MembersViewController.swift in Sources */,
+				74AE7C3B20E4ED7B00C11492 /* CompanyViewController.swift in Sources */,
 				7E843A1720B6B54200E36A69 /* WebViewViewController.swift in Sources */,
 				7423757F20499FB600B9A0C0 /* PrivateChatViewController.swift in Sources */,
 				74FBD10A20514220002D223A /* MemberCollectionCell.swift in Sources */,
@@ -1224,6 +1253,7 @@
 				7E2D7B252090C06900DAC98F /* TableViewCell.swift in Sources */,
 				7428551F204FF16300637511 /* TestTabVc.swift in Sources */,
 				743A2081203C1B12008DF1AA /* AppDelegate.swift in Sources */,
+				74AE7C3F20E8E5DA00C11492 /* MapMarkerWindow.swift in Sources */,
 				74B4E8F4209F47A200AD873A /* SearchGroupViewCell.swift in Sources */,
 				74A5A43E2085D64900A97052 /* GroupLeaderViewController.swift in Sources */,
 				7E2ED4BF20986061002921A5 /* ArriceCollectionCell.swift in Sources */,

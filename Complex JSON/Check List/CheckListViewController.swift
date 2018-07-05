@@ -204,14 +204,16 @@ class CheckListViewController: UIViewController , UITableViewDelegate, UITableVi
                     }
                     else
                     {
-                        if self.dataArray1.count != 0 {
-                            self.sectionTitleArray.append("Required")
-                        }
                         if self.dataArray2.count != 0 {
-                             self.sectionTitleArray.append("Recomnded")
+                            self.sectionTitleArray.append("Required")
+                            
                         }
+                        if self.dataArray1.count != 0 {
+                            self.sectionTitleArray.append("Recomnded")
+                        }
+                      
                         self.sectionItemArray = self.generateSectionHeader(titleArray: self.sectionTitleArray, parentView: self.view)
-                        self.dataArrayGroup = [self.dataArray1, self.dataArray2]
+                        self.dataArrayGroup = [self.dataArray2, self.dataArray1]
                          self.tableViewCheckList.reloadData()
                     }
                    

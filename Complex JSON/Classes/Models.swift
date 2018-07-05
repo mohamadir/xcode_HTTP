@@ -96,6 +96,7 @@ struct RatingModel: Codable {
     var first_name: String?
     var last_name: String?
     var image_path: String?
+    var reviewer_id: Int?
     var rating: Double?
     var review: String?
 }
@@ -168,8 +169,13 @@ struct TourGroup: Codable {
     var group_leader_email: String?
     var group_leader_company_name: String?
     var group_leader_company_image: String?
+    var group_leader_company_about: String?
+    var group_leader_company_website: String?
+    var group_leader_company_occupation: String?
+    var group_leader_company_phone: String?
     var group_leader_birth_date: String?
     var group_leader_about: String?
+    var group_leader_company_physical_address: String?
     var group_leader_gender: String?
     var group_leader_id: Int?
     var translations: [GroupTranslation]?
@@ -270,7 +276,7 @@ struct GdprStruct: Codable{
 
 
 struct ElasticMember : Codable{
-    var id: Int?
+    var member_id: Int?
     var email: String?
     var first_name: String?
     var last_name: String?
@@ -323,6 +329,19 @@ struct Day: Codable{
     var activities: [ServiceModel]?
     var locations: [dayLocation]?
 }
+struct MemberMap: Codable {
+     var members: [MemberStruct]?
+}
+
+struct MemberStruct: Codable{
+    var lon: String?
+    var lat: String?
+    var profile_image: String?
+    var phone: String?
+    var first_name: String?
+    var last_name: String?
+    var member_id: Int?
+}
 
 struct DayImage: Codable {
     var id : Int?
@@ -353,7 +372,14 @@ struct GroupCheckList: Codable{
 
 /********** CHAT *****************/
 struct ChatGroup: Codable{
-    var messages: [ChatListGroupItem]?
+    
+    var messages: ChatGroupStruct?
+}
+struct ChatGroupStruct: Codable{
+    var data: [ChatListGroupItem]?
+    var current_page: Int?
+    var last_page: Int?
+    var total: Int?
 }
 struct ChatListGroupItem: Codable{
     var member_id: Int?

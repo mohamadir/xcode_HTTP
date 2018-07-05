@@ -20,6 +20,7 @@ import Alamofire
 
 class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate, CountryPickerViewDelegate, CountryPickerViewDataSource{
    
+    @IBOutlet weak var member_view: UIView!
     @IBOutlet weak var leaveText: UILabel!
     @IBOutlet weak var leaveGrouoBt: UIButton!
     @IBOutlet weak var regstrtionCloseLbl: UILabel!
@@ -39,6 +40,7 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
     @IBOutlet weak var phoneTextFeild: SkyFloatingLabelTextField!
     @IBOutlet weak var observerView: UIView!
     @IBOutlet weak var memberView: UIView!
+    @IBOutlet weak var viewBack: UIView!
     let genderData: [String] = ["Male","Female","Other"]
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,6 +57,13 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "dismissKeyboard")
 
         
+        member_view.addTapGestureRecognizer {
+            self.tabBarController?.selectedIndex = 0
+        }
+        viewBack.addTapGestureRecognizer {
+            self.tabBarController?.selectedIndex = 0
+
+        }
         //Uncomment the line below if you want the tap not not interfere and cancel other interactions.
         //tap.cancelsTouchesInView = false
         firstNameTextFeild.delegate = self
@@ -634,6 +643,7 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
                     SwiftEventBus.post("refreshGroupChangeRole")
                     MyVriables.currentGroup?.role = "observer"
 
+                    
                     if Messaging.messaging().fcmToken != nil {
                         MyVriables.TopicSubscribe = true
                         MyVriables.CurrentTopic = "IOS-Group-\(String(describing: (MyVriables.currentGroup?.id!)!))"
@@ -701,6 +711,7 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
                 }
             }
         }
+        SwiftEventBus.post("roleChanges")
     }
     func countryPickerView(_ countryPickerView: CountryPickerView, didSelectCountry country: Country) {
         print(country)

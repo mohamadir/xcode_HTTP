@@ -71,6 +71,7 @@ class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UI
     let date = Date()
     let formatter = DateFormatter()
     @IBOutlet weak var arrivalConfirmationView: UIControl!
+    @IBOutlet weak var groupHomeView: UIView!
     @IBOutlet weak var rolesView: UIControl!
     @IBOutlet weak var roomlistView: UIControl!
     @IBOutlet weak var counterLbl: UILabel!
@@ -88,7 +89,9 @@ class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UI
     @IBOutlet weak var secLbl: UILabel!
     @IBOutlet weak var groupChatView: UIControl!
     
+    @IBOutlet weak var backToDeatils: UIStackView!
     
+    @IBOutlet weak var backView: UIView!
     var timer1 = Timer()
     var arrives: ArriveChecked?
     var secondsLeft: Int?
@@ -158,7 +161,18 @@ class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UI
             }
         
         }
-        
+        backToDeatils.addTapGestureRecognizer {
+            self.tabBarController?.selectedIndex = 0
+
+        }
+        backView.addTapGestureRecognizer {
+            self.tabBarController?.selectedIndex = 0
+            
+        }
+        groupHomeView.addTapGestureRecognizer {
+            self.tabBarController?.selectedIndex = 0
+            
+        }
         votesView.addTapGestureRecognizer {
             if (self.singleGroup?.group_tools?.voting!)! == true
             {
@@ -489,8 +503,7 @@ class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UI
         
     }
     @IBAction func onBackPressed(_ sender: Any) {
-        self.navigationController?.popViewController(animated: true)
-    }
+      self.tabBarController?.selectedIndex =  0   }
     
     @objc func membersClick(){
         print("tapped")

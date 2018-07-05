@@ -11,6 +11,7 @@ import SocketIO
 import SwiftHTTP
 import SDWebImage
 import AlamofireImage
+import TTGSnackbar
 
 extension UINavigationController {
     var rootViewController : UIViewController? {
@@ -35,15 +36,26 @@ class ChatViewController: UIViewController , UITableViewDelegate, UITableViewDat
         self.navigationController?.setNavigationBarHidden(true, animated: false)
 
     }
-    
+    func setToUserDefaults(value: Any?, key: String){
+        if value != nil {
+            let defaults = UserDefaults.standard
+            defaults.set(value!, forKey: key)
+        }
+        else{
+            let defaults = UserDefaults.standard
+            
+            defaults.set("no value", forKey: key)
+        }
+        
+        
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.setToUserDefaults(value: 0 , key: "chat_counter")
         self.navigationController?.setNavigationBarHidden(true, animated: true)
-
         setUpSocket()
         
-
        // self.reloadView()
         backView.addTapGestureRecognizer {
         self.navigationController?.popViewController(animated: true)
@@ -62,18 +74,7 @@ class ChatViewController: UIViewController , UITableViewDelegate, UITableViewDat
 //        self.socket!.disconnect()
 //    }
 //
-    func setToUserDefaults(value: Any?, key: String){
-        if value != nil {
-            let defaults = UserDefaults.standard
-            defaults.set(value!, forKey: key)
-        }
-        else{
-            let defaults = UserDefaults.standard
-            defaults.set("no value", forKey: key)
-        }
-        
-        
-    }
+  
     
     @IBAction func backClick(_ sender: Any) {
          navigationController?.popViewController(animated: true)
@@ -124,6 +125,7 @@ class ChatViewController: UIViewController , UITableViewDelegate, UITableViewDat
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "customChatCell") as! ChatCustomCellController
         cell.tag = indexPath.row
+        if self.messagesNoPartner?[indexPath.row].partner != nil {
         cell.userNameLbl.text = "\((self.messagesNoPartner?[indexPath.row].partner?.first_name) != nil ? (self.messagesNoPartner?[indexPath.row].partner?.first_name)! : "User \(self.messagesNoPartner?[indexPath.row].id!)" ) \((self.messagesNoPartner?[indexPath.row].partner?.last_name) != nil ? (self.messagesNoPartner?[indexPath.row].partner?.last_name)! : "" )"
         cell.messageLbl.text = self.messagesNoPartner?[indexPath.row].last_message?.message!
         if self.messagesNoPartner?[indexPath.row].total_unread! != 0 {
@@ -135,6 +137,7 @@ class ChatViewController: UIViewController , UITableViewDelegate, UITableViewDat
             cell.budgesView.isHidden = true
 
         }
+        
      
         //if cell.tag == indexPath.rowow
         if self.messagesNoPartner?[indexPath.row].partner?.profile_image != nil {
@@ -164,6 +167,13 @@ class ChatViewController: UIViewController , UITableViewDelegate, UITableViewDat
             cell.userImage.image = UIImage(named: "default member 2")
             
         }
+        }
+        else
+        {
+            cell.userNameLbl.text = "No user"
+            cell.messageLbl.text = "No message"
+             cell.userImage.image = UIImage(named: "default member 2")
+        }
         
         
         return cell
@@ -185,9 +195,9 @@ class ChatViewController: UIViewController , UITableViewDelegate, UITableViewDat
                     for mesage in self.messages!
                     {
                         //messagesNoPartner
-                        if mesage.partner != nil {
+                        //if mesage.partner != nil {
                             self.messagesNoPartner?.append(mesage)
-                        }
+                      //  }
                     }
                     self.chatTableView.reloadData()
                 }
@@ -202,7 +212,6 @@ class ChatViewController: UIViewController , UITableViewDelegate, UITableViewDat
            // print("opt finished: \(response.description)")
         
     }
-   
     func setUpSocket(){
         print("----- ABED -----")
         var  manager = SocketManager(socketURL: URL(string: ApiRouts.ChatServer)!, config: [.log(true),.forcePolling(true)])
@@ -260,11 +269,19 @@ class ChatViewController: UIViewController , UITableViewDelegate, UITableViewDat
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if self.messagesNoPartner?[indexPath.row].partner != nil {
         ChatUser.currentUser = self.messagesNoPartner?[indexPath.row].partner!
         ChatUser.ChatId = self.messagesNoPartner?[indexPath.row].last_message?.chat_id!
         performSegue(withIdentifier: "privateChatSegue", sender: self)
         self.socket?.disconnect()
         print((ChatUser.currentUser)!)
+        }
+        else{
+            let snackbar = TTGSnackbar(message: "User already remove account ! ", duration: .middle)
+            snackbar.icon = UIImage(named: "AppIcon")
+            snackbar.show()
+            print("Generic parser error")
+        }
     }
   
 }

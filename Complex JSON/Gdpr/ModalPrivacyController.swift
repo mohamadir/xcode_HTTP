@@ -128,6 +128,7 @@ class ModalPrivacyController: UIViewController {
                 let  gdprUpdate : GdprUpdate = try JSONDecoder().decode(GdprUpdate.self, from: response.data)
                 MyVriables.currentMember?.gdpr = GdprStruct(profile_details: (gdprUpdate.gdpr?.profile_details)!, phone_number: (gdprUpdate.gdpr?.phone_number)!, groups_relations: (gdprUpdate.gdpr?.groups_relations)!, chat_messaging: (gdprUpdate.gdpr?.chat_messaging)!, pairing: (gdprUpdate.gdpr?.pairing)!, real_time_location: (gdprUpdate.gdpr?.real_time_location)!, files_upload: (gdprUpdate.gdpr?.files_upload)!, push_notifications: (gdprUpdate.gdpr?.push_notifications)!, rating_reviews: (gdprUpdate.gdpr?.rating_reviews)!, group_details: (gdprUpdate.gdpr?.profile_details)!, billing_payments : true, checkAllSwitch: true)
                 SwiftEventBus.post("shouldRefreshGdpr")
+                 SwiftEventBus.post("changeProfileInfo")
                  self.dismiss(animated: true,completion: nil)
             }
             catch {
@@ -135,6 +136,7 @@ class ModalPrivacyController: UIViewController {
             }
             
         }
+        
     }
     
     

@@ -37,6 +37,22 @@ class PrivacyViewController: UIViewController, UITableViewDelegate, UITableViewD
             self.arrayGdpr.append(GdprObject(title: "Files upload and sharing", descrption: "Group leaders may request certain files and media to be uploaded for each group. These files will be available for the leader of the group you uploaded the files to. We will also save the uploaded files for you to use again. We may save these files for up to 3 months", isChecked: (MyVriables.currentMember?.gdpr?.files_upload) != nil ? (MyVriables.currentMember?.gdpr?.files_upload)! : false, parmter: "files_upload", image: "PrivacyPageFiles"))
             self.arrayGdpr.append(GdprObject(title: "Push notifications", descrption: "Snapgroup may send you push notifications from time to time (only for mobile apps). The push notifications can be for groups invitations, group leader updates or system messages of any type. You can disable each type of push messages on the settings page", isChecked: (MyVriables.currentMember?.gdpr?.push_notifications) != nil ? (MyVriables.currentMember?.gdpr?.push_notifications)! : false, parmter: "push_notifications", image: "PrivacyPageNotifications"))
             self.arrayGdpr.append(GdprObject(title: "Rating a& reviews", descrption: "If you choose to rate and write a review on a group leader or a service provider, your review will be displayed next to profile details on the reviews page.", isChecked: (MyVriables.currentMember?.gdpr?.rating_reviews) != nil ? (MyVriables.currentMember?.gdpr?.rating_reviews)! : false, parmter: "rating_reviews", image: "PrivacyPageRaiting"))
+            if (MyVriables.currentMember?.gdpr?.push_notifications) != nil
+            {
+                print("Gdpr notfication is \((MyVriables.currentMember?.gdpr?.push_notifications)!)")
+                if (MyVriables.currentMember?.gdpr?.push_notifications)! == false
+                {
+                    UIApplication.shared.unregisterForRemoteNotifications()
+                }
+                else
+                {
+                    SwiftEventBus.post("registerRemote")
+                }
+                
+            }else
+            {
+                print("Gdpr notfication is Nil")
+            }
             self.checkAllTrue()
         }
         SwiftEventBus.onMainThread(self, name: "setCheckTrue") { result in
@@ -246,7 +262,11 @@ class PrivacyViewController: UIViewController, UITableViewDelegate, UITableViewD
                 self.arrayGdpr[7].isChecked = (gdprUpdate.gdpr?.files_upload)!
                 self.arrayGdpr[8].isChecked = (gdprUpdate.gdpr?.push_notifications)!
                 self.arrayGdpr[9].isChecked = (gdprUpdate.gdpr?.rating_reviews)!
-                
+                if self.arrayGdpr[postion].parmter == "push_notifications"
+                {
+                    SwiftEventBus.post("shouldRefreshGdpr")
+                    SwiftEventBus.post("changeProfileInfo")
+                }
                 DispatchQueue.main.async {
                 self.checkAllTrue()
                 }

@@ -10,9 +10,12 @@ import UIKit
 import SocketIO
 import SwiftHTTP
 import SDWebImage
+import ARSLineProgress
+import Alamofire
 
-class GroupChatViewController: UIViewController, UITableViewDelegate, UITableViewDataSource  {
- 
+class GroupChatViewController: UIViewController, UITableViewDelegate, UITableViewDataSource,UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+   
+    var currentPage : Int = 1
     @IBOutlet weak var titleGroup: UILabel!
     @IBAction func sendMessage(_ sender: Any) {
         if (chatFeild?.text)! != ""
@@ -33,7 +36,7 @@ class GroupChatViewController: UIViewController, UITableViewDelegate, UITableVie
                 newMessage.member_id = MyVriables.currentMember?.id!
                 print(newMessage)
                 DispatchQueue.main.async {
-                    self.messages?.messages?.append(newMessage)
+                    self.messages?.messages?.data!.append(newMessage)
                     self.chatTableView.reloadData()
                     self.scrollToLast()
                 }
@@ -47,11 +50,13 @@ class GroupChatViewController: UIViewController, UITableViewDelegate, UITableVie
     var chatsMessages: ChatGroup?
     var socket: SocketIOClient?
     var socketManager : SocketManager?
+    let imagePicker2 = UIImagePickerController()
     
     @IBOutlet weak var keyboardConstraitns: NSLayoutConstraint!
     @IBOutlet weak var headerView: UIView!
     @IBOutlet weak var editView: UIView!
     @IBOutlet weak var chatTableView: UITableView!
+    @IBOutlet weak var progressStar: UIActivityIndicatorView!
     override func viewDidLoad() {
         super.viewDidLoad()
         // like a comment but it isn't one
@@ -64,19 +69,20 @@ class GroupChatViewController: UIViewController, UITableViewDelegate, UITableVie
         titleGroup.text = (MyVriables.currentGroup?
             .translations![0].title)!
         setSocket()
+        imagePicker2.delegate = self
         chatFeild.autocorrectionType = .no
-        chatTableView.tableFooterView = UIView()
-        chatTableView.rowHeight = UITableViewAutomaticDimension
-        chatTableView.allowsSelection = false
-        chatTableView.delegate = self
-        chatTableView.dataSource = self
+//        chatTableView.tableFooterView = UIView()
+//        chatTableView.rowHeight = UITableViewAutomaticDimension
+        self.chatTableView.delegate = self
+        self.chatTableView.dataSource = self
         chatTableView.separatorStyle = .none
         
         editView.layer.shadowOffset = CGSize.zero
         editView.layer.shadowRadius = 0.5
         editView.layer.shadowOffset = CGSize.zero
         editView.layer.shadowRadius = 1
-        
+        self.chatTableView.allowsMultipleSelection = true
+
         headerView.layer.shadowColor = UIColor.gray.cgColor
         headerView.layer.shadowOpacity = 1
         headerView.layer.shadowOffset = CGSize.zero
@@ -112,7 +118,7 @@ class GroupChatViewController: UIViewController, UITableViewDelegate, UITableVie
                     newMessage.type = messageClass["type"] as? String
                     print(newMessage)
                     if (MyVriables.currentMember?.id)! != newMessage.member_id {
-                        self.messages?.messages!.append(newMessage)
+                       self.messages?.messages?.data!.append(newMessage)
                         self.chatTableView.reloadData()
                         self.scrollToLast()
                     }
@@ -181,7 +187,99 @@ class GroupChatViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     
+    @IBAction func sendImage(_ sender: Any) {
+        if  (MyVriables.currentMember?.gdpr?.files_upload)! == true {
+            imagePicker2.allowsEditing = false
+            imagePicker2.sourceType = .photoLibrary
+            present(imagePicker2, animated: true, completion: nil)
+        }else
+        {
+            var gdprObkectas : GdprObject = GdprObject(title: "Files upload and sharing", descrption: "Group leaders may request certain files and media to be uploaded for each group. These files will be available for the leader of the group you uploaded the files to. We will also save the uploaded files for you to use again. We may save these files for up to 3 months", isChecked: (MyVriables.currentMember?.gdpr?.files_upload) != nil ? (MyVriables.currentMember?.gdpr?.files_upload)! : false, parmter: "files_upload", image: "In order to use the files tools, please approve the files usage:")
+            MyVriables.enableGdpr = gdprObkectas
+            self.performSegue(withIdentifier: "showEnableDocuments", sender: self)
+        }
+    }
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        print("cancled")
+        dismiss(animated: true, completion: nil)
+        ARSLineProgress.hide()
+        
+    }
     
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        guard let image = info[UIImagePickerControllerOriginalImage] as? UIImage else {
+            return
+        }
+        
+        
+        let documentDirectory: NSString = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first! as NSString
+        let imageName = "temp.png"
+        let imagePath = documentDirectory.appendingPathComponent(imageName)
+        print("IMAGEPATHOSH: " + imagePath)
+        dismiss(animated: true, completion: nil)
+        let imageData = UIImagePNGRepresentation(image)!
+        print("AlamoUpload: START")
+        let imgData = UIImageJPEGRepresentation(image, 0.2)!
+        ARSLineProgress.show()
+        var urlString: String = "https://api.snapgroup.co.il/api/upload_single_image/Member/\((MyVriables.currentMember?.id!)!)/media"
+        urlString = urlString.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)!
+        Alamofire.upload(multipartFormData: { multipartFormData in
+            multipartFormData.append(imgData, withName: "single_image",fileName: "image.jpg", mimeType: "image/jpg")
+          
+            
+        },to:urlString)
+        { (result) in
+            switch result {
+            case .success(let upload, _, _):
+                
+                upload.uploadProgress(closure: { (progress) in
+                    print("Upload Progress: \(progress.fractionCompleted)")
+                })
+                
+                upload.responseJSON { response in
+                    ARSLineProgress.hide()
+                    if let object = response.result.value as? Dictionary<String,AnyObject>{
+                        if let imageobj = object["image"] as? Dictionary<String,Any>{
+                            if let path = imageobj["path"] as? String{
+                                print("DICTIONARY: LEVEL 2")
+                                var oponent_id =  ChatUser.currentUser?.id!
+                                var image_path = ApiRouts.Web + path
+                                let params = ["type":"image","image_path": image_path  , "message": "", "sender_id": (MyVriables.currentMember?.id!)!, "chat_type" : "group", "group_id" : MyVriables.currentGroup?.id!, "chat_id" : MyVriables.currentGroup?.chat?.id!] as [String : Any]
+                                print("params: \(params)")
+                                HTTP.POST(ApiRouts.Web + "/api/chats", parameters: params) { response in
+                                    print("send chat: \(response.statusCode)" )
+                                    var newMessage :ChatListGroupItem = ChatListGroupItem()
+                                    newMessage.message = ""
+                                    newMessage.type = "image"
+                                    newMessage.image_path = image_path
+                                    newMessage.member_id = MyVriables.currentMember?.id!
+                                    print(newMessage)
+                                    do{
+                                        DispatchQueue.global().async(execute: {
+                                            DispatchQueue.main.async {
+                                                self.dismissKeyboard()
+                                                self.messages?.messages?.data!.append(newMessage)
+                                               // self.messages?.messages.append(newMessage)
+                                                self.chatTableView.reloadData()
+                                                self.scrollToLast()
+                                            }
+                                        })
+                                        
+                                    }catch {}
+                                }
+                            }
+                            
+                        }
+                    }
+                }
+            case .failure(let encodingError):
+                print(encodingError)
+                ARSLineProgress.hide()
+                
+            }
+        }
+        
+    }
     @objc   func keyboardWillHide(notification:NSNotification) {
         //   adjustingHeight(show: false, notification: notification)
         print("in keyboard hide")
@@ -194,7 +292,7 @@ class GroupChatViewController: UIViewController, UITableViewDelegate, UITableVie
     }
    
     override func viewWillAppear(_ animated: Bool) {
-         getGroupHistory()
+         getGroupHistory(isFirstTimee: true)
     }
     override func viewWillDisappear(_ animated: Bool) {
         socket?.disconnect()
@@ -210,9 +308,10 @@ class GroupChatViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if (self.messages?.messages?.count) != nil {
-//           print(self.messages?.messages?.count)
-            return (self.messages?.messages?.count)!
+        if (self.messages?.messages?.data!.count) != nil {
+        print("Array count is \((self.messages?.messages?.data!.count)!)")
+            
+            return (self.messages?.messages?.data!.count)!
         }
         else
         {
@@ -230,21 +329,54 @@ class GroupChatViewController: UIViewController, UITableViewDelegate, UITableVie
           let imagePartnerCell = tableView.dequeueReusableCell(withIdentifier: "imagePartnerCell", for: indexPath) as! ImagePartnerCell
            let filePartnerCell = tableView.dequeueReusableCell(withIdentifier: "partnerFileCell", for: indexPath) as! PartnerFileCell
           let fileMeCell = tableView.dequeueReusableCell(withIdentifier: "meFileCell", for: indexPath) as! MeFileCell
-        if self.messages?.messages![indexPath.row].member_id! == MyVriables.currentMember?.id!
-        {
-            if (self.messages?.messages![indexPath.row].type)! == "text"
+        
+        imageMeCell.imageViewClick.addTapGestureRecognizer {
+            if (self.messages?.messages?.data![indexPath.row].type)! == "image"
+                    {
+                        MyVriables.imageUrl = (self.messages?.messages?.data![indexPath.row].image_path)!
+                        self.performSegue(withIdentifier: "showImageSegue", sender: self)
+            }
+        }
+        imagePartnerCell.imageViewClick.addTapGestureRecognizer {
+            if (self.messages?.messages?.data![indexPath.row].type)! == "image"
             {
-                if self.messages?.messages![indexPath.row].message != nil {
-                    cell2.textLbl.text = (self.messages?.messages?[indexPath.row].message!)!
+                MyVriables.imageUrl = (self.messages?.messages?.data![indexPath.row].image_path)!
+                self.performSegue(withIdentifier: "showImageSegue", sender: self)
+            }
+        }
+        if self.messages?.messages?.data![indexPath.row].member_id! == MyVriables.currentMember?.id!
+        {
+            if (self.messages?.messages?.data![indexPath.row].type)! == "text"
+            {
+                if self.messages?.messages?.data![indexPath.row].message != nil {
+                    cell2.textLbl.text = (self.messages?.messages?.data![indexPath.row].message!)!
                 }
                 return cell2
             }
             else
             {
-                if (self.messages?.messages![indexPath.row].type)! == "image"
+                if (self.messages?.messages?.data![indexPath.row].type)! == "image"
                 {
-                    
-                    
+                    if (self.messages?.messages?.data![indexPath.row].image_path) != nil
+                    {
+                        var urlString = ""
+                        
+                        if (self.messages?.messages?.data![indexPath.row].image_path)!.contains("http")
+                        
+                        {
+                            urlString = (self.messages?.messages?.data![indexPath.row].image_path)!
+                        }
+                        else
+                        {
+                            urlString = try ApiRouts.Web + (self.messages?.messages?.data![indexPath.row].image_path)!
+                        }
+                       print("Url string is \(urlString)")
+                        urlString = urlString.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)!
+                        var url = URL(string: urlString)
+                        if url != nil {
+                            imageMeCell.meImage?.af_setImage(withURL: url!)
+                        }
+                    }
                     return imageMeCell
                 }
                 else
@@ -258,8 +390,8 @@ class GroupChatViewController: UIViewController, UITableViewDelegate, UITableVie
         else {
             
             do{
-                if self.messages?.messages![indexPath.row].profile_image != nil{
-                    if "snapgroup" == (self.messages?.messages![indexPath.row].profile_image)!
+                if self.messages?.messages?.data![indexPath.row].profile_image != nil{
+                    if "snapgroup" == (self.messages?.messages?.data![indexPath.row].profile_image)!
                     {
                         cell.partnerProfile.image = UIImage(named: "new logo")
                         imagePartnerCell.partnerImageProfile.image = UIImage(named: "new logo")
@@ -267,7 +399,7 @@ class GroupChatViewController: UIViewController, UITableViewDelegate, UITableVie
                     }
                     else
                     {
-                    let urlString = try ApiRouts.Web + (self.messages?.messages![indexPath.row].profile_image)!
+                    let urlString = try ApiRouts.Web + (self.messages?.messages?.data![indexPath.row].profile_image)!
                     let url = URL(string: urlString)
                     cell.partnerProfile.sd_setImage(with: url!, completed: nil)
                     imagePartnerCell.partnerImageProfile.sd_setImage(with: url!, completed: nil)
@@ -290,36 +422,36 @@ class GroupChatViewController: UIViewController, UITableViewDelegate, UITableVie
             }catch let error {
                
             }
-            if self.messages?.messages![indexPath.row].type! == "text"
+            if self.messages?.messages?.data![indexPath.row].type! == "text"
             {
                 
-                if self.messages?.messages![indexPath.row].sender_name != nil {
-                    cell.partnerName.text = (self.messages?.messages?[indexPath.row].sender_name!)!
+                if self.messages?.messages?.data![indexPath.row].sender_name != nil {
+                    cell.partnerName.text = (self.messages?.messages?.data![indexPath.row].sender_name!)!
                 }
-                if (self.messages?.messages?[indexPath.row].message) != nil {
+                if (self.messages?.messages?.data![indexPath.row].message) != nil {
 
                     //print(" MESSAGE IS : \((self.messages?.messages?[indexPath.row].message!)!)")
-                    cell.textLbl.text = "\((self.messages?.messages?[indexPath.row].message!)!)"
+                    cell.textLbl.text = "\((self.messages?.messages?.data![indexPath.row].message!)!)"
                    
                 }
                  return cell
             }
             else
             {
-                if self.messages?.messages![indexPath.row].sender_name != nil {
-                    imagePartnerCell.partnerName.text = (self.messages?.messages?[indexPath.row].sender_name!)!
+                if self.messages?.messages?.data![indexPath.row].sender_name != nil {
+                    imagePartnerCell.partnerName.text = (self.messages?.messages?.data![indexPath.row].sender_name!)!
                 }
-                if (self.messages?.messages![indexPath.row].type)! == "image"
+                if (self.messages?.messages?.data![indexPath.row].type)! == "image"
                 {
-                    if (self.messages?.messages![indexPath.row].image_path)! != nil
+                    if (self.messages?.messages?.data![indexPath.row].image_path)! != nil
                     {
                         var urlString: String
-                        print("THIS IS   "+"\((self.messages?.messages![indexPath.row].image_path)!)")
-                        if (self.messages?.messages![indexPath.row].image_path)!.range(of: "http") != nil{
-                            urlString = (self.messages?.messages![indexPath.row].image_path)!
+                        print("THIS IS   "+"\((self.messages?.messages?.data![indexPath.row].image_path)!)")
+                        if (self.messages?.messages?.data![indexPath.row].image_path)!.range(of: "http") != nil{
+                            urlString = (self.messages?.messages?.data![indexPath.row].image_path)!
                         }
                         else {
-                            urlString = try ApiRouts.Web + (self.messages?.messages![indexPath.row].image_path)! }
+                            urlString = try ApiRouts.Web + (self.messages?.messages?.data![indexPath.row].image_path)! }
                        urlString = urlString.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)!
                         let url = URL(string: urlString)
                         if url != nil{
@@ -340,9 +472,23 @@ class GroupChatViewController: UIViewController, UITableViewDelegate, UITableVie
         }
      
     }
-    func getGroupHistory(){
-        print(ApiRouts.Web+"/api/chats/messages?chat_id=\((MyVriables.currentGroup?.chat?.id!)!)")
-        HTTP.GET(ApiRouts.Web+"/api/chats/messages?chat_id=\((MyVriables.currentGroup?.chat?.id!)!)", parameters: ["hello": "world", "param2": "value2"])
+    
+    
+//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        print("Type is \((self.messages?.messages![indexPath.row].type)!)")
+//        if (self.messages?.messages![indexPath.row].type)! == "image"
+//        {
+//            MyVriables.imageUrl = (self.messages?.messages![indexPath.row].image_path)!
+//            performSegue(withIdentifier: "showImageSegue", sender: self)
+//        }
+//    }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("selected selected ")
+    }
+    func getGroupHistory(isFirstTimee: Bool){
+        print("Group chat " + ApiRouts.Web+"/api/chats/messages?chat_id=\((MyVriables.currentGroup?.chat?.id!)!)&page=\(self.currentPage)")
+        HTTP.GET(ApiRouts.Web+"/api/chats/messages?chat_id=\((MyVriables.currentGroup?.chat?.id!)!)&page=\(self.currentPage)", parameters: ["hello": "world", "param2": "value2"])
         { response in
             if let err = response.error {
                 print("error: \(err.localizedDescription)")
@@ -350,28 +496,69 @@ class GroupChatViewController: UIViewController, UITableViewDelegate, UITableVie
             }
             //print("responseeee "+response.description)
             do{
-           self.messages  = try JSONDecoder().decode(ChatGroup.self, from: response.data)
+          let chatMesagesHelper  = try JSONDecoder().decode(ChatGroup.self, from: response.data)
             //print("responseeeeaasd \(self.messages!)")
                 DispatchQueue.main.sync {
-                    //for index in 1...5 {
                     
-                    if self.messages?.messages?.count == 0
+                    print("Total is \((chatMesagesHelper.messages?.total)!)")
+                    if (chatMesagesHelper.messages?.total)! == 0
                     {
    
+                        self.messages = chatMesagesHelper
 
+                        print("Total is true")
+                         self.messages?.messages?.data! = []
                         var groupItem :ChatListGroupItem = ChatListGroupItem()
                         groupItem.sender_name = "Snapgroup"
                         groupItem.member_id = 0
                         groupItem.type = "text"
                         groupItem.profile_image = "snapgroup"
                         groupItem.message = "Welcome to the group chat.Here you can share text messages and images with the rest of the group members."
-                        self.messages?.messages?.append(groupItem)
+                        self.messages?.messages?.data!.insert(groupItem, at: 0)
+                       // self.messages?.messages?.data?.append(groupItem)
+                        
+                        
+                        print("Group chat count now is \(self.messages?.messages?.data?.count)")
+                        self.chatTableView.reloadData()
+                        self.progressStar.isHidden = true
+                        
                     }
-    
-                   // print("chat messsages is :::: \((self.chatMessages?.count)!)")
-                    self.chatTableView.reloadData()
-                  
-                        self.scrollToLast()
+                    else
+                    {
+
+                        var current_Page1 : Int = (chatMesagesHelper.messages?.current_page)!
+                        var last_Page1 : Int = (chatMesagesHelper.messages?.last_page)!
+                        print("Current page is \(current_Page1) and last page is \(last_Page1)")
+                        if current_Page1 > last_Page1
+                        {
+                            self.isHasMore = false
+                            self.progressStar.isHidden = true
+                        }
+                        self.currentPage = (chatMesagesHelper.messages?.current_page!)! + 1
+                        if isFirstTimee{
+                            self.messages = chatMesagesHelper
+                            self.messages?.messages?.data!.reverse()
+                            self.chatTableView.reloadData()
+                            self.scrollToLast()
+                        }else
+                        {
+                            var appenArray = (chatMesagesHelper.messages?.data!)!
+                            appenArray.reverse()
+                        self.messages?.messages?.data!.insert(contentsOf: appenArray, at: 0)
+                            var initialOffset = self.chatTableView.contentOffset.y
+                            self.chatTableView.reloadData()
+                            var indexScrollTo = ((appenArray).count) + 1
+                            print("Scroll to \(appenArray.count)")
+                            self.chatTableView.scrollToRow(at: IndexPath(row: (appenArray.count), section: 0), at: .top, animated: false)
+                            self.chatTableView.contentOffset.y += initialOffset
+                        }
+                        
+                        self.topVisibleIndexPath = self.chatTableView.indexPathsForVisibleRows![0]
+                        self.isLoading = false
+                        self.progressStar.isHidden = true
+                        
+                        
+                    }
                     
                     
                 }
@@ -385,17 +572,67 @@ class GroupChatViewController: UIViewController, UITableViewDelegate, UITableVie
         
         
     }
-    
-    func scrollToLast(){
-        //        let numberOfSections = self.chatTableView.numberOfSections
-        //        let numberOfRows = self.chatTableView.numberOfRows(inSection: numberOfSections-1)
-        //        let indexPath = IndexPath(row: numberOfRows-1 , section: numberOfSections-1)
-        //        self.chatTableView.scrollToRow(at: indexPath, at: UITableViewScrollPosition.middle, animated: true)
+    var topVisibleIndexPath:IndexPath? = nil
+    var isLoading: Bool = false
+    var isFirstTime: Bool = true
+    var scrollPostion: CGFloat?
+    var isHasMore: Bool = true
+    func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+//        print("Display is ime here and top is \(self.chatTableView.indexPathsForVisibleRows![0].row)")
+//         print("Display is  top is \(topVisibleIndexPath?.row)")
+        if isFirstTime {
+            return
+        }
         
-        if (self.messages?.messages?.count)! > 0 {
-            let indexPath = IndexPath(row: (self.messages?.messages?.count)! - 1 , section: 0)
+        if tableView.contentOffset.y >= (tableView.contentSize.height - tableView.frame.size.height) {
+        }else {
+            if (self.messages?.messages?.data!.count)! > 0 {
+                topVisibleIndexPath = self.chatTableView.indexPathsForVisibleRows![0]
+            }
+        }
+        print("STATEMNT IS topVisibleIndexPath?.row == 0 = \(topVisibleIndexPath?.row == 0)")
+        scrollPostion = chatTableView.contentOffset.y
+        if topVisibleIndexPath?.row == 0 && isHasMore {
+            print("HOSEN - in first if")
+            if !isLoading {
+                print("TESTTEST- load more data .. ")
+                isLoading = true
+                print("TESTTEST- load more data .. ")
+                DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(1000)) {
+                    // HERE LOAD NEW MESSAGES ...
+                    var savedIndex = tableView.indexPathsForVisibleRows?.first
+                    let indexPathOfFirstRow = NSIndexPath(row: 0, section: 0)
+                    self.progressStar.isHidden = false
+                    self.getGroupHistory(isFirstTimee: false)
+                    
+                    
+                    if (self.messages?.messages?.data!.count)! > 0 {
+                        //                    let indexPath = IndexPath(row: (self.chatTableView.indexPathsForVisibleRows![0].row)+2 , section: 0)
+                        //                    self.chatTableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
+                    }
+                    
+                    
+                    // FINISH LOAD NEW ITMES
+                    
+                    
+                }
+            }
+        }
+        else
+        {
+            self.progressStar.isHidden = true
+        }
+    }
+  
+    func scrollToLast(){
+    
+        if (self.messages?.messages?.data) != nil {
+        if (self.messages?.messages?.data?.count)! > 0 {
+            let indexPath = IndexPath(row: (self.messages?.messages?.data?.count)! - 1 , section: 0)
             self.chatTableView.scrollToRow(at: indexPath, at: .bottom, animated: false)
         }
+        }
+        self.isFirstTime = false
         
     }
 

@@ -23,7 +23,12 @@ struct privateChatMessage: Codable {
 var isChatId: Bool = true
 
 struct PrivateMessages: Codable {
-    var messages: [Message]?
+    var messages: PrivateMessagesPages?
+}
+struct PrivateMessagesPages: Codable {
+    var data: [Message]?
+    var current_page: Int?
+    var last_page: Int?
 }
 public extension UIColor {
     convenience init(red: Int, green: Int, blue: Int) {
@@ -55,6 +60,7 @@ class PrivateChatViewController: UIViewController ,UIImagePickerControllerDelega
     @IBOutlet weak var chatTableView: UITableView!
     @IBOutlet weak var nameHeader: UILabel!
 
+    var isHasMore: Bool = true
     @IBOutlet weak var backView: UIView!
     @IBOutlet weak var usernamelb: UILabel!
     @IBOutlet weak var userImage: UIImageView!
@@ -66,7 +72,7 @@ class PrivateChatViewController: UIViewController ,UIImagePickerControllerDelega
     var messageUser: Partner?
     var myId: Int?
     var allMessages: [Message] = []
-    
+    var curentPage: Int = 1
     @IBAction func onCloseTapped(_ sender: Any) {
         navigationController?.popViewController(animated: true)
         dismiss(animated: true, completion: nil)
@@ -79,7 +85,7 @@ class PrivateChatViewController: UIViewController ,UIImagePickerControllerDelega
     func textFieldDidBeginEditing(_ textField: UITextField) {
            textField.becomeFirstResponder()
         // moveTextField(textField, moveDistance: -250, up: true)
-        
+
     }
     
     
@@ -263,11 +269,12 @@ class PrivateChatViewController: UIViewController ,UIImagePickerControllerDelega
         
         myId = UserDefaults.standard.integer(forKey: "member_id")
         originY = self.view.frame.origin.y
+        print("My chat id is = \(isChatId)")
         if isChatId {
-            self.getHistoryConv(isViaChatId: true)
+            self.getHistoryConv(isViaChatId: true, page: self.curentPage, isFirstTime: true)
         }else {
             isChatId = true
-            self.getHistoryConv(isViaChatId: false)
+            self.getHistoryConv(isViaChatId: false, page: self.curentPage, isFirstTime: true)
         }
         //     chatTableView.rowHeight = UITableViewAutomaticDimension
         
@@ -329,65 +336,75 @@ class PrivateChatViewController: UIViewController ,UIImagePickerControllerDelega
     var topVisibleIndexPath:IndexPath? = nil
     var isLoading: Bool = false
     var isFirstTime: Bool = true
+    var scrollPostion: CGFloat?
     var randomMessages = ["nkbsdkajs hd","askdhh1123","123","jfd111","njfdvb3","8854sda","114345675789","jjjjjjj","9998766","askdhh1123","123"]
+
     func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if isFirstTime {
             return
         }
+        
+        if tableView.contentOffset.y >= (tableView.contentSize.height - tableView.frame.size.height) {
+        }else {
+        if self.allMessages.count > 0 {
         topVisibleIndexPath = self.chatTableView.indexPathsForVisibleRows![0]
-
-        print("topVisibliosh: \(topVisibleIndexPath)")
-        if topVisibleIndexPath?.row == 0 {
+        }
+        }
+        scrollPostion = chatTableView.contentOffset.y
+        if topVisibleIndexPath?.row == 0 && isHasMore {
             if !isLoading {
-                                print("TESTTEST- load more data .. ")
-
-                isLoading = true
-                progressStar.isHidden = false
                 print("TESTTEST- load more data .. ")
-                DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500)) {
-
-                    
+                isLoading = true
+                print("TESTTEST- load more data .. ")
+                DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(1000)) {
                 // HERE LOAD NEW MESSAGES ...
+                    var savedIndex = tableView.indexPathsForVisibleRows?.first
+                    let indexPathOfFirstRow = NSIndexPath(row: 0, section: 0)
+                    self.progressStar.isHidden = false
+                    if isChatId {
+                        self.getHistoryConv(isViaChatId: true, page: self.curentPage, isFirstTime: false)
+                    }else {
+                        isChatId = true
+                        self.getHistoryConv(isViaChatId: false, page: self.curentPage, isFirstTime: false)
+                    }                    //self.appendCells()
                     
-                for i in 1...10 {
-                    var newMessage : Message = Message()
-                    newMessage.created_at = "2018-04-09 19:23:42"
-                    newMessage.member_id = 74
-                    newMessage.type = "text"
-                    var number = Int(arc4random_uniform(UInt32(10)) + UInt32(0));
-                    newMessage.message = self.randomMessages[number]
-                    var oponent_id =  ChatUser.currentUser?.id!
-                    self.allMessages.insert(newMessage, at: 0)
-                    self.progressStar.isHidden = true
-
-
-                }
-                    
-               // FINISH LOAD NEW ITMES
-                    
-                    
-                    
-                    
-                self.chatTableView.reloadData()
-                self.topVisibleIndexPath = self.chatTableView.indexPathsForVisibleRows![0]
+                
                 
                 if self.allMessages.count > 0 {
-                    let indexPath = IndexPath(row: (self.chatTableView.indexPathsForVisibleRows![0].row)+2 , section: 0)
-                    self.chatTableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
+//                    let indexPath = IndexPath(row: (self.chatTableView.indexPathsForVisibleRows![0].row)+2 , section: 0)
+//                    self.chatTableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
                 }
 
-                self.isLoading = false
-                
+                    
+                // FINISH LOAD NEW ITMES
                 
             
             }
         }
-            //
-            //
-            
         }
         
         
+    }
+    
+    private func appendCells() {
+       
+        var initialOffset = self.chatTableView.contentOffset.y
+        var newMessage : Message = Message()
+        newMessage.created_at = "2018-04-09 19:23:42"
+        newMessage.member_id = 74
+        newMessage.type = "text"
+        let number = Int(arc4random_uniform(UInt32(10)) + UInt32(0));
+        newMessage.message = self.randomMessages[number]
+        self.allMessages.insert(newMessage, at: 0)
+         self.allMessages.insert(newMessage, at: 0)
+         self.allMessages.insert(newMessage, at: 0)
+         self.allMessages.insert(newMessage, at: 0)
+         self.allMessages.insert(newMessage, at: 0)
+        self.chatTableView.reloadData()
+        //@numberOfCellsAdded: number of items added at top of the table
+//        self.chatTableView.scrollToRowAtIndexPath(NSIndexPath(row: numberOfCellsAdded, section: 0), atScrollPosition: .Top, animated: false)
+        self.chatTableView.scrollToRow(at: IndexPath(row: 5, section: 0), at: .top, animated: false)
+        self.chatTableView.contentOffset.y += initialOffset
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -691,7 +708,7 @@ class PrivateChatViewController: UIViewController ,UIImagePickerControllerDelega
         
         if allMessages[indexPath.row].member_id == MyVriables.currentMember?.id! {
             //imageMeCell
-            
+
             if allMessages[indexPath.row].type == "image" {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "imageMeCell") as! ImageMeTableViewCell
                 let urlString = (allMessages[indexPath.row].image_path)!
@@ -736,16 +753,23 @@ class PrivateChatViewController: UIViewController ,UIImagePickerControllerDelega
         }
         
     }
-    
-    func getHistoryConv(isViaChatId: Bool){
-        print("\(ApiRouts.HistoryConversation)74/\((messageUser?.id!)!)")
+    func prepareReloadData() {
+        let previousContentHeight = chatTableView.contentSize.height
+        let previousContentOffset = chatTableView.contentOffset.y
+        chatTableView.reloadData()
+        let currentContentOffset = chatTableView.contentSize.height - previousContentHeight + previousContentOffset
+        chatTableView.contentOffset = CGPoint(x: 0, y: currentContentOffset)
+    }
+    func getHistoryConv(isViaChatId: Bool, page: Int, isFirstTime: Bool){
+
         var urlString = ""
-        
+       
         if isViaChatId {
-            urlString = ApiRouts.Web + "/api/chats/messages?chat_id=\((ChatUser.ChatId!))"
+            urlString = ApiRouts.Web + "/api/chats/messages?chat_id=\((ChatUser.ChatId!))&page=\(self.curentPage)"
         }else {
-            urlString = ApiRouts.Web + "/api/chats/messages?member_id=\((MyVriables.currentMember?.id!)!)&partner_id=\((ChatUser.currentUser?.id!)!)"
+            urlString = ApiRouts.Web + "/api/chats/messages?member_id=\((MyVriables.currentMember?.id!)!)&partner_id=\((ChatUser.currentUser?.id!)!)&page=\(self.curentPage)"
         }
+         print("CHAT URL IS = \(urlString)")
         HTTP.GET(urlString, parameters: []) { response in
             if let err = response.error {
                 print("error: \(err.localizedDescription)")
@@ -757,14 +781,47 @@ class PrivateChatViewController: UIViewController ,UIImagePickerControllerDelega
             do {
                 let  messages = try JSONDecoder().decode(PrivateMessages.self, from: response.data)
                 DispatchQueue.main.sync {
-                    self.allMessages = messages.messages!
-                    self.allMessages = self.allMessages.filter({ (message: Message) -> Bool in
-                        return  true
-                    })
-                    self.chatTableView.reloadData()
-                    DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(300)) {
+                   
+
+                    DispatchQueue.main.async {
+                        
+                        
+                        print("Current page1 = \((messages.messages?.current_page))")
+                        var current_Page1 : Int = (messages.messages?.current_page)!
+                        var last_Page1 : Int = (messages.messages?.last_page)!
+                        if current_Page1 > last_Page1
+                        {
+                            self.isHasMore = false
+                        }
+                        self.curentPage = (messages.messages?.current_page!)! + 1
+                        if isFirstTime{
+                        self.allMessages = (messages.messages?.data!)!
+                            self.allMessages.reverse()
+                        self.chatTableView.reloadData()
                         self.scrollToLast()
+                        }else
+                        {
+                            var appenArray = (messages.messages?.data!)!
+                            appenArray.reverse()
+                            self.allMessages.insert(contentsOf: appenArray, at: 0)
+                            var initialOffset = self.chatTableView.contentOffset.y
+                            self.chatTableView.reloadData()
+                            var indexScrollTo = ((messages.messages?.data!)!.count) + 1
+                            print("Scroll to \(indexScrollTo)")
+                            self.chatTableView.scrollToRow(at: IndexPath(row: ((messages.messages?.data!)!.count), section: 0), at: .top, animated: false)
+                            self.chatTableView.contentOffset.y += initialOffset
+                        }
+                        
+                        self.topVisibleIndexPath = self.chatTableView.indexPathsForVisibleRows![0]
+                         self.isLoading = false
+                         self.progressStar.isHidden = true
+                   
                     }
+                    
+                    
+                    
+                    
+                    
                     
                 }
             }
