@@ -187,7 +187,9 @@ class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UI
         mapsView.addTapGestureRecognizer {
             if (self.singleGroup?.group_tools?.map!)! == true
             {
-                 self.performSegue(withIdentifier: "showTest", sender: self)
+                self.performSegue(withIdentifier: "showMainMap", sender: self)
+                //showMainMap
+                 //self.performSegue(withIdentifier: "showTest", sender: self)
             }
             
         }

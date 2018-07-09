@@ -70,7 +70,7 @@ class RecentGroupViewController: UIViewController,UITableViewDelegate,UITableVie
 
     func getActionsRequest(){
         let id = MyVriables.currentMember?.id!
-        HTTP.GET(ApiRouts.Web+"/api/members/\(id)/actions") { response in
+        HTTP.GET("\(ApiRouts.Web)/api/members/\(id)/actions") { response in
             if let err = response.error {
                 print("error: \(err.localizedDescription)")
                 return //also notify app of failure as needed

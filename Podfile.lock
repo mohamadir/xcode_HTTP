@@ -2,6 +2,7 @@ PODS:
   - Alamofire (4.7.2)
   - AlamofireImage (3.3.1):
     - Alamofire (~> 4.5)
+  - ARNTransitionAnimator (3.0.6)
   - ARSLineProgress (2.2.1)
   - Auk (8.0.2):
     - moa
@@ -63,6 +64,7 @@ PODS:
     - AlamofireImage (~> 3.0)
     - ImageSlideshow/Core
   - ImageSlideshow/Core (1.6.1)
+  - ISHPullUp (1.0.7)
   - leveldb-library (1.20)
   - M13Checkbox (3.2.2)
   - moa (9.0.2)
@@ -103,6 +105,7 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire (~> 4.7)
+  - ARNTransitionAnimator
   - ARSLineProgress (~> 2.0)
   - Auk (~> 8.0)
   - BmoViewPager (~> 4.0.0)
@@ -120,6 +123,7 @@ DEPENDENCIES:
   - GooglePlaces
   - ImageSlideshow (~> 1.5)
   - ImageSlideshow/Alamofire
+  - ISHPullUp
   - M13Checkbox
   - moa (~> 9.0)
   - ModernSearchBar
@@ -155,6 +159,7 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   Alamofire: e4fa87002c137ba2d8d634d2c51fabcda0d5c223
   AlamofireImage: 3b35b586853abaf94ca1250f4e94cff3c21a4c0d
+  ARNTransitionAnimator: 6320bc6d3ab66c159ae2a06cad7c7725a2ec3c15
   ARSLineProgress: b344944496913e98d8fe7bab94ea5d488fbf41fb
   Auk: 82be62a2cf650437fe745c81b12ac2440a0f682c
   BmoViewPager: 1bbba2f3d9bad4e255b0e397dc035e9a0c434eb5
@@ -176,6 +181,7 @@ SPEC CHECKSUMS:
   GooglePlaces: 3d06e6c99654545b4738ce49648745779c25f2ef
   GoogleToolboxForMac: 91c824d21e85b31c2aae9bb011c5027c9b4e738f
   ImageSlideshow: f0f33e1a20668e83d77f5fb7729e4ae4437c0759
+  ISHPullUp: eaa91bef06270264e1f923bc764705173d341495
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
   M13Checkbox: a8c2491cfbbca10797925fd0b9154a782bf40d89
   moa: b73dc5e0efa1fad00711c4608e41b197f4d15b12
@@ -202,6 +208,6 @@ SPEC CHECKSUMS:
   XLPagerTabStrip: c908b17cbf42fcd2598ee1adfc49bae25444d88a
   YNExpandableCell: 47bf7cff721aa535c0e9e1163bf22b5573441bb4
 
-PODFILE CHECKSUM: ab53913866ae501231c1520ed5bae1b509d4174c
+PODFILE CHECKSUM: e050f56ba8204ac044b9d971a445fefd2b971006
 
 COCOAPODS: 1.4.0

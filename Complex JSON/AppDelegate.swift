@@ -119,11 +119,47 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
         let gender = defaults.string(forKey: "gender")
         let isLogged = defaults.bool(forKey: "isLogged")
         if isLogged == true{
+            subscribeToMyGroups(id: id)
            // MyVriables.currentMember = Member(email: email, phone: phone, id: id)
             getNotificationsCounters()
         }
     }
-    
+    func subscribeToMyGroups(id: Int) {
+        print("Urlllll \(ApiRouts.Web+"/api/groups/members/\((id))?roles[]=group_leader&roles[]=member")")
+        HTTP.GET(ApiRouts.Web+"/api/groups/members/\((id))?roles[]=group_leader&roles[]=member") { response in
+            if let error = response.error {
+                print(error)
+            }
+            do {
+                print("Response iss \(response.description)")
+                let  groups : SubscribeGroups = try JSONDecoder().decode(SubscribeGroups.self, from: response.data)
+                if (groups.groups?.count) != 0
+                {
+                    print("Groups subscribe \(groups.groups!)")
+                    DispatchQueue.main.async {
+                        for group in (groups.groups)!
+                        {
+                            if Messaging.messaging().fcmToken != nil {
+                                print("Sucbscribe to " + "/topics/IOS-LOCATION-\((group.id)!)")
+                                print("Sucbscribe to " + "/topics/IOS-GROUP-\(String(describing: (group.id!)))")
+                                print("Sucbscribe to " + "/topics/IOS-CHAT-GROUP-\(String(describing: (group.id!)))")
+                                Messaging.messaging().subscribe(toTopic: "/topics/IOS-LOCATION-\((group.id)!)")
+                                Messaging.messaging().subscribe(toTopic: "/topics/IOS-GROUP-\((group.id)!)")
+                                Messaging.messaging().subscribe(toTopic: "/topics/IOS-CHAT-GROUP-\((group.id)!)")
+                            }
+                        }
+                    }
+                    
+                    
+                }
+                
+            }
+            catch let error  {
+                print("im in catch \(error)")
+            }
+            
+        }
+    }
     
     func ConnectToFcm(){
         Messaging.messaging().shouldEstablishDirectChannel = true
@@ -375,7 +411,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
             {
                 if "\(userInfo["click_action"]!)" == "LOCATION-NOTIFICATION"
                 {
-                    setMemberLocaion()
+                    setMemberLocaion(group_id: "\(userInfo["group_id"]!)")
                 }
             }
         }
@@ -418,7 +454,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
         let homePage = mainStoryboard.instantiateViewController(withIdentifier: "ViewController") as! ViewController
         self.window?.rootViewController = homePage
     }
-    func setMemberLocaion() {
+    func setMemberLocaion(group_id: String) {
         var currentLocation: CLLocation!
         var locManager = CLLocationManager()
         locManager.requestWhenInUseAuthorization()
@@ -428,7 +464,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
             print("App delgete Location lat is \(currentLocation.coordinate.longitude) and location long is \(currentLocation.coordinate.latitude)")
             let defaults = UserDefaults.standard
             let id = defaults.integer(forKey: "member_id")
-            HTTP.POST(ApiRouts.Web+"/api/members/locations/member/\(id)", parameters: ["lat": currentLocation.coordinate.latitude, "lon": currentLocation.coordinate.longitude]) { response in
+            HTTP.POST(ApiRouts.Web+"/api/members/locations/member/\(id)?group_id=\(group_id)", parameters: ["lat": currentLocation.coordinate.latitude, "lon": currentLocation.coordinate.longitude]) { response in
                 if let err = response.error {
                     print("error: \(err.localizedDescription)")
                     return //also notify app of failure as needed

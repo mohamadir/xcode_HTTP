@@ -348,7 +348,9 @@ struct DayImage: Codable {
     var id : Int?
     var path: String?
 }
-
+struct SubscribeGroups: Codable {
+    var groups: [TourGroup]?
+}
 
 
 struct dayLocation: Codable{

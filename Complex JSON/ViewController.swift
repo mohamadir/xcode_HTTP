@@ -252,13 +252,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        if Messaging.messaging().fcmToken != nil {
-            print("Fcm subscribe to " + "/topics/LOCATION-357")
-            Messaging.messaging().subscribe(toTopic: "/topics/IOS-LOCATION-351")
-        }
-        else {
-            print("Fcm token is nil")
-        }
+       
         countyCodePickerView.delegate = self
         countyCodePickerView.dataSource = self
         
@@ -1075,6 +1069,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             
         }
     }
+    
+    
+   
+    
     
     // not needed
     @objc func onClick(sender: UIButton!){

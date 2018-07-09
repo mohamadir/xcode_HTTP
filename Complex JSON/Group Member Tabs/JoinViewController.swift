@@ -616,6 +616,8 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
                         print("/topics/\(MyVriables.CurrentTopic)")
                         Messaging.messaging().subscribe(toTopic: "/topics/IOS-GROUP-\(String(describing: (MyVriables.currentGroup?.id!)!))")
                         Messaging.messaging().subscribe(toTopic: "/topics/IOS-CHAT-GROUP-\(String(describing: (MyVriables.currentGroup?.id!)!))")
+                        Messaging.messaging().subscribe(toTopic: "/topics/IOS-LOCATION-\(((MyVriables.currentGroup?.id))!)")
+
 
                     }
                     MyVriables.shouldRefresh = true
@@ -647,8 +649,11 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
                     if Messaging.messaging().fcmToken != nil {
                         MyVriables.TopicSubscribe = true
                         MyVriables.CurrentTopic = "IOS-Group-\(String(describing: (MyVriables.currentGroup?.id!)!))"
-                        print("/topics/\(MyVriables.CurrentTopic)")
                         Messaging.messaging().unsubscribe(fromTopic: "/topics/IOS-GROUP-\(String(describing: (MyVriables.currentGroup?.id!)!))")
+                        Messaging.messaging().unsubscribe(fromTopic: "/topics/IOS-LOCATION-\(((MyVriables.currentGroup?.id))!)")
+                        Messaging.messaging().unsubscribe(fromTopic: "/topics/IOS-CHAT-GROUP-\(String(describing: (MyVriables.currentGroup?.id!)!))")
+
+                        
                     }
                     
                     self.showToast("You'v joind the group successfully", 0.3)

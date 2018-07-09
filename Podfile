@@ -41,6 +41,9 @@ pod 'CCAutocomplete'
 pod 'PhoneNumberKit', '~> 2.1'
 pod 'SearchTextField', '~> 1.2.0'
 pod 'ModernSearchBar' 
+pod 'ISHPullUp'
+pod 'ARNTransitionAnimator'
+
 
 
   # Pods for Snapgroup

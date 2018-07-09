@@ -29,7 +29,7 @@ class GroupChatViewController: UIViewController, UITableViewDelegate, UITableVie
                 ] as [String : Any]
             print("params: \(params)")
             
-            HTTP.POST(ApiRouts.Web + "/api/chats", parameters: params) { response in
+            HTTP.POST("\(ApiRouts.Web)/api/chats", parameters: params) { response in
                 var newMessage :ChatListGroupItem = ChatListGroupItem()
                 newMessage.message = message
                 newMessage.type = "text"
@@ -57,6 +57,7 @@ class GroupChatViewController: UIViewController, UITableViewDelegate, UITableVie
     @IBOutlet weak var editView: UIView!
     @IBOutlet weak var chatTableView: UITableView!
     @IBOutlet weak var progressStar: UIActivityIndicatorView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // like a comment but it isn't one
@@ -246,7 +247,7 @@ class GroupChatViewController: UIViewController, UITableViewDelegate, UITableVie
                                 var image_path = ApiRouts.Web + path
                                 let params = ["type":"image","image_path": image_path  , "message": "", "sender_id": (MyVriables.currentMember?.id!)!, "chat_type" : "group", "group_id" : MyVriables.currentGroup?.id!, "chat_id" : MyVriables.currentGroup?.chat?.id!] as [String : Any]
                                 print("params: \(params)")
-                                HTTP.POST(ApiRouts.Web + "/api/chats", parameters: params) { response in
+                                HTTP.POST("\(ApiRouts.Web)/api/chats", parameters: params) { response in
                                     print("send chat: \(response.statusCode)" )
                                     var newMessage :ChatListGroupItem = ChatListGroupItem()
                                     newMessage.message = ""
@@ -295,6 +296,7 @@ class GroupChatViewController: UIViewController, UITableViewDelegate, UITableVie
          getGroupHistory(isFirstTimee: true)
     }
     override func viewWillDisappear(_ animated: Bool) {
+        self.currentPage = 1
         socket?.disconnect()
     }
 
@@ -552,8 +554,9 @@ class GroupChatViewController: UIViewController, UITableViewDelegate, UITableVie
                             self.chatTableView.scrollToRow(at: IndexPath(row: (appenArray.count), section: 0), at: .top, animated: false)
                             self.chatTableView.contentOffset.y += initialOffset
                         }
-                        
-                        self.topVisibleIndexPath = self.chatTableView.indexPathsForVisibleRows![0]
+                        if (self.messages?.messages?.data!.count)! > 0 {
+                            self.topVisibleIndexPath = self.chatTableView.indexPathsForVisibleRows![0]
+                        }
                         self.isLoading = false
                         self.progressStar.isHidden = true
                         

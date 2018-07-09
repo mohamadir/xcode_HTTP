@@ -243,7 +243,7 @@ class PrivacyViewController: UIViewController, UITableViewDelegate, UITableViewD
         else {
             params = [arrayGdpr[postion].parmter: isChecked]
         }
-        HTTP.PUT(ApiRouts.Web +  "/api/members/\((MyVriables.currentMember?.id)!)/gdpr", parameters: params) {
+        HTTP.PUT("\(ApiRouts.Web)/api/members/\((MyVriables.currentMember?.id)!)/gdpr", parameters: params) {
             response in
             if response.error != nil {
                 //print(response.error)

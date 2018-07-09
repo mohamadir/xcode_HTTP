@@ -71,7 +71,7 @@ class ModalPrivacyController: UIViewController {
         
     }
     func deleteMemberFunc(){
-        HTTP.DELETE(ApiRouts.Web +  "/api/members/\((MyVriables.currentMember?.id)!)") {
+        HTTP.DELETE("\(ApiRouts.Web)/api/members/\((MyVriables.currentMember?.id)!)") {
             response in
             if response.error != nil {
                 print(response.error)
@@ -118,7 +118,7 @@ class ModalPrivacyController: UIViewController {
     func setCheck(isChecked : Bool, chekAll : Bool, postion : Int){
         var params: [String: Any]
         params = [(MyVriables.currentGdbr?.gdbrParmter)!: isChecked]
-        HTTP.PUT(ApiRouts.Web +  "/api/members/\((MyVriables.currentMember?.id)!)/gdpr", parameters: params) {
+        HTTP.PUT("\(ApiRouts.Web)/api/members/\((MyVriables.currentMember?.id)!)/gdpr", parameters: params) {
             response in
             if response.error != nil {
                 //print(response.error)

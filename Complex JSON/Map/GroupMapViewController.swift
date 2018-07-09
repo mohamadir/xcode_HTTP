@@ -16,6 +16,8 @@ import TTGSnackbar
 import SearchTextField
 import ModernSearchBar
 import SwiftEventBus
+import ISHPullUp
+
 
 
 enum Location {
@@ -23,8 +25,13 @@ enum Location {
     case destinationLocation
 }
 class GroupMapViewController: UIViewController , GMSMapViewDelegate
-, CLLocationManagerDelegate, ModernSearchBarDelegate{
+, CLLocationManagerDelegate, ModernSearchBarDelegate, ISHPullUpContentDelegate{
 
+    
+ 
+    @IBOutlet weak var layoutAnnotationLabel: UILabel!
+    @IBOutlet var rootView: UIView!
+    @IBOutlet weak var filterMap: UIView!
     @IBOutlet weak var googleMapConstrate: NSLayoutConstraint!
     @IBOutlet weak var refreshCountMember: UILabel!
     @IBOutlet weak var refreshView: UIView!
@@ -68,9 +75,18 @@ class GroupMapViewController: UIViewController , GMSMapViewDelegate
     
     
     
+    @IBAction func filterClick(_ sender: Any) {
+       
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        layoutAnnotationLabel.layer.cornerRadius = 2;
+        if #available(iOS 11.0, *) {
+            googleMaps.preservesSuperviewLayoutMargins = false
+        } else {
+            googleMaps.preservesSuperviewLayoutMargins = true
+        }
         
         self.modernSearchBar.delegateModernSearchBar = self
         SwiftEventBus.onMainThread(self, name: "GoToPrivateChat") { result in
@@ -86,6 +102,7 @@ class GroupMapViewController: UIViewController , GMSMapViewDelegate
                     {
                         self.sendFcm()
                         self.memberMapLine.backgroundColor = Colors.PrimaryColor
+                        self.filterMap.isHidden = true
                         self.meberMapLbl.textColor = Colors.PrimaryColor
                         self.tripMemberLine.backgroundColor = UIColor.white
                         self.tripMmeberLbl.textColor = Colors.grayDarkColor
@@ -127,6 +144,7 @@ class GroupMapViewController: UIViewController , GMSMapViewDelegate
             self.googleMaps.clear()
             self.socketBudjes = 0
             self.setMemberLocaion()
+            
             self.setView(view: self.socketView, hidden: true)
             
             self.googleMapConstrate.constant = 56
@@ -145,6 +163,8 @@ class GroupMapViewController: UIViewController , GMSMapViewDelegate
             self.googleMaps.clear()
             print("get days before")
             self.markerList = []
+            self.filterMap.isHidden = false
+
             self.getDays()
             
             
@@ -222,17 +242,13 @@ class GroupMapViewController: UIViewController , GMSMapViewDelegate
      
             for marker in self.markerList {
             bounds = bounds.includingCoordinate(marker.position)
-            //path.add(marker.position)
-            //self.googleMaps.animate(toViewingAngle: 100)
-            CATransaction.begin()
-            CATransaction.setValue(NSNumber(value: 1.0), forKey: kCATransactionAnimationDuration)
-                // change the camera, set the zoom, whatever.  Just make sure to call the animate* method.
-                self.googleMaps.animate(toViewingAngle: 45)
-                self.googleMaps.animate(with: GMSCameraUpdate.fit(bounds))
-
-                CATransaction.commit()
-
         }
+        CATransaction.begin()
+        CATransaction.setValue(NSNumber(value: 1.0), forKey: kCATransactionAnimationDuration)
+        // change the camera, set the zoom, whatever.  Just make sure to call the animate* method.
+        //  self.googleMaps.animate(toViewingAngle: 45)
+        self.googleMaps.animate(with: GMSCameraUpdate.fit(bounds))
+        CATransaction.commit()
     }
     
     
@@ -428,7 +444,7 @@ class GroupMapViewController: UIViewController , GMSMapViewDelegate
             self.mapDays = []
             self.markerList = []
             ARSLineProgress.show()
-            HTTP.POST(ApiRouts.Web+"/api/members/locations/member/\((MyVriables.currentMember?.id)!)/group/\((MyVriables.currentGroup?.id)!)", parameters: ["lat": currentLocation.coordinate.latitude, "lon": currentLocation.coordinate.longitude]) { response in
+            HTTP.POST(ApiRouts.Web+"/api/members/locations/member/\((MyVriables.currentMember?.id)!)?group_id/\((MyVriables.currentGroup?.id)!)", parameters: ["lat": currentLocation.coordinate.latitude, "lon": currentLocation.coordinate.longitude]) { response in
                 if let err = response.error {
                     ARSLineProgress.hide()
                     print("error: \(err.localizedDescription)")
@@ -452,11 +468,76 @@ class GroupMapViewController: UIViewController , GMSMapViewDelegate
         }
         
     }
+    
+    fileprivate func getMembersLocationRequest() -> HTTP? {
+        return HTTP.GET(ApiRouts.Web+"/api/members/locations/group/\((MyVriables.currentGroup?.id)!)") { response in
+            if let err = response.error {
+                ARSLineProgress.hide()
+                print("error: \(err.localizedDescription)")
+                return //also notify app of failure as needed
+            }
+            do {
+                let days  = try JSONDecoder().decode(MemberMap.self, from: response.data)
+                self.memberMap = days.members!
+                print("membersDays:")
+                print(response.description)
+                var index: Int = 1
+                var postion: Int = 0
+                var suggestionListWithUrl : [ModernSearchBarModel] = []
+                var isMyId :Bool = false
+                print("members  5 == \(self.memberMap[5].first_name) and 6 == \(self.memberMap[6].first_name)")
+                for member in self.memberMap {
+                    if member.lat != nil && member.lon != nil {
+                        print("Index is \(postion) and member name is \(member.first_name)")
+                        if member.profile_image != nil {
+                            var urlString: String = try ApiRouts.Web + (member.profile_image)!
+                            urlString = urlString.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)!
+                            suggestionListWithUrl.append(ModernSearchBarModel(title: member.first_name != nil && member.last_name != nil ? "\(member.first_name!) \(member.last_name!)" : "User \(member.member_id!)", url: urlString, postion : postion))
+                        }
+                        else
+                        {
+                            var urlString: String = "https://user-images.githubusercontent.com/17565537/42417530-5a8ea9f2-8295-11e8-9323-e3972f008c3f.png"
+                            urlString = urlString.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)!
+                            suggestionListWithUrl.append(ModernSearchBarModel(title: member.first_name != nil && member.last_name != nil ? "\(member.first_name!) \(member.last_name!)" : "User \(member.member_id!)", url: urlString, postion : postion))
+                        }
+                        //print("my id is = \((MyVriables.currentMember?.id)!) my member is = \((member.member_id)!) member name is \((member.first_name)!)")
+                        if (MyVriables.currentMember?.id)! == (member.member_id)!{
+                            self.createMarker(titleMarker: member.first_name != nil && member.last_name != nil ? "\(member.first_name!) \(member.last_name!)" : "User \(member.member_id!)", lat: CLLocationDegrees((member.lat! as NSString).floatValue), long: CLLocationDegrees((member.lon! as NSString).floatValue), isMemberMap: true, dayNumber: "", postion: postion, isMyId: "true", j: postion)
+                        }
+                        else {
+                            self.createMarker(titleMarker: member.first_name != nil && member.last_name != nil ? "\(member.first_name!) \(member.last_name!)" : "User \(member.member_id!)", lat: CLLocationDegrees((member.lat! as NSString).floatValue), long: CLLocationDegrees((member.lon! as NSString).floatValue), isMemberMap: true, dayNumber: "", postion: postion, isMyId: "false", j: postion)
+                        }
+                        index = index + 1
+                        postion = postion + 1
+                    }
+                    else
+                    {
+                        
+                    }
+                }
+                print("suggestionListWithUrl \((suggestionListWithUrl.count)) and htte index is \(self.memberMap.count)")
+                DispatchQueue.main.async {
+                    self.modernSearchBar.setDatasWithUrl(datas: suggestionListWithUrl)
+                    ARSLineProgress.hide()
+                    self.fitAllMarkers()
+                }
+                
+                
+                
+            }
+            catch let error{
+                print("error is \(error)")
+                ARSLineProgress.hide()
+                print(error)
+            }
+        }
+    }
+    
     func getMemberMap(){
         self.memberMap = []
         self.markerList = []
         
-        print("Url is " + ApiRouts.Web+"/api/members/locations/group/\((MyVriables.currentGroup?.id)!)")
+       // print("Url is " + ApiRouts.Web+"/api/members/locations/group/\((MyVriables.currentGroup?.id)!)")
         HTTP.GET(ApiRouts.Web+"/api/members/locations/group/\((MyVriables.currentGroup?.id)!)") { response in
             if let err = response.error {
                 ARSLineProgress.hide()
@@ -466,57 +547,47 @@ class GroupMapViewController: UIViewController , GMSMapViewDelegate
             do {
                 let days  = try JSONDecoder().decode(MemberMap.self, from: response.data)
                 self.memberMap = days.members!
+                print("membersDays :--")
+                print(response.description)
                 var index: Int = 1
                 var postion: Int = 0
-                var items : [SearchTextFieldItem] = []
                 var suggestionListWithUrl : [ModernSearchBarModel] = []
-                var isMyId :Bool = false
-               try DispatchQueue.main.sync {
-                let theImageView = UIImageView()
+                try DispatchQueue.main.sync {
                     for member in self.memberMap {
                         if member.lat != nil && member.lon != nil {
-                        if member.profile_image != nil {
-                            var urlString: String = try ApiRouts.Web + (member.profile_image)!
-                            urlString = urlString.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)!
-                            if let url = URL(string: urlString) {
-                                suggestionListWithUrl.append(ModernSearchBarModel(title: member.first_name != nil && member.last_name != nil ? "\(member.first_name!) \(member.last_name!)" : "User \(member.member_id!)", url: urlString, postion : postion))
-                                theImageView.sd_setImage(with: url, placeholderImage: UIImage(named: "default user"), completed: nil)
+                            if member.profile_image != nil {
+                                let urlString: String = try ApiRouts.Web + (member.profile_image)!
+                                suggestionListWithUrl.append(ModernSearchBarModel(title: member.first_name != nil && member.last_name != nil ? "\(member.first_name!) \(member.last_name!)" : "User \(member.member_id!)", url: urlString.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)!, postion : postion))
                             }
-                        }
-                        else
-                        {
-                             theImageView.image = UIImage(named: "default user")
-                        }
-                        theImageView.contentMode = .scaleToFill
-                        items.append(SearchTextFieldItem(title: member.first_name != nil && member.last_name != nil ? "\(member.first_name!) \(member.last_name!)" : "User \(member.member_id!)", subtitle: "", image: theImageView.image!, postion : postion))
-                            if MyVriables.currentMember?.id! == member.member_id!{
+                            else
+                            {
+                                var urlString: String = "https://user-images.githubusercontent.com/17565537/42417530-5a8ea9f2-8295-11e8-9323-e3972f008c3f.png"
+                                urlString = urlString.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)!
+                                suggestionListWithUrl.append(ModernSearchBarModel(title: member.first_name != nil && member.last_name != nil ? "\(member.first_name!) \(member.last_name!)" : "User \(member.member_id!)", url: urlString, postion : postion))
+                            }
+                            if (MyVriables.currentMember?.id)! == (member.member_id)!{
                                 self.createMarker(titleMarker: member.first_name != nil && member.last_name != nil ? "\(member.first_name!) \(member.last_name!)" : "User \(member.member_id!)", lat: CLLocationDegrees((member.lat! as NSString).floatValue), long: CLLocationDegrees((member.lon! as NSString).floatValue), isMemberMap: true, dayNumber: "", postion: postion, isMyId: "true", j: postion)
                             }
                             else {
                                 self.createMarker(titleMarker: member.first_name != nil && member.last_name != nil ? "\(member.first_name!) \(member.last_name!)" : "User \(member.member_id!)", lat: CLLocationDegrees((member.lat! as NSString).floatValue), long: CLLocationDegrees((member.lon! as NSString).floatValue), isMemberMap: true, dayNumber: "", postion: postion, isMyId: "false", j: postion)
                             }
-                            
-                        index = index + 1
-                         postion = postion + 1
+                            index = index + 1
+                            postion = postion + 1
                         }
-                        
                     }
-                self.modernSearchBar.setDatasWithUrl(datas: suggestionListWithUrl)
-
-                
-                
+                    self.modernSearchBar.setDatasWithUrl(datas: suggestionListWithUrl)
                     ARSLineProgress.hide()
                     self.fitAllMarkers()
-                
-            }
-                
+                }
             }
             catch let error{
                 print("error is \(error)")
-                ARSLineProgress.hide()
-                print(error)
+               
             }
         }
+        
+        
+//        getMembersLocationRequest()
     }
     func setView(view: UIView, hidden: Bool) {
        
@@ -615,10 +686,16 @@ class GroupMapViewController: UIViewController , GMSMapViewDelegate
                     {
                         self.socketBudjes = self.socketBudjes + 1
                     }
+                    print("Budges is \(self.socketBudjes)")
+
                     if self.socketBudjes != 0
                     {
+                        print("Budges is \(self.tripMemberLine.backgroundColor) and color is \(Colors.PrimaryColor)")
+
                         self.refreshCountMember.text = "\(self.socketBudjes) Members updated"
+                        if self.googleMapConstrate.constant == 56{
                         self.setView(view: self.socketView, hidden: false)
+                        }
                     }
 //                    else
 //                    {
@@ -663,8 +740,23 @@ class GroupMapViewController: UIViewController , GMSMapViewDelegate
         
         
     }
+    
 
-
+    func pullUpViewController(_ pullUpViewController: ISHPullUpViewController, update edgeInsets: UIEdgeInsets, forContentViewController contentVC: UIViewController) {
+        if #available(iOS 11.0, *) {
+            additionalSafeAreaInsets = edgeInsets
+            rootView.layoutMargins = .zero
+        } else {
+            // update edgeInsets
+            rootView.layoutMargins = edgeInsets
+        }
+        
+        // call layoutIfNeeded right away to participate in animations
+        // this method may be called from within animation blocks
+        rootView.layoutIfNeeded()
+    }
+    
+    
 
 }
 extension UIImageView {

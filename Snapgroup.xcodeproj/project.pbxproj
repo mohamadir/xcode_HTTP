@@ -72,6 +72,11 @@
 		74B9BCFB205CF82D005A0C60 /* CheckListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B9BCFA205CF82D005A0C60 /* CheckListViewController.swift */; };
 		74BB5D51208DDC0D00248CA1 /* MessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74BB5D50208DDC0D00248CA1 /* MessageViewController.swift */; };
 		74D73CCB20DB806A0094F7AB /* EnableGdprModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74D73CCA20DB806A0094F7AB /* EnableGdprModal.swift */; };
+		74E52A6620F242C50018D5B2 /* FilterMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E52A6520F242C50018D5B2 /* FilterMapViewController.swift */; };
+		74E52A7520F259740018D5B2 /* ContentVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E52A7220F259720018D5B2 /* ContentVC.swift */; };
+		74E52A7620F259740018D5B2 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E52A7320F259720018D5B2 /* WebViewController.swift */; };
+		74E52A7720F259740018D5B2 /* BottomVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E52A7420F259730018D5B2 /* BottomVC.swift */; };
+		74E52A7920F25E4C0018D5B2 /* MainMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E52A7820F25E4C0018D5B2 /* MainMapViewController.swift */; };
 		74F7AAA120580D1F00E66DF8 /* ScrollTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F7AAA020580D1F00E66DF8 /* ScrollTestViewController.swift */; };
 		74F7AAA320595D6B00E66DF8 /* ItineraryServiceViewControllerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F7AAA220595D6B00E66DF8 /* ItineraryServiceViewControllerCell.swift */; };
 		74F7AAA5205A976400E66DF8 /* GroupMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F7AAA4205A976400E66DF8 /* GroupMapViewController.swift */; };
@@ -231,6 +236,11 @@
 		74B9BCFA205CF82D005A0C60 /* CheckListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckListViewController.swift; sourceTree = "<group>"; };
 		74BB5D50208DDC0D00248CA1 /* MessageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageViewController.swift; sourceTree = "<group>"; };
 		74D73CCA20DB806A0094F7AB /* EnableGdprModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnableGdprModal.swift; sourceTree = "<group>"; };
+		74E52A6520F242C50018D5B2 /* FilterMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterMapViewController.swift; sourceTree = "<group>"; };
+		74E52A7220F259720018D5B2 /* ContentVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentVC.swift; sourceTree = "<group>"; };
+		74E52A7320F259720018D5B2 /* WebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
+		74E52A7420F259730018D5B2 /* BottomVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BottomVC.swift; sourceTree = "<group>"; };
+		74E52A7820F25E4C0018D5B2 /* MainMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMapViewController.swift; sourceTree = "<group>"; };
 		74F0521020657938009A4273 /* Complex JSON.xcworkspace */ = {isa = PBXFileReference; lastKnownFileType = wrapper.workspace; path = "Complex JSON.xcworkspace"; sourceTree = "<group>"; };
 		74F0521120657938009A4273 /* Snapgroup.xcworkspace */ = {isa = PBXFileReference; lastKnownFileType = wrapper.workspace; path = Snapgroup.xcworkspace; sourceTree = "<group>"; };
 		74F7AAA020580D1F00E66DF8 /* ScrollTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollTestViewController.swift; sourceTree = "<group>"; };
@@ -525,6 +535,7 @@
 		74490C17205298AA007AD4FA /* Map */ = {
 			isa = PBXGroup;
 			children = (
+				74E52A7120F259660018D5B2 /* test */,
 				74490C18205298D6007AD4FA /* CustomMarkerView.swift */,
 				74490C1A20529E22007AD4FA /* MapViewController.swift */,
 				74F7AAA4205A976400E66DF8 /* GroupMapViewController.swift */,
@@ -532,6 +543,7 @@
 				74AE7C3E20E8E5DA00C11492 /* MapMarkerWindow.swift */,
 				74AE7C4020EA00E900C11492 /* MemberMapView.xib */,
 				74AE7C4220EA00FF00C11492 /* MemberMapView.swift */,
+				74E52A6520F242C50018D5B2 /* FilterMapViewController.swift */,
 			);
 			path = Map;
 			sourceTree = "<group>";
@@ -623,6 +635,17 @@
 				7E869DD720BFDA3A00DD8E5E /* TitleCell.swift */,
 			);
 			path = "Check List";
+			sourceTree = "<group>";
+		};
+		74E52A7120F259660018D5B2 /* test */ = {
+			isa = PBXGroup;
+			children = (
+				74E52A7420F259730018D5B2 /* BottomVC.swift */,
+				74E52A7220F259720018D5B2 /* ContentVC.swift */,
+				74E52A7320F259720018D5B2 /* WebViewController.swift */,
+				74E52A7820F25E4C0018D5B2 /* MainMapViewController.swift */,
+			);
+			path = test;
 			sourceTree = "<group>";
 		};
 		74F7AAE0205BE69600E66DF8 /* Documents */ = {
@@ -1014,6 +1037,7 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-Snapgroup/Pods-Snapgroup-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/ARNTransitionAnimator/ARNTransitionAnimator.framework",
 				"${BUILT_PRODUCTS_DIR}/ARSLineProgress/ARSLineProgress.framework",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/AlamofireImage/AlamofireImage.framework",
@@ -1025,6 +1049,7 @@
 				"${BUILT_PRODUCTS_DIR}/ExpandableLabel/ExpandableLabel.framework",
 				"${BUILT_PRODUCTS_DIR}/GoneVisible/GoneVisible.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/ISHPullUp/ISHPullUp.framework",
 				"${BUILT_PRODUCTS_DIR}/ImageSlideshow/ImageSlideshow.framework",
 				"${BUILT_PRODUCTS_DIR}/M13Checkbox/M13Checkbox.framework",
 				"${BUILT_PRODUCTS_DIR}/MRCountryPicker/MRCountryPicker.framework",
@@ -1054,6 +1079,7 @@
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ARNTransitionAnimator.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ARSLineProgress.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AlamofireImage.framework",
@@ -1065,6 +1091,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ExpandableLabel.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoneVisible.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ISHPullUp.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ImageSlideshow.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/M13Checkbox.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MRCountryPicker.framework",
@@ -1189,6 +1216,7 @@
 				74138E07204442FD00F37028 /* ChatCustomCellController.swift in Sources */,
 				74F7AAA120580D1F00E66DF8 /* ScrollTestViewController.swift in Sources */,
 				743A2102203C6468008DF1AA /* GroupViewController.swift in Sources */,
+				74E52A7920F25E4C0018D5B2 /* MainMapViewController.swift in Sources */,
 				74905905203DB5DA00C6B8C1 /* MainTabController.swift in Sources */,
 				7E8F2C6A20A9C0B500854AF0 /* AllReviewsTableViewCell.swift in Sources */,
 				749058FE203D605F00C6B8C1 /* CustomTableViewCell.swift in Sources */,
@@ -1231,7 +1259,9 @@
 				7E843A1720B6B54200E36A69 /* WebViewViewController.swift in Sources */,
 				7423757F20499FB600B9A0C0 /* PrivateChatViewController.swift in Sources */,
 				74FBD10A20514220002D223A /* MemberCollectionCell.swift in Sources */,
+				74E52A7520F259740018D5B2 /* ContentVC.swift in Sources */,
 				7EBD077D20A184A100369E36 /* ImagePartnerCell.swift in Sources */,
+				74E52A6620F242C50018D5B2 /* FilterMapViewController.swift in Sources */,
 				74B4E90120A1862900AD873A /* PartnerViewCell.swift in Sources */,
 				74B4E90320A1862900AD873A /* ImageViewController.swift in Sources */,
 				7E869DD620BD3F1500DD8E5E /* ContryCodeCell.swift in Sources */,
@@ -1276,6 +1306,8 @@
 				7E2ED4AE2091AC80002921A5 /* ProviderViewController.swift in Sources */,
 				7491938420AAD236008B5D31 /* RecentGroupViewController.swift in Sources */,
 				7E843A2520B6B55B00E36A69 /* UploadItemCell.swift in Sources */,
+				74E52A7620F259740018D5B2 /* WebViewController.swift in Sources */,
+				74E52A7720F259740018D5B2 /* BottomVC.swift in Sources */,
 				74B4E90220A1862900AD873A /* ImagePartnerTableViewCell.swift in Sources */,
 				741D2A102042B40C00DB8975 /* DetailsViewController.swift in Sources */,
 				7E2ED4B82096FD7D002921A5 /* SearchUsersViewController.swift in Sources */,
@@ -1417,6 +1449,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				"OTHER_SWIFT_FLAGS[arch=*]" = "-Xfrontend -warn-long-function-bodies=50";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";

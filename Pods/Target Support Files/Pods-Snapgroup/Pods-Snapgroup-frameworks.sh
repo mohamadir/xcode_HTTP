@@ -134,6 +134,7 @@ strip_invalid_archs() {
 
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
+  install_framework "${BUILT_PRODUCTS_DIR}/ARNTransitionAnimator/ARNTransitionAnimator.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/ARSLineProgress/ARSLineProgress.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/AlamofireImage/AlamofireImage.framework"
@@ -145,6 +146,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/ExpandableLabel/ExpandableLabel.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/GoneVisible/GoneVisible.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/ISHPullUp/ISHPullUp.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/ImageSlideshow/ImageSlideshow.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/M13Checkbox/M13Checkbox.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/MRCountryPicker/MRCountryPicker.framework"
@@ -173,6 +175,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
+  install_framework "${BUILT_PRODUCTS_DIR}/ARNTransitionAnimator/ARNTransitionAnimator.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/ARSLineProgress/ARSLineProgress.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/AlamofireImage/AlamofireImage.framework"
@@ -184,6 +187,7 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/ExpandableLabel/ExpandableLabel.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/GoneVisible/GoneVisible.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/ISHPullUp/ISHPullUp.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/ImageSlideshow/ImageSlideshow.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/M13Checkbox/M13Checkbox.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/MRCountryPicker/MRCountryPicker.framework"
