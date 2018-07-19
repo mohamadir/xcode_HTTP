@@ -9,6 +9,7 @@
 import Alamofire
 import AlamofireImage
 
+
 /// Input Source to image using Alamofire
 @objcMembers
 public class AlamofireSource: NSObject, InputSource {

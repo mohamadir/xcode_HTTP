@@ -777,7 +777,7 @@ class PrivateChatViewController: UIViewController ,UIImagePickerControllerDelega
         HTTP.GET(urlString, parameters: []) { response in
             if let err = response.error {
                 print("error: \(err.localizedDescription)")
-                
+                self.progressStar.isHidden = true
                 print("request messages here")
                 
                 return //also notify app of failure as needed

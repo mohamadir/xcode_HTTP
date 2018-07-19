@@ -13,6 +13,7 @@ import SwiftyAvatar
 class MemberMapView: UIView {
     
     
+    @IBOutlet weak var lastSeenLabel: UILabel!
     @IBOutlet weak var lastSeen: UILabel!
     @IBOutlet weak var memberName: UILabel!
     @IBOutlet weak var memberImage: SwiftyAvatar!

@@ -100,9 +100,10 @@ class GroupMapViewController: UIViewController , GMSMapViewDelegate
                 if MyVriables.currentGroup?.role != nil{
                     if MyVriables.currentGroup?.role! == "member" || MyVriables.currentGroup?.role! == "group_leader"
                     {
+                        SwiftEventBus.post("removeFilter")
                         self.sendFcm()
                         self.memberMapLine.backgroundColor = Colors.PrimaryColor
-                        self.filterMap.isHidden = true
+                        //self.filterMap.isHidden = true
                         self.meberMapLbl.textColor = Colors.PrimaryColor
                         self.tripMemberLine.backgroundColor = UIColor.white
                         self.tripMmeberLbl.textColor = Colors.grayDarkColor
@@ -131,12 +132,12 @@ class GroupMapViewController: UIViewController , GMSMapViewDelegate
             
 
         }
-
         self.refreshView.addTapGestureRecognizer {
             if isLogged == true{
                 if MyVriables.currentGroup?.role != nil{
                     if MyVriables.currentGroup?.role! == "member" || MyVriables.currentGroup?.role! == "group_leader"
                     {
+            SwiftEventBus.post("removeFilter")
             self.memberMapLine.backgroundColor = Colors.PrimaryColor
             self.meberMapLbl.textColor = Colors.PrimaryColor
             self.tripMemberLine.backgroundColor = UIColor.white
@@ -155,6 +156,7 @@ class GroupMapViewController: UIViewController , GMSMapViewDelegate
         //sendFcm
 //        self.infoWindow = loadNiB()
         tripMapView.addTapGestureRecognizer {
+            SwiftEventBus.post("insertFilter")
             self.googleMapConstrate.constant = 0
             self.tripMemberLine.backgroundColor = Colors.PrimaryColor
             self.tripMmeberLbl.textColor = Colors.PrimaryColor
@@ -163,7 +165,7 @@ class GroupMapViewController: UIViewController , GMSMapViewDelegate
             self.googleMaps.clear()
             print("get days before")
             self.markerList = []
-            self.filterMap.isHidden = false
+           // self.filterMap.isHidden = false
 
             self.getDays()
             
@@ -446,12 +448,19 @@ class GroupMapViewController: UIViewController , GMSMapViewDelegate
             ARSLineProgress.show()
             HTTP.POST(ApiRouts.Web+"/api/members/locations/member/\((MyVriables.currentMember?.id)!)?group_id/\((MyVriables.currentGroup?.id)!)", parameters: ["lat": currentLocation.coordinate.latitude, "lon": currentLocation.coordinate.longitude]) { response in
                 if let err = response.error {
-                    ARSLineProgress.hide()
+                    DispatchQueue.main.async {
+                        ARSLineProgress.hide()
+                        
+                    }
                     print("error: \(err.localizedDescription)")
                     return //also notify app of failure as needed
                 }
                 print("response is \(response)")
                 do{
+                    DispatchQueue.main.async {
+                        ARSLineProgress.hide()
+                        
+                    }
                     self.getMemberMap()
                 }catch {
                     
@@ -472,11 +481,19 @@ class GroupMapViewController: UIViewController , GMSMapViewDelegate
     fileprivate func getMembersLocationRequest() -> HTTP? {
         return HTTP.GET(ApiRouts.Web+"/api/members/locations/group/\((MyVriables.currentGroup?.id)!)") { response in
             if let err = response.error {
-                ARSLineProgress.hide()
+                DispatchQueue.main.async {
+                    ARSLineProgress.hide()
+                    
+                }
                 print("error: \(err.localizedDescription)")
                 return //also notify app of failure as needed
             }
             do {
+                DispatchQueue.main.async {
+                    ARSLineProgress.hide()
+
+                }
+                ARSLineProgress.hide()
                 let days  = try JSONDecoder().decode(MemberMap.self, from: response.data)
                 self.memberMap = days.members!
                 print("membersDays:")

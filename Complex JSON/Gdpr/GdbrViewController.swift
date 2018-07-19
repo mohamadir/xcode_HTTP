@@ -131,7 +131,15 @@ class GdbrViewController: UIViewController, UITableViewDelegate, UITableViewData
                     {
                         if (MyVriables.fromGroup)! == "true"
                         {
-                            SwiftEventBus.post("refreshFromGroup")
+                            if  MyVriables.facebookMember != nil {
+                                SwiftEventBus.post("refreshFromGroup" , sender: MyVriables.facebookMember)
+                                MyVriables.facebookMember = nil
+                                
+                            }else{
+                                SwiftEventBus.post("refreshFromGroup")
+                            }
+                            
+                            
                         }
                         else
                         {
@@ -141,7 +149,13 @@ class GdbrViewController: UIViewController, UITableViewDelegate, UITableViewData
                             }
                             else
                             {
-                            SwiftEventBus.post("refreshGroups")
+                                if  MyVriables.facebookMember != nil {
+                                    SwiftEventBus.post("refreshGroups" , sender: MyVriables.facebookMember)
+                                    MyVriables.facebookMember = nil
+
+                                }else{
+                                    SwiftEventBus.post("refreshGroups")
+                                }
                             }
 
                         }

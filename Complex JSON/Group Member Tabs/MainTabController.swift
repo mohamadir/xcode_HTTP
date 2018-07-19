@@ -9,15 +9,7 @@
 import Foundation
 import SwiftEventBus
 import UIKit
-//extension UITabBar {
-//    
-//    open override func sizeThatFits(_ size: CGSize) -> CGSize {
-//        super.sizeThatFits(size)
-//        var sizeThatFits = super.sizeThatFits(size)
-//        sizeThatFits.height = 60
-//        return sizeThatFits
-//    }
-//}
+
 class MainTabController: UITabBarController, UITabBarControllerDelegate{
     
     
@@ -53,22 +45,8 @@ class MainTabController: UITabBarController, UITabBarControllerDelegate{
     // UITabBarDelegate
     override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
         print("Selected item \(item.title) is true ? == \(item.title! == "Joined")")
-//        if item.title!.lowercased() == "joined"
-//        {
-//            print("Index is \(self.selectedIndex)")
-//            self.selectedIndex = 1
-//             self.selectedIndex = 0
-//
-//            print("Im in join tab controler \(item.title!)")
-//            print("Index is \(self.selectedIndex)")
-//        }
-//        else
-//        {
-//
-//        }
     }
-    
-    // UITabBarControllerDelegate
+
     func tabBarController(tabBarController: UITabBarController, didSelectViewController viewController: UIViewController) {
         let tabBarIndex1 = tabBarController.selectedIndex
         print("Im in join tab controler \(tabBarIndex1)")
@@ -194,17 +172,28 @@ class MainTabController: UITabBarController, UITabBarControllerDelegate{
         let date2 = dateFormatter.date(from: date)!
     
         print("REG END DATE: "+dateFormatter.string(from: date2))
-        var days = Calendar.current.dateComponents([.day], from: currentDate, to: date2).day! as? Int
-        var hours = Calendar.current.dateComponents([.day,.hour,.minute,.month], from: currentDate, to: date2).hour! as? Int
-        var month = Calendar.current.dateComponents([.day,.hour,.minute,.month], from: currentDate, to: date2).month! as? Int
-        var year = Calendar.current.dateComponents([.year,.hour,.minute,.month], from: currentDate, to: date2).year! as? Int
-        print("days: \(days!) , hours: \(hours!) , hours: \(month!) ,hours: \(year!) ")
-        if days! < 0 || hours! < 0 || month! < 0  || year! < 0 {
+        let days : Int = Calendar.current.dateComponents([.day], from: currentDate, to: date2).day!
+        let hours: Int = Calendar.current.dateComponents([.day,.hour,.minute,.month], from: currentDate, to: date2).hour!
+        let month: Int = Calendar.current.dateComponents([.day,.hour,.minute,.month], from: currentDate, to: date2).month!
+        let year: Int = Calendar.current.dateComponents([.year,.hour,.minute,.month], from: currentDate, to: date2).year!
+        print("days: \(days) , hours: \(hours) , hours: \(month) ,hours: \(year) ")
+        if days < 0 || hours < 0 || month < 0  || year < 0 {
             return false
         }
         else{
             return true
         }
+    }
+    override func viewDidDisappear(_ animated: Bool) {
+        print("disappershoisdk")
+        SwiftEventBus.post("allocate")
+        /*
+         let sb = UIStoryboard(name: "Main", bundle: nil)
+         var vc = sb.instantiateViewController(withIdentifier: "Web") as? WebViewController
+         if vc != nil {
+         vc = nil
+         }
+ */
     }
     
     

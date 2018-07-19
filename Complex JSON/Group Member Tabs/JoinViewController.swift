@@ -606,7 +606,6 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
                 DispatchQueue.main.sync {
                     
                     MyVriables.currentGroup?.role = "member"
-                    SwiftEventBus.post("refreshGroupChangeRole")
                     SwiftEventBus.post("changeProfileInfo")
 
                     //changeProfileInfo
@@ -642,10 +641,7 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
             }else{
                 print("descc "+response.description)
                 DispatchQueue.main.sync {
-                    SwiftEventBus.post("refreshGroupChangeRole")
                     MyVriables.currentGroup?.role = "observer"
-
-                    
                     if Messaging.messaging().fcmToken != nil {
                         MyVriables.TopicSubscribe = true
                         MyVriables.CurrentTopic = "IOS-Group-\(String(describing: (MyVriables.currentGroup?.id!)!))"

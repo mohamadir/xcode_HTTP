@@ -7,6 +7,12 @@ PODS:
   - Auk (8.0.2):
     - moa
   - BmoViewPager (4.0.5)
+  - Bolts (1.9.0):
+    - Bolts/AppLinks (= 1.9.0)
+    - Bolts/Tasks (= 1.9.0)
+  - Bolts/AppLinks (1.9.0):
+    - Bolts/Tasks
+  - Bolts/Tasks (1.9.0)
   - CCAutocomplete (0.0.4)
   - CountryPickerView (2.1.1)
   - Crashlytics (3.10.3):
@@ -14,6 +20,12 @@ PODS:
   - Digger (0.0.5)
   - ExpandableLabel (0.4.0)
   - Fabric (1.7.8)
+  - FBSDKCoreKit (4.34.0):
+    - Bolts (~> 1.7)
+  - FBSDKLoginKit (4.34.0):
+    - FBSDKCoreKit
+  - FBSDKShareKit (4.34.0):
+    - FBSDKCoreKit (~> 4.34.0)
   - Firebase/Core (5.4.0):
     - Firebase/CoreOnly
     - FirebaseAnalytics (= 5.0.1)
@@ -65,6 +77,7 @@ PODS:
     - ImageSlideshow/Core
   - ImageSlideshow/Core (1.6.1)
   - ISHPullUp (1.0.7)
+  - Kingfisher (4.8.0)
   - leveldb-library (1.20)
   - M13Checkbox (3.2.2)
   - moa (9.0.2)
@@ -114,6 +127,9 @@ DEPENDENCIES:
   - Crashlytics (~> 3.10.0)
   - Digger
   - ExpandableLabel
+  - FBSDKCoreKit
+  - FBSDKLoginKit
+  - FBSDKShareKit
   - Firebase/Core
   - Firebase/Database
   - Firebase/Messaging
@@ -124,6 +140,7 @@ DEPENDENCIES:
   - ImageSlideshow (~> 1.5)
   - ImageSlideshow/Alamofire
   - ISHPullUp
+  - Kingfisher (~> 4.0)
   - M13Checkbox
   - moa (~> 9.0)
   - ModernSearchBar
@@ -163,12 +180,16 @@ SPEC CHECKSUMS:
   ARSLineProgress: b344944496913e98d8fe7bab94ea5d488fbf41fb
   Auk: 82be62a2cf650437fe745c81b12ac2440a0f682c
   BmoViewPager: 1bbba2f3d9bad4e255b0e397dc035e9a0c434eb5
+  Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
   CCAutocomplete: 7e54cab43d10eb9e5385d5b3409e9dee0b7af714
   CountryPickerView: 8b20263f2d4e1953045e608c2594b50e8a2ee65c
   Crashlytics: 2aea305161a2122492698c75af27f2b98aa49a25
   Digger: c474bde76a91e0a36f12101c5dfe7e86774b15d3
   ExpandableLabel: 5f5f61fbf71433000cd7c3290617e6fcccb72c86
   Fabric: fba4684a95df789565b0b27fc5b6e68f1755af32
+  FBSDKCoreKit: 0ff57f093b85c8c9d5aba697d3edf68a8960ce78
+  FBSDKLoginKit: 8c78f57a145afb756e4755e69195ebe08a42466e
+  FBSDKShareKit: 511d1dfc71204c0a8d69e6c5e3c964dcf0d4f3d9
   Firebase: d66f4f29c23f22d96808d9abc174d81d8eee968f
   FirebaseAnalytics: b3628aea54c50464c32c393fb2ea032566e7ecc2
   FirebaseCore: 42b3267233bd21a5abd54117ccc38ca3dd0f8e83
@@ -182,6 +203,7 @@ SPEC CHECKSUMS:
   GoogleToolboxForMac: 91c824d21e85b31c2aae9bb011c5027c9b4e738f
   ImageSlideshow: f0f33e1a20668e83d77f5fb7729e4ae4437c0759
   ISHPullUp: eaa91bef06270264e1f923bc764705173d341495
+  Kingfisher: 976d828df2b24834c6a3f2fc4d82cdbd26552be1
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
   M13Checkbox: a8c2491cfbbca10797925fd0b9154a782bf40d89
   moa: b73dc5e0efa1fad00711c4608e41b197f4d15b12
@@ -208,6 +230,6 @@ SPEC CHECKSUMS:
   XLPagerTabStrip: c908b17cbf42fcd2598ee1adfc49bae25444d88a
   YNExpandableCell: 47bf7cff721aa535c0e9e1163bf22b5573441bb4
 
-PODFILE CHECKSUM: e050f56ba8204ac044b9d971a445fefd2b971006
+PODFILE CHECKSUM: bd1aa622915b0a1db81c0e1b14dd95917f2aa96d
 
 COCOAPODS: 1.4.0

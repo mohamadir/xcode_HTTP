@@ -13,11 +13,19 @@ import SwiftyPickerPopover
 import SwiftHTTP
 import SwiftEventBus
 import TTGSnackbar
+import PhoneNumberKit
+import CountryPickerView
 
 
-class SignUpVC: UIViewController, UIPickerViewDelegate, UITextFieldDelegate, UIPickerViewDataSource {
-  
-
+class SignUpVC: UIViewController, UIPickerViewDelegate, UITextFieldDelegate, UIPickerViewDataSource, CountryPickerViewDelegate, CountryPickerViewDataSource {
+    func countryPickerView(_ countryPickerView: CountryPickerView, didSelectCountry country: Country) {
+       // self.flagImageView.image = flag
+        //self.countryPrefLable.text = phoneCode
+    }
+    
+    @IBOutlet weak var countyCodePickerView: CountryPickerView!
+    var contryCodeString : String = ""
+    var contryCode : String = ""
     var minimumDate : Date?
     var maximumDate : Date?
     var valueSelected : String = ""
@@ -47,6 +55,10 @@ class SignUpVC: UIViewController, UIPickerViewDelegate, UITextFieldDelegate, UIP
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        countyCodePickerView.delegate = self
+        countyCodePickerView.dataSource = self
+        countyCodePickerView.font =  UIFont(name: "Arial", size: 14)!
+        countyCodePickerView.textColor = Colors.grayColor
         self.emailTf.autocorrectionType = .no
         self.firstNameTf.autocorrectionType = .no
         self.lastNameTf.autocorrectionType = .no
@@ -55,6 +67,12 @@ class SignUpVC: UIViewController, UIPickerViewDelegate, UITextFieldDelegate, UIP
         self.firstNameTf.delegate = self
         self.lastNameTf.delegate = self
         self.phoneTf.delegate = self
+        countyCodePickerView.showPhoneCodeInView = true
+        countyCodePickerView.showCountryCodeInView = false
+        let cpv = CountryPickerView(frame: CGRect(x: 0, y: 0, width: 120, height: 20))
+        let country = cpv.selectedCountry
+        contryCodeString = country.phoneCode
+        contryCode = country.code
         let defaults = UserDefaults.standard
         
     
@@ -88,11 +106,10 @@ class SignUpVC: UIViewController, UIPickerViewDelegate, UITextFieldDelegate, UIP
         else {
             self.pickerData = ["Male", "Female", "other"]
         }
-        
-        phoneTf.text = phone
+       
         setFontType(lastNameTf)
-         setFontType(firstNameTf)
-         setFontType(phoneTf)
+        setFontType(firstNameTf)
+        setFontType(phoneTf)
         setFontType(emailTf)
         set18YearValidation()
         self.gender.delegate = self
@@ -102,11 +119,33 @@ class SignUpVC: UIViewController, UIPickerViewDelegate, UITextFieldDelegate, UIP
         let components = calendar.dateComponents([.year,.month], from: date as Date)
         let startOfMonth = calendar.date(from: components)
         if profile_image != nil {
-            let urlString = try ApiRouts.Web + (profile_image)!
+            if profile_image! != "no value"{
+                let urlString: String
+                if profile_image!.contains("http")
+                {
+                    urlString = (profile_image)!
+
+                }
+                else
+                {
+                    urlString =  ApiRouts.Web + (profile_image)!
+
+                }
             var url = URL(string: urlString)
             if url != nil {
                 self.profileImage.sd_setImage(with: url!, completed: nil)
             }
+            }
+            
+        }
+        if phone != "no value"{
+            phoneTf.text = phone
+            phoneTf.isEnabled = false
+            countyCodePickerView.isUserInteractionEnabled = false
+        }else{
+            countyCodePickerView.isUserInteractionEnabled = true
+            phoneTf.isEnabled = true
+            
             
         }
         

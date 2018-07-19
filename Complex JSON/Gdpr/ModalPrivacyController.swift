@@ -10,7 +10,8 @@ import UIKit
 import SwiftEventBus
 import SwiftHTTP
 import TTGSnackbar
-
+import FBSDKLoginKit
+import FBSDKCoreKit
 
 
 class ModalPrivacyController: UIViewController {
@@ -71,6 +72,7 @@ class ModalPrivacyController: UIViewController {
         
     }
     func deleteMemberFunc(){
+        print("\(ApiRouts.Web)/api/members/\((MyVriables.currentMember?.id)!)")
         HTTP.DELETE("\(ApiRouts.Web)/api/members/\((MyVriables.currentMember?.id)!)") {
             response in
             if response.error != nil {
@@ -89,11 +91,17 @@ class ModalPrivacyController: UIViewController {
                 }
                  let defaults2 = UserDefaults.standard
                 let isLogged = defaults2.bool(forKey: "isLogged")
-                print("Is logged = \(isLogged) after removed")
+                print("Privacy modal Is logged = \(isLogged) after removed")
+                do{ let loginManager = FBSDKLoginManager()
+                    loginManager.logOut() // this is an instance function
+                }
+                catch {
+                    
+                }
+                
 
+                
                 SwiftEventBus.post("setCheckTrue")
-                SwiftEventBus.post("changeProfileInfo")
-                 MyVriables.shouldRefresh = true
                 self.dismiss(animated: true,completion: nil)
 
             }

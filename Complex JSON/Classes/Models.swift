@@ -10,6 +10,7 @@ import Foundation
 // ********************************    CURRENT OPJECT *****************************
 struct MyVriables {
     
+    static var facebookMember: FacebookMember?
     static var currentGdbr: ModalGDPR?
     static var enableGdpr: GdprObject?
     static var fromGroup: String? = ""
@@ -25,7 +26,7 @@ struct MyVriables {
     static var isMember: Bool = false
     var profile: MemberProfile?
     var gdpr: GdprStruct?
-    static var currentMember: Member? = Member(email: "", phone : "", id : -1, profile_image: "", profile : MemberProfile(member_id : -1, first_name : "", last_name: "", email: "", gender: "male", birth_date: "", profile_image: nil), gdpr : GdprStruct(profile_details: false, phone_number: true, groups_relations: true, chat_messaging: true, pairing: true, real_time_location: true, files_upload: true, push_notifications: true, rating_reviews: true, group_details: true, billing_payments : false, checkAllSwitch: false))
+    static var currentMember: Member? = Member(email: "", phone : "", id : -1, profile_image: "", profile : MemberProfile(member_id : -1, first_name : "", last_name: "", email: "", gender: "male", birth_date: "", profile_image: nil,facebook_profile_image: nil), gdpr : GdprStruct(profile_details: false, phone_number: true, groups_relations: true, chat_messaging: true, pairing: true, real_time_location: true, files_upload: true, push_notifications: true, rating_reviews: true, group_details: true, billing_payments : false, checkAllSwitch: false))
     static var roleStatus: String = ""
     static var shouldRefresh: Bool = false
     static var currentInboxMessage: InboxMessage?
@@ -295,7 +296,8 @@ struct MemberProfile: Codable{
     var gender: String?
     var birth_date: String?
     var profile_image: String?
-    
+    var facebook_profile_image: String?
+
     
 }
 
@@ -350,6 +352,13 @@ struct DayImage: Codable {
 }
 struct SubscribeGroups: Codable {
     var groups: [TourGroup]?
+}
+struct FacebookMember: Codable {
+    var first_name: String?
+    var last_name: String?
+    var facebook_id: String?
+    var facebook_profile_image: String?
+
 }
 
 

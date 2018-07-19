@@ -17,13 +17,13 @@ import SocketIO
 import SwiftEventBus
 import SwiftHTTP
 import TTGSnackbar
+import FBSDKCoreKit
 
 class Counters: Codable{
     var total_unread_messages: Int?
     var total_unread_notifications: Int?
     
 }
-
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUserNotificationCenterDelegate {
     
@@ -82,6 +82,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
         
         
         FirebaseApp.configure()
+        print("Sdk facebook im before didFinishLaunchingWithOptions ")
+       // FBSDKApplicationDelegate.sharedInstance().application(application,didFinishLaunchingWithOptions: launchOptions)
+        print("Sdk facebook im after didFinishLaunchingWithOptions ")
+
         print()
         UIApplication.shared.applicationIconBadgeNumber = 0
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "Snapgroup.Snap2"), object: nil)
@@ -101,7 +105,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
         GMSServices.provideAPIKey("AIzaSyDmGEPxVxdVhfUgFXMQ5L-2nJ3QeRs_XUg")
         GMSPlacesClient.provideAPIKey("AIzaSyDmGEPxVxdVhfUgFXMQ5L-2nJ3QeRs_XUg")
         
-        return true
+        return FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
+
     }
     
     
@@ -135,7 +140,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
                 let  groups : SubscribeGroups = try JSONDecoder().decode(SubscribeGroups.self, from: response.data)
                 if (groups.groups?.count) != 0
                 {
-                    print("Groups subscribe \(groups.groups!)")
+                   //    print("Groups subscribe \(groups.groups!)")
                     DispatchQueue.main.async {
                         for group in (groups.groups)!
                         {
@@ -254,11 +259,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
     }
     func applicationWillResignActive(_ application: UIApplication) {
         ConnectToFcm()
+        FBSDKAppEvents.activateApp()
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
     }
     
     
+    func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
+        print("Sdk facebook im before sourceApplication ")
+
+        return FBSDKApplicationDelegate.sharedInstance().application(application, open: url, sourceApplication: sourceApplication, annotation: annotation)
+        print("Sdk facebook im after sourceApplication ")
+
+    }
     func applicationDidEnterBackground(_ application: UIApplication) {
         Messaging.messaging().shouldEstablishDirectChannel = true
         ConnectToFcm()
@@ -273,6 +286,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
     }
     
     func applicationDidBecomeActive(_ application: UIApplication) {
+        print("Sdk facebook im before applicationDidBecomeActive ")
+        print("Sdk facebook im after applicationDidBecomeActive ")
+
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     }
     
@@ -290,7 +306,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
             if "\((remoteMessage.appData["click_action"])!)" == "DELETE_FROM_GROUP"
             {
                 print("Im here is equal")
-                SwiftEventBus.post("refreshGroupChangeRole")
                 if Messaging.messaging().fcmToken != nil {
                     MyVriables.TopicSubscribe = true
                     MyVriables.CurrentTopic = "IOS-Group-\(String(describing: (remoteMessage.appData["group_id"])!))"

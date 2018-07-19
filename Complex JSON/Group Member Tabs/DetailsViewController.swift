@@ -8,11 +8,12 @@
 
 import UIKit
 import Auk
-import UserNotifications
 import ImageSlideshow
 import SwiftHTTP
 import SwiftEventBus
 import Scrollable
+import Kingfisher
+
 extension String {
     subscript (bounds: CountableClosedRange<Int>) -> String {
         let start = index(startIndex, offsetBy: bounds.lowerBound)
@@ -28,32 +29,32 @@ extension String {
 }
 class DetailsViewController: UIViewController {
    
-    @IBOutlet weak var groupLeaderView: UIView!
-    
-    @IBOutlet weak var joinView: UIView!
-    @IBOutlet weak var leftToJoinLbl: UILabel!
+    @IBOutlet var groupLeaderView: UIView!
+    var images2: [InputSource] = []
+    @IBOutlet var joinView: UIView!
+    @IBOutlet var leftToJoinLbl: UILabel!
     
     let cvv: ViewController  = ViewController()
      var groupImages: [GroupImage] = []
-    @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet var scrollView: UIScrollView!
     var singleGroup: TourGroup?
     
-    @IBOutlet weak var groupAppView: UIView!
-    @IBOutlet weak var slideShow: ImageSlideshow!
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var descriptionLbl: UILabel!
-    @IBOutlet weak var showMoreButton: UIButton!
+    @IBOutlet var groupAppView: UIView!
+    @IBOutlet var slideShow: ImageSlideshow!
+    @IBOutlet var titleLabel: UILabel!
+    @IBOutlet var descriptionLbl: UILabel!
+    @IBOutlet var showMoreButton: UIButton!
     var isCollapsed: Bool = false
     
     
-    @IBOutlet weak var member_status_view: UIView!
-    @IBOutlet weak var member_status_lbl: UILabel!
-    @IBOutlet weak var member_Status_Im: UIImageView!
-    @IBOutlet weak var groupLeaderImageView: UIImageView!
+    @IBOutlet var member_status_view: UIView!
+    @IBOutlet var member_status_lbl: UILabel!
+    @IBOutlet var member_Status_Im: UIImageView!
+    @IBOutlet var groupLeaderImageView: UIImageView!
     
-    @IBOutlet weak var companyLbl: UILabel!
-    @IBOutlet weak var groupLeaderNameLbl: UILabel!
-    @IBOutlet weak var tripDurationLbl: UILabel!
+    @IBOutlet var companyLbl: UILabel!
+    @IBOutlet var groupLeaderNameLbl: UILabel!
+    @IBOutlet var tripDurationLbl: UILabel!
   
     @IBAction func backTapped(_ sender: Any) {
         self.navigationController?.popViewController(animated: true)
@@ -85,12 +86,8 @@ class DetailsViewController: UIViewController {
         groupAppView.addTapGestureRecognizer {
             self.tabBarController?.selectedIndex = 2
         }
-        
-        setGroupDetails()
         self.singleGroup  = MyVriables.currentGroup!
-
         let groupRequest = Main()
-
 //        titleLabel.text = singleGroup?.title
         if singleGroup?.translations?.count != 0 {
              groupTitleLb.text = singleGroup?.translations?[0].title
@@ -117,51 +114,40 @@ class DetailsViewController: UIViewController {
         slideShow.activityIndicator = DefaultActivityIndicator()
         slideShow.circular = false
         slideShow.zoomEnabled = true
-        // slideShow.draggingEnabled = false
         slideShow.isMultipleTouchEnabled = false
         slideShow.pageControlPosition = .insideScrollView
-//        slideShow.pageControlPosition = .custom(padding: CGFloat(12))
         slideShow.activityIndicator = DefaultActivityIndicator(style: .gray, color: UIColor.red)
         groupRequest.getGroupImages(id:( singleGroup?.id)!){ (output) in
-            self.groupImages = output!
-            var images2: [InputSource] = []
+            self.groupImages = output! as [GroupImage]
                 print("%%% \(self.groupImages.count)")
             if self.groupImages.count == 0 {
                 self.slideShow.setImageInputs([
                     ImageSource(image: UIImage(named: "Group Placeholder")!)])
             }else {
+                
+                var image_path: String = ""
                 for image in self.groupImages {
                     if image.path !=  nil {
-                        let image_path: String = "\(ApiRouts.Web)\(image.path!)"
-                        print("details image paths : \(image_path)")
-                        //print("%%%%%%%%%%%%%%%%%%%% \(image_path)")
+                        image_path = "\(ApiRouts.Web)\(image.path!)"
                         if AlamofireSource(urlString: image_path) != nil  {
-                            images2.append(AlamofireSource(urlString: image_path)!)
+                            self.images2.append(AlamofireSource(urlString: image_path)!)
                         }
                     }
    
                 }
                 
-                 self.slideShow.setImageInputs(images2)
+                self.slideShow.setImageInputs(self.images2)
             }
-
-            
-           
-                
-//                DispatchQueue.main.sync {
-//                    self.slideShow.setImageInputs(images2!)
-//                }
-                
-                
-                
-            
-            //print("===== MOODY \(self.groupImages)")
             
         }
         let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(DetailsViewController.didTap))
         slideShow.addGestureRecognizer(gestureRecognizer)
         // Do any additional setup after loading the view.
         
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        self.slideShow.currentPageChanged = nil
     }
     @IBAction func ExpandDescriptionTapped(_ sender: Any) {
         if isCollapsed != true {
@@ -186,8 +172,9 @@ class DetailsViewController: UIViewController {
     @objc func didTap() {
         slideShow.presentFullScreenController(from: self)
     }
-    func setGroupDetails(){
-     }
+   
+
+
     func calculateRegisterDate(date: String){
         let currentDate = Date()
         let formatter = DateFormatter()
@@ -197,17 +184,16 @@ class DetailsViewController: UIViewController {
         dateFormatter.dateFormat = "yyyy-MM-dd"
         let date2 = dateFormatter.date(from: date)!
         print("REG END DATE: "+dateFormatter.string(from: date2))
-        var days = Calendar.current.dateComponents([.day], from: currentDate, to: date2).day! as? Int
-        var hours = Calendar.current.dateComponents([.day,.hour,.minute,.month], from: currentDate, to: date2).hour! as? Int
-        print("days: \(days!) , hours: \(hours!)")
-        if days! < 0 || hours! < 0 {
+        let days : Int = Calendar.current.dateComponents([.day], from: currentDate, to: date2).day!
+        let hours: Int = Calendar.current.dateComponents([.day,.hour,.minute,.month], from: currentDate, to: date2).hour!
+        print("days: \(days) , hours: \(hours)")
+        if days < 0 || hours < 0 {
             self.leftToJoinLbl.text = "Closed"
         }
         else{
-            self.leftToJoinLbl.text = "\(days!) d' \(hours!) h' to join"
+            self.leftToJoinLbl.text = "\(days) d' \(hours) h' to join"
         }
-        
-     //   print(date)
+
     }
     func setGroupLeader(){
         self.groupLeaderNameLbl.text = "\((singleGroup?.group_leader_first_name!)!) \((singleGroup?.group_leader_last_name!)!)"
@@ -221,8 +207,7 @@ class DetailsViewController: UIViewController {
         if singleGroup?.group_leader_image != nil{
             var urlString: String = ApiRouts.Web + (singleGroup?.group_leader_image!)!
             urlString = urlString.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)!
-            var url = URL(string: urlString)
-            
+            let url = URL(string: urlString)
             groupLeaderImageView.downloadedFrom(url: url!, contentMode: .scaleToFill)
 
         }

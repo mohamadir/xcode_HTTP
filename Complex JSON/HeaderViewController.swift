@@ -9,18 +9,24 @@
 import UIKit
 import SwiftEventBus
 import CountryPickerView
+import PhoneNumberKit
 import TTGSnackbar
 import SwiftHTTP
 import Alamofire
 import Firebase
 import FirebaseMessaging
 import FirebaseInstanceID
-import PhoneNumberKit
+import FBSDKLoginKit
+import FBSDKCoreKit
 
 
 
-class HeaderViewController: UIViewController, CountryPickerViewDelegate, CountryPickerViewDataSource  {
+class HeaderViewController: UIViewController, CountryPickerViewDelegate, CountryPickerViewDataSource, FBSDKLoginButtonDelegate
+{
+   
     
+    var facebookMember : FacebookMember?
+
     var currentProfile: MemberProfile?
     var currentMember: CurrentMember?
     var PINCODE: String?
@@ -28,17 +34,30 @@ class HeaderViewController: UIViewController, CountryPickerViewDelegate, Country
     var contryCode : String = ""
     var phoneNumber: String?
 
-    @IBOutlet weak var backView: UIView!
-    @IBOutlet weak var pickerView: UIView!
-    @IBOutlet weak var countryPickerView: CountryPickerView!
-    @IBOutlet weak var inboxCounterLbl: UILabel!
-    @IBOutlet weak var InboxCounterView: DesignableView!
-    @IBOutlet weak var chatCounterLbl: UILabel!
-    @IBOutlet weak var ChatCounterView: DesignableView!
-    @IBOutlet weak var chatView: UIView!
-    @IBOutlet weak var inboxView: UIView!
-    @IBOutlet weak var phoneLbl: UITextField!
-    
+    @IBOutlet weak var fbBt: UIButton!
+    @IBOutlet var backView: UIView!
+    @IBOutlet var pickerView: UIView!
+    @IBOutlet var countryPickerView: CountryPickerView!
+    @IBOutlet var inboxCounterLbl: UILabel!
+    @IBOutlet var InboxCounterView: DesignableView!
+    @IBOutlet var chatCounterLbl: UILabel!
+    @IBOutlet var ChatCounterView: DesignableView!
+    @IBOutlet var chatView: UIView!
+    @IBOutlet var inboxView: UIView!
+    @IBOutlet var phoneLbl: UITextField!
+    @IBOutlet weak var phoneRegisterView: UIView!
+    @IBOutlet weak var registerView: UIView!
+    @IBOutlet weak var facebookRegisterView: UIView!
+    @objc func handleCustomFBLogin() {
+        FBSDKLoginManager().logIn(withReadPermissions: ["email"], from: self) { (result, err) in
+            if err != nil {
+                print("Custom FB Login failed:", err)
+                return
+            }
+            
+            self.showEmailAddress()
+        }
+    }
     @IBAction func sendClick(_ sender: Any) {
 
         print("isValidPhone \(isValidPhone(phone: contryCodeString+phoneLbl.text!))")
@@ -75,8 +94,7 @@ class HeaderViewController: UIViewController, CountryPickerViewDelegate, Country
                     }
                     print ("successed")
                     DispatchQueue.main.sync {
-                        //
-                        self.checkIfMember(phone:  self.phoneNumber!)
+                        self.checkIfMember(textFeild: self.phoneNumber!,type: "phone", facebookMember: self.facebookMember)
                         
                         
                     }
@@ -107,10 +125,20 @@ class HeaderViewController: UIViewController, CountryPickerViewDelegate, Country
         
         
     }
-    func checkIfMember(phone: String) {
+    var isFacebookGdpr: Bool = false
+
+    func checkIfMember(textFeild: String,type: String, facebookMember: FacebookMember?) {
+        var params: [String : Any] = ["" : ""]
         let strMethod = String(format : ApiRouts.Web + "/api/check_if_member" )
-        
-        let params: [String : Any] = ["phone": phone]
+        if type == "phone"{
+            params = ["phone": textFeild]
+            
+        }
+        else
+        {
+            params = ["facebook_id": textFeild]
+            
+        }
         print(params)
         let url = URL(string: strMethod)!
         let data = try! JSONSerialization.data(withJSONObject: params, options: JSONSerialization.WritingOptions.prettyPrinted)
@@ -145,14 +173,30 @@ class HeaderViewController: UIViewController, CountryPickerViewDelegate, Country
             .responseString { response in
                 if (response.result.value!.range(of: "true") != nil)
                 {
+                    if type == "phone"{
+                        
+                        self.showPinDialog(phone: textFeild)
+                    }
+                    else
+                    {
+                        print("Im here in facebook exist")
+                        self.isFacebookGdpr = false
+                        self.regstirFacebook(facebookMember: self.facebookMember!, isGdpr:  self.isFacebookGdpr)
+                    }
                     
-                    self.showPinDialog()
                     
                 }else {
-                    MyVriables.phoneNumber = phone
-                    self.dismiss(animated: true,completion: nil)
+                    
                     MyVriables.fromGroup = "true"
+                    if type != "phone"{
+                        MyVriables.facebookMember = facebookMember
+                    }else {
+                        MyVriables.facebookMember = nil
+                        self.dismiss(animated: true,completion: nil)
+                        MyVriables.phoneNumber = textFeild
+                    }
                     self.performSegue(withIdentifier: "showGdbr", sender: self)
+                    
                 }
                 
         }
@@ -187,7 +231,23 @@ class HeaderViewController: UIViewController, CountryPickerViewDelegate, Country
         SwiftEventBus.onMainThread(self, name: "refreshGroupRolee") { result in
             //self
              self.pickerView.isHidden = true
+            self.registerView.isHidden = true
+
         }
+        fbBt.addTarget(self, action: #selector(handleCustomFBLogin), for: .touchUpInside)
+
+//        facebookRegisterView.addTapGestureRecognizer {
+//            print("Im clicked hereeee")
+//            FBSDKLoginManager().logIn(withReadPermissions: ["email"], from: self) { (result, err) in
+//                if err != nil {
+//                    print("Custom FB Login failed:", err)
+//                    return
+//                }
+//
+//                self.showEmailAddress()
+//            }
+//        }
+        
         //refreshGroupRolee
         
     }
@@ -203,14 +263,51 @@ class HeaderViewController: UIViewController, CountryPickerViewDelegate, Country
         contryCodeString = country.phoneCode
         contryCode = country.code
     }
+    
     override func viewWillAppear(_ animated: Bool) {
         setBadges()
         backView.addTapGestureRecognizer {
+          
+//            if let navController = self.navigationController {
+//    navController.popViewController(animated: true)
+//            }
             self.navigationController?.popViewController(animated: true)
-             self.dismiss(animated: true, completion: nil)
+            self.dismiss(animated: true, completion: nil)
         }
+        SwiftEventBus.onMainThread(self, name: "facebookLogin2") { result in
+            // let facebookId : String = result.object as! String
+            //self.checkIfMember(phone: phonenumber)
+            self.facebookMember = result.object as! FacebookMember
+            self.checkIfMember(textFeild: (self.facebookMember?.facebook_id!)!, type: "facebook_id",facebookMember: self.facebookMember)
+            
+        }
+        phoneRegisterView.addTapGestureRecognizer {
+            self.registerView.isHidden = true
+            self.pickerView.isHidden = false
+
+        }
+
+//        facebookRegisterView.addTapGestureRecognizer {
+//            print("Im clicked hereeee")
+//            FBSDKLoginManager().logIn(withReadPermissions: ["email"], from: self) { (result, err) in
+//                if err != nil {
+//                    print("Custom FB Login failed:", err)
+//                    return
+//                }
+//
+//                self.showEmailAddress()
+//            }
+//        }
         SwiftEventBus.onMainThread(self, name: "refreshFromGroup") { result in
-            self.showPinDialogGdpr()
+            if result.object != nil {
+                self.facebookMember = result.object as! FacebookMember
+                self.isFacebookGdpr = true
+                self.regstirFacebook(facebookMember: self.facebookMember!, isGdpr:  self.isFacebookGdpr)
+                
+            }else {
+                self.showPinDialogGdpr()
+
+            }
         }
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "dismissKeyboard")
         view.addGestureRecognizer(tap)
@@ -229,7 +326,11 @@ class HeaderViewController: UIViewController, CountryPickerViewDelegate, Country
         print("ISLOGGED = \(isLogged)")
         if isLogged == true{
             pickerView.isHidden = true
+            self.registerView.isHidden = true
+
         }else {
+            self.registerView.isHidden = false
+
             pickerView.isHidden = false
         }
         SwiftEventBus.onMainThread(self, name: "counters") { (result) in
@@ -289,19 +390,107 @@ class HeaderViewController: UIViewController, CountryPickerViewDelegate, Country
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-    public func showPinDialog() {
+    public func regstirFacebook(facebookMember : FacebookMember,isGdpr: Bool)
+    {
+        print("Is gdpr equal to \(isGdpr)")
+        var params: [String: Any] = [:]
+        if facebookMember.facebook_id != "" {
+            if  isGdpr == true
+            {
+                let gdprArr: [String: Bool] = ["chat_messaging":(MyVriables.arrayGdpr?.chat_messaging)!,
+                                               "files_upload":(MyVriables.arrayGdpr?.files_upload)!,
+                                               "groups_relations":(MyVriables.arrayGdpr?.groups_relations)!,
+                                               "pairing":(MyVriables.arrayGdpr?.pairing)!,
+                                               "phone_number":(MyVriables.arrayGdpr?.phone_number)!,
+                                               "profile_details":(MyVriables.arrayGdpr?.profile_details)!,
+                                               "push_notifications":(MyVriables.arrayGdpr?.push_notifications)!,
+                                               "real_time_location":(MyVriables.arrayGdpr?.real_time_location)!,
+                                               "rating_reviews":(MyVriables.arrayGdpr?.rating_reviews)!]
+                print("GDPRARR from faceboooook - \(gdprArr)")
+                params = ["facebook_id": facebookMember.facebook_id!, "type": "facebook", "first_name": facebookMember.first_name!,"last_name": facebookMember.last_name!,"facebook_profile_image": facebookMember.facebook_profile_image != nil ? facebookMember.facebook_profile_image! : nil, "gdpr":gdprArr]
+            }
+            else{
+                params = ["facebook_id": facebookMember.facebook_id!, "type": "facebook", "first_name": facebookMember.first_name!,"last_name": facebookMember.last_name!,"facebook_profile_image": facebookMember.facebook_profile_image != nil ? facebookMember.facebook_profile_image! : nil]
+            }
+            HTTP.POST(ApiRouts.Register, parameters: params) { response in
+                //do things...
+                //do things...
+                if response.error != nil {
+                    print(response.error)
+                    return
+                }
+                print(response.description)
+                do{
+                    let  member = try JSONDecoder().decode(CurrentMember.self, from: response.data)
+                    print(member)
+                    SwiftEventBus.post("refreshGroupRolee")
+                    self.currentMember = member
+                    self.setToUserDefaults(value: true, key: "isLogged")
+                    //  print(self.currentMember?.profile!)
+                    self.setToUserDefaults(value: self.currentMember?.profile?.member_id!, key: "member_id")
+                    self.setToUserDefaults(value: self.currentMember?.profile?.first_name , key: "first_name")
+                    self.setToUserDefaults(value: self.currentMember?.profile?.last_name, key: "last_name")
+                    self.setToUserDefaults(value: self.currentMember?.member?.email, key: "email")
+                    self.setToUserDefaults(value: self.currentMember?.member?.phone, key: "phone")
+                    self.setToUserDefaults(value: self.currentMember?.profile?.gender, key: "gender")
+                    self.setToUserDefaults(value: self.currentMember?.profile?.birth_date, key: "birth_date")
+                    self.setToUserDefaults(value: self.currentMember?.profile?.profile_image, key: "profile_image")
+                    self.setToUserDefaults(value: self.currentMember?.total_unread_messages, key: "chat_counter")
+                    self.setToUserDefaults(value: self.currentMember?.total_unread_notifications, key: "inbox_counter")
+                    
+                    self.currentProfile = self.currentMember?.profile!
+                    DispatchQueue.main.sync {
+                        self.getGroup(memberId: "\((self.currentMember?.profile?.member_id!)!)")
+                        //SwiftEventBus.post("refreshGroupRole")
+                        SwiftEventBus.post("changeProfileInfo")
+                        if Messaging.messaging().fcmToken != nil {
+                            MyVriables.TopicSubscribe = true
+                            Messaging.messaging().subscribe(toTopic: "/topics/IOS-CHAT-\(String(describing: (self.currentMember?.profile?.member_id!)!))")
+                            
+                            Messaging.messaging().subscribe(toTopic: "/topics/IOS-INBOX-\(String(describing: (self.currentMember?.profile?.member_id!)!))")
+                            
+                            Messaging.messaging().subscribe(toTopic: "/topics/IOS-SYSTEM-\(String(describing: (self.currentMember?.profile?.member_id!)!))")
+                        }
+                        //                                    self.phoneNumberStackView.isHidden = true
+                        //                                    self.chatHeaderStackView.isHidden = false
+                        //                                }
+                    }
+                    MyVriables.isMember = true
+                    
+                    DispatchQueue.main.async {
+                        self.pickerView.isHidden = true
+                        self.registerView.isHidden = true
+                    }
+                    
+                }
+                catch {
+                    print("catch error")
+                    DispatchQueue.main.async {
+                        self.pickerView.isHidden = false
+                        self.registerView.isHidden = false
+                    }
+                    self.setToUserDefaults(value: false, key: "isLogged")
+                    
+                }
+                
+            }
+        }else {
+            
+        }
+    }
+    public func showPinDialog(phone: String) {
         let PinAlert = UIAlertController(title: "Please enter PIN code wer'e sent you", message: "Pin code", preferredStyle: .alert)
         print ("pin created")
         
         PinAlert.addTextField { (textField) in
             textField.placeholder = "1234"
+            //textField.shouldChangeText(in: 6, replacementText: "")
             
         }
         print ("pin created")
         
         PinAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak PinAlert] (_) in
-             self.view.endEditing(true)
+            
             print ("pin 1")
             
             let textField = PinAlert?.textFields![0] // Force unwrapping because we know it exists.
@@ -310,8 +499,7 @@ class HeaderViewController: UIViewController, CountryPickerViewDelegate, Country
             self.PINCODE = textField?.text
             print("PIN CODE : \((textField?.text)!)")
             var params: [String: Any] = [:]
-
-            params = ["code": (textField?.text)!, "phone": self.phoneNumber!]
+            params = ["code": (textField?.text)!, "phone": phone]
             HTTP.POST(ApiRouts.Register, parameters: params) { response in
                 //do things...
                 if response.error != nil {
@@ -360,6 +548,7 @@ class HeaderViewController: UIViewController, CountryPickerViewDelegate, Country
                     
                     DispatchQueue.main.async {
                          self.pickerView.isHidden = true
+                        self.registerView.isHidden = true
                     }
                     
                 }
@@ -367,6 +556,8 @@ class HeaderViewController: UIViewController, CountryPickerViewDelegate, Country
                     print("catch error")
                     DispatchQueue.main.async {
                         self.pickerView.isHidden = false
+                        self.registerView.isHidden = false
+
                     }
                     self.setToUserDefaults(value: false, key: "isLogged")
                     
@@ -391,8 +582,7 @@ class HeaderViewController: UIViewController, CountryPickerViewDelegate, Country
         print ("pin after present ")
     }
     func getGroup(memberId: String){
-            print("Url is " + ApiRouts.Web + "/api/groups/\((MyVriables.currentGroup?.id!)!)/details/\(memberId)")
-            HTTP.GET(ApiRouts.Web + "/api/groups/\((MyVriables.currentGroup?.id!)!)/details/\(memberId)"){response in
+        HTTP.GET(ApiRouts.Web + "/api/groups/\((MyVriables.currentGroup?.id != nil ? MyVriables.currentGroup?.id! : -1)!)/details/\(memberId)"){response in
             if response.error != nil {
                 print("response eror")
             return
@@ -538,6 +728,8 @@ class HeaderViewController: UIViewController, CountryPickerViewDelegate, Country
              
                         DispatchQueue.main.async {
                             self.pickerView.isHidden = true
+                            self.registerView.isHidden = true
+
                         }
                         //                                    self.chatHeaderStackView.isHidden = false
                         //
@@ -551,6 +743,8 @@ class HeaderViewController: UIViewController, CountryPickerViewDelegate, Country
                 catch {
                     DispatchQueue.main.async {
                             self.pickerView.isHidden = false
+                        self.registerView.isHidden = false
+
                     }
        
                     self.setToUserDefaults(value: false, key: "isLogged")
@@ -576,6 +770,43 @@ class HeaderViewController: UIViewController, CountryPickerViewDelegate, Country
         self.present(PinAlert, animated: true, completion: nil)
         
         print ("pin after present ")
+    }
+    func showEmailAddress() {
+        print("No Error")
+        let request = FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "id, name, first_name, last_name, email, picture.type(large)"])
+        let _ = request?.start(completionHandler: { (connection, result, error) in
+            
+            if error != nil {
+                print("Failed to start graph request:", error)
+                return
+            }
+            guard let userInfo = result as? [String: Any] else { return } //handle the error
+            print("user indfo \(userInfo)")
+            //The url is nested 3 layers deep into the result so it's pretty messy
+            if let imageURL = ((userInfo["picture"] as? [String: Any])?["data"] as? [String: Any])?["url"] as? String {
+                let url = URL(string: imageURL)
+                //self.profileImage.kf.setImage(with: url)
+                // print("Image utl is \(imageURL)")
+                //Download image from imageURL
+            }
+            
+            var facebookMember : FacebookMember = FacebookMember(first_name: userInfo["first_name"] != nil ? userInfo["first_name"] as? String : "", last_name: userInfo["last_name"] != nil ? userInfo["last_name"] as? String : "", facebook_id: userInfo["id"] != nil ? userInfo["id"] as? String : "", facebook_profile_image: ((userInfo["picture"] as? [String: Any])?["data"] as? [String: Any])?["url"] as? String)
+            self.dismiss(animated: true, completion: nil)
+            
+            SwiftEventBus.post("facebookLogin2", sender: facebookMember)
+        })
+        
+        
+        //
+        //
+        //            print(result)
+        //        }
+    }
+    func loginButton(_ loginButton: FBSDKLoginButton!, didCompleteWith result: FBSDKLoginManagerLoginResult!, error: Error!) {
+     
+    }
+    func loginButtonDidLogOut(_ loginButton: FBSDKLoginButton!) {
+        
     }
 
    

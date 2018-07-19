@@ -56,9 +56,9 @@ class PrivacyViewController: UIViewController, UITableViewDelegate, UITableViewD
             self.checkAllTrue()
         }
         SwiftEventBus.onMainThread(self, name: "setCheckTrue") { result in
+            SwiftEventBus.post("changeProfileInfooo")
            self.navigationController?.popToRootViewController(animated: true)
-            self.checkAllSwitch.isOn = (MyVriables.currentMember?.gdpr?.checkAllSwitch) != nil ? (MyVriables.currentMember?.gdpr?.checkAllSwitch)! : true
-            print("Is checked = \(self.checkAllSwitch.isOn)")
+
         }
         SwiftEventBus.onMainThread(self, name: "setCheck") { result in
             self.checkAllTrue()
@@ -262,10 +262,13 @@ class PrivacyViewController: UIViewController, UITableViewDelegate, UITableViewD
                 self.arrayGdpr[7].isChecked = (gdprUpdate.gdpr?.files_upload)!
                 self.arrayGdpr[8].isChecked = (gdprUpdate.gdpr?.push_notifications)!
                 self.arrayGdpr[9].isChecked = (gdprUpdate.gdpr?.rating_reviews)!
+                if postion != nil && postion < 10 && postion > 0 {
+                    print("Postion is \(postion)")
                 if self.arrayGdpr[postion].parmter == "push_notifications"
                 {
                     SwiftEventBus.post("shouldRefreshGdpr")
                     SwiftEventBus.post("changeProfileInfo")
+                }
                 }
                 DispatchQueue.main.async {
                 self.checkAllTrue()

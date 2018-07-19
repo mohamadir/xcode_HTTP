@@ -20,100 +20,181 @@ import FirebaseMessaging
 import FirebaseInstanceID
 import SwiftEventBus
 import Alamofire
-import CountryPickerView
 import AlamofireImage
 import PhoneNumberKit
+import CountryPickerView
 import TTGSnackbar
+import Kingfisher
+import FBSDKLoginKit
+import FBSDKCoreKit
+
+
 
 /***********************************************      VIEW CONTROLLER     *************************************************************/
 
 
-class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource ,  MRCountryPickerDelegate , UIImagePickerControllerDelegate, UINavigationControllerDelegate, UISearchBarDelegate, CountryPickerViewDelegate, CountryPickerViewDataSource {
-    
-    
-    
+class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource ,  MRCountryPickerDelegate , UIImagePickerControllerDelegate, UINavigationControllerDelegate, UISearchBarDelegate, CountryPickerViewDelegate, CountryPickerViewDataSource, FBSDKLoginButtonDelegate {
+    func loginButtonDidLogOut(_ loginButton: FBSDKLoginButton!) {
+        
+    }
+    @IBOutlet var pickerFacebookView: UIView!
     // header views
     
     var contryCodeString : String = ""
     var contryCode : String = ""
-    @IBOutlet weak var menuView: UIView!
-    
+    @IBOutlet var menuView: UIView!
+    @IBOutlet weak var phoneFacebookLbl: UITextField!
+    var isFacebookGdpr: Bool = false
+    @IBOutlet weak var phoneRegisterView: UIView!
+    @IBOutlet weak var registerView: UIView!
+    @IBOutlet weak var facebookRegisterView: UIView!
+    @IBOutlet weak var fPickerView: CountryPickerView!
     var PINCODE: String?
+    var facebookMember : FacebookMember?
     var phoneNumber: String?
     ///////// GROUP SETTINGS
-
+    var isLoading: Bool = false
     //import MRCountryPicker
     /********  VIEWS ***********/
-    @IBOutlet weak var menuImage: UIImageView!
-    @IBOutlet weak var countyCodePickerView: CountryPickerView!
-    @IBOutlet weak var countryPicker: MRCountryPicker!
-    @IBOutlet weak var flagImageView: UIImageView!
-    @IBOutlet weak var countryPrefLable: UILabel!
-    @IBOutlet weak var chatImageView: UIImageView!
-    @IBOutlet weak var chatHeaderStackView: UIView!
-    @IBOutlet weak var phoneNumberStackView: UIView!
-    @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var phoneNumberFeild: UITextField!
-    @IBOutlet weak var profileImageView: UIImageView!
-    @IBOutlet weak var filterView: UIView!
-    @IBOutlet weak var memberMenuView: UIView!
-    @IBOutlet weak var memberNameLbl: UILabel!
-    @IBOutlet weak var memberPhoneLbl: UILabel!
-    @IBOutlet weak var memberGenderLbl: UILabel!
-    @IBOutlet weak var notificationsImageView: UIImageView!
-    @IBOutlet weak var noGroupsView: UIView!
-    @IBOutlet weak var InboxCounterView: DesignableView!
-    @IBOutlet weak var ChatCounterView: DesignableView!
-    @IBOutlet weak var countryCodeVeiw: UIView!
+    @IBOutlet var menuImage: UIImageView!
+    @IBOutlet var countyCodePickerView: CountryPickerView!
+    @IBOutlet var countryPicker: MRCountryPicker!
+    @IBOutlet var flagImageView: UIImageView!
+    @IBOutlet var countryPrefLable: UILabel!
+    @IBOutlet var chatImageView: UIImageView!
+    @IBOutlet var chatHeaderStackView: UIView!
+    @IBOutlet var phoneNumberStackView: UIView!
+    @IBOutlet var tableView: UITableView!
+    @IBOutlet var phoneNumberFeild: UITextField!
+    @IBOutlet var profileImageView: UIImageView!
+    @IBOutlet var filterView: UIView!
+    @IBOutlet var memberMenuView: UIView!
+    @IBOutlet var memberNameLbl: UILabel!
+    @IBOutlet var memberPhoneLbl: UILabel!
+    @IBOutlet var memberGenderLbl: UILabel!
+    @IBOutlet var notificationsImageView: UIImageView!
+    @IBOutlet var noGroupsView: UIView!
+    @IBOutlet var InboxCounterView: DesignableView!
+    @IBOutlet var ChatCounterView: DesignableView!
+    @IBOutlet var countryCodeVeiw: UIView!
     
-    @IBOutlet weak var chatView: UIView!
-    @IBOutlet weak var inboxView: UIView!
-    @IBOutlet weak var inboxCounterLbl: UILabel!
-    @IBOutlet weak var chatCounterLbl: UILabel!
+    @IBOutlet var myGroupByPhoneView: UIView!
+    @IBOutlet var chatView: UIView!
+    @IBOutlet var inboxView: UIView!
+    @IBOutlet var inboxCounterLbl: UILabel!
+    @IBOutlet var chatCounterLbl: UILabel!
     
-    @IBOutlet weak var noGroupText: UILabel!
+    @IBOutlet var noGroupText: UILabel!
     /********* Filter Buttons **********/
-    @IBOutlet weak var myGroupsBt: UIButton!
-    @IBOutlet weak var managamentBt: UIButton!
-    @IBOutlet weak var publicGroupsbt: UIButton!
-    @IBOutlet weak var oneDayBt: UIButton!
-    @IBOutlet weak var multiDaysBt: UIButton!
-    @IBOutlet weak var createdSortBt: UIButton!
-    @IBOutlet weak var allGroupsBt: UIButton!
+    @IBOutlet var myGroupsBt: UIButton!
+    @IBOutlet var managamentBt: UIButton!
+    @IBOutlet var publicGroupsbt: UIButton!
+    @IBOutlet var oneDayBt: UIButton!
+    @IBOutlet var multiDaysBt: UIButton!
+    @IBOutlet var createdSortBt: UIButton!
+    @IBOutlet var allGroupsBt: UIButton!
     
     /****** Sort Buttons ************/
     
-    @IBOutlet weak var DepratureSortBt: UIButton!
-    @IBOutlet weak var totalDaysBt: UIButton!
+    @IBOutlet var DepratureSortBt: UIButton!
+    @IBOutlet var totalDaysBt: UIButton!
+    @IBOutlet var notficationLbl: UILabel!
+    @IBOutlet var notficationView: UIView!
+    @IBOutlet var notficicationIcon: UIImageView!
     
-    @IBOutlet weak var notficationLbl: UILabel!
-    @IBOutlet weak var notficationView: UIView!
-    @IBOutlet weak var notficicationIcon: UIImageView!
-    
-   
-    
+
     /********* CONSTRAINTS **********/
   
-    @IBOutlet weak var memberLeadingConstraints: NSLayoutConstraint!
+    @IBOutlet var memberLeadingConstraints: NSLayoutConstraint!
     
-    @IBOutlet weak var leadingConstraint: NSLayoutConstraint!
+    @IBOutlet var leadingConstraint: NSLayoutConstraint!
     
     @IBAction func editProfile(_ sender: Any) {
          performSegue(withIdentifier: "showModal", sender: self)
         //showModal
     }
-    
+    func loginButton(_ loginButton: FBSDKLoginButton!, didCompleteWith result: FBSDKLoginManagerLoginResult!, error: Error!) {
+      
+        
+    }
+    @IBAction func savePhone(_ sender: Any) {
+        //api/members/{member_id}/phone?no_password=true
+        DispatchQueue.global(qos: .userInitiated).async {
+            // Do long running task here
+            // Bounce back to the main thread to update the UI
+            DispatchQueue.main.async {
+                if self.isValidPhone(phone: self.contryCodeString+self.phoneFacebookLbl.text!)
+                {
+                    
+                    print("\(self.contryCodeString)\(self.phoneNumberFeild.text!)")
+                    self.phoneNumber = self.contryCodeString+self.phoneFacebookLbl.text!
+                    if self.contryCodeString == "+972" {
+                        if self.phoneFacebookLbl.text!.count > 4 && self.phoneFacebookLbl.text![0...0] == "0" {
+                            self.phoneFacebookLbl.text!.remove(at: self.phoneFacebookLbl.text!.startIndex)
+                            self.phoneNumber = "\(self.contryCodeString)\(self.phoneFacebookLbl.text!)"
+                            print("yes im inside \(self.phoneNumber)")
+                            
+                            
+                        }
+                    }
+                    let VerifyAlert = UIAlertController(title: "Verify", message: "is this is your phone number? \n \(self.phoneNumber!)", preferredStyle: .alert)
+                    
+                    
+                    VerifyAlert.addAction(UIAlertAction(title: NSLocalizedString("Yes", comment: "Default action"), style: .`default`, handler: { _ in
+                        let defaults = UserDefaults.standard
+                        let id = defaults.integer(forKey: "member_id")
+                        print(ApiRouts.Web + "/api/members/\(id)/phone?no_password=true")
+                        
+                        HTTP.PUT(ApiRouts.Web + "/api/members/\(id)/phone?no_password=true", parameters: ["phone" : self.phoneNumber, "country_code" : self.contryCodeString]) { response in
+                            if response.error != nil {
+                                DispatchQueue.main.async {
+                                    let snackbar = TTGSnackbar(message: "Phone Number is already exist", duration: .middle)
+                                    snackbar.icon = UIImage(named: "AppIcon")
+                                    snackbar.show()
+                                }
+                                print("error \(response.error?.localizedDescription)")
+                                return
+                            }
+                            print ("successed")
+                            DispatchQueue.main.sync {
+                                //
+                                self.setToUserDefaults(value: self.phoneNumber, key: "phone")
+                                print("Phone number is \(self.phoneNumber)")
+                                self.checkCurrentUser()
+                                
+                                
+                            }
+                            //do things...
+                        }
+                        
+                        
+                        
+                    }))
+                    VerifyAlert.addAction(UIAlertAction(title: NSLocalizedString("No", comment: "Default action"), style: .`default`, handler: { _ in
+                        print("no")
+                        
+                        
+                        
+                    }))
+                    self.present(VerifyAlert, animated: true, completion: nil)
+                }
+            }
+        }
+        
+        
+    }
     @IBAction func privacyClick(_ sender: Any) {
         menuImage.image = UIImage(named: menuIcon)
         UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded();})
         self.memberLeadingConstraints.constant = 190
          performSegue(withIdentifier: "showPrivacy", sender: self)
     }
-    @IBOutlet weak var settingClick: UIButton!
+    @IBOutlet var settingClick: UIButton!
     /******* VARIABLES *********/
     var menuIcon: String = "iMenuIcon"
     var myGrous: [TourGroup] = []
     var currentGroup: TourGroup?
+    @IBOutlet weak var fbBt: UIButton!
     var currentMember: CurrentMember?
     let cellSpacingHeight: CGFloat = 5
     var whatIsCurrent: Int  = 0
@@ -162,25 +243,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         SwiftEventBus.onMainThread(self, name: "changeProfileInfo") { result in
-            self.checkCurrentUser()
+            print("Im here in changeProfileInfo")
+            DispatchQueue.main.async {
+                self.checkCurrentUser()
+
+            }
         }
-        setBadges()
-        SwiftEventBus.onMainThread(self, name: "refreshGroups") { result in
-            print("im Here from Gdpr")
-            self.showPinDialogGdpr()
-        }
-        SwiftEventBus.onMainThread(self, name: "refreshData") { result in
-            print("im Here from Gdpr")
-            self.refreshList()
-        }
-        //refreshData
-        // Hide the navigation bar on the this view controller
         
-        self.navigationController?.setNavigationBarHidden(true, animated: animated)
-        if MyVriables.shouldRefresh {
-            refreshList()
-            MyVriables.shouldRefresh = false
-        }
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -252,7 +322,113 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-       
+        SwiftEventBus.onMainThread(self, name: "changeProfileInfooo") { result in
+            print("Im here in changeProfileInfo")
+            DispatchQueue.main.async {
+                self.page = 1
+                self.myGrous = []
+                self.hasLoadMore = true
+                self.tableView.reloadData()
+                print("Refresh groups without filter")
+                self.phoneNumberFeild.text = ""
+                self.phoneNumberStackView.isHidden = false
+                self.registerView.isHidden = false
+                self.chatHeaderStackView.isHidden = true
+                self.isLogged = false
+                self.myGroupByPhoneView.isHidden = true
+                print("IS logged = false")
+                self.getSwiftGroups()
+                
+            }
+        }
+        SwiftEventBus.onMainThread(self, name: "counters") { (result) in
+            print("CHAT-COUNTER RECEIVED IN VIEW CONTROLLER ")
+            self.setBadges()
+        }
+        fbBt.addTarget(self, action: #selector(handleCustomFBLogin), for: .touchUpInside)
+
+        SwiftEventBus.onMainThread(self, name: "refreshGroups") { result in
+            print("im Here from Gdpr and flags is ")
+            if result.object != nil {
+                self.facebookMember = result.object as! FacebookMember
+                self.isFacebookGdpr = true
+                self.regstirFacebook(facebookMember: self.facebookMember!, isGdpr:  self.isFacebookGdpr)
+                
+            }else {
+                self.showPinDialogGdpr()
+                
+            }
+            
+        }
+        SwiftEventBus.onMainThread(self, name: "refreshData") { result in
+            print("im Here from Gdpr")
+            self.refreshList()
+        }
+        //refreshData
+        // Hide the navigation bar on the this view controller
+        
+        self.navigationController?.setNavigationBarHidden(true, animated: true)
+        if MyVriables.shouldRefresh {
+            refreshList()
+            MyVriables.shouldRefresh = false
+        }
+        let defaults = UserDefaults.standard
+        let isLogged = defaults.bool(forKey: "isLogged")
+        
+        if isLogged != true{
+            DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+                if let window = UIApplication.shared.delegate?.window {
+                    if var viewController = window?.rootViewController {
+                        if(viewController is UINavigationController){
+                            viewController = (viewController as! UINavigationController).visibleViewController!
+
+                        }
+
+                        print(viewController)
+                        if viewController is ViewController
+                        {
+                            if self.phoneNumberFeild.text != nil && self.phoneNumberFeild.text != "" {
+                                
+                            }
+                            else {
+                                self.performSegue(withIdentifier: "showRegstirModal", sender: self)
+                            }
+                        }
+                    }
+                }
+
+            }
+        }
+        phoneRegisterView.addTapGestureRecognizer {
+            self.registerView.isHidden = true
+            self.phoneNumberStackView.isHidden = false
+            self.chatHeaderStackView.isHidden = true
+        }
+
+//        facebookRegisterView.addTapGestureRecognizer {
+//            print("Im clicked hereeee from not gdrp")
+//            FBSDKLoginManager().logIn(withReadPermissions: ["email"], from: self) { (result, err) in
+//                if err != nil {
+//                    print("Custom FB Login failed:", err)
+//                    return
+//                }
+//
+//                self.showEmailAddress()
+//            }
+//        }
+      
+        SwiftEventBus.onMainThread(self, name: "facebookLogin") { result in
+            self.facebookMember = result.object as! FacebookMember
+            self.checkIfMember(textFeild: (self.facebookMember?.facebook_id!)!, type: "facebook_id",facebookMember: self.facebookMember)
+            
+        }
+        SwiftEventBus.onMainThread(self, name: "checkMember") { result in
+            let phonenumber : String = result.object as! String
+            self.checkIfMember(textFeild: phonenumber, type: "phone",facebookMember : self.facebookMember)
+
+        }
+        fPickerView.delegate = self
+        fPickerView.delegate = self
         countyCodePickerView.delegate = self
         countyCodePickerView.dataSource = self
         
@@ -295,6 +471,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             
             self.isMemberMenuShowing = !self.isMemberMenuShowing
         }
+        
+        fPickerView.showPhoneCodeInView = true
+        fPickerView.showCountryCodeInView = false
         countyCodePickerView.showPhoneCodeInView = true
         countyCodePickerView.showCountryCodeInView = false
         let cpv = CountryPickerView(frame: CGRect(x: 0, y: 0, width: 120, height: 20))
@@ -331,11 +510,52 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         setMemberMenuView()
     }
     
+    @objc func handleCustomFBLogin() {
+        FBSDKLoginManager().logIn(withReadPermissions: ["email"], from: self) { (result, err) in
+            if err != nil {
+                print("Custom FB Login failed:", err)
+                return
+            }
+
+            self.showEmailAddress()
+        }
+    }
     func setFilterView(){
         filterView.layer.shadowColor = UIColor.black.cgColor
         filterView.layer.shadowOpacity = 0.5
         filterView.layer.shadowOffset = CGSize.zero
         filterView.layer.shadowRadius = 4
+    }
+    func showEmailAddress() {
+        print("No Error")
+        let request = FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "id, name, first_name, last_name, email, picture.type(large)"])
+        let _ = request?.start(completionHandler: { (connection, result, error) in
+            
+            if error != nil {
+                print("Failed to start graph request:", error)
+                return
+            }
+            guard let userInfo = result as? [String: Any] else { return } //handle the error
+            print("user indfo \(userInfo)")
+            //The url is nested 3 layers deep into the result so it's pretty messy
+            if let imageURL = ((userInfo["picture"] as? [String: Any])?["data"] as? [String: Any])?["url"] as? String {
+                let url = URL(string: imageURL)
+                //self.profileImage.kf.setImage(with: url)
+                // print("Image utl is \(imageURL)")
+                //Download image from imageURL
+            }
+            
+            var facebookMember : FacebookMember = FacebookMember(first_name: userInfo["first_name"] != nil ? userInfo["first_name"] as? String : "", last_name: userInfo["last_name"] != nil ? userInfo["last_name"] as? String : "", facebook_id: userInfo["id"] != nil ? userInfo["id"] as? String : "", facebook_profile_image: ((userInfo["picture"] as? [String: Any])?["data"] as? [String: Any])?["url"] as? String)
+            self.dismiss(animated: true, completion: nil)
+            
+            SwiftEventBus.post("facebookLogin", sender: facebookMember)
+        })
+        
+        
+        //
+        //
+        //            print(result)
+        //        }
     }
     
     func setMemberMenuView(){
@@ -554,20 +774,17 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let defaults = UserDefaults.standard
         let id = defaults.integer(forKey: "member_id")
         let isLogged = defaults.bool(forKey: "isLogged")
+        let phone = defaults.string(forKey: "phone")
+        print("Im in  isLogged \(isLogged)")
         if isLogged == true{
 
             print("IS logged = true")
-        self.getMember(memberId: id)
-         
-                // self.getMember(memberId: id)
+            self.getMember(memberId: id)
             setBadges()
-            SwiftEventBus.onMainThread(self, name: "counters") { (result) in
-                print("CHAT-COUNTER RECEIVED IN VIEW CONTROLLER ")
-                self.setBadges()
-            }
                 self.isLogged = true
                 self.noGroupsView.isHidden = true
                 self.id = id
+                self.registerView.isHidden = true
                 self.phoneNumberStackView.isHidden = true
                 self.chatHeaderStackView.isHidden = false
                 self.profileImageView.layer.borderWidth = 0
@@ -577,26 +794,43 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 
             
             
-            self.sort = standart_sort
+            self.managamentBt.setTitleColor(UIColor.black, for: .normal)
+            self.publicGroupsbt.setTitleColor(UIColor.black, for: .normal)
+            self.multiDaysBt.setTitleColor(UIColor.black, for: .normal)
             if #available(iOS 11.0, *) {
                 self.myGroupsBt.setTitleColor(UIColor(named: "Primary"), for: .normal)
             } else {
                 // Fallback on earlier versions
                 self.myGroupsBt.setTitleColor(Colors.PrimaryColor, for: .normal)
             }
+            self.allGroupsBt.setTitleColor(UIColor.black, for: .normal)
+            self.oneDayBt.setTitleColor(UIColor.black, for: .normal)
+            self.sort = standart_sort
             self.hasLoadMore = true
+            print("Phoien is \(phone)")
+            if phone != nil && phone! != "no value" {
             self.getGroupsByFilter()
-            
+                 myGroupByPhoneView.isHidden = true
+            }else {
+                myGroupByPhoneView.isHidden = false
+                
+            }
             
             
             
             
         }else{
+            self.page = 1
+            self.myGrous = []
+            self.hasLoadMore = true
             print("Refresh groups without filter")
             self.phoneNumberFeild.text = ""
             self.phoneNumberStackView.isHidden = false
+            self.registerView.isHidden = false
             self.chatHeaderStackView.isHidden = true
             self.isLogged = false
+            self.myGroupByPhoneView.isHidden = true
+
              print("IS logged = false")
           self.getSwiftGroups()
             
@@ -678,10 +912,18 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     
-    func checkIfMember(phone: String) {
+    func checkIfMember(textFeild: String,type: String, facebookMember: FacebookMember?) {
+        var params: [String : Any] = ["" : ""]
         let strMethod = String(format : ApiRouts.Web + "/api/check_if_member" )
-        
-        let params: [String : Any] = ["phone": phone]
+        if type == "phone"{
+            params = ["phone": textFeild]
+            
+        }
+        else
+        {
+            params = ["facebook_id": textFeild]
+            
+        }
         print(params)
         let url = URL(string: strMethod)!
         let data = try! JSONSerialization.data(withJSONObject: params, options: JSONSerialization.WritingOptions.prettyPrinted)
@@ -703,28 +945,46 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             switch response.result {
             case .success(let JSON2):
                 print("Success with JSON: \(JSON2)")
-                print("RESPONSE \(response.description)")
+                print("RESPONSE \(response.result)")
                 
                 break
                 
             case .failure(let error):
                 print("Request failed with error: \(error)")
-                //callback(response.result.value as? NSMutableDictionary,error as NSError?)
                 break
             }
             }
             .responseString { response in
+               print("is exist ? \(response.result.value!)")
                 if (response.result.value!.range(of: "true") != nil)
                 {
-                   
-                      self.showPinDialog()
+                    print("Im here in exist")
+                    if type == "phone"{
+                        
+                        self.showPinDialog(phone: textFeild)
+                    }
+                    else
+                    {
+                        print("Im here in facebook exist")
+
+                         self.isFacebookGdpr = false
+                        self.regstirFacebook(facebookMember: self.facebookMember!, isGdpr:  self.isFacebookGdpr)
+                    }
+                    
                     
                 }else {
-                    MyVriables.phoneNumber = phone
-                     self.dismiss(animated: true,completion: nil)
-            self.performSegue(withIdentifier: "showGdbr", sender: self)
-                 }
-               
+                    print("Im here in  else exist")
+
+                    
+                    if type != "phone"{
+                        MyVriables.facebookMember = facebookMember
+                    }else {
+                        self.dismiss(animated: true,completion: nil)
+                        MyVriables.phoneNumber = textFeild
+                    }
+                    self.performSegue(withIdentifier: "showGdbr", sender: self)
+                }
+                
         }
  
     }
@@ -786,7 +1046,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 print ("successed")
                 DispatchQueue.main.sync {
 //
-                    self.checkIfMember(phone: "\(self.contryCodeString)\(self.phoneNumberFeild.text!)")
+                    self.checkIfMember(textFeild: "\(self.contryCodeString)\(self.phoneNumberFeild.text!)",type: "phone", facebookMember: self.facebookMember)
                     
                     
                 }
@@ -807,7 +1067,94 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     
-    public func showPinDialog() {
+    public func regstirFacebook(facebookMember : FacebookMember,isGdpr: Bool)
+    {
+        print("Is gdpr equal to \(isGdpr)")
+        var params: [String: Any] = [:]
+        if facebookMember.facebook_id != "" {
+            if  isGdpr == true
+            {
+                let gdprArr: [String: Bool] = ["chat_messaging":(MyVriables.arrayGdpr?.chat_messaging)!,
+                                               "files_upload":(MyVriables.arrayGdpr?.files_upload)!,
+                                               "groups_relations":(MyVriables.arrayGdpr?.groups_relations)!,
+                                               "pairing":(MyVriables.arrayGdpr?.pairing)!,
+                                               "phone_number":(MyVriables.arrayGdpr?.phone_number)!,
+                                               "profile_details":(MyVriables.arrayGdpr?.profile_details)!,
+                                               "push_notifications":(MyVriables.arrayGdpr?.push_notifications)!,
+                                               "real_time_location":(MyVriables.arrayGdpr?.real_time_location)!,
+                                               "rating_reviews":(MyVriables.arrayGdpr?.rating_reviews)!]
+                print("GDPRARR from faceboooook - \(gdprArr)")
+                params = ["facebook_id": facebookMember.facebook_id!, "type": "facebook", "first_name": facebookMember.first_name!,"last_name": facebookMember.last_name!,"facebook_profile_image": facebookMember.facebook_profile_image != nil ? facebookMember.facebook_profile_image! : nil, "gdpr":gdprArr]
+            }
+            else{
+               params = ["facebook_id": facebookMember.facebook_id!, "type": "facebook", "first_name": facebookMember.first_name!,"last_name": facebookMember.last_name!,"facebook_profile_image": facebookMember.facebook_profile_image != nil ? facebookMember.facebook_profile_image! : nil]
+            }
+            
+        print("Regstir Faceook id is \(facebookMember)")
+        HTTP.POST(ApiRouts.Register, parameters: params) { response in
+            //do things...
+            if response.error != nil {
+                print("im in error func \(response.error)")
+                return
+            }
+            print("im in response func \(response.description)")
+            do{
+                let  member = try JSONDecoder().decode(CurrentMember.self, from: response.data)
+                self.currentMember = member
+                self.setToUserDefaults(value: true, key: "isLogged")
+                self.setToUserDefaults(value: self.currentMember?.profile?.member_id!, key: "member_id")
+                self.setToUserDefaults(value: self.currentMember?.profile?.first_name , key: "first_name")
+                self.setToUserDefaults(value: self.currentMember?.profile?.last_name, key: "last_name")
+                self.setToUserDefaults(value: self.currentMember?.member?.email, key: "email")
+                self.setToUserDefaults(value: self.currentMember?.member?.phone, key: "phone")
+                self.setToUserDefaults(value: self.currentMember?.profile?.gender, key: "gender")
+                self.setToUserDefaults(value: self.currentMember?.profile?.birth_date, key: "birth_date")
+                if self.currentMember?.profile?.profile_image == nil
+                {
+                       self.setToUserDefaults(value: self.currentMember?.profile?.facebook_profile_image, key: "profile_image")
+                }
+                else{
+                self.setToUserDefaults(value: self.currentMember?.profile?.profile_image, key: "profile_image")
+                }
+                self.setToUserDefaults(value: self.currentMember?.total_unread_messages, key: "chat_counter")
+                self.setToUserDefaults(value: self.currentMember?.total_unread_notifications, key: "inbox_counter")
+
+                self.currentProfile = self.currentMember?.profile!
+                DispatchQueue.main.sync {
+                    if Messaging.messaging().fcmToken != nil {
+                        MyVriables.TopicSubscribe = true
+                        Messaging.messaging().subscribe(toTopic: "/topics/IOS-CHAT-\(String(describing: (self.currentMember?.profile?.member_id!)!))")
+
+                        Messaging.messaging().subscribe(toTopic: "/topics/IOS-INBOX-\(String(describing: (self.currentMember?.profile?.member_id!)!))")
+
+                        Messaging.messaging().subscribe(toTopic: "/topics/IOS-SYSTEM-\(String(describing: (self.currentMember?.profile?.member_id!)!))")
+                    }
+                    self.myGrous = []
+                    self.page = 1
+                    self.tableView.reloadData()
+                    self.checkCurrentUser()
+
+                }
+                MyVriables.isMember = true
+
+
+            }
+            catch {
+                print("catch error")
+                self.phoneNumberStackView.isHidden = false
+                self.registerView.isHidden = false
+                self.chatHeaderStackView.isHidden = true
+                self.setToUserDefaults(value: false, key: "isLogged")
+
+            }
+            
+            
+        }
+        }else {
+            
+        }
+    }
+    public func showPinDialog(phone: String) {
         let PinAlert = UIAlertController(title: "Please enter PIN code wer'e sent you", message: "Pin code", preferredStyle: .alert)
         print ("pin created")
         
@@ -828,14 +1175,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             self.PINCODE = textField?.text
             print("PIN CODE : \((textField?.text)!)")
             var params: [String: Any] = [:]
-            
-            //                        if self.countryPrefLable.text![0...4] == "+972" {
-            //                            if self.countryPrefLable.text![5]
-            //                             params = ["code": (textField?.text)!, "phone": "\(self.countryPrefLable.text!)\(self.phoneNumberFeild.text!)"]
-            //                        }else{
-            //                             params = ["code": (textField?.text)!, "phone": "\(self.countryPrefLable.text!)\(self.phoneNumberFeild.text!)"]
-            //                        }
-            params = ["code": (textField?.text)!, "phone": "\(self.countryPrefLable.text!)\(self.phoneNumberFeild.text!)"]
+            params = ["code": (textField?.text)!, "phone": phone]
             HTTP.POST(ApiRouts.Register, parameters: params) { response in
                 //do things...
                 if response.error != nil {
@@ -884,6 +1224,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 }
                 catch {
                     print("catch error")
+                    self.registerView.isHidden = false
                     self.phoneNumberStackView.isHidden = false
                     self.chatHeaderStackView.isHidden = true
                     self.setToUserDefaults(value: false, key: "isLogged")
@@ -914,11 +1255,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     // get groups reqeust: by page
     
     func getSwiftGroups(){
+        ARSLineProgress.show()
         print("request PAGE = \(self.page)")
-        print(ApiRouts.AllGroupsRequest +  "/api/groups?page=\(self.page)&sort=created_at&order=des")
-        let params = ["page": self.page]
+        print("Im in all groups sort url ==" + ApiRouts.AllGroupsRequest +  "/api/groups?page=\(self.page)&sort=created_at&order=des")
         var groups: [TourGroup]?
-        HTTP.GET(ApiRouts.AllGroupsRequest +  "?page=\(self.page)&sort=created_at&order=des") { response in
+        HTTP.GET(ApiRouts.Web + "/api/groups?page=\(self.page)&sort=created_at&order=des") { response in
             print(ApiRouts.AllGroupsRequest)
             //do things...
           //  print(response.description)
@@ -928,6 +1269,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             do {
                 let  groups2 = try JSONDecoder().decode(Main.self, from: data)
                 groups = groups2.data!
+                ARSLineProgress.hide()
                 if (groups2.total)! == 0
                 {
                     DispatchQueue.main.async {
@@ -941,6 +1283,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                         self.noGroupsView.isHidden = true
                     }
                 }
+          
                 DispatchQueue.main.sync {
                     for group in groups! {
                         self.myGrous.append(group)
@@ -950,19 +1293,21 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                     self.refresher.endRefreshing()
                     
                     self.page += 1
+
                 }
                 DispatchQueue.main.sync {
                     if self.page > groups2.last_page!
                     {
                         self.hasLoadMore = false
-                        print("request page is false ")
-                         self.refresher.endRefreshing()
+                        self.refresher.endRefreshing()
                         
                         return
                     }
+                    self.isLoading = false
+
                 }
                 
-               
+                
                
 
               //  print(self.myGrous.count)
@@ -974,8 +1319,21 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
     }
     
+    fileprivate func getAllGroup() {
+        self.filter = "all"
+        self.myGrous = []
+        self.page = 1
+        self.hasLoadMore = true
+        self.getGroupsByFilter()
+    }
+    
     func getGroupsByFilter() {
         print("request PAGE = \(self.page)")
+
+
+        let defaults = UserDefaults.standard
+        let phone = defaults.string(forKey: "phone")
+        self.myGroupByPhoneView.isHidden = true
 
         var groups: [TourGroup]?
         let withoutFilter = "/api/groups/members/\(self.id)?page=\(self.page)&sort=\(self.sort)"
@@ -988,6 +1346,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
            // +"&page="+page+"&sort=created_at&order=desc";
         var lastFilter: String
         if filter == "all" {
+            print("Im here in filter == all")
             lastFilter = allGroupsFilter
         }
         else if filter == "search" {
@@ -999,6 +1358,18 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             lastFilter = withRole
         }
         else if filter == "no-filter" {
+            print("Im here in filter == no-filter")
+            let defaults = UserDefaults.standard
+            let phone = defaults.string(forKey: "phone")
+            ARSLineProgress.hide()
+            if phone != nil && phone! != "no value" {
+                myGroupByPhoneView.isHidden = true
+            }else {
+                myGroupByPhoneView.isHidden = false
+                return
+                
+            }
+            
             lastFilter = withoutFilter
         }else{
             lastFilter = withFilter
@@ -1022,8 +1393,23 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 
                 if (groups2.total)! == 0
                 {
+                    if self.filter == "no-filter" {
+                        DispatchQueue.main.async {
+                             self.noGroupsView.isHidden = true
+                            let snackbar = TTGSnackbar(message: "You currently have no groups related to you. Check our public groups", duration: .middle)
+                            snackbar.icon = UIImage(named: "AppIcon")
+                            snackbar.show()
+                            self.hasLoadMore = false
+                            self.getAllGroup()
+                           
+                            
+                            
+                        }
+                       
+                    }else {
                     DispatchQueue.main.async {
                         self.noGroupsView.isHidden = false
+                    }
                     }
                 }else
                 {
@@ -1060,6 +1446,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                     }
                       ARSLineProgress.hide()
                     self.page += 1
+                    self.isLoading = false
                 }
             }
             catch let error  {
@@ -1108,10 +1495,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 
                 self.currentMember = CurrentMember(member: member.member, profile: member.member?.profile, total_unread_messages: (member.total_unread_messages)!, total_unread_notifications: (member.total_unread_notifications)!)
                 MyVriables.currentMember =  (self.currentMember?.member)!
+                MyVriables.currentMember?.gdpr = member.member?.gdpr!
                 print("All profile  is \((MyVriables.currentMember)!)")
                 MyVriables.currentMember?.id = (member.member?.profile?.member_id)!
                 print("Member id is \(MyVriables.currentMember?.id!)")
-                print("Gdpr : \((MyVriables.currentMember)!)")
+                print("Struct Gdpr : \((MyVriables.currentMember)!)")
                 
                 /*
  (MyVriables.currentMember?.gdpr?.files_upload) != nil ? (MyVriables.currentMember?.gdpr?.files_upload)! : false
@@ -1198,17 +1586,23 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                             self.profileImageView.image = UIImage(named : "default user")
                         }
                         else {
-                        var urlString = try ApiRouts.Web + (profile_image)!
+                            var urlString : String?
+                            if (profile_image?.contains("http"))!
+                            {
+                                urlString = (profile_image)!
+                            }else{
+                         urlString = ApiRouts.Web + (profile_image)!
+                            }
                         print("Url string is \(urlString)")
-                        urlString = urlString.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)!
-                        var url = URL(string: urlString)
+                            urlString = urlString?.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)!
+                            var url = URL(string: urlString!)
                         if url != nil {
                             self.profileImageView.sd_setImage(with: url!, completed: nil)
                         }
                         }
                         
                     }
-                     SwiftEventBus.post("counters")
+                     //SwiftEventBus.post("counters")
                     
                 }
                 }catch {
@@ -1246,8 +1640,16 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     // pagination loadmore : check last item
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        let lastitem =  self.myGrous.count - 1
-        if indexPath.row == lastitem && hasLoadMore == true{
+        
+        let lastitem =  self.myGrous.count
+        let currentIndex : Int = indexPath.row + 1
+     
+        if currentIndex == lastitem && hasLoadMore == true && !self.isLoading{
+               print("Last item is \(lastitem) and index is \(indexPath.row)")
+            self.isLoading = true
+
+            print("Reach last")
+
             if isLogged {
                 print("is Logged - has Loaded More true")
                 self.getGroupsByFilter()
@@ -1276,20 +1678,18 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let cell = tableView.dequeueReusableCell(withIdentifier: "customCell") as! CustomTableViewCell
         cell.viewInfo.tag = currentIndex
         cell.viewInfo.addTapGestureRecognizer(action: ShowModel)
+        if currentIndex > -1 && currentIndex < self.myGrous.count {
         if self.myGrous[currentIndex].image != nil{
-            print("IMAGESTATUS - in if ")
-            
             do{
                 var urlString: String = try ApiRouts.Web + (self.myGrous[currentIndex].image)!
-                if self.myGrous[currentIndex].image != nil{
-                    print(urlString)
-                    
-                }
                 urlString = urlString.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)!
                 if let url = URL(string: urlString) {
-                    print("image:  \(String(describing: url)) , belongs to : \(self.myGrous[currentIndex].translations?[0].title!)")
-                    cell.imageosh.sd_setImage(with: url, placeholderImage: UIImage(named: "Group Placeholder"), completed: nil)
+//                     cell.imageosh.sd_setImage(with: url, placeholderImage: UIImage(named: "Group Placeholder"), completed: nil)
+                     cell.imageosh.kf.indicatorType = .activity
+                    cell.imageosh.kf.setImage(with: url)
                     
+                    
+
                 }else {
                     cell.imageosh.image = UIImage(named: "Group Placeholder")
                     print("IMAGESTATUS - in out of let - for group -  \(self.myGrous[currentIndex].translations?[0].title!) , urlString: \(urlString)")
@@ -1329,7 +1729,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                     var url = URL(string: urlString)
                     if url == nil {
                     }else {
-                        cell.groupLeaderImageView.sd_setImage(with: url!, placeholderImage: UIImage(named: "default user"), completed: nil)
+                        cell.groupLeaderImageView.kf.setImage(with: url!)
                     }
                 }
                 catch let error{
@@ -1359,7 +1759,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                     //                        cell.groupLeaderImageView.clipsToBounds = true
                     if url == nil {
                     }else {
-                        cell.groupLeaderImageView.sd_setImage(with: url!, placeholderImage: UIImage(named: "default user"), completed: nil)
+                        cell.groupLeaderImageView.kf.setImage(with: url!)
                         
                     }
                 }catch {
@@ -1459,6 +1859,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             }
             
         }
+        }
         
         
         return cell
@@ -1513,14 +1914,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let currentDate = Date()
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
-        print("DDDAAATTEEE: "+formatter.string(from: currentDate))
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
         let date2 = dateFormatter.date(from: date)!
-        print("REG END DATE: "+dateFormatter.string(from: date2))
         var days = Calendar.current.dateComponents([.day], from: currentDate, to: date2).day! as? Int
         var hours = Calendar.current.dateComponents([.day,.hour,.minute,.month], from: currentDate, to: date2).hour! as? Int
-        print("days: \(days!) , hours: \(hours!)")
         if days! < 0 || hours! < 0 {
             return true
         }
@@ -1895,7 +2293,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                     let  member = try JSONDecoder().decode(CurrentMember.self, from: response.data)
                     print(member)
                     self.currentMember = member
-                    //getMember(memberId: self.currentMember?.member?.id
                     self.setToUserDefaults(value: true, key: "isLogged")
                     //  print(self.currentMember?.profile!)
                     self.setToUserDefaults(value: self.currentMember?.profile?.member_id!, key: "member_id")
@@ -1936,6 +2333,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                     
                 }
                 catch {
+                    self.registerView.isHidden = false
                     self.phoneNumberStackView.isHidden = false
                     self.chatHeaderStackView.isHidden = true
                     self.setToUserDefaults(value: false, key: "isLogged")
