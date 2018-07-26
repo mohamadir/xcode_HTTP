@@ -60,10 +60,7 @@ class MainTabController: UITabBarController, UITabBarControllerDelegate{
         super.viewDidLoad()
         self.tabBarController?.tabBar.isHidden = true
       self.delegate = self
-        SwiftEventBus.onMainThread(self, name: "refreshGroupRolee") { (result) in
-            print("IM HERE IN MAIN TAB")
-            
-        }
+
         //refreshGroupRolee
         print("from the Main")
     
@@ -96,7 +93,7 @@ class MainTabController: UITabBarController, UITabBarControllerDelegate{
                 if isOpen == true  {
                     if isGroupAvailable != nil && isGroupAvailable! {
                         print("role = nil and is open ")
-                        self.tabBar.items?[1].image = UIImage(named: "JoinFooter")
+                        self.tabBar.items?[1].image = UIImage(named: "joinicon1")
                         self.tabBar.items?[1].title = "Join"
                         MyVriables.roleStatus = "observer"
                      MyVriables.isAvailble = true
@@ -104,8 +101,8 @@ class MainTabController: UITabBarController, UITabBarControllerDelegate{
                     else
                     {
                         MyVriables.isAvailble = false
-                        self.tabBar.items?[1].image = UIImage(named: "timeout25")
-                        self.tabBar.items?[1].title = "Registration closed"
+                        self.tabBar.items?[1].image = UIImage(named: "timeout")
+                        self.tabBar.items?[1].title = "Closed"
                         //viewControllers?[1].removeFromParentViewController()
                     }
                     
@@ -114,14 +111,14 @@ class MainTabController: UITabBarController, UITabBarControllerDelegate{
                 }else{
                     print("role = nil and is close ")
                     MyVriables.isAvailble = false
-                    self.tabBar.items?[1].image = UIImage(named: "timeout25")
-                    self.tabBar.items?[1].title = "Registration closed"
+                    self.tabBar.items?[1].image = UIImage(named: "timeout")
+                    self.tabBar.items?[1].title = "Closed"
                     //viewControllers?[1].removeFromParentViewController()
                     // closed group - cannot enter group
                 }
             }else if role! == "member" {
                 print("role = member")
-                self.tabBar.items?[1].image = UIImage(named: "joinedFooter")
+                self.tabBar.items?[1].image = UIImage(named: "joinedIcon1")
                 self.tabBar.items?[1].title = "joined"
                 MyVriables.roleStatus = "member"
                 MyVriables.isAvailble = true
@@ -140,7 +137,7 @@ class MainTabController: UITabBarController, UITabBarControllerDelegate{
             } else if role! == "observer" {
                 print("role = observer")
                    if isGroupAvailable != nil && isGroupAvailable! {
-                    self.tabBar.items?[1].image = UIImage(named: "JoinFooter")
+                    self.tabBar.items?[1].image = UIImage(named: "joinicon1")
                     self.tabBar.items?[1].title = "Join"
                     MyVriables.roleStatus = "observer"
                      MyVriables.isAvailble = true
@@ -148,8 +145,8 @@ class MainTabController: UITabBarController, UITabBarControllerDelegate{
                 else
                    {
                      MyVriables.isAvailble = false
-                    self.tabBar.items?[1].image = UIImage(named: "timeout25")
-                    self.tabBar.items?[1].title = "Registration closed"
+                    self.tabBar.items?[1].image = UIImage(named: "timeout")
+                    self.tabBar.items?[1].title = "Closed"
                     //viewControllers?[1].removeFromParentViewController()
                 }
  
@@ -198,7 +195,7 @@ class MainTabController: UITabBarController, UITabBarControllerDelegate{
     
     
     public func changeToJoin(){
-        self.tabBar.items?[1].image = UIImage(named: "joinedFooter")
+        self.tabBar.items?[1].image = UIImage(named: "joinedIcon1")
         self.tabBar.items?[1].title = "Joined"
         MyVriables.roleStatus = "member"
     }

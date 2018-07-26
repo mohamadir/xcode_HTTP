@@ -34,7 +34,7 @@ pod 'Digger'
 pod 'SwiftyPickerPopover'
 pod 'Pushy', '1.0.12'
 pod 'TTGSnackbar'
-pod 'SwiftEventBus', :tag => '2.2.0', :git => 'https://github.com/cesarferreira/SwiftEventBus.git'
+pod 'SwiftEventBus', :tag => '3.0.0', :git => 'https://github.com/cesarferreira/SwiftEventBus.git'
 pod 'XLPagerTabStrip', '~> 8.0'
 pod 'CountryPickerView'
 pod 'CCAutocomplete'
@@ -47,7 +47,9 @@ pod 'Kingfisher', '~> 4.0'
 pod 'FBSDKLoginKit'
 pod 'FBSDKCoreKit'
 pod 'FBSDKShareKit'
-
+pod 'FTPopOverMenu_Swift', '~> 0.1.1'
+pod 'PopOverMenu'
+pod 'PopoverSwift'
 
 
   # Pods for Snapgroup

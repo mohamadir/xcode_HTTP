@@ -46,7 +46,7 @@ class BottomVC: UIViewController, ISHPullUpSizingDelegate, ISHPullUpStateDelegat
             self.filterView.isHidden = true
         }
         SwiftEventBus.onMainThread(self, name: "insertFilter") { result in
-            self.planDyas = result.object as! PlanDays
+            self.planDyas = result?.object as! PlanDays
             if  self.planDyas != nil {
                 self.countArray =  (self.planDyas?.days!.count)!
                 self.filterDaysArray =  [Bool](repeating: true, count: self.countArray)

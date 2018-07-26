@@ -13,7 +13,8 @@
     "tag": "2.2.0"
   },
   "platforms": {
-    "ios": "8.0"
+    "ios": "8.0",
+    "osx": "10.10"
   },
   "source_files": "SwiftEventBus/SwiftEventBus.swift",
   "requires_arc": true

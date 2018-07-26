@@ -77,6 +77,10 @@ class DetailsViewController: UIViewController {
         }
         member_status_lbl.text = self.tabBarController?.tabBar.items![1].title
         member_Status_Im.image = self.tabBarController?.tabBar.items![1].image
+        if (self.tabBarController?.tabBar.items![1].title?.lowercased().contains("closed"))!{
+            member_status_view.backgroundColor = UIColor.clear
+            
+        }
         groupLeaderView.addTapGestureRecognizer {
           self.performSegue(withIdentifier: "showGroupLeader", sender: self)
         }
@@ -115,6 +119,8 @@ class DetailsViewController: UIViewController {
         slideShow.circular = false
         slideShow.zoomEnabled = true
         slideShow.isMultipleTouchEnabled = false
+        slideShow.contentScaleMode = .scaleAspectFill
+        
         slideShow.pageControlPosition = .insideScrollView
         slideShow.activityIndicator = DefaultActivityIndicator(style: .gray, color: UIColor.red)
         groupRequest.getGroupImages(id:( singleGroup?.id)!){ (output) in
@@ -135,7 +141,9 @@ class DetailsViewController: UIViewController {
                     }
    
                 }
-                
+                self.slideShow.contentScaleMode = .scaleAspectFill
+                self.slideShow.contentMode = .scaleAspectFill
+
                 self.slideShow.setImageInputs(self.images2)
             }
             

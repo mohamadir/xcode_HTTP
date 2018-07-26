@@ -1,8 +1,8 @@
 PODS:
-  - Alamofire (4.7.2)
+  - Alamofire (4.7.3)
   - AlamofireImage (3.3.1):
     - Alamofire (~> 4.5)
-  - ARNTransitionAnimator (3.0.6)
+  - ARNTransitionAnimator (3.0.7)
   - ARSLineProgress (2.2.1)
   - Auk (8.0.2):
     - moa
@@ -15,26 +15,26 @@ PODS:
   - Bolts/Tasks (1.9.0)
   - CCAutocomplete (0.0.4)
   - CountryPickerView (2.1.1)
-  - Crashlytics (3.10.3):
-    - Fabric (~> 1.7.8)
+  - Crashlytics (3.10.5):
+    - Fabric (~> 1.7.9)
   - Digger (0.0.5)
-  - ExpandableLabel (0.4.0)
-  - Fabric (1.7.8)
+  - ExpandableLabel (0.4.1)
+  - Fabric (1.7.9)
   - FBSDKCoreKit (4.34.0):
     - Bolts (~> 1.7)
   - FBSDKLoginKit (4.34.0):
     - FBSDKCoreKit
   - FBSDKShareKit (4.34.0):
     - FBSDKCoreKit (~> 4.34.0)
-  - Firebase/Core (5.4.0):
+  - Firebase/Core (5.4.1):
     - Firebase/CoreOnly
     - FirebaseAnalytics (= 5.0.1)
-  - Firebase/CoreOnly (5.4.0):
-    - FirebaseCore (= 5.0.5)
-  - Firebase/Database (5.4.0):
+  - Firebase/CoreOnly (5.4.1):
+    - FirebaseCore (= 5.0.6)
+  - Firebase/Database (5.4.1):
     - Firebase/CoreOnly
     - FirebaseDatabase (= 5.0.2)
-  - Firebase/Messaging (5.4.0):
+  - Firebase/Messaging (5.4.1):
     - Firebase/CoreOnly
     - FirebaseMessaging (= 3.0.3)
   - FirebaseAnalytics (5.0.1):
@@ -42,7 +42,7 @@ PODS:
     - FirebaseInstanceID (~> 3.0)
     - GoogleToolboxForMac/NSData+zlib (~> 2.1)
     - nanopb (~> 0.3)
-  - FirebaseCore (5.0.5):
+  - FirebaseCore (5.0.6):
     - GoogleToolboxForMac/NSData+zlib (~> 2.1)
   - FirebaseDatabase (5.0.2):
     - FirebaseCore (~> 5.0)
@@ -54,6 +54,7 @@ PODS:
     - FirebaseInstanceID (~> 3.0)
     - GoogleToolboxForMac/Logger (~> 2.1)
     - Protobuf (~> 3.1)
+  - FTPopOverMenu_Swift (0.1.1)
   - GoneVisible (1.2.0)
   - GoogleMaps (2.7.0):
     - GoogleMaps/Maps (= 2.7.0)
@@ -95,12 +96,14 @@ PODS:
   - PhoneNumberKit/PhoneNumberKitCore (2.1.0)
   - PhoneNumberKit/UIKit (2.1.0):
     - PhoneNumberKit/PhoneNumberKitCore
+  - PopOverMenu (2.1.1)
+  - PopoverSwift (3.0.0)
   - Protobuf (3.6.0)
   - Pushy (1.0.12)
   - Scrollable (2.0.1)
-  - SDWebImage (4.4.1):
-    - SDWebImage/Core (= 4.4.1)
-  - SDWebImage/Core (4.4.1)
+  - SDWebImage (4.4.2):
+    - SDWebImage/Core (= 4.4.2)
+  - SDWebImage/Core (4.4.2)
   - SearchTextField (1.2.1)
   - SkyFloatingLabelTextField (3.5.1)
   - Socket.IO-Client-Swift (13.2.1):
@@ -133,6 +136,7 @@ DEPENDENCIES:
   - Firebase/Core
   - Firebase/Database
   - Firebase/Messaging
+  - FTPopOverMenu_Swift (~> 0.1.1)
   - GoneVisible
   - GoogleMaps
   - GooglePlacePicker
@@ -147,6 +151,8 @@ DEPENDENCIES:
   - MRCountryPicker (~> 0.0.7)
   - PageControl
   - PhoneNumberKit (~> 2.1)
+  - PopOverMenu
+  - PopoverSwift
   - Pushy (= 1.0.12)
   - Scrollable (~> 2.0)
   - SDWebImage (~> 4.0)
@@ -154,7 +160,7 @@ DEPENDENCIES:
   - SkyFloatingLabelTextField (~> 3.0)
   - Socket.IO-Client-Swift
   - SVProgressHUD
-  - SwiftEventBus (from `https://github.com/cesarferreira/SwiftEventBus.git`, tag `2.2.0`)
+  - SwiftEventBus (from `https://github.com/cesarferreira/SwiftEventBus.git`, tag `3.0.0`)
   - SwiftHTTP (~> 3.0.1)
   - SwiftyAvatar (~> 1.1)
   - SwiftyPickerPopover
@@ -166,36 +172,37 @@ DEPENDENCIES:
 EXTERNAL SOURCES:
   SwiftEventBus:
     :git: https://github.com/cesarferreira/SwiftEventBus.git
-    :tag: 2.2.0
+    :tag: 3.0.0
 
 CHECKOUT OPTIONS:
   SwiftEventBus:
     :git: https://github.com/cesarferreira/SwiftEventBus.git
-    :tag: 2.2.0
+    :tag: 3.0.0
 
 SPEC CHECKSUMS:
-  Alamofire: e4fa87002c137ba2d8d634d2c51fabcda0d5c223
+  Alamofire: c7287b6e5d7da964a70935e5db17046b7fde6568
   AlamofireImage: 3b35b586853abaf94ca1250f4e94cff3c21a4c0d
-  ARNTransitionAnimator: 6320bc6d3ab66c159ae2a06cad7c7725a2ec3c15
+  ARNTransitionAnimator: 1adc6856ff23e245cadbf624d37cace9a1a1b6a9
   ARSLineProgress: b344944496913e98d8fe7bab94ea5d488fbf41fb
   Auk: 82be62a2cf650437fe745c81b12ac2440a0f682c
   BmoViewPager: 1bbba2f3d9bad4e255b0e397dc035e9a0c434eb5
   Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
   CCAutocomplete: 7e54cab43d10eb9e5385d5b3409e9dee0b7af714
   CountryPickerView: 8b20263f2d4e1953045e608c2594b50e8a2ee65c
-  Crashlytics: 2aea305161a2122492698c75af27f2b98aa49a25
+  Crashlytics: 7f2e38d302d9da96475b3d64d86fb29e31a542b7
   Digger: c474bde76a91e0a36f12101c5dfe7e86774b15d3
-  ExpandableLabel: 5f5f61fbf71433000cd7c3290617e6fcccb72c86
-  Fabric: fba4684a95df789565b0b27fc5b6e68f1755af32
+  ExpandableLabel: 1ad99072d1d90f1db5925b8d04d56bf8607e5f9b
+  Fabric: a2917d3895e4c1569b9c3170de7320ea1b1e6661
   FBSDKCoreKit: 0ff57f093b85c8c9d5aba697d3edf68a8960ce78
   FBSDKLoginKit: 8c78f57a145afb756e4755e69195ebe08a42466e
   FBSDKShareKit: 511d1dfc71204c0a8d69e6c5e3c964dcf0d4f3d9
-  Firebase: d66f4f29c23f22d96808d9abc174d81d8eee968f
+  Firebase: 355bd535bfdacaa82a7fe8d9784115edefd6fc03
   FirebaseAnalytics: b3628aea54c50464c32c393fb2ea032566e7ecc2
-  FirebaseCore: 42b3267233bd21a5abd54117ccc38ca3dd0f8e83
+  FirebaseCore: 4c28e3b9708ba48a765e76515f913a71596eb5dd
   FirebaseDatabase: 27be5ac5bc75e0b17537b2bbfada8258addcc8cd
   FirebaseInstanceID: f3f0657372592ecdfdfe2cac604a5a75758376a6
   FirebaseMessaging: f43eb0c0e1da096e659de6f713038e74862a62cd
+  FTPopOverMenu_Swift: 20638537b67259d19d7158be244763e155329a0a
   GoneVisible: c552940cd9df7548427f6bffd000dcbcc6de187f
   GoogleMaps: f79af95cb24d869457b1f961c93d3ce8b2f3b848
   GooglePlacePicker: 59ea44db173c58486ad6123993e81feefcbce9c3
@@ -212,16 +219,18 @@ SPEC CHECKSUMS:
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
   PageControl: fbe258f0e874c30c30b867278fa04f9fd3381844
   PhoneNumberKit: 62003f40ff75315fd3738286558bc365365ac222
+  PopOverMenu: 5f979dd945d8dc05f1d11e960116ad217f7d04b6
+  PopoverSwift: d181727d80e9c18809fe8ed998941edd732ff94a
   Protobuf: 0fc0ad8bec688b2a3017a139953e01374fedbd5f
   Pushy: 831bf204b25e24e50c74548d3ac5a80236806842
   Scrollable: dba6216e71841f516b2f7b826e05479e25b086ac
-  SDWebImage: 47e9b5b925cbce75946c23f0c42dd19464189af4
+  SDWebImage: 624d6e296c69b244bcede364c72ae0430ac14681
   SearchTextField: 261b0febd49194492f29555fff3c5c0019ca84d2
   SkyFloatingLabelTextField: 4cbeece9c3aae97c6019d8fae511cb5b755874f7
   Socket.IO-Client-Swift: b94943e2fb916fe2f95244b9ed21828634002280
   Starscream: faf918b2f2eff7d5dd21180646bf015a669673bd
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
-  SwiftEventBus: 39cde57d1881f9d6e8afb1f9e41f973e331bf847
+  SwiftEventBus: 667baca2f107fa0c9c2068950298dbfd6a4111cc
   SwiftHTTP: e94f1aa8cde58637dcc0100f6349de31a3337fde
   SwiftyAvatar: 33aecda825c91851cac2aabd06b33f3698b2414c
   SwiftyPickerPopover: 5aac0360e82dcc11a5036ac9fb60061b2c43eddd
@@ -230,6 +239,6 @@ SPEC CHECKSUMS:
   XLPagerTabStrip: c908b17cbf42fcd2598ee1adfc49bae25444d88a
   YNExpandableCell: 47bf7cff721aa535c0e9e1163bf22b5573441bb4
 
-PODFILE CHECKSUM: bd1aa622915b0a1db81c0e1b14dd95917f2aa96d
+PODFILE CHECKSUM: 22530c8be407617e6ad14169428655bc68b6cac7
 
 COCOAPODS: 1.4.0

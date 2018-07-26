@@ -100,9 +100,9 @@ class ModalPrivacyController: UIViewController {
                 }
                 
 
-                
-                SwiftEventBus.post("setCheckTrue")
                 self.dismiss(animated: true,completion: nil)
+                SwiftEventBus.post("setCheckTrue")
+                SwiftEventBus.post("changeProfileInfooo")
 
             }
             catch {
@@ -111,6 +111,7 @@ class ModalPrivacyController: UIViewController {
             
         }
     }
+
     func setToUserDefaults(value: Any?, key: String){
         if value != nil {
             let defaults = UserDefaults.standard
@@ -133,7 +134,7 @@ class ModalPrivacyController: UIViewController {
                 return
             }
             do {
-                let  gdprUpdate : GdprUpdate = try JSONDecoder().decode(GdprUpdate.self, from: response.data)
+                let gdprUpdate : GdprUpdate = try JSONDecoder().decode(GdprUpdate.self, from: response.data)
                 MyVriables.currentMember?.gdpr = GdprStruct(profile_details: (gdprUpdate.gdpr?.profile_details)!, phone_number: (gdprUpdate.gdpr?.phone_number)!, groups_relations: (gdprUpdate.gdpr?.groups_relations)!, chat_messaging: (gdprUpdate.gdpr?.chat_messaging)!, pairing: (gdprUpdate.gdpr?.pairing)!, real_time_location: (gdprUpdate.gdpr?.real_time_location)!, files_upload: (gdprUpdate.gdpr?.files_upload)!, push_notifications: (gdprUpdate.gdpr?.push_notifications)!, rating_reviews: (gdprUpdate.gdpr?.rating_reviews)!, group_details: (gdprUpdate.gdpr?.profile_details)!, billing_payments : true, checkAllSwitch: true)
                 SwiftEventBus.post("shouldRefreshGdpr")
                  SwiftEventBus.post("changeProfileInfo")

@@ -32,6 +32,10 @@ class GdbrViewController: UIViewController, UITableViewDelegate, UITableViewData
   //  var arraySiwtch = [Bool](repeating:false, count: 9)
     var arrayGdpr : [GdprObject] = []
 
+    override func viewDidDisappear(_ animated: Bool) {
+        SwiftEventBus.unregister(self)
+
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
        
@@ -46,7 +50,7 @@ class GdbrViewController: UIViewController, UITableViewDelegate, UITableViewData
         arrayGdpr.append(GdprObject(title: "Real time Location", descrption: "Your group members may have the option to see your location on a map. You will be able to see the group members on a real time map using GPS positioning. You may disable this option on the settings page", isChecked: false, parmter: "real_time_location", image: ""))
         arrayGdpr.append(GdprObject(title: "Files upload and sharing", descrption: "Group leaders may request certain files and media to be uploaded for each group. These files will be available for the leader of the group you uploaded the files to. We will also save the uploaded files for you to use again. We may save these files for up to 3 months", isChecked:  false, parmter: "files_upload", image: ""))
         arrayGdpr.append(GdprObject(title: "Push notifications", descrption: "Snapgroup may send you push notifications from time to time (only for mobile apps). The push notifications can be for groups invitations, group leader updates or system messages of any type. You can disable each type of push messages on the settings page", isChecked:  false, parmter: "push_notifications", image: ""))
-        arrayGdpr.append(GdprObject(title: "Rating a& reviews", descrption: "If you choose to rate and write a review on a group leader or a service provider, your review will be displayed next to profile details on the reviews page.", isChecked:  false, parmter: "rating_reviews", image: ""))
+        arrayGdpr.append(GdprObject(title: "Rating & reviews", descrption: "If you choose to rate and write a review on a group leader or a service provider, your review will be displayed next to profile details on the reviews page.", isChecked:  false, parmter: "rating_reviews", image: ""))
         
         
         
@@ -121,10 +125,18 @@ class GdbrViewController: UIViewController, UITableViewDelegate, UITableViewData
             var gdpr : GdprPost = GdprPost(profile_details: arrayGdpr[0].isChecked, phone_number: arrayGdpr[1].isChecked, groups_relations: arrayGdpr[2].isChecked, chat_messaging: arrayGdpr[3].isChecked, pairing: arrayGdpr[4].isChecked, real_time_location: arrayGdpr[5].isChecked, files_upload: arrayGdpr[6].isChecked, push_notifications: arrayGdpr[7].isChecked, rating_reviews: arrayGdpr[8].isChecked)
             MyVriables.arrayGdpr = gdpr
             self.dismiss(animated: true, completion: nil)
-            if (MyVriables.fromGroup)! == "true-join"
+            if (MyVriables.fromGroup)! == "false"
             {
-                MyVriables.joinToGroup = "yes-Join"
-                 SwiftEventBus.post("refreshFromGroupJoin")
+               
+                if  MyVriables.facebookMember != nil {
+                    SwiftEventBus.post("refreshGroups" , sender: MyVriables.facebookMember)
+                    MyVriables.facebookMember = nil
+                    
+                }else{
+                    SwiftEventBus.post("refreshGroups")
+                }
+                MyVriables.joinToGroup = ""
+                return
                 
             }
             else
@@ -145,12 +157,18 @@ class GdbrViewController: UIViewController, UITableViewDelegate, UITableViewData
                         {
                             if (MyVriables.fromGroup)! == "true-1"
                             {
-                                SwiftEventBus.post("joinGroup")
+                                if  MyVriables.facebookMember != nil {
+                                    SwiftEventBus.post("joinGroup" , sender: MyVriables.facebookMember)
+                                    MyVriables.facebookMember = nil
+                                    
+                                }else{
+                                    SwiftEventBus.post("joinGroup")
+                                }
                             }
                             else
                             {
                                 if  MyVriables.facebookMember != nil {
-                                    SwiftEventBus.post("refreshGroups" , sender: MyVriables.facebookMember)
+                                    SwiftEventBus.post("" , sender: MyVriables.facebookMember)
                                     MyVriables.facebookMember = nil
 
                                 }else{
@@ -160,9 +178,6 @@ class GdbrViewController: UIViewController, UITableViewDelegate, UITableViewData
 
                         }
             }
-            
-
-          
         }
     }
     

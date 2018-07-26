@@ -56,7 +56,7 @@ class PrivacyViewController: UIViewController, UITableViewDelegate, UITableViewD
             self.checkAllTrue()
         }
         SwiftEventBus.onMainThread(self, name: "setCheckTrue") { result in
-            SwiftEventBus.post("changeProfileInfooo")
+           
            self.navigationController?.popToRootViewController(animated: true)
 
         }
@@ -85,7 +85,6 @@ class PrivacyViewController: UIViewController, UITableViewDelegate, UITableViewD
     
         // Do any additional setup after loading the view.
     }
-
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

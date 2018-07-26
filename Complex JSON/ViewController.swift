@@ -27,6 +27,10 @@ import TTGSnackbar
 import Kingfisher
 import FBSDKLoginKit
 import FBSDKCoreKit
+import FTPopOverMenu_Swift
+import PopoverSwift
+
+//import FTPopOverMenu_Swift
 
 
 
@@ -37,9 +41,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     func loginButtonDidLogOut(_ loginButton: FBSDKLoginButton!) {
         
     }
+    var menuOptionNameArray = ["All groups", "My groups", "Public groups", "One day groups","Multi days groups"]
+    
+    var menuOptionImageNameArray = ["", "", "", "",""]
     @IBOutlet var pickerFacebookView: UIView!
     // header views
-    
+    var clickes: [Bool] =  [false,true,false,false,false]
     var contryCodeString : String = ""
     var contryCode : String = ""
     @IBOutlet var menuView: UIView!
@@ -93,6 +100,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet var multiDaysBt: UIButton!
     @IBOutlet var createdSortBt: UIButton!
     @IBOutlet var allGroupsBt: UIButton!
+    @IBOutlet weak var filterButton: UIButton!
     
     /****** Sort Buttons ************/
     
@@ -148,7 +156,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                         HTTP.PUT(ApiRouts.Web + "/api/members/\(id)/phone?no_password=true", parameters: ["phone" : self.phoneNumber, "country_code" : self.contryCodeString]) { response in
                             if response.error != nil {
                                 DispatchQueue.main.async {
-                                    let snackbar = TTGSnackbar(message: "Phone Number is already exist", duration: .middle)
+                                    let snackbar = TTGSnackbar(message: "The phone number you selected is already linked to a different account.", duration: .middle)
                                     snackbar.icon = UIImage(named: "AppIcon")
                                     snackbar.show()
                                 }
@@ -209,32 +217,79 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     var currentProfile: MemberProfile?
     var isFilterShowing: Bool = false
     
+    @IBOutlet var currentView: UIView!
     // sort & filter variables
     var filter: String = "no-filter"
     var sort: String = ""
     var isLogged: Bool = false
     var id: Int = -1
     var isMemberMenuShowing: Bool = false
+    
+    @IBAction func filterClick(_ sender: Any) {
+        print("Im clicked")
+        let config = FTConfiguration.shared
+        config.backgoundTintColor = UIColor.white
+        config.menuWidth = 220
+        config.menuSeparatorColor = UIColor.white
+        config.menuRowHeight = 60
+        config.cornerRadius = 6
+        let cellConfi = FTCellConfiguration()
+        cellConfi.textColor = UIColor.black
+        cellConfi.textFont = UIFont.systemFont(ofSize: 20)
+        var cellConfis = Array(repeating: cellConfi, count: 5)
+        let cellConfi1 = FTCellConfiguration()
+        cellConfi1.textFont = UIFont.systemFont(ofSize: 20)
+        let PrimaryColor : UIColor = UIColor(rgb: 0xC1B46A)
+        cellConfi1.textColor = PrimaryColor
+        cellConfis[1] = cellConfi1
+        FTPopOverMenu.showForSender(sender: sender as! UIView, with: menuOptionNameArray, menuImageArray: menuOptionImageNameArray, cellConfigurationArray: cellConfis, done: { (selectedIndex) in
+            print(selectedIndex)
+        }) {
+            print("cancel")
+        }
+    }
     @IBAction func onFilterTapped(_ sender: Any) {
-        if isFilterShowing {
-            leadingConstraint.constant = -199
-            UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded();})
-
-        }
-        else{
-            if isMemberMenuShowing {
-                menuImage.image = UIImage(named: menuIcon)
-                UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded();})
-                memberLeadingConstraints.constant = 190
-                isMemberMenuShowing = !isMemberMenuShowing
-                UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded();})
-            }
-            leadingConstraint.constant = 0
-            UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded();})
-
-        }
         
-        isFilterShowing = !isFilterShowing
+//        let config = FTConfiguration.shared
+//        config.backgoundTintColor = UIColor.white
+//        config.menuWidth = 220
+//        config.menuSeparatorColor = UIColor.white
+//        config.menuRowHeight = 60
+//        config.cornerRadius = 6
+//        let cellConfi = FTCellConfiguration()
+//        cellConfi.textColor = UIColor.black
+//        cellConfi.textFont = UIFont.systemFont(ofSize: 20)
+//        var cellConfis = Array(repeating: cellConfi, count: 5)
+//        let cellConfi1 = FTCellConfiguration()
+//        cellConfi1.textFont = UIFont.systemFont(ofSize: 20)
+//        let PrimaryColor : UIColor = UIColor(rgb: 0xC1B46A)
+//        cellConfi1.textColor = PrimaryColor
+//        cellConfis[1] = cellConfi1
+//        FTPopOverMenu.showForSender(sender: sender as! UIView, with: menuOptionNameArray, menuImageArray: menuOptionImageNameArray, cellConfigurationArray: cellConfis, done: { (selectedIndex) in
+//            print(selectedIndex)
+//        }) {
+//            print("cancel")
+//        }
+//        if isFilterShowing {
+//            leadingConstraint.constant = -199
+//           // UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded();})
+//
+//        }
+//        else{
+//
+//            if isMemberMenuShowing {
+//                menuImage.image = UIImage(named: menuIcon)
+//                UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded();})
+//                memberLeadingConstraints.constant = 190
+//                isMemberMenuShowing = !isMemberMenuShowing
+//                UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded();})
+//            }
+//            leadingConstraint.constant = 0
+//           // UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded();})
+//
+//        }
+//
+//       isFilterShowing = !isFilterShowing
     }
     
     @IBAction func settingsClick(_ sender: Any) {
@@ -242,19 +297,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        SwiftEventBus.onMainThread(self, name: "changeProfileInfo") { result in
-            print("Im here in changeProfileInfo")
-            DispatchQueue.main.async {
-                self.checkCurrentUser()
-
-            }
-        }
+   
         
         
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+    
         // Show the navigation bar on other view controllers
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
     }
@@ -320,10 +370,28 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             
         }
     }
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func viewDidAppear(_ animated: Bool) {
+        print("Viewstatus Did appeear ")
+        if MyVriables.shouldRefresh {
+            refreshList()
+            MyVriables.shouldRefresh = false
+        }
+       
+    }
+    fileprivate func swiftEventFunc() {
+        SwiftEventBus.onMainThread(self, name: "changeProfileInfo") { result in
+                self.checkCurrentUser()
+            
+        }
+        
+       
+        SwiftEventBus.onMainThread(self, name: "changeProfileInfoHeader") { result in
+            print("hihihihihihihihihii")
+            self.checkCurrentUser()
+
+        }
+        
         SwiftEventBus.onMainThread(self, name: "changeProfileInfooo") { result in
-            print("Im here in changeProfileInfo")
             DispatchQueue.main.async {
                 self.page = 1
                 self.myGrous = []
@@ -345,12 +413,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             print("CHAT-COUNTER RECEIVED IN VIEW CONTROLLER ")
             self.setBadges()
         }
-        fbBt.addTarget(self, action: #selector(handleCustomFBLogin), for: .touchUpInside)
-
         SwiftEventBus.onMainThread(self, name: "refreshGroups") { result in
             print("im Here from Gdpr and flags is ")
-            if result.object != nil {
-                self.facebookMember = result.object as! FacebookMember
+            if result?.object != nil {
+                self.facebookMember = result?.object as! FacebookMember
                 self.isFacebookGdpr = true
                 self.regstirFacebook(facebookMember: self.facebookMember!, isGdpr:  self.isFacebookGdpr)
                 
@@ -364,14 +430,96 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             print("im Here from Gdpr")
             self.refreshList()
         }
+    }
+    @objc func pressButton(_ sender: UIButton){
+            
+            if isMemberMenuShowing {
+                menuImage.image = UIImage(named: menuIcon)
+                UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded();})
+                memberLeadingConstraints.constant = 190
+                isMemberMenuShowing = !isMemberMenuShowing
+                UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded();})
+            }
+        isFilterShowing = !isFilterShowing
+        var items : [PopoverItem] = []
+        var controller: PopoverController?
+        var item1,item0,item2,item3,item4 : PopoverItem?
+        item0 = PopoverItem(title: "All groups", titleColor: self.clickes[0] == true ? Colors.PrimaryColor : UIColor.black, image : UIImage(named: "")) { debugPrint($0.title)
+            self.clickes[0] = true
+            self.clickes[1] = false
+            self.clickes[2] = false
+            self.clickes[3] = false
+            self.clickes[4] = false
+            self.filter = "all"
+            self.sort = "created_at&order=desc"
+            self.refreshData()
+        }
+        item1 = PopoverItem(title: "My groups", titleColor: self.clickes[1] == true ? Colors.PrimaryColor : UIColor.black, image : UIImage(named: "")) { debugPrint($0.title)
+            self.clickes[0] = false
+            self.clickes[2] = false
+            self.clickes[3] = false
+            self.clickes[1] = true
+            self.clickes[4] = false
+            self.search = ""
+            self.sort = self.standart_sort
+            self.filter = "no-filter"
+            // showToast("My Message", 3.0)
+            self.refreshData()
+        }
+         item2 = PopoverItem(title: "Public groups", titleColor: self.clickes[2] == true ? Colors.PrimaryColor : UIColor.black, image : UIImage(named: "")) { debugPrint($0.title)
+            self.clickes[0] = false
+            self.clickes[1] = false
+            self.clickes[3] = false
+            self.clickes[2] = true
+            self.clickes[4] = false
+            self.search = ""
+            self.filter = "open"
+            self.sort = "created_at&order=desc"
+            self.refreshData()
+        }
+         item3 = PopoverItem(title: "One day groups", titleColor: self.clickes[3] == true ? Colors.PrimaryColor : UIColor.black, image: UIImage(named: "")) { debugPrint($0.titleColor)
+            print("asd")
+            self.clickes[0] = false
+            self.clickes[1] = false
+            self.clickes[2] = false
+            self.clickes[3] = true
+            self.clickes[4] = false
+            self.search = ""
+            self.filter = "day"
+            self.sort = "created_at&order=desc"
+            self.refreshData()
+        }
+         item4 = PopoverItem(title: "Multi days groups", titleColor: self.clickes[4] == true ? Colors.PrimaryColor : UIColor.black, image: UIImage(named: "")) { debugPrint($0.title)
+            self.clickes[0] = false
+            self.clickes[1] = false
+            self.clickes[2] = false
+            self.clickes[3] = false
+            self.clickes[4] = true
+            self.filter = "days"
+            self.sort = "created_at&order=desc"
+            self.refreshData()
+        }
+
+         items = [item0!, item1!, item2!, item3!, item4!]
+        controller = PopoverController(items: items, fromView: filterButton, direction: .down, style: .normal)
+        popover(controller!)
+    }
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        swiftEventFunc()
+      
+        print("Viewstatus Did load ")
+
+        filterButton.addTarget(self, action: #selector(self.pressButton(_:)), for: .touchUpInside) //<- use `#selector(...)`
+        
+        fbBt.addTarget(self, action: #selector(handleCustomFBLogin), for: .touchUpInside)
+     
         //refreshData
         // Hide the navigation bar on the this view controller
         
         self.navigationController?.setNavigationBarHidden(true, animated: true)
-        if MyVriables.shouldRefresh {
-            refreshList()
-            MyVriables.shouldRefresh = false
-        }
+      
         let defaults = UserDefaults.standard
         let isLogged = defaults.bool(forKey: "isLogged")
         
@@ -418,12 +566,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 //        }
       
         SwiftEventBus.onMainThread(self, name: "facebookLogin") { result in
-            self.facebookMember = result.object as! FacebookMember
+            self.facebookMember = result?.object as! FacebookMember
             self.checkIfMember(textFeild: (self.facebookMember?.facebook_id!)!, type: "facebook_id",facebookMember: self.facebookMember)
             
         }
         SwiftEventBus.onMainThread(self, name: "checkMember") { result in
-            let phonenumber : String = result.object as! String
+            let phonenumber : String = result?.object as! String
             self.checkIfMember(textFeild: phonenumber, type: "phone",facebookMember : self.facebookMember)
 
         }
@@ -770,7 +918,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     
     func checkCurrentUser(){
-        print("hihihi")
+        print("im in check current user Func")
         let defaults = UserDefaults.standard
         let id = defaults.integer(forKey: "member_id")
         let isLogged = defaults.bool(forKey: "isLogged")
@@ -975,7 +1123,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 }else {
                     print("Im here in  else exist")
 
-                    
+                    MyVriables.fromGroup = "false"
                     if type != "phone"{
                         MyVriables.facebookMember = facebookMember
                     }else {
@@ -1257,7 +1405,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     func getSwiftGroups(){
         ARSLineProgress.show()
         print("request PAGE = \(self.page)")
-        print("Im in all groups sort url ==" + ApiRouts.AllGroupsRequest +  "/api/groups?page=\(self.page)&sort=created_at&order=des")
+        print("Im in all groups sort url ==" + ApiRouts.AllGroupsRequest +  "?page=\(self.page)&sort=created_at&order=des")
         var groups: [TourGroup]?
         HTTP.GET(ApiRouts.Web + "/api/groups?page=\(self.page)&sort=created_at&order=des") { response in
             print(ApiRouts.AllGroupsRequest)
@@ -1291,7 +1439,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                  //   self.myGrous = groups!
                     self.tableView.reloadData()
                     self.refresher.endRefreshing()
-                    
                     self.page += 1
 
                 }
@@ -1725,11 +1872,18 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             if self.myGrous[currentIndex].group_leader_image != nil{
                 do{
                     
-                    let urlString = try ApiRouts.Web + (self.myGrous[currentIndex].group_leader_image)!
+                    var urlString = try ApiRouts.Web + (self.myGrous[currentIndex].group_leader_image)!
+                    urlString = urlString.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)!
+                    
                     var url = URL(string: urlString)
                     if url == nil {
                     }else {
                         cell.groupLeaderImageView.kf.setImage(with: url!)
+                        cell.groupLeaderImageView.layer.cornerRadius = cell.groupLeaderImageView.frame.size.width / 2;
+                        cell.groupLeaderImageView.clipsToBounds = true;
+                        cell.groupLeaderImageView.layer.borderWidth = 1.0
+                        cell.groupLeaderImageView.layer.borderColor = UIColor.gray.cgColor
+                        cell.groupLeaderImageView.contentMode = .scaleAspectFill
                     }
                 }
                 catch let error{
@@ -1739,24 +1893,20 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             else
             {
                 cell.groupLeaderImageView.image = UIImage(named: "default user")
+                cell.groupLeaderImageView.layer.borderWidth = 0
+                cell.groupLeaderImageView.layer.cornerRadius = 0;
+                cell.groupLeaderImageView.clipsToBounds = false;
             }
-            cell.groupLeaderImageView.layer.cornerRadius = cell.groupLeaderImageView.frame.size.width / 2;
-            cell.groupLeaderImageView.clipsToBounds = true;
-            cell.groupLeaderImageView.layer.borderWidth = 1.0
-            cell.groupLeaderImageView.layer.borderColor = UIColor.gray.cgColor
-            cell.groupLeaderImageView.contentMode = .scaleAspectFill
+           
         } // if just group leader
         else{
             cell.groupLeaderLbl.text = self.myGrous[currentIndex].group_leader_company_name != nil ? self.myGrous[currentIndex].group_leader_company_name! : "Company"
             if self.myGrous[currentIndex].group_leader_company_image != nil{
                 
                 do{
-                    let urlString = try ApiRouts.Web + (self.myGrous[currentIndex].group_leader_company_image)!
+                    var urlString = try ApiRouts.Web + (self.myGrous[currentIndex].group_leader_company_image)!
+                    urlString = urlString.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)!
                     var url = URL(string: urlString)
-                    //                        cell.groupLeaderImageView.layer.borderWidth = 0
-                    //                        cell.groupLeaderImageView.layer.masksToBounds = false
-                    //                        cell.groupLeaderImageView.layer.cornerRadius = cell.groupLeaderImageView.frame.height/2
-                    //                        cell.groupLeaderImageView.clipsToBounds = true
                     if url == nil {
                     }else {
                         cell.groupLeaderImageView.kf.setImage(with: url!)
@@ -1773,7 +1923,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             cell.groupLeaderImageView.layer.borderWidth = 0
             cell.groupLeaderImageView.layer.cornerRadius = 0;
             cell.groupLeaderImageView.clipsToBounds = false;
-             cell.groupLeaderImageView.contentMode = .scaleAspectFit
+            cell.groupLeaderImageView.contentMode = .scaleAspectFit
         }
         
         cell.selectionStyle = .none
@@ -1950,7 +2100,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         var currentIndex = isLogged ? indexPath.row-1 : indexPath.row
         if self.isFilterShowing {
                 self.leadingConstraint.constant = -199
-                UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded();})
+               // UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded();})
                 self.isFilterShowing = !self.isFilterShowing
             }
        else  if isMemberMenuShowing {
@@ -2160,10 +2310,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             // Fallback on earlier versions
             self.publicGroupsbt.setTitleColor(Colors.PrimaryColor, for: .normal)
         }
-        search = ""
+       
         self.allGroupsBt.setTitleColor(UIColor.black, for: .normal)
         self.oneDayBt.setTitleColor(UIColor.black, for: .normal)
         self.closeFilterSlide()
+         search = ""
         filter = "open"
         sort = "created_at&order=desc"
         self.refreshData()

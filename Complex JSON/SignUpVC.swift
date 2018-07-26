@@ -15,14 +15,20 @@ import SwiftEventBus
 import TTGSnackbar
 import PhoneNumberKit
 import CountryPickerView
+import FBSDKLoginKit
+import FBSDKCoreKit
 
+class SignUpVC: UIViewController, UIPickerViewDelegate, UITextFieldDelegate, UIPickerViewDataSource, CountryPickerViewDelegate, CountryPickerViewDataSource, FBSDKLoginButtonDelegate {
 
-class SignUpVC: UIViewController, UIPickerViewDelegate, UITextFieldDelegate, UIPickerViewDataSource, CountryPickerViewDelegate, CountryPickerViewDataSource {
+    
     func countryPickerView(_ countryPickerView: CountryPickerView, didSelectCountry country: Country) {
        // self.flagImageView.image = flag
         //self.countryPrefLable.text = phoneCode
     }
-    
+    var phone: String = ""
+    @IBOutlet weak var heightFacebookView: NSLayoutConstraint!
+    @IBOutlet weak var facebookView: UIView!
+    @IBOutlet weak var phoneNumberConstarate: NSLayoutConstraint!
     @IBOutlet weak var countyCodePickerView: CountryPickerView!
     var contryCodeString : String = ""
     var contryCode : String = ""
@@ -30,6 +36,7 @@ class SignUpVC: UIViewController, UIPickerViewDelegate, UITextFieldDelegate, UIP
     var maximumDate : Date?
     var valueSelected : String = ""
     var valueSelectedIndex : Int = 0
+    @IBOutlet weak var fbBt: UIButton!
     @IBOutlet weak var birthdayBt: UIButton!
     @IBOutlet weak var firstNameTf: SkyFloatingLabelTextField!
     var pickerData: [String] = []
@@ -58,6 +65,7 @@ class SignUpVC: UIViewController, UIPickerViewDelegate, UITextFieldDelegate, UIP
         countyCodePickerView.delegate = self
         countyCodePickerView.dataSource = self
         countyCodePickerView.font =  UIFont(name: "Arial", size: 14)!
+         fbBt.addTarget(self, action: #selector(handleCustomFBLogin), for: .touchUpInside)
         countyCodePickerView.textColor = Colors.grayColor
         self.emailTf.autocorrectionType = .no
         self.firstNameTf.autocorrectionType = .no
@@ -74,12 +82,10 @@ class SignUpVC: UIViewController, UIPickerViewDelegate, UITextFieldDelegate, UIP
         contryCodeString = country.phoneCode
         contryCode = country.code
         let defaults = UserDefaults.standard
-        
-    
         let profile_image = defaults.string(forKey: "profile_image")
         let firstName = defaults.string(forKey: "first_name")
         let lastName = defaults.string(forKey: "last_name")
-         let phone = defaults.string(forKey: "phone")
+        self.phone = defaults.string(forKey: "phone")!
         let email = defaults.string(forKey: "email")
         let gender = defaults.string(forKey: "gender")
          let birth_date = defaults.string(forKey: "birth_date")
@@ -89,9 +95,17 @@ class SignUpVC: UIViewController, UIPickerViewDelegate, UITextFieldDelegate, UIP
         if lastName != "no value" {
         lastNameTf.text = lastName
         }
+        if MyVriables.currentMember?.facebook_id != nil
+        {
+            if MyVriables.currentMember?.facebook_id! != ""
+            {
+                self.fbBt.isHidden = true
+                self.heightFacebookView.constant = 0
+                self.facebookView.isHidden = true
+            }
+        }
         if birth_date != nil {
-            print("BIRTHDAY \(birth_date)")
-            if birth_date != "no value" {
+           if birth_date != "no value" {
             birthdayBt.setTitle(birth_date!, for: .normal)
             }
         }
@@ -138,12 +152,17 @@ class SignUpVC: UIViewController, UIPickerViewDelegate, UITextFieldDelegate, UIP
             }
             
         }
-        if phone != "no value"{
+        if self.phone != "no value"{
             phoneTf.text = phone
+            phoneNumberConstarate.constant = 10
+            
+            countyCodePickerView.isHidden = true
             phoneTf.isEnabled = false
             countyCodePickerView.isUserInteractionEnabled = false
         }else{
-            countyCodePickerView.isUserInteractionEnabled = true
+            phoneNumberConstarate.constant = 91
+            countyCodePickerView.isHidden = false
+        countyCodePickerView.isUserInteractionEnabled = true
             phoneTf.isEnabled = true
             
             
@@ -211,7 +230,8 @@ class SignUpVC: UIViewController, UIPickerViewDelegate, UITextFieldDelegate, UIP
         calendar.timeZone = TimeZone(identifier: "UTC")!
         var components: DateComponents = DateComponents()
         components.calendar = calendar
-        components.year = -18
+        components.year = -5
+
         let maxDate: Date = calendar.date(byAdding: components, to: currentDate)!
         components.year = -150
         let minDate: Date = calendar.date(byAdding: components, to: currentDate)!
@@ -288,30 +308,52 @@ class SignUpVC: UIViewController, UIPickerViewDelegate, UITextFieldDelegate, UIP
         }
 
     }
-    func saveProfileRequset(){
+    func isValidPhone(phone: String) -> Bool {
+        let phoneNumberKit = PhoneNumberKit()
+        do {
+            print("phone number   \(phone)")
+            
+            let phoneNumber = try phoneNumberKit.parse(phone)
+            print("phone number before parsing \(phoneNumber)")
+            let phoneNumberCustomDefaultRegion = try phoneNumberKit.parse(phone, withRegion: contryCode, ignoreType: true)
+            print("phone number after parsing \(phoneNumberCustomDefaultRegion)")
+            return true
+        }
+        catch {
+            
+            let snackbar = TTGSnackbar(message: "Phone Number is eror please enter a valditae phone number ", duration: .middle)
+            snackbar.icon = UIImage(named: "AppIcon")
+            snackbar.show()
+            print("Generic parser error")
+            return false
+        }
+        print("Phone is \(phone)")
         
-
-        var params = [[String: Any]]()
+        return false
+    }
+    var phoneNumber: String = ""
+    fileprivate func updateProfileRequset(_ params: inout [Dictionary<String, Any>]) {
         if self.firstNameTf.text != ""
         {
-            params.append(["first_name": self.firstNameTf.text])
+            params.append(["first_name": self.firstNameTf.text!])
         }
         if self.lastNameTf.text != ""
         {
-            params.append(["last_name": self.lastNameTf.text])
+            params.append(["last_name": self.lastNameTf.text!])
         }
-        if self.emailTf.text != ""
-        {
-            params.append(["email": self.emailTf.text])
-        }
+//        if self.emailTf.text != ""
+//        {
+//            params.append(["email": self.emailTf.text!])
+//        }
         params.append(["gender": pickerData[valueSelectedIndex]])
-        params.append(["member_id": (MyVriables.currentMember?.id)!])
         if (birthdayBt.titleLabel?.text)! != "yyyy-mm-dd" {
-             params.append(["birthdate": (birthdayBt.titleLabel?.text)!])
+            print("Im here and birthday is \((birthdayBt.titleLabel?.text)!)")
+            params.append(["birth_date": (birthdayBt.titleLabel?.text)!])
         }
-        
-        print("--- BT IS "+(birthdayBt.titleLabel?.text)!)
-        HTTP.POST(ApiRouts.Web+"/api/joingroupdetails/\((MyVriables.currentMember?.id!)!)"
+        //print("--- BT IS "+(birthdayBt.titleLabel?.text)!)
+        print("params is \(params)")
+        print("url for paramas is " + ApiRouts.Web + "/api/members/\((MyVriables.currentMember?.id!)!)")
+        HTTP.PUT(ApiRouts.Web+"/api/members/\((MyVriables.currentMember?.id!)!)"
             , parameters: params)
         { response in
             if let err = response.error {
@@ -320,39 +362,212 @@ class SignUpVC: UIViewController, UIPickerViewDelegate, UITextFieldDelegate, UIP
             }
             print("RESPONSE "+response.description)
             do {
-                 DispatchQueue.main.sync {
-                if self.firstNameTf.text != ""
-                {
-                    self.setToUserDefaults(value: self.firstNameTf.text , key: "first_name")
-                }
-                if self.lastNameTf.text != ""
-                {
-                    self.setToUserDefaults(value: self.lastNameTf.text , key: "last_name")
-                    
-                }
-                if self.emailTf.text != ""
-                {
-                    self.setToUserDefaults(value: self.emailTf.text , key: "email")
-                    
-                }
-                if self.birthdayBt.titleLabel?.text != "yyyy-mm-dd"
-                {
-                    print("BT IS "+(self.birthdayBt.titleLabel?.text)!)
-                    self.setToUserDefaults(value: (self.birthdayBt.titleLabel?.text)!, key: "birth_date")
-                    
-                }
-                self.setToUserDefaults(value: self.pickerData[self.valueSelectedIndex], key: "gender")
-                 SwiftEventBus.post("changeProfileInfo")
+                DispatchQueue.main.sync {
+                    if self.firstNameTf.text != ""
+                    {
+                        self.setToUserDefaults(value: self.firstNameTf.text , key: "first_name")
+                    }
+                    if self.lastNameTf.text != ""
+                    {
+                        self.setToUserDefaults(value: self.lastNameTf.text , key: "last_name")
+                        
+                    }
+                    if self.emailTf.text != ""
+                    {
+                        self.setToUserDefaults(value: self.emailTf.text , key: "email")
+                        
+                    }
+                    if self.birthdayBt.titleLabel?.text != "yyyy-mm-dd"
+                    {
+                        print("BT IS "+(self.birthdayBt.titleLabel?.text)!)
+                        self.setToUserDefaults(value: (self.birthdayBt.titleLabel?.text)!, key: "birth_date")
+                        
+                    }
+                    self.setToUserDefaults(value: self.pickerData[self.valueSelectedIndex], key: "gender")
+                    SwiftEventBus.post("changeProfileInfo")
                     self.dismiss(animated: true,completion: nil)
-                   
+                    
                 }
-               
+                
             }
             catch {
                 
             }
         }
+    }
+    
+    func saveProfileRequset(){
+        var params = [[String: Any]]()
+        if self.phone == "no value"
+        {
+            if self.phoneTf.text! != ""
+            {
+                DispatchQueue.main.async {
+                    if self.isValidPhone(phone: self.contryCodeString+self.phoneTf.text!)
+                    {
+                        self.phoneNumber = self.contryCodeString+self.phoneTf.text!
+                        if self.contryCodeString == "+972" {
+                            if self.phoneTf.text!.count > 4 && self.phoneTf.text![0...0] == "0" {
+                                self.phoneTf.text!.remove(at: self.phoneTf.text!.startIndex)
+                                self.phoneNumber = "\(self.contryCodeString)\(self.phoneTf.text!)"
+                                print("yes im inside \(self.phoneNumber)")
+                            }
+                        }
+                        let VerifyAlert = UIAlertController(title: "Verify", message: "is this is your phone number? \n \(self.phoneNumber)", preferredStyle: .alert)
+                        VerifyAlert.addAction(UIAlertAction(title: NSLocalizedString("Yes", comment: "Default action"), style: .`default`, handler: { _ in
+                            let defaults = UserDefaults.standard
+                            let id = defaults.integer(forKey: "member_id")
+                            print(ApiRouts.Web + "/api/members/\(id)/phone?no_password=true")
+                            HTTP.PUT(ApiRouts.Web + "/api/members/\(id)/phone?no_password=true", parameters: ["phone" : self.phoneNumber, "country_code" : self.contryCodeString]) { response in
+                                if response.error != nil {
+                                    DispatchQueue.main.async {
+                                        let snackbar = TTGSnackbar(message: "The phone number you selected is already linked to a different account.", duration: .middle)
+                                        snackbar.icon = UIImage(named: "AppIcon")
+                                        snackbar.show()
+                                        return
+                                    }
+                                    print("error \(response.error?.localizedDescription)")
+                                    return
+                                }
+                                print ("successed")
+                                DispatchQueue.main.sync {
+                                    //
+                                    self.setToUserDefaults(value: self.phoneNumber, key: "phone")
+                                    self.updateProfileRequset(&params)
+
+                                    print("Phone number is \(self.phoneNumber)")
+                                }
+                            }
+                        }))
+                        VerifyAlert.addAction(UIAlertAction(title: NSLocalizedString("No", comment: "Default action"), style: .`default`, handler: { _ in
+                            print("no")
+                        }))
+                        self.present(VerifyAlert, animated: true, completion: nil)
+                    }else
+                    {
+                        let snackbar = TTGSnackbar(message: "The phone number you selected is invalid", duration: .middle)
+                        snackbar.icon = UIImage(named: "AppIcon")
+                        snackbar.show()
+                    }
+                }
+            }
+            else
+            {
+                updateProfileRequset(&params)
+
+            }
+        }else{
+            updateProfileRequset(&params)
+        }
+       
         
+        
+    }
+    @objc func handleCustomFBLogin() {
+        FBSDKLoginManager().logIn(withReadPermissions: ["email"], from: self) { (result, err) in
+            if err != nil {
+                print("Custom FB Login failed:", err)
+                return
+            }
+            
+            self.showEmailAddress()
+        }
+    }
+    func showEmailAddress() {
+        var params = [[String: String]]()
+        var facebookMember : FacebookMember?
+        print("No Error")
+        let request = FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "id, name, first_name, last_name, email, picture.type(large)"])
+        let _ = request?.start(completionHandler: { (connection, result, error) in
+            if error != nil {
+                print("Failed to start graph request:", error)
+                return
+            }
+            guard let userInfo = result as? [String: Any] else { return } //handle the error
+            print("user indfo \(userInfo)")
+            if let imageURL = ((userInfo["picture"] as? [String: Any])?["data"] as? [String: Any])?["url"] as? String {
+                let url = URL(string: imageURL)
+            }
+             facebookMember = FacebookMember(first_name: userInfo["first_name"] != nil ? userInfo["first_name"] as? String : "", last_name: userInfo["last_name"] != nil ? userInfo["last_name"] as? String : "", facebook_id: userInfo["id"] != nil ? userInfo["id"] as? String : "", facebook_profile_image: ((userInfo["picture"] as? [String: Any])?["data"] as? [String: Any])?["url"] as? String)
+            
+           // self.dismiss(animated: true, completion: nil)
+            if facebookMember?.facebook_id! != ""
+            {
+                params.append(["facebook_id": (facebookMember?.facebook_id!)!])
+            
+            if facebookMember?.first_name! != ""
+            {
+                params.append(["first_name": (facebookMember?.first_name!)!])
+            }
+            if facebookMember?.last_name! != ""
+            {
+                params.append(["last_name": (facebookMember?.last_name!)!])
+            }
+            if facebookMember?.facebook_profile_image! != ""
+            {
+                params.append(["facebook_profile_image": (facebookMember?.facebook_profile_image!)!])
+            }
+            HTTP.PUT(ApiRouts.Web+"/api/members/\((MyVriables.currentMember?.id!)!)"
+                , parameters: params)
+            { response in
+                if let err = response.error {
+                    DispatchQueue.main.async {
+                        let snackbar = TTGSnackbar(message: "This Facebook account is already linked to a different account.", duration: .middle)
+                        snackbar.icon = UIImage(named: "AppIcon")
+                        snackbar.show()
+                    }
+                   
+                    print("Im after snack pabrasd")
+                    print("error: \(err.localizedDescription)")
+                    return //also notify app of failure as needed
+                }
+                print("RESPONSE "+response.description)
+                do {
+                    DispatchQueue.main.sync {
+                        if facebookMember?.first_name! != ""
+                        {
+                            self.firstNameTf.text = facebookMember?.first_name!
+                             self.setToUserDefaults(value: facebookMember?.first_name! , key: "first_name")
+                        }
+                        if facebookMember?.last_name! != ""
+                        {
+                            self.setToUserDefaults(value: facebookMember?.last_name!, key: "last_name")
+                            self.lastNameTf.text = facebookMember?.last_name!
+                        }
+                        if facebookMember?.facebook_profile_image != nil && facebookMember?.facebook_profile_image != ""
+                        {
+                             let urlString: String
+                            urlString = (facebookMember?.facebook_profile_image!)!
+                             var url = URL(string: urlString)
+                            if url != nil {
+                                self.profileImage.sd_setImage(with: url!, completed: nil)
+                            }
+                            self.setToUserDefaults(value: (facebookMember?.facebook_profile_image!)!, key: "facebook_profile_image")
+                        }
+                        self.heightFacebookView.constant = 0
+                        self.facebookView.isHidden = true
+                        SwiftEventBus.post("changeProfileInfo")
+                        //self.dismiss(animated: true,completion: nil)
+                        
+                    }
+                    
+                }
+                catch {
+                    
+                }
+            }
+            }
+            
+            
+        })
+       
+
+    }
+    func loginButton(_ loginButton: FBSDKLoginButton!, didCompleteWith result: FBSDKLoginManagerLoginResult!, error: Error!) {
+        
+    }
+    
+    func loginButtonDidLogOut(_ loginButton: FBSDKLoginButton!) {
         
     }
     
@@ -360,7 +575,6 @@ class SignUpVC: UIViewController, UIPickerViewDelegate, UITextFieldDelegate, UIP
     
 }
 extension Date {
-    
     /// Returns a Date with the specified days added to the one it is called with
     func add(years: Int = 0, months: Int = 0, days: Int = 0, hours: Int = 0, minutes: Int = 0, seconds: Int = 0) -> Date {
         var targetDay: Date

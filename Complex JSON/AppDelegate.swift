@@ -134,6 +134,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
         HTTP.GET(ApiRouts.Web+"/api/groups/members/\((id))?roles[]=group_leader&roles[]=member") { response in
             if let error = response.error {
                 print(error)
+                return
+                
             }
             do {
                 print("Response iss \(response.description)")

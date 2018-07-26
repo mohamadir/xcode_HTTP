@@ -57,6 +57,7 @@
 		74A5A4392085D2DB00A97052 /* CheckListItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A5A4382085D2DB00A97052 /* CheckListItemCell.swift */; };
 		74A5A43B2085D31A00A97052 /* checkListCustomCellController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A5A43A2085D31A00A97052 /* checkListCustomCellController.swift */; };
 		74A5A43E2085D64900A97052 /* GroupLeaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A5A43D2085D64900A97052 /* GroupLeaderViewController.swift */; };
+		74AADDB02106FDD700F2F732 /* Registration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74AADDAF2106FDD700F2F732 /* Registration.swift */; };
 		74AE7C3B20E4ED7B00C11492 /* CompanyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74AE7C3A20E4ED7B00C11492 /* CompanyViewController.swift */; };
 		74AE7C3D20E8E55E00C11492 /* MapMarkerWindowView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 74AE7C3C20E8E55E00C11492 /* MapMarkerWindowView.xib */; };
 		74AE7C3F20E8E5DA00C11492 /* MapMarkerWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74AE7C3E20E8E5DA00C11492 /* MapMarkerWindow.swift */; };
@@ -221,6 +222,7 @@
 		74A5A4382085D2DB00A97052 /* CheckListItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckListItemCell.swift; sourceTree = "<group>"; };
 		74A5A43A2085D31A00A97052 /* checkListCustomCellController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = checkListCustomCellController.swift; sourceTree = "<group>"; };
 		74A5A43D2085D64900A97052 /* GroupLeaderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupLeaderViewController.swift; sourceTree = "<group>"; };
+		74AADDAF2106FDD700F2F732 /* Registration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Registration.swift; sourceTree = "<group>"; };
 		74AE7C3A20E4ED7B00C11492 /* CompanyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompanyViewController.swift; sourceTree = "<group>"; };
 		74AE7C3C20E8E55E00C11492 /* MapMarkerWindowView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MapMarkerWindowView.xib; sourceTree = "<group>"; };
 		74AE7C3E20E8E5DA00C11492 /* MapMarkerWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapMarkerWindow.swift; sourceTree = "<group>"; };
@@ -428,6 +430,7 @@
 		742375092046DE0200B9A0C0 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				74AADDAF2106FDD700F2F732 /* Registration.swift */,
 				742375072046DC0300B9A0C0 /* ApiRequests.swift */,
 				743A20BD203C3A97008DF1AA /* GroupRequest.swift */,
 				74FBD10D20528D2D002D223A /* Models.swift */,
@@ -1051,6 +1054,7 @@
 				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKLoginKit/FBSDKLoginKit.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKShareKit/FBSDKShareKit.framework",
+				"${BUILT_PRODUCTS_DIR}/FTPopOverMenu_Swift/FTPopOverMenu_Swift.framework",
 				"${BUILT_PRODUCTS_DIR}/GoneVisible/GoneVisible.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
 				"${BUILT_PRODUCTS_DIR}/ISHPullUp/ISHPullUp.framework",
@@ -1061,6 +1065,8 @@
 				"${BUILT_PRODUCTS_DIR}/ModernSearchBar/ModernSearchBar.framework",
 				"${BUILT_PRODUCTS_DIR}/PageControl/PageControl.framework",
 				"${BUILT_PRODUCTS_DIR}/PhoneNumberKit/PhoneNumberKit.framework",
+				"${BUILT_PRODUCTS_DIR}/PopOverMenu/PopOverMenu.framework",
+				"${BUILT_PRODUCTS_DIR}/PopoverSwift/PopoverSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
 				"${BUILT_PRODUCTS_DIR}/Pushy/Pushy.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
@@ -1098,6 +1104,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKCoreKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKLoginKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKShareKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FTPopOverMenu_Swift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoneVisible.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ISHPullUp.framework",
@@ -1108,6 +1115,8 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ModernSearchBar.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PageControl.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PhoneNumberKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PopOverMenu.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PopoverSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Pushy.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
@@ -1276,6 +1285,7 @@
 				74B4E90320A1862900AD873A /* ImageViewController.swift in Sources */,
 				74F0208620FB7FA2000193ED /* RegisterModal.swift in Sources */,
 				7E869DD620BD3F1500DD8E5E /* ContryCodeCell.swift in Sources */,
+				74AADDB02106FDD700F2F732 /* Registration.swift in Sources */,
 				7EBD077920A05F5400369E36 /* PartnerTextCell.swift in Sources */,
 				74438D2020C969100072558D /* ToyataJoinGroup.swift in Sources */,
 				742BE2B220B2B0A2005922D1 /* HeaderViewController.swift in Sources */,

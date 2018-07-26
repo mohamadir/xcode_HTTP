@@ -48,18 +48,22 @@ class HeaderViewController: UIViewController, CountryPickerViewDelegate, Country
     @IBOutlet weak var phoneRegisterView: UIView!
     @IBOutlet weak var registerView: UIView!
     @IBOutlet weak var facebookRegisterView: UIView!
-    @objc func handleCustomFBLogin() {
-        FBSDKLoginManager().logIn(withReadPermissions: ["email"], from: self) { (result, err) in
-            if err != nil {
-                print("Custom FB Login failed:", err)
-                return
-            }
-            
-            self.showEmailAddress()
-        }
-    }
+   
     @IBAction func sendClick(_ sender: Any) {
 
+//        if contryCodeString == "+972" {
+//            if self.phoneLbl.text!.count > 4 && self.phoneLbl.text![0...0] == "0"
+//            {
+//                self.phoneLbl.text!.remove(at: self.phoneLbl.text!.startIndex)
+//                self.phoneNumber = "\(self.contryCodeString)\(self.phoneLbl.text!)"
+//                print("yes im inside \(self.phoneNumber)")
+//
+//
+//            }
+//        }
+        
+        
+        
         print("isValidPhone \(isValidPhone(phone: contryCodeString+phoneLbl.text!))")
         print("Contry Code is \(contryCodeString)")
         if isValidPhone(phone: contryCodeString+phoneLbl.text!)
@@ -256,14 +260,15 @@ class HeaderViewController: UIViewController, CountryPickerViewDelegate, Country
         view.endEditing(true)
     }
     override func viewWillDisappear(_ animated: Bool) {
+        SwiftEventBus.unregister(self)
          self.navigationController?.setNavigationBarHidden(true, animated: true)
     }
+    
     func countryPickerView(_ countryPickerView: CountryPickerView, didSelectCountry country: Country) {
         print(country)
         contryCodeString = country.phoneCode
         contryCode = country.code
     }
-    
     override func viewWillAppear(_ animated: Bool) {
         setBadges()
         backView.addTapGestureRecognizer {
@@ -277,7 +282,7 @@ class HeaderViewController: UIViewController, CountryPickerViewDelegate, Country
         SwiftEventBus.onMainThread(self, name: "facebookLogin2") { result in
             // let facebookId : String = result.object as! String
             //self.checkIfMember(phone: phonenumber)
-            self.facebookMember = result.object as! FacebookMember
+            self.facebookMember = result?.object as! FacebookMember
             self.checkIfMember(textFeild: (self.facebookMember?.facebook_id!)!, type: "facebook_id",facebookMember: self.facebookMember)
             
         }
@@ -299,8 +304,8 @@ class HeaderViewController: UIViewController, CountryPickerViewDelegate, Country
 //            }
 //        }
         SwiftEventBus.onMainThread(self, name: "refreshFromGroup") { result in
-            if result.object != nil {
-                self.facebookMember = result.object as! FacebookMember
+            if result?.object != nil {
+                self.facebookMember = result?.object as! FacebookMember
                 self.isFacebookGdpr = true
                 self.regstirFacebook(facebookMember: self.facebookMember!, isGdpr:  self.isFacebookGdpr)
                 
@@ -427,7 +432,7 @@ class HeaderViewController: UIViewController, CountryPickerViewDelegate, Country
                     self.currentMember = member
                     self.setToUserDefaults(value: true, key: "isLogged")
                     //  print(self.currentMember?.profile!)
-                    self.setToUserDefaults(value: self.currentMember?.profile?.member_id!, key: "member_id")
+                    self.setToUserDefaults(value: self.currentMember?.member?.id!, key: "member_id")
                     self.setToUserDefaults(value: self.currentMember?.profile?.first_name , key: "first_name")
                     self.setToUserDefaults(value: self.currentMember?.profile?.last_name, key: "last_name")
                     self.setToUserDefaults(value: self.currentMember?.member?.email, key: "email")
@@ -438,18 +443,20 @@ class HeaderViewController: UIViewController, CountryPickerViewDelegate, Country
                     self.setToUserDefaults(value: self.currentMember?.total_unread_messages, key: "chat_counter")
                     self.setToUserDefaults(value: self.currentMember?.total_unread_notifications, key: "inbox_counter")
                     
-                    self.currentProfile = self.currentMember?.profile!
+                    self.currentProfile = self.currentMember?.profile != nil ? self.currentMember?.profile! : nil
                     DispatchQueue.main.sync {
-                        self.getGroup(memberId: "\((self.currentMember?.profile?.member_id!)!)")
+                        self.getGroup(memberId: "\((self.currentMember?.member?.id!)!)")
                         //SwiftEventBus.post("refreshGroupRole")
-                        SwiftEventBus.post("changeProfileInfo")
+                        SwiftEventBus.post("changeProfileInfoHeader")
+                        SwiftEventBus.unregister(self, name: "changeProfileInfoHeader")
+
                         if Messaging.messaging().fcmToken != nil {
                             MyVriables.TopicSubscribe = true
-                            Messaging.messaging().subscribe(toTopic: "/topics/IOS-CHAT-\(String(describing: (self.currentMember?.profile?.member_id!)!))")
+                            Messaging.messaging().subscribe(toTopic: "/topics/IOS-CHAT-\(String(describing: (self.currentMember?.member?.id!)!))")
                             
-                            Messaging.messaging().subscribe(toTopic: "/topics/IOS-INBOX-\(String(describing: (self.currentMember?.profile?.member_id!)!))")
+                            Messaging.messaging().subscribe(toTopic: "/topics/IOS-INBOX-\(String(describing: (self.currentMember?.member?.id!)!))")
                             
-                            Messaging.messaging().subscribe(toTopic: "/topics/IOS-SYSTEM-\(String(describing: (self.currentMember?.profile?.member_id!)!))")
+                            Messaging.messaging().subscribe(toTopic: "/topics/IOS-SYSTEM-\(String(describing: (self.currentMember?.member?.id!)!))")
                         }
                         //                                    self.phoneNumberStackView.isHidden = true
                         //                                    self.chatHeaderStackView.isHidden = false
@@ -478,6 +485,7 @@ class HeaderViewController: UIViewController, CountryPickerViewDelegate, Country
             
         }
     }
+    
     public func showPinDialog(phone: String) {
         let PinAlert = UIAlertController(title: "Please enter PIN code wer'e sent you", message: "Pin code", preferredStyle: .alert)
         print ("pin created")
@@ -534,11 +542,11 @@ class HeaderViewController: UIViewController, CountryPickerViewDelegate, Country
                         SwiftEventBus.post("refreshData")
                         if Messaging.messaging().fcmToken != nil {
                             MyVriables.TopicSubscribe = true
-                            Messaging.messaging().subscribe(toTopic: "/topics/IOS-CHAT-\(String(describing: (self.currentMember?.profile?.member_id!)!))")
+                            Messaging.messaging().subscribe(toTopic: "/topics/IOS-CHAT-\(String(describing: (self.currentMember?.member?.id!)!))")
                             
-                            Messaging.messaging().subscribe(toTopic: "/topics/IOS-INBOX-\(String(describing: (self.currentMember?.profile?.member_id!)!))")
+                            Messaging.messaging().subscribe(toTopic: "/topics/IOS-INBOX-\(String(describing: (self.currentMember?.member?.id!)!))")
                             
-                            Messaging.messaging().subscribe(toTopic: "/topics/IOS-SYSTEM-\(String(describing: (self.currentMember?.profile?.member_id!)!))")
+                            Messaging.messaging().subscribe(toTopic: "/topics/IOS-SYSTEM-\(String(describing: (self.currentMember?.member?.id!)!))")
                         }
                         //                                    self.phoneNumberStackView.isHidden = true
                         //                                    self.chatHeaderStackView.isHidden = false
@@ -608,7 +616,7 @@ class HeaderViewController: UIViewController, CountryPickerViewDelegate, Country
     func changeStatusTo(type: String){
         if type == "member" {
             MyVriables.roleStatus = "member"
-            self.tabBarController?.tabBar.items![1].image = UIImage(named: "joinedFooter")
+            self.tabBarController?.tabBar.items![1].image = UIImage(named: "joinedIcon1")
             self.tabBarController?.tabBar.items![1].title = "Joined"
             self.tabBarController?.selectedIndex = 0
              MyVriables.isAvailble = true
@@ -616,7 +624,7 @@ class HeaderViewController: UIViewController, CountryPickerViewDelegate, Country
         else {
         if type == "observer" {
             MyVriables.roleStatus = "observer"
-            self.tabBarController?.tabBar.items![1].image = UIImage(named: "join group")
+            self.tabBarController?.tabBar.items![1].image = UIImage(named: "joinicon1")
             self.tabBarController?.tabBar.items![1].title = "Join"
             self.tabBarController?.selectedIndex = 0
              MyVriables.isAvailble = true
@@ -634,15 +642,15 @@ class HeaderViewController: UIViewController, CountryPickerViewDelegate, Country
         else {
         if type == "null" {
             if MyVriables.isAvailble == false {
-                self.tabBarController?.tabBar.items![1].image = UIImage(named: "timeout25")
-                self.tabBarController?.tabBar.items![1].title = "Registration closed"
-                self.tabBarController?.tabBar.items![1].selectedImage =   UIImage(named: "timeout25")
+                self.tabBarController?.tabBar.items![1].image = UIImage(named: "timeout")
+                self.tabBarController?.tabBar.items![1].title = "Closed"
+                self.tabBarController?.tabBar.items![1].selectedImage =   UIImage(named: "timeout")
                  MyVriables.isAvailble = false
             }
             else
             {
                 MyVriables.roleStatus = "null"
-                self.tabBarController?.tabBar.items![1].image = UIImage(named: "join group")
+                self.tabBarController?.tabBar.items![1].image = UIImage(named: "joinicon1")
                 self.tabBarController?.tabBar.items![1].title = "Join"
                 self.tabBarController?.selectedIndex = 0
                  MyVriables.isAvailble = true
@@ -701,7 +709,7 @@ class HeaderViewController: UIViewController, CountryPickerViewDelegate, Country
                     self.currentMember = member
                     self.setToUserDefaults(value: true, key: "isLogged")
                     //  print(self.currentMember?.profile!)
-                    self.setToUserDefaults(value: self.currentMember?.profile?.member_id!, key: "member_id")
+                    self.setToUserDefaults(value: self.currentMember?.member?.id!, key: "member_id")
                     self.setToUserDefaults(value: self.currentMember?.profile?.first_name , key: "first_name")
                     self.setToUserDefaults(value: self.currentMember?.profile?.last_name, key: "last_name")
                     self.setToUserDefaults(value: self.currentMember?.member?.email, key: "email")
@@ -719,11 +727,11 @@ class HeaderViewController: UIViewController, CountryPickerViewDelegate, Country
                         SwiftEventBus.post("refreshGroupRole")
                         if Messaging.messaging().fcmToken != nil {
                             MyVriables.TopicSubscribe = true
-                            Messaging.messaging().subscribe(toTopic: "/topics/IOS-CHAT-\(String(describing: (self.currentMember?.profile?.member_id!)!))")
+                            Messaging.messaging().subscribe(toTopic: "/topics/IOS-CHAT-\(String(describing: (self.currentMember?.member?.id!)!))")
                             
-                            Messaging.messaging().subscribe(toTopic: "/topics/IOS-INBOX-\(String(describing: (self.currentMember?.profile?.member_id!)!))")
+                            Messaging.messaging().subscribe(toTopic: "/topics/IOS-INBOX-\(String(describing: (self.currentMember?.member?.id!)!))")
                             
-                            Messaging.messaging().subscribe(toTopic: "/topics/IOS-SYSTEM-\(String(describing: (self.currentMember?.profile?.member_id!)!))")
+                            Messaging.messaging().subscribe(toTopic: "/topics/IOS-SYSTEM-\(String(describing: (self.currentMember?.member?.id!)!))")
                         }
              
                         DispatchQueue.main.async {
@@ -770,6 +778,16 @@ class HeaderViewController: UIViewController, CountryPickerViewDelegate, Country
         self.present(PinAlert, animated: true, completion: nil)
         
         print ("pin after present ")
+    }
+    @objc func handleCustomFBLogin() {
+        FBSDKLoginManager().logIn(withReadPermissions: ["email"], from: self) { (result, err) in
+            if err != nil {
+                print("Custom FB Login failed:", err)
+                return
+            }
+            
+            self.showEmailAddress()
+        }
     }
     func showEmailAddress() {
         print("No Error")

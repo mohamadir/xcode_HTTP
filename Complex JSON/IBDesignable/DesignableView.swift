@@ -14,6 +14,7 @@ import UIKit
         didSet {
             self.layer.cornerRadius = cornerRaduis
         }
+
     }
     
     

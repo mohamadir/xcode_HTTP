@@ -64,7 +64,7 @@ class ContentVC: UIViewController, ISHPullUpContentDelegate, GMSMapViewDelegate,
         layoutAnnotationLabel.layer.cornerRadius = 2;
         
         SwiftEventBus.onMainThread(self, name: "daysFilter") { result in
-            let planDyas : [Bool] = result.object as! [Bool]
+            let planDyas : [Bool] = result!.object as! [Bool]
             if  planDyas != nil {
                 var postion : Int = 0
                 var j : Int = 0
