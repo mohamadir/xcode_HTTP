@@ -66,10 +66,10 @@ class ItemViewController: UIViewController, UITableViewDelegate, UITableViewData
         
 //        activitiesView.gone()
         if dayImagePath == nil || dayImagePath == "" {
-            
+            dayImageView.image = UIImage(named: "Group Placeholder")
         }
         else{
-            var urlString = ApiRouts.Web + dayImagePath
+            var urlString = ApiRouts.Media + dayImagePath
             urlString = urlString.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)!
             var url = URL(string: urlString)
             //print("URL STRING \(url!)")

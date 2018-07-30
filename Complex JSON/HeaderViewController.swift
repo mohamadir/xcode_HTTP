@@ -98,7 +98,9 @@ class HeaderViewController: UIViewController, CountryPickerViewDelegate, Country
                     }
                     print ("successed")
                     DispatchQueue.main.sync {
-                        self.checkIfMember(textFeild: self.phoneNumber!,type: "phone", facebookMember: self.facebookMember)
+                        MyVriables.kindRegstir = "phone-Header"
+                        self.performSegue(withIdentifier: "showTerms", sender: self)
+//                        self.checkIfMember(textFeild: self.phoneNumber!,type: "phone", facebookMember: self.facebookMember)
                         
                         
                     }
@@ -238,6 +240,21 @@ class HeaderViewController: UIViewController, CountryPickerViewDelegate, Country
             self.registerView.isHidden = true
 
         }
+        SwiftEventBus.onMainThread(self, name: "phone-Header") { result in
+            //self
+            self.checkIfMember(textFeild: self.phoneNumber!,type: "phone", facebookMember: self.facebookMember)
+        }
+        SwiftEventBus.onMainThread(self, name: "facebookLogin2") { result in
+            MyVriables.kindRegstir = "facebook-Header"
+            self.facebookMember = result?.object as! FacebookMember
+            self.performSegue(withIdentifier: "showTerms", sender: self)
+            
+        }
+        SwiftEventBus.onMainThread(self, name: "facebook-Header") { result in
+            
+            self.checkIfMember(textFeild: (self.facebookMember?.facebook_id!)!, type: "facebook_id",facebookMember: self.facebookMember)
+            
+        }
         fbBt.addTarget(self, action: #selector(handleCustomFBLogin), for: .touchUpInside)
 
 //        facebookRegisterView.addTapGestureRecognizer {
@@ -272,20 +289,11 @@ class HeaderViewController: UIViewController, CountryPickerViewDelegate, Country
     override func viewWillAppear(_ animated: Bool) {
         setBadges()
         backView.addTapGestureRecognizer {
-          
-//            if let navController = self.navigationController {
-//    navController.popViewController(animated: true)
-//            }
             self.navigationController?.popViewController(animated: true)
             self.dismiss(animated: true, completion: nil)
         }
-        SwiftEventBus.onMainThread(self, name: "facebookLogin2") { result in
-            // let facebookId : String = result.object as! String
-            //self.checkIfMember(phone: phonenumber)
-            self.facebookMember = result?.object as! FacebookMember
-            self.checkIfMember(textFeild: (self.facebookMember?.facebook_id!)!, type: "facebook_id",facebookMember: self.facebookMember)
-            
-        }
+       
+        
         phoneRegisterView.addTapGestureRecognizer {
             self.registerView.isHidden = true
             self.pickerView.isHidden = false
@@ -426,6 +434,7 @@ class HeaderViewController: UIViewController, CountryPickerViewDelegate, Country
                 }
                 print(response.description)
                 do{
+                    self.view.endEditing(true)
                     let  member = try JSONDecoder().decode(CurrentMember.self, from: response.data)
                     print(member)
                     SwiftEventBus.post("refreshGroupRolee")
@@ -516,6 +525,8 @@ class HeaderViewController: UIViewController, CountryPickerViewDelegate, Country
                 }
                 print(response.description)
                 do{
+                    self.view.endEditing(true)
+
                     let  member = try JSONDecoder().decode(CurrentMember.self, from: response.data)
                     print(member)
                     SwiftEventBus.post("refreshGroupRolee")
@@ -704,6 +715,7 @@ class HeaderViewController: UIViewController, CountryPickerViewDelegate, Country
                 }
                 print(response.description)
                 do{
+                    self.view.endEditing(true)
                     let  member = try JSONDecoder().decode(CurrentMember.self, from: response.data)
                     print(member)
                     self.currentMember = member

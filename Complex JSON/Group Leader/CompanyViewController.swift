@@ -38,7 +38,7 @@ class CompanyViewController: UIViewController {
        // companyImage.image.url
         
         if MyVriables.currentGroup?.group_leader_company_image != nil {
-        var urlString = try ApiRouts.Web + (MyVriables.currentGroup?.group_leader_company_image)!
+        var urlString = try ApiRouts.Media + (MyVriables.currentGroup?.group_leader_company_image)!
         print("Url string is \(urlString)")
         urlString = urlString.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)!
         var url = URL(string: urlString)

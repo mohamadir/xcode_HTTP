@@ -77,6 +77,7 @@
 		74E52A7620F259740018D5B2 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E52A7320F259720018D5B2 /* WebViewController.swift */; };
 		74E52A7720F259740018D5B2 /* BottomVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E52A7420F259730018D5B2 /* BottomVC.swift */; };
 		74E52A7920F25E4C0018D5B2 /* MainMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E52A7820F25E4C0018D5B2 /* MainMapViewController.swift */; };
+		74ED5BD9210DC1870035B8EC /* SnapgroupTermModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74ED5BD8210DC1870035B8EC /* SnapgroupTermModal.swift */; };
 		74F0208620FB7FA2000193ED /* RegisterModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F0208520FB7FA2000193ED /* RegisterModal.swift */; };
 		74F7AAA120580D1F00E66DF8 /* ScrollTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F7AAA020580D1F00E66DF8 /* ScrollTestViewController.swift */; };
 		74F7AAA320595D6B00E66DF8 /* ItineraryServiceViewControllerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F7AAA220595D6B00E66DF8 /* ItineraryServiceViewControllerCell.swift */; };
@@ -242,6 +243,7 @@
 		74E52A7320F259720018D5B2 /* WebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		74E52A7420F259730018D5B2 /* BottomVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BottomVC.swift; sourceTree = "<group>"; };
 		74E52A7820F25E4C0018D5B2 /* MainMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMapViewController.swift; sourceTree = "<group>"; };
+		74ED5BD8210DC1870035B8EC /* SnapgroupTermModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnapgroupTermModal.swift; sourceTree = "<group>"; };
 		74F0208520FB7FA2000193ED /* RegisterModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterModal.swift; sourceTree = "<group>"; };
 		74F0521020657938009A4273 /* Complex JSON.xcworkspace */ = {isa = PBXFileReference; lastKnownFileType = wrapper.workspace; path = "Complex JSON.xcworkspace"; sourceTree = "<group>"; };
 		74F0521120657938009A4273 /* Snapgroup.xcworkspace */ = {isa = PBXFileReference; lastKnownFileType = wrapper.workspace; path = Snapgroup.xcworkspace; sourceTree = "<group>"; };
@@ -478,6 +480,7 @@
 		743A207F203C1B12008DF1AA /* Complex JSON */ = {
 			isa = PBXGroup;
 			children = (
+				74ED5BDA210DEF5B0035B8EC /* Snapgroup Terms */,
 				7472404820C8217E0054FB35 /* Assets.xcassets */,
 				7E869DD420BD3EF800DD8E5E /* Contry Code */,
 				7ED602A720BAB7060073EEB9 /* Gdpr */,
@@ -649,6 +652,14 @@
 				740FD76F20F38F2500FAD766 /* FilterCell.swift */,
 			);
 			path = "New Map With Footer";
+			sourceTree = "<group>";
+		};
+		74ED5BDA210DEF5B0035B8EC /* Snapgroup Terms */ = {
+			isa = PBXGroup;
+			children = (
+				74ED5BD8210DC1870035B8EC /* SnapgroupTermModal.swift */,
+			);
+			path = "Snapgroup Terms";
 			sourceTree = "<group>";
 		};
 		74F7AAE0205BE69600E66DF8 /* Documents */ = {
@@ -1276,6 +1287,7 @@
 				74AE7C3B20E4ED7B00C11492 /* CompanyViewController.swift in Sources */,
 				7E843A1720B6B54200E36A69 /* WebViewViewController.swift in Sources */,
 				740FD77020F38F2500FAD766 /* FilterCell.swift in Sources */,
+				74ED5BD9210DC1870035B8EC /* SnapgroupTermModal.swift in Sources */,
 				7423757F20499FB600B9A0C0 /* PrivateChatViewController.swift in Sources */,
 				74FBD10A20514220002D223A /* MemberCollectionCell.swift in Sources */,
 				74E52A7520F259740018D5B2 /* ContentVC.swift in Sources */,

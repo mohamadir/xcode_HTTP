@@ -20,12 +20,12 @@ PODS:
   - Digger (0.0.5)
   - ExpandableLabel (0.4.1)
   - Fabric (1.7.9)
-  - FBSDKCoreKit (4.34.0):
+  - FBSDKCoreKit (4.35.0):
     - Bolts (~> 1.7)
-  - FBSDKLoginKit (4.34.0):
+  - FBSDKLoginKit (4.35.0):
     - FBSDKCoreKit
-  - FBSDKShareKit (4.34.0):
-    - FBSDKCoreKit (~> 4.34.0)
+  - FBSDKShareKit (4.35.0):
+    - FBSDKCoreKit (~> 4.35.0)
   - Firebase/Core (5.4.1):
     - Firebase/CoreOnly
     - FirebaseAnalytics (= 5.0.1)
@@ -78,7 +78,7 @@ PODS:
     - ImageSlideshow/Core
   - ImageSlideshow/Core (1.6.1)
   - ISHPullUp (1.0.7)
-  - Kingfisher (4.8.0)
+  - Kingfisher (4.8.1)
   - leveldb-library (1.20)
   - M13Checkbox (3.2.2)
   - moa (9.0.2)
@@ -193,9 +193,9 @@ SPEC CHECKSUMS:
   Digger: c474bde76a91e0a36f12101c5dfe7e86774b15d3
   ExpandableLabel: 1ad99072d1d90f1db5925b8d04d56bf8607e5f9b
   Fabric: a2917d3895e4c1569b9c3170de7320ea1b1e6661
-  FBSDKCoreKit: 0ff57f093b85c8c9d5aba697d3edf68a8960ce78
-  FBSDKLoginKit: 8c78f57a145afb756e4755e69195ebe08a42466e
-  FBSDKShareKit: 511d1dfc71204c0a8d69e6c5e3c964dcf0d4f3d9
+  FBSDKCoreKit: 1a5b2e3ceb5ca827a53c54aa5f4a3480efff80d2
+  FBSDKLoginKit: 00a3d65d1226852f9d76dcddff01981e5e6d9c38
+  FBSDKShareKit: 2ddbd7e6432023fff957af62e23a3671b84319f7
   Firebase: 355bd535bfdacaa82a7fe8d9784115edefd6fc03
   FirebaseAnalytics: b3628aea54c50464c32c393fb2ea032566e7ecc2
   FirebaseCore: 4c28e3b9708ba48a765e76515f913a71596eb5dd
@@ -210,7 +210,7 @@ SPEC CHECKSUMS:
   GoogleToolboxForMac: 91c824d21e85b31c2aae9bb011c5027c9b4e738f
   ImageSlideshow: f0f33e1a20668e83d77f5fb7729e4ae4437c0759
   ISHPullUp: eaa91bef06270264e1f923bc764705173d341495
-  Kingfisher: 976d828df2b24834c6a3f2fc4d82cdbd26552be1
+  Kingfisher: 868c1149679a7ab6869be118faa9b5aed154aaf0
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
   M13Checkbox: a8c2491cfbbca10797925fd0b9154a782bf40d89
   moa: b73dc5e0efa1fad00711c4608e41b197f4d15b12

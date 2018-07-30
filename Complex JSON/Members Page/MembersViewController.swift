@@ -95,7 +95,7 @@ class MembersViewController: UIViewController,UICollectionViewDelegate, UICollec
         self.navigationController?.setNavigationBarHidden(true, animated: false)
     }
     override func viewWillDisappear(_ animated: Bool) {
-        self.navigationController?.setNavigationBarHidden(false, animated: false)
+       // self.navigationController?.setNavigationBarHidden(false, animated: false)
 
     }
     

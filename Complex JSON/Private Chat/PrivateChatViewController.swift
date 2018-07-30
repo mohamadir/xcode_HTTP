@@ -112,7 +112,7 @@ class PrivateChatViewController: UIViewController ,UIImagePickerControllerDelega
         Alamofire.upload(multipartFormData: { multipartFormData in
             multipartFormData.append(imgData, withName: "single_image",fileName: "profile_image.jpg", mimeType: "image/jpg")
             
-        },to:"https://api.snapgroup.co.il/api/upload_single_image/Member/\((MyVriables.currentMember?.id!)!)/media")
+        },to:"\(ApiRouts.Media)/api/upload_single_image/Member/\((MyVriables.currentMember?.id!)!)/media")
         { (result) in
             switch result {
             case .success(let upload, _, _):
@@ -128,7 +128,7 @@ class PrivateChatViewController: UIViewController ,UIImagePickerControllerDelega
                             if let path = imageobj["path"] as? String{
                                 print("DICTIONARY: LEVEL 2")
                                 var oponent_id =  ChatUser.currentUser?.id!
-                                var image_path = ApiRouts.Web + path
+                                var image_path = ApiRouts.Media + path
                                 let params = ["type":"image","image_path": image_path  , "message": "", "sender_id": (MyVriables.currentMember?.id!)!, "chat_type" : "private", "receiver_id" : oponent_id!] as [String : Any]
                                 print("params: \(params)")
                                 HTTP.POST(ApiRouts.Web + "/api/chats", parameters: params) { response in
@@ -250,7 +250,7 @@ class PrivateChatViewController: UIViewController ,UIImagePickerControllerDelega
         
         
         if self.messageUser?.profile_image != nil {
-            let urlString = ApiRouts.Web + (self.messageUser?.profile_image)!
+            let urlString = ApiRouts.Media + (self.messageUser?.profile_image)!
             let url = URL(string: urlString)
             userImage.sd_setImage(with: url! , placeholderImage: UIImage(named: "default user"))
         }else {
@@ -472,7 +472,7 @@ class PrivateChatViewController: UIViewController ,UIImagePickerControllerDelega
         }
         imageView.clipsToBounds = true
         if ChatUser.currentUser?.profile_image != nil && (ChatUser.currentUser?.profile_image)! != "" {
-            var urlString = ApiRouts.Web + (ChatUser.currentUser?.profile_image)!
+            var urlString = ApiRouts.Media + (ChatUser.currentUser?.profile_image)!
             if (ChatUser.currentUser?.profile_image)!.contains("http") {
                 urlString = (ChatUser.currentUser?.profile_image)!
             }
@@ -703,7 +703,7 @@ class PrivateChatViewController: UIViewController ,UIImagePickerControllerDelega
             performSegue(withIdentifier: "showImageSegue", sender: self)
         }
     }
-    
+     var urlString: String = ""
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         if allMessages[indexPath.row].member_id == MyVriables.currentMember?.id! {
@@ -711,13 +711,23 @@ class PrivateChatViewController: UIViewController ,UIImagePickerControllerDelega
 
             if allMessages[indexPath.row].type == "image" {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "imageMeCell") as! ImageMeTableViewCell
-                let urlString = (allMessages[indexPath.row].image_path)!
+                if (allMessages[indexPath.row].image_path) != nil {
+                   
+                    if (allMessages[indexPath.row].image_path)!.contains("http"){
+                urlString = (allMessages[indexPath.row].image_path)!
+                    }
+                    else
+                    {
+                        urlString = ApiRouts.Media +  (allMessages[indexPath.row].image_path)!
+
+                    }
                 let url = URL(string: urlString)
-                
                 print("--PRIVATECHAT \(urlString)")
-                
                 cell.meImageView.sd_setImage(with: url! , placeholderImage: UIImage(named: "Group Placeholder"))
-                
+                } else
+                {
+                    cell.meImageView.image = UIImage(named: "Group Placeholder")
+                }
                 
                 return cell
             }else {
@@ -733,12 +743,21 @@ class PrivateChatViewController: UIViewController ,UIImagePickerControllerDelega
         } else {
             if allMessages[indexPath.row].type == "image" {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "partnerImageCell") as! ImagePartnerTableViewCell
-                let urlString =  (allMessages[indexPath.row].image_path)!
+                if (allMessages[indexPath.row].image_path) != nil {
+                if (allMessages[indexPath.row].image_path)!.contains("http"){
+                    urlString =  (allMessages[indexPath.row].image_path)!
+                }else{
+                    urlString = ApiRouts.Media +  (allMessages[indexPath.row].image_path)!
+                }
                 let url = URL(string: urlString)
                 print("--PRIVATECHAT \(urlString)")
                 
                 cell.partnerImageview.sd_setImage(with: url! , placeholderImage: UIImage(named: "Group Placeholder"))
-                
+                }
+                else
+                {
+                     cell.partnerImageview.image = UIImage(named: "Group Placeholder")
+                }
                 return cell
             }else{
                 let cell = tableView.dequeueReusableCell(withIdentifier: "partnerCell") as! PartnerViewCell

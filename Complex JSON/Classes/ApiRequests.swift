@@ -10,13 +10,15 @@ import Foundation
 import SwiftHTTP
 class ApiRouts{
  static let Web: String = "https://api.snapgroup.co"
+ static let Media: String = "https://media.snapgroup.co"
  static let ChatServer: String = "\(Web):3030/"
  static let Api: String  = "https://api.snapgroup.co/api"
  static let AllGroupsRequest: String = "\(Api)/groups"
  static let OpenGroups: String = "\(Api)/filter/open"
  static let RegisterCode: String = "\(Api)/getregistercode"
  static let Register: String = "\(Api)/register"
-    
+ 
+
  // action types
     
     static let CreateGroupType: String = "create_group"

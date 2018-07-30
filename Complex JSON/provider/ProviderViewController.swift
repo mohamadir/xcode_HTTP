@@ -233,7 +233,7 @@ class ProviderViewController: UIViewController,UITableViewDelegate,UITableViewDa
                             
                             for image in (self.providerModel?.images)! {
                                 if image.path !=  nil {
-                                    let image_path: String = "\(ApiRouts.Web)\(image.path!)"
+                                    let image_path: String = "\(ApiRouts.Media)\(image.path!)"
                                     print("%%%%%%%%%%%%%%%%%%%% \(image_path)")
                                     if AlamofireSource(urlString: image_path.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)!) != nil  {
                                         print("1details image paths : \(image_path) and  ok !!!")
@@ -394,7 +394,7 @@ class ProviderViewController: UIViewController,UITableViewDelegate,UITableViewDa
            
             if self.ratingsArray?[indexPath.row].image_path != nil
             {
-                var urlString: String = try ApiRouts.Web + (self.ratingsArray?[indexPath.row].image_path)!
+                var urlString: String = try ApiRouts.Media + (self.ratingsArray?[indexPath.row].image_path)!
                  urlString = urlString.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)!
                 if let url = URL(string: urlString) {
                     cell.profileImage.sd_setImage(with: url, placeholderImage: UIImage(named: "default user"), completed: nil)

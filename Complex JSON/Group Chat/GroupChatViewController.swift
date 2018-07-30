@@ -222,7 +222,7 @@ class GroupChatViewController: UIViewController, UITableViewDelegate, UITableVie
         print("AlamoUpload: START")
         let imgData = UIImageJPEGRepresentation(image, 0.2)!
         ARSLineProgress.show()
-        var urlString: String = "https://api.snapgroup.co.il/api/upload_single_image/Member/\((MyVriables.currentMember?.id!)!)/media"
+        var urlString: String = "\(ApiRouts.Media)/api/upload_single_image/Member/\((MyVriables.currentMember?.id!)!)/media"
         urlString = urlString.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)!
         Alamofire.upload(multipartFormData: { multipartFormData in
             multipartFormData.append(imgData, withName: "single_image",fileName: "image.jpg", mimeType: "image/jpg")
@@ -244,7 +244,7 @@ class GroupChatViewController: UIViewController, UITableViewDelegate, UITableVie
                             if let path = imageobj["path"] as? String{
                                 print("DICTIONARY: LEVEL 2")
                                 var oponent_id =  ChatUser.currentUser?.id!
-                                var image_path = ApiRouts.Web + path
+                                var image_path = ApiRouts.Media + path
                                 let params = ["type":"image","image_path": image_path  , "message": "", "sender_id": (MyVriables.currentMember?.id!)!, "chat_type" : "group", "group_id" : MyVriables.currentGroup?.id!, "chat_id" : MyVriables.currentGroup?.chat?.id!] as [String : Any]
                                 print("params: \(params)")
                                 HTTP.POST("\(ApiRouts.Web)/api/chats", parameters: params) { response in
@@ -370,7 +370,7 @@ class GroupChatViewController: UIViewController, UITableViewDelegate, UITableVie
                         }
                         else
                         {
-                            urlString = try ApiRouts.Web + (self.messages?.messages?.data![indexPath.row].image_path)!
+                            urlString = try ApiRouts.Media + (self.messages?.messages?.data![indexPath.row].image_path)!
                         }
                        print("Url string is \(urlString)")
                         urlString = urlString.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)!
@@ -401,7 +401,7 @@ class GroupChatViewController: UIViewController, UITableViewDelegate, UITableVie
                     }
                     else
                     {
-                    let urlString = try ApiRouts.Web + (self.messages?.messages?.data![indexPath.row].profile_image)!
+                    let urlString = try ApiRouts.Media + (self.messages?.messages?.data![indexPath.row].profile_image)!
                     let url = URL(string: urlString)
                     cell.partnerProfile.sd_setImage(with: url!, completed: nil)
                     imagePartnerCell.partnerImageProfile.sd_setImage(with: url!, completed: nil)
@@ -453,7 +453,7 @@ class GroupChatViewController: UIViewController, UITableViewDelegate, UITableVie
                             urlString = (self.messages?.messages?.data![indexPath.row].image_path)!
                         }
                         else {
-                            urlString = try ApiRouts.Web + (self.messages?.messages?.data![indexPath.row].image_path)! }
+                            urlString = try ApiRouts.Media + (self.messages?.messages?.data![indexPath.row].image_path)! }
                        urlString = urlString.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)!
                         let url = URL(string: urlString)
                         if url != nil{

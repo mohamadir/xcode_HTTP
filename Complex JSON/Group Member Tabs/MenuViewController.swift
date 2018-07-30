@@ -116,6 +116,7 @@ class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UI
     
     override func viewWillDisappear(_ animated: Bool) {
         timer1.invalidate()
+        // self.navigationController?.setNavigationBarHidden(false, animated: false)
     }
     override func viewDidDisappear(_ animated: Bool) {
         timer1.invalidate()
@@ -357,7 +358,7 @@ class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UI
              {
                 
                 self.checkListView.alpha = 1
-                self.roomlistView.alpha = 1
+               // self.roomlistView.alpha = 1
                 self.docsView.alpha = 1
                 self.arrivalConfirmationView.alpha = 1
                 self.groupChatView.alpha = 1

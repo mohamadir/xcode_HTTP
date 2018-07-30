@@ -69,7 +69,7 @@ class UploadFilesViewController: UIViewController, UITableViewDataSource, UITabl
         cell2.viewWebView.layer.shadowRadius = 1
         cell2.indictorProgress.show()
         cell2.tag = indexPath.row
-        var urlString: String = "https://api.snapgroup.co.il" + (self.documents?.files[indexPath.row].path)!
+        var urlString: String = ApiRouts.Media + (self.documents?.files[indexPath.row].path)!
         urlString = urlString.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)!
         if verifyUrl(urlString: urlString)
         {

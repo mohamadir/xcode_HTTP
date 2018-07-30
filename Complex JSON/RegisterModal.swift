@@ -57,10 +57,10 @@ class RegisterModal: UIViewController, CountryPickerViewDelegate, CountryPickerV
                     }
                     print ("successed")
                     DispatchQueue.main.sync {
-                        //
+                       
+                        self.dismiss(animated: false, completion: nil)
                         SwiftEventBus.post("checkMember", sender : "\(self.contryCodeString)\(self.phoneLbl.text!)")
 
-                        self.dismiss(animated: false, completion: nil)
                         
                         
                     }

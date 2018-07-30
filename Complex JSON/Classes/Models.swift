@@ -20,6 +20,7 @@ struct MyVriables {
     static var fileName: String?
     static var arrayGdpr : GdprPost?
     static var currntUrl: String?
+    static var kindRegstir: String?
     static var currentType: String?
     static var currentGroup: TourGroup?
     static var isAvailble: Bool = true

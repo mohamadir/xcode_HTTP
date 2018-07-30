@@ -141,7 +141,7 @@ class Upload1ViewController: UIViewController ,UITableViewDelegate, UIImagePicke
         print("AlamoUpload: START")
         let imgData = UIImageJPEGRepresentation(image, 0.2)!
         ARSLineProgress.show()
-        var urlString: String = ApiRouts.Web + "/api/upload/\((MyVriables.currentMember?.id!)!)?upload_type=group&group_id=\((MyVriables.currentGroup?.id)!)&file_type=\((self.documents?.required_documents[indexMedia].item)!)"
+        var urlString: String = ApiRouts.Media + "/api/upload/\((MyVriables.currentMember?.id!)!)?upload_type=group&group_id=\((MyVriables.currentGroup?.id)!)&file_type=\((self.documents?.required_documents[indexMedia].item)!)"
         urlString = urlString.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)!
         Alamofire.upload(multipartFormData: { multipartFormData in
             multipartFormData.append(imgData, withName: "file",fileName: "profile_image.jpg", mimeType: "image/jpg")

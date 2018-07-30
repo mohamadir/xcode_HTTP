@@ -141,7 +141,7 @@ class ChatViewController: UIViewController , UITableViewDelegate, UITableViewDat
      
         //if cell.tag == indexPath.rowow
         if self.messagesNoPartner?[indexPath.row].partner?.profile_image != nil {
-            var urlString = ApiRouts.Web + (self.messagesNoPartner?[indexPath.row].partner?.profile_image)!
+            var urlString = ApiRouts.Media + (self.messagesNoPartner?[indexPath.row].partner?.profile_image)!
             if self.messagesNoPartner?[indexPath.row].partner?.profile_image?.contains("https") == true {
                 urlString = (self.messagesNoPartner?[indexPath.row].partner?.profile_image!)!
                   urlString = urlString.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)!

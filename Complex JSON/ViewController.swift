@@ -84,7 +84,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet var InboxCounterView: DesignableView!
     @IBOutlet var ChatCounterView: DesignableView!
     @IBOutlet var countryCodeVeiw: UIView!
-    
+    var phonenumber_ : String = ""
     @IBOutlet var myGroupByPhoneView: UIView!
     @IBOutlet var chatView: UIView!
     @IBOutlet var inboxView: UIView!
@@ -376,6 +376,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             refreshList()
             MyVriables.shouldRefresh = false
         }
+        let defaults = UserDefaults.standard
+        let isLogged = defaults.bool(forKey: "isLogged")
+        if isLogged == true
+        {
+            self.setBadges()
+
+        }
+
        
     }
     fileprivate func swiftEventFunc() {
@@ -522,7 +530,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
       
         let defaults = UserDefaults.standard
         let isLogged = defaults.bool(forKey: "isLogged")
-        
+        //self.tableView.tableHeaderView = self.chatHeaderStackView
         if isLogged != true{
             DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
                 if let window = UIApplication.shared.delegate?.window {
@@ -540,6 +548,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                             }
                             else {
                                 self.performSegue(withIdentifier: "showRegstirModal", sender: self)
+//                                self.performSegue(withIdentifier: "showTerms", sender: self)
                             }
                         }
                     }
@@ -567,13 +576,25 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
       
         SwiftEventBus.onMainThread(self, name: "facebookLogin") { result in
             self.facebookMember = result?.object as! FacebookMember
+            MyVriables.kindRegstir = "facebook-Regstir"
+            self.performSegue(withIdentifier: "showTerms", sender: self)
+        }
+        SwiftEventBus.onMainThread(self, name: "facebook-Regstir") { result in
             self.checkIfMember(textFeild: (self.facebookMember?.facebook_id!)!, type: "facebook_id",facebookMember: self.facebookMember)
+        }
+        SwiftEventBus.onMainThread(self, name: "termConfirm") { result in
+            self.checkIfMember(textFeild: "\(self.contryCodeString)\(self.phoneNumberFeild.text!)",type: "phone", facebookMember: self.facebookMember)
             
         }
+        
         SwiftEventBus.onMainThread(self, name: "checkMember") { result in
-            let phonenumber : String = result?.object as! String
-            self.checkIfMember(textFeild: phonenumber, type: "phone",facebookMember : self.facebookMember)
-
+            print("Im here in checkmember before present")
+            self.phonenumber_  = result?.object as! String
+            MyVriables.kindRegstir = "phone-Regstir"
+            self.performSegue(withIdentifier: "showTerms", sender: self)
+        }
+        SwiftEventBus.onMainThread(self, name: "termConfirm-phone-Regstir") { result in
+            self.checkIfMember(textFeild: self.phonenumber_, type: "phone",facebookMember : self.facebookMember)
         }
         fPickerView.delegate = self
         fPickerView.delegate = self
@@ -657,6 +678,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         setFilterView()
         setMemberMenuView()
     }
+//    func numberOfSections(in tableView: UITableView) -> Int {
+//        return 2
+//    }
     
     @objc func handleCustomFBLogin() {
         FBSDKLoginManager().logIn(withReadPermissions: ["email"], from: self) { (result, err) in
@@ -838,7 +862,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         Alamofire.upload(multipartFormData: { multipartFormData in
             multipartFormData.append(imgData, withName: "single_image",fileName: "profile_image.jpg", mimeType: "image/jpg")
-        },to:"https://api.snapgroup.co.il/api/upload_single_image/Member/\((MyVriables.currentMember?.id!)!)/profile")
+        },to:"\(ApiRouts.Media)/api/upload_single_image/Member/\((MyVriables.currentMember?.id!)!)/profile")
         { (result) in
             switch result {
             case .success(let upload, _, _):
@@ -863,7 +887,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                                         self.profileImageView.layer.masksToBounds = false
                                         self.profileImageView.layer.cornerRadius = self.profileImageView.frame.height/2
                                         self.profileImageView.clipsToBounds = true
-                                        let urlString =  ApiRouts.Web + path
+                                        let urlString =  ApiRouts.Media + path
                                         var url = URL(string: urlString)
                                         self.profileImageView.sd_setImage(with: url!, completed: nil)
                                         self.setToUserDefaults(value: path, key: "profile_image")
@@ -1193,10 +1217,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 }
                 print ("successed")
                 DispatchQueue.main.sync {
-//
-                    self.checkIfMember(textFeild: "\(self.contryCodeString)\(self.phoneNumberFeild.text!)",type: "phone", facebookMember: self.facebookMember)
-                    
-                    
+                    MyVriables.kindRegstir = "phone"
+                    self.performSegue(withIdentifier: "showTerms", sender: self)
                 }
                 //do things...
             }
@@ -1738,7 +1760,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                             {
                                 urlString = (profile_image)!
                             }else{
-                         urlString = ApiRouts.Web + (profile_image)!
+                         urlString = ApiRouts.Media + (profile_image)!
                             }
                         print("Url string is \(urlString)")
                             urlString = urlString?.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)!
@@ -1748,7 +1770,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                         }
                         }
                         
-                    }
+                    }else
+                    {
+                        self.profileImageView.image = UIImage(named : "default user")
+                        }
                      //SwiftEventBus.post("counters")
                     
                 }
@@ -1828,7 +1853,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         if currentIndex > -1 && currentIndex < self.myGrous.count {
         if self.myGrous[currentIndex].image != nil{
             do{
-                var urlString: String = try ApiRouts.Web + (self.myGrous[currentIndex].image)!
+                var urlString: String = try ApiRouts.Media + (self.myGrous[currentIndex].image)!
                 urlString = urlString.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)!
                 if let url = URL(string: urlString) {
 //                     cell.imageosh.sd_setImage(with: url, placeholderImage: UIImage(named: "Group Placeholder"), completed: nil)
@@ -1872,7 +1897,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             if self.myGrous[currentIndex].group_leader_image != nil{
                 do{
                     
-                    var urlString = try ApiRouts.Web + (self.myGrous[currentIndex].group_leader_image)!
+                    var urlString = try ApiRouts.Media + (self.myGrous[currentIndex].group_leader_image)!
                     urlString = urlString.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)!
                     
                     var url = URL(string: urlString)
@@ -1904,7 +1929,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             if self.myGrous[currentIndex].group_leader_company_image != nil{
                 
                 do{
-                    var urlString = try ApiRouts.Web + (self.myGrous[currentIndex].group_leader_company_image)!
+                    var urlString = try ApiRouts.Media + (self.myGrous[currentIndex].group_leader_company_image)!
                     urlString = urlString.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)!
                     var url = URL(string: urlString)
                     if url == nil {

@@ -62,10 +62,17 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
         SwiftEventBus.onMainThread(self, name: "facebookLogin3") { result in
             // let facebookId : String = result.object as! String
             //self.checkIfMember(phone: phonenumber)
+            MyVriables.kindRegstir = "facebook-join"
             self.facebookMember = result?.object as! FacebookMember
-            self.checkIfMember(textFeild: (self.facebookMember?.facebook_id!)!, type: "facebook_id",facebookMember: self.facebookMember)
-            
+             self.performSegue(withIdentifier: "showTerms", sender: self)
         }
+        SwiftEventBus.onMainThread(self, name: "facebook-join") { result in
+            self.checkIfMember(textFeild: (self.facebookMember?.facebook_id!)!, type: "facebook_id",facebookMember: self.facebookMember)
+        }
+        SwiftEventBus.onMainThread(self, name: "phone-join") { result in
+           self.checkIfMember(textFeild: self.phoneNumber!,type: "phone", facebookMember: self.facebookMember)
+        }
+        //self.checkIfMember(textFeild: (self.facebookMember?.facebook_id!)!, type: "facebook_id",facebookMember: self.facebookMember)
         fbBt.addTarget(self, action: #selector(handleCustomFBLogin), for: .touchUpInside)
         SwiftEventBus.onMainThread(self, name: "refreshFromGroupJoin") { result in
             print("fromGdpr12")
@@ -118,29 +125,28 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
         let phone = defaults.string(forKey: "phone")
         let isLogged = defaults.bool(forKey: "isLogged")
         if isLogged == true{
+            if phone != "no value"{
+                phoneTextFeild.text = phone
+                phoneTextFeild.isEnabled = false
+                constaratPickerView.constant = 20
+                pickerView.isHidden = true
+                //countyCodePickerView.isUserInteractionEnabled = false
+            }else{
+                self.phoneTextFeild.isEnabled = true
+                constaratPickerView.constant = 93
+                pickerView.isHidden = false
+                //countyCodePickerView.isUserInteractionEnabled = true
+                
+            }
             facebookView.isHidden = true
-            self.phoneTextFeild.isEnabled = false
-            constaratPickerView.constant = 20
-            pickerView.isHidden = true
+            
         }else {
             facebookView.isHidden = false
             self.phoneTextFeild.isEnabled = true
             constaratPickerView.constant = 93
             pickerView.isHidden = false
         }
-        if phone != "no value"{
-            phoneTextFeild.text = phone
-            phoneTextFeild.isEnabled = false
-            //countyCodePickerView.isUserInteractionEnabled = false
-        }else{
-            self.phoneTextFeild.isEnabled = true
-            constaratPickerView.constant = 93
-            pickerView.isHidden = false
-            //countyCodePickerView.isUserInteractionEnabled = true
-            phoneTextFeild.isEnabled = true
-            
-            
-        }
+        
       
     }
     @objc func handleCustomFBLogin() {
@@ -411,7 +417,10 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
                         print ("successed")
                         DispatchQueue.main.sync {
                             //
-                             self.checkIfMember(textFeild: self.phoneNumber!,type: "phone", facebookMember: self.facebookMember)
+                            MyVriables.kindRegstir = "phone-join"
+                            self.performSegue(withIdentifier: "showTerms", sender: self)
+
+                            
                             
                             
                         }

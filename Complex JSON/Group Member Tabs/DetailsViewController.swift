@@ -134,7 +134,7 @@ class DetailsViewController: UIViewController {
                 var image_path: String = ""
                 for image in self.groupImages {
                     if image.path !=  nil {
-                        image_path = "\(ApiRouts.Web)\(image.path!)"
+                        image_path = "\(ApiRouts.Media)\(image.path!)"
                         if AlamofireSource(urlString: image_path) != nil  {
                             self.images2.append(AlamofireSource(urlString: image_path)!)
                         }
@@ -213,7 +213,7 @@ class DetailsViewController: UIViewController {
        // print(singleGroup?.group_leader_image)
        
         if singleGroup?.group_leader_image != nil{
-            var urlString: String = ApiRouts.Web + (singleGroup?.group_leader_image!)!
+            var urlString: String = ApiRouts.Media + (singleGroup?.group_leader_image!)!
             urlString = urlString.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)!
             let url = URL(string: urlString)
             groupLeaderImageView.downloadedFrom(url: url!, contentMode: .scaleToFill)
