@@ -117,7 +117,7 @@ class GroupViewController: UIViewController   , UIImagePickerControllerDelegate,
                  //   var images2: [InputSource]?
                         for image in self.groupImages {
                             
-                            images2?.append(AlamofireSource(urlString: "https://api.snapgroup.co.il\((image.path)!)")!)
+                            images2?.append(AlamofireSource(urlString: "\(ApiRouts.Media)\((image.path)!)")!)
                            // self.slideShow.setImageInputs(<#T##inputs: [InputSource]##[InputSource]#>)
                   //  self.scrollView.auk.show(url: "https://api.snapgroup.co.il\((image.path)!)")
                 }
@@ -140,7 +140,7 @@ class GroupViewController: UIViewController   , UIImagePickerControllerDelegate,
 
     func setUpSocket(){
         print("----- ABED -----")
-        let manager = SocketManager(socketURL: URL(string: "https://api.snapgroup.co.il:3030/")!, config: [.log(true),.forcePolling(true)])
+        let manager = SocketManager(socketURL: URL(string: "\(ApiRouts.ChatServer)")!, config: [.log(true),.forcePolling(true)])
         
         socket!.on(clientEvent: .connect) {data, ack in
             print("socket connected")

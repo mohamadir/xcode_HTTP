@@ -185,12 +185,14 @@ public func download(
     to destination: DownloadRequest.DownloadFileDestination? = nil)
     -> DownloadRequest
 {
+    let defaults = UserDefaults.standard
+    let access_token = defaults.string(forKey: "access_token")
     return SessionManager.default.download(
         url,
         method: method,
         parameters: parameters,
         encoding: encoding,
-        headers: headers,
+        headers: ["Authorization" : "Bearer \(access_token!)"],
         to: destination
     )
 }
@@ -381,12 +383,15 @@ public func upload(
     headers: HTTPHeaders? = nil,
     encodingCompletion: ((SessionManager.MultipartFormDataEncodingResult) -> Void)?)
 {
+    let defaults = UserDefaults.standard
+    let access_token = defaults.string(forKey: "access_token")
+    
     return SessionManager.default.upload(
         multipartFormData: multipartFormData,
         usingThreshold: encodingMemoryThreshold,
         to: url,
         method: method,
-        headers: headers,
+        headers: ["Authorization" : "Bearer \(access_token!)"],
         encodingCompletion: encodingCompletion
     )
 }

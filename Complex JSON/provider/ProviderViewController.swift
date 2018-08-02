@@ -63,13 +63,11 @@ class ProviderViewController: UIViewController,UITableViewDelegate,UITableViewDa
 
 
     }
+    override func viewDidAppear(_ animated: Bool) {
+        getUrlService()
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     override func viewWillAppear(_ animated: Bool) {
-        getUrlService()
         print("after dismniss ")
     }
 
@@ -93,33 +91,33 @@ class ProviderViewController: UIViewController,UITableViewDelegate,UITableViewDa
     func getUrlService(){
         switch ProviderInfo.currentProviderName!{
         case "Hotels":
-            urlGetService = ApiRouts.Web+"/api/get/hotel/\((ProviderInfo.currentProviderId)!)"
-            urlGetRate = ApiRouts.Web+"/api/getratings/hotels/\((ProviderInfo.currentProviderId)!)"
+            urlGetService = ApiRouts.Api+"/get/hotel/\((ProviderInfo.currentProviderId)!)"
+            urlGetRate = ApiRouts.Api+"/getratings/hotels/\((ProviderInfo.currentProviderId)!)"
             ProviderInfo.model_id = (ProviderInfo.currentProviderId)!
             ProviderInfo.model_type = "hotels"
         case "Places":
-            urlGetService = ApiRouts.Web+"/api/get/place/\((ProviderInfo.currentProviderId)!)"
-             urlGetRate = ApiRouts.Web+"/api/getratings/places/\((ProviderInfo.currentProviderId)!)"
+            urlGetService = ApiRouts.Api+"/get/place/\((ProviderInfo.currentProviderId)!)"
+             urlGetRate = ApiRouts.Api+"/getratings/places/\((ProviderInfo.currentProviderId)!)"
             ProviderInfo.model_id = (ProviderInfo.currentProviderId)!
             ProviderInfo.model_type = "places"
         case "Restaurants":
-            urlGetService = ApiRouts.Web+"/api/get/restaurant/\((ProviderInfo.currentProviderId)!)"
-             urlGetRate = ApiRouts.Web+"/api/getratings/restaurants/\((ProviderInfo.currentProviderId)!)"
+            urlGetService = ApiRouts.Api+"/get/restaurant/\((ProviderInfo.currentProviderId)!)"
+             urlGetRate = ApiRouts.Api+"/getratings/restaurants/\((ProviderInfo.currentProviderId)!)"
             ProviderInfo.model_id = (ProviderInfo.currentProviderId)!
             ProviderInfo.model_type = "restaurants"
         case "Tourguides":
-            urlGetService = ApiRouts.Web+"/api/get/tourguide/\((ProviderInfo.currentProviderId)!)"
-             urlGetRate = ApiRouts.Web+"/api/getratings/tourguides/\((ProviderInfo.currentProviderId)!)"
+            urlGetService = ApiRouts.Api+"/get/tourguide/\((ProviderInfo.currentProviderId)!)"
+             urlGetRate = ApiRouts.Api+"/getratings/tourguides/\((ProviderInfo.currentProviderId)!)"
             ProviderInfo.model_id = (ProviderInfo.currentProviderId)!
             ProviderInfo.model_type = "tourguides"
         case "Transport":
-            urlGetService = ApiRouts.Web+"/api/get/transport/\((ProviderInfo.currentProviderId)!)"
-             urlGetRate = ApiRouts.Web+"/api/getratings/transports/\((ProviderInfo.currentProviderId)!)"
+            urlGetService = ApiRouts.Api+"/get/transport/\((ProviderInfo.currentProviderId)!)"
+             urlGetRate = ApiRouts.Api+"/getratings/transports/\((ProviderInfo.currentProviderId)!)"
             ProviderInfo.model_id = (ProviderInfo.currentProviderId)!
             ProviderInfo.model_type = "transports"
         case "Activities":
-            urlGetService = ApiRouts.Web+"/api/get/activity/\((ProviderInfo.currentProviderId)!)"
-             urlGetRate = ApiRouts.Web+"/api/getratings/activities/\((ProviderInfo.currentProviderId)!)"
+            urlGetService = ApiRouts.Api+"/get/activity/\((ProviderInfo.currentProviderId)!)"
+             urlGetRate = ApiRouts.Api+"/getratings/activities/\((ProviderInfo.currentProviderId)!)"
             ProviderInfo.model_id = (ProviderInfo.currentProviderId)!
             ProviderInfo.model_type = "activities"
         default:

@@ -73,11 +73,66 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
         
       
     }
+    func getTokenReuqest() {
+        var params: [String: Any] = [:]
+        params = ["grant_type": "client_credentials", "client_id": "2", "scope": "", "client_secret": "YErvt0T9iPupWJfLOChPSkJKcqZKZhP0DHntkcTL"]
+        let url: String = ApiRouts.Web + "/oauth/token"
+        HTTP.POST(url, parameters: params) { response in
+            if response.error != nil {
+                print("error \(response.error)")
+                return
+            }
+            do {
+            let accessToken : AccessToken =  try JSONDecoder().decode(AccessToken.self, from: response.data)
+            let calendar = Calendar.current
+            let date = calendar.date(byAdding: .second, value: accessToken.expires_in!, to : Date())
+            let defaults = UserDefaults.standard
+            self.setToUserDefaults(value: accessToken.access_token!, key: "access_token")
+            self.setToUserDefaults(value: date, key: "expires_in")
+            DispatchQueue.main.async {
+                self.checkCurrentUser()
+            }
+            print ("successed \(response.description)")
+            }
+            catch {
+                
+            }
+        }
+    }
+    
+    func getAccessToken() {
+        let defaults = UserDefaults.standard
+        let access_token = defaults.string(forKey: "access_token")
+        let expires_in = defaults.object(forKey: "expires_in")
+        let calendar = Calendar.current
+        let date = calendar.date(byAdding: .second, value: 0, to : Date())
+        print("current date is \(date) and exp date is \(expires_in)")
+        if access_token == nil
+        {
+            print("Token is nil")
+            getTokenReuqest()
+        }
+        else
+        {
+            if (expires_in as! Date) > date! {
+                print("Token is not  nil and date < from exp date")
+                self.checkCurrentUser()
+                }
+                else
+                {
+                    print("Token is not  nil and date > from exp date")
+                    getTokenReuqest()
+
+                }
+        }
+    }
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        print("Im here in notfaction fire base function 1")
+        getAccessToken()
+
         // Override point for customization after application launch.
         //        UNUserNotificationCenter.current().delegate = self
-        checkCurrentUser()
        
         
         
@@ -96,7 +151,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
        // UIApplication.shared.unregisterForRemoteNotifications()
         
         ConnectToFcm()
-        
+
         SwiftEventBus.onMainThread(self, name: "registerRemote") { result in
             self.setRemoteNotfactionSettings(application)
         }
@@ -130,15 +185,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
         }
     }
     func subscribeToMyGroups(id: Int) {
-        print("Urlllll \(ApiRouts.Web+"/api/groups/members/\((id))?roles[]=group_leader&roles[]=member")")
-        HTTP.GET(ApiRouts.Web+"/api/groups/members/\((id))?roles[]=group_leader&roles[]=member") { response in
+        print("Urlllll \(ApiRouts.Web+"/api/v2/groups/members/\((id))?roles[]=group_leader&roles[]=member")")
+        HTTP.GET(ApiRouts.Api+"/groups/members/\((id))?roles[]=group_leader&roles[]=member") { response in
             if let error = response.error {
-                print(error)
+                print("V2 error is \(error)")
                 return
                 
             }
             do {
-                print("Response iss \(response.description)")
+                print("V2 Response iss \(response.description)")
                 let  groups : SubscribeGroups = try JSONDecoder().decode(SubscribeGroups.self, from: response.data)
                 if (groups.groups?.count) != 0
                 {
@@ -176,6 +231,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
     }
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        print("Im here in notfaction fire base function 2")
+
         print("FIREBASETOPIC: didRegisterForRemoteNotificationsWithDeviceToken")
         Messaging.messaging().apnsToken = deviceToken
         let currentTopic: String = MyVriables.CurrentTopic
@@ -198,10 +255,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
     
     
     func messaging(_ messaging: Messaging, didRefreshRegistrationToken fcmToken: String) {
+        print("Im here in notfaction fire base function 3")
+
         let newToken = InstanceID.instanceID().token()
         ConnectToFcm()
     }
     func setUpSocket(){
+        
         print("App delegt socket")
         let defaults = UserDefaults.standard
         let id = defaults.integer(forKey: "member_id")
@@ -260,6 +320,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
         
     }
     func applicationWillResignActive(_ application: UIApplication) {
+        print("Im here in notfaction fire base function 4")
+
         ConnectToFcm()
         FBSDKAppEvents.activateApp()
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
@@ -268,6 +330,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
     
     
     func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
+        print("Im here in notfaction fire base function 5")
+
         print("Sdk facebook im before sourceApplication ")
 
         return FBSDKApplicationDelegate.sharedInstance().application(application, open: url, sourceApplication: sourceApplication, annotation: annotation)
@@ -275,6 +339,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
 
     }
     func applicationDidEnterBackground(_ application: UIApplication) {
+        print("Im here in notfaction fire base function 6")
+
         Messaging.messaging().shouldEstablishDirectChannel = true
         ConnectToFcm()
         
@@ -283,11 +349,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
     }
     
     func applicationWillEnterForeground(_ application: UIApplication) {
+        print("Im here in notfaction fire base function 7 ")
+
         ConnectToFcm()
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
     }
     
     func applicationDidBecomeActive(_ application: UIApplication) {
+        print("Im here in notfaction fire base function 8")
+
         print("Sdk facebook im before applicationDidBecomeActive ")
         print("Sdk facebook im after applicationDidBecomeActive ")
 
@@ -295,12 +365,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
     }
     
     func applicationWillTerminate(_ application: UIApplication) {
-        
+        print("Im here in notfaction fire base function 9")
+
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
     
     
     func messaging(_ messaging: Messaging, didReceive remoteMessage: MessagingRemoteMessage) {
+        print("Im here in notfaction fire base function 10")
+
         print("recieve in MessagingRemoteMessage \(remoteMessage.appData["total_unread_messages"])")
         print("recieve in MessagingRemoteMessage \(remoteMessage.appData["click_action"])")
         if remoteMessage.appData["click_action"] != nil
@@ -333,14 +406,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
     
     
     func application(received remoteMessage: MessagingRemoteMessage) {
+        print("Im here in notfaction fire base function 11")
+
         print("notification remoteMessage 2 ")
     }
     
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+        print("Im here in notfaction fire base function 12")
+
         print("didFailToRegisterForRemoteNotificationsWithError \(error.localizedDescription)")
     }
     func timedNotifications(inSeconds: TimeInterval, completion: @escaping (_ Success: Bool) -> ()) {
-        
+        print("Im here in notfaction fire base function 13")
+
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: inSeconds, repeats: false)
         
         let content = UNMutableNotificationContent()
@@ -361,7 +439,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
     }
     
     func getNotificationsCounters(){
-        HTTP.GET(ApiRouts.Web + "/api/members/\((MyVriables.currentMember?.id!)!)/unread"){response in
+        let defaults = UserDefaults.standard
+        let id = defaults.integer(forKey: "member_id")
+        HTTP.GET(ApiRouts.Web + "/members/\(id)/unread"){response in
             let data = response.data
             do {
                 if response.error != nil {
@@ -391,6 +471,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
        UIApplication.shared.applicationIconBadgeNumber = 0
     }
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        print("Im here in notfaction fire base function 14")
+
         print("recieve in UIBackgroundFetchResult \(userInfo)")
         if userInfo["total_unread_messages"] != nil {
             print("CHAT-COUNTER IN RECEIVE REMOTE ")
@@ -457,6 +539,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
     
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        print("Im here in notfaction fire base function 15")
+
         print("recieve in UNNotificationResponse \(response.notification.description)")
   UIApplication.shared.applicationIconBadgeNumber = 0
 //        let mainStoryboard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
@@ -481,7 +565,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
             print("App delgete Location lat is \(currentLocation.coordinate.longitude) and location long is \(currentLocation.coordinate.latitude)")
             let defaults = UserDefaults.standard
             let id = defaults.integer(forKey: "member_id")
-            HTTP.POST(ApiRouts.Web+"/api/members/locations/member/\(id)?group_id=\(group_id)", parameters: ["lat": currentLocation.coordinate.latitude, "lon": currentLocation.coordinate.longitude]) { response in
+            HTTP.POST(ApiRouts.Api+"/members/locations/member/\(id)?group_id=\(group_id)", parameters: ["lat": currentLocation.coordinate.latitude, "lon": currentLocation.coordinate.longitude]) { response in
                 if let err = response.error {
                     print("error: \(err.localizedDescription)")
                     return //also notify app of failure as needed

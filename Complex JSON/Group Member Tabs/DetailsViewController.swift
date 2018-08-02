@@ -62,6 +62,47 @@ class DetailsViewController: UIViewController {
     
     @IBOutlet weak var groupTitleLb: UILabel!
     
+    fileprivate func getGroupImages() -> HTTP? {
+        return HTTP.GET("\(ApiRouts.Api)/groups/\((MyVriables.currentGroup?.id)!)/images", parameters: []) { response in
+            if response.error != nil {
+                print("error \(response.error?.localizedDescription)")
+                return
+            }
+            do {
+                let images = try JSONDecoder().decode([GroupImage].self, from: response.data)
+                print ("successed")
+                DispatchQueue.main.sync {
+                    self.groupImages = images
+                    if self.groupImages.count == 0 {
+                        self.slideShow.setImageInputs([
+                            ImageSource(image: UIImage(named: "Group Placeholder")!)])
+                    }else {
+                        
+                        var image_path: String = ""
+                        for image in self.groupImages {
+                            if image.path !=  nil {
+                                
+                                image_path = "\(ApiRouts.Media)\(image.path!)"
+                                image_path = image_path.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)!
+                                print("Image payjso \(image_path)")
+                                if AlamofireSource(urlString: image_path) != nil  {
+                                    self.images2.append(AlamofireSource(urlString: image_path)!)
+                                }
+                            }
+                        }
+                        self.slideShow.contentScaleMode = .scaleAspectFill
+                        self.slideShow.contentMode = .scaleAspectFill
+                        self.slideShow.setImageInputs(self.images2)
+                    }
+                }
+            }
+            catch{
+                
+            }
+            //do things...
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         joinView.layer.borderColor = Colors.PrimaryColor.cgColor
@@ -123,31 +164,8 @@ class DetailsViewController: UIViewController {
         
         slideShow.pageControlPosition = .insideScrollView
         slideShow.activityIndicator = DefaultActivityIndicator(style: .gray, color: UIColor.red)
-        groupRequest.getGroupImages(id:( singleGroup?.id)!){ (output) in
-            self.groupImages = output! as [GroupImage]
-                print("%%% \(self.groupImages.count)")
-            if self.groupImages.count == 0 {
-                self.slideShow.setImageInputs([
-                    ImageSource(image: UIImage(named: "Group Placeholder")!)])
-            }else {
-                
-                var image_path: String = ""
-                for image in self.groupImages {
-                    if image.path !=  nil {
-                        image_path = "\(ApiRouts.Media)\(image.path!)"
-                        if AlamofireSource(urlString: image_path) != nil  {
-                            self.images2.append(AlamofireSource(urlString: image_path)!)
-                        }
-                    }
-   
-                }
-                self.slideShow.contentScaleMode = .scaleAspectFill
-                self.slideShow.contentMode = .scaleAspectFill
-
-                self.slideShow.setImageInputs(self.images2)
-            }
-            
-        }
+        getGroupImages()
+        
         let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(DetailsViewController.didTap))
         slideShow.addGestureRecognizer(gestureRecognizer)
         // Do any additional setup after loading the view.

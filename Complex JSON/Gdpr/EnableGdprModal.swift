@@ -44,7 +44,7 @@ class EnableGdprModal: UIViewController {
     func setCheck(isChecked : Bool, chekAll : Bool, postion : Int){
         var params: [String: Any] = ["" : true]
         params = [(MyVriables.enableGdpr?.parmter)!: isChecked]
-        HTTP.PUT("\(ApiRouts.Web)/api/members/\((MyVriables.currentMember?.id)!)/gdpr", parameters: params) {
+        HTTP.PUT("\(ApiRouts.Api)/members/\((MyVriables.currentMember?.id)!)/gdpr", parameters: params) {
             response in
             if response.error != nil {
                 return

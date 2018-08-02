@@ -93,7 +93,7 @@ class PrivateChatViewController: UIViewController ,UIImagePickerControllerDelega
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         
-        //  uploadImageProfile(info)
+        print("Im here ")
         guard let image = info[UIImagePickerControllerOriginalImage] as? UIImage else {
             return
         }
@@ -112,7 +112,7 @@ class PrivateChatViewController: UIViewController ,UIImagePickerControllerDelega
         Alamofire.upload(multipartFormData: { multipartFormData in
             multipartFormData.append(imgData, withName: "single_image",fileName: "profile_image.jpg", mimeType: "image/jpg")
             
-        },to:"\(ApiRouts.Media)/api/upload_single_image/Member/\((MyVriables.currentMember?.id!)!)/media")
+        },to:"\(ApiRouts.Media)/api/v2/upload_single_image/Member/\((MyVriables.currentMember?.id!)!)/media")
         { (result) in
             switch result {
             case .success(let upload, _, _):
@@ -131,7 +131,7 @@ class PrivateChatViewController: UIViewController ,UIImagePickerControllerDelega
                                 var image_path = ApiRouts.Media + path
                                 let params = ["type":"image","image_path": image_path  , "message": "", "sender_id": (MyVriables.currentMember?.id!)!, "chat_type" : "private", "receiver_id" : oponent_id!] as [String : Any]
                                 print("params: \(params)")
-                                HTTP.POST(ApiRouts.Web + "/api/chats", parameters: params) { response in
+                                HTTP.POST(ApiRouts.Api + "/chats", parameters: params) { response in
                                     print("send chat: \(response.statusCode)" )
                                     var newMessage :Message = Message()
                                     newMessage.message = ""
@@ -546,7 +546,7 @@ class PrivateChatViewController: UIViewController ,UIImagePickerControllerDelega
         print("------ IN RESET MESSAGES ----- ")
         var oponent_id =  ChatUser.currentUser?.id!
         print()
-        HTTP.GET("https://dev.snapgroup.co.il/api/privatechat/markread/\(oponent_id!)/\(myId!)") { response in
+        HTTP.GET("") { response in
             print(response.description)
         }
     }
@@ -554,7 +554,7 @@ class PrivateChatViewController: UIViewController ,UIImagePickerControllerDelega
         let params = ["member_id": MyVriables.currentMember?.id!] as [String : Any]
         print("params: \(params)")
         if ChatUser.ChatId != nil {
-            HTTP.POST(ApiRouts.Web + "/api/chats/\(ChatUser.ChatId!)?member_id=\((MyVriables.currentMember?.id)!)", parameters: params) { response in
+            HTTP.POST(ApiRouts.Api + "/chats/\(ChatUser.ChatId!)?member_id=\((MyVriables.currentMember?.id)!)", parameters: params) { response in
                 print("mark conv: \(response.description)" )
                
             }
@@ -660,7 +660,7 @@ class PrivateChatViewController: UIViewController ,UIImagePickerControllerDelega
             let params = ["type":"text","message": message, "sender_id": (MyVriables.currentMember?.id!)!, "chat_type" : "private", "receiver_id" : oponent_id!] as [String : Any]
             print("params: \(params)")
             
-            HTTP.POST(ApiRouts.Web + "/api/chats", parameters: params) { response in
+            HTTP.POST(ApiRouts.Api + "/chats", parameters: params) { response in
                 print("send chat: \(response.statusCode)" )
                 var newMessage :Message = Message()
                 newMessage.message = message
@@ -786,11 +786,11 @@ class PrivateChatViewController: UIViewController ,UIImagePickerControllerDelega
         if isViaChatId {
             if ChatUser.ChatId != nil
             {
-              urlString = ApiRouts.Web + "/api/chats/messages?chat_id=\((ChatUser.ChatId!))&page=\(self.curentPage)"
+              urlString = ApiRouts.Api + "/chats/messages?chat_id=\((ChatUser.ChatId!))&page=\(self.curentPage)"
             }
             
         }else {
-            urlString = ApiRouts.Web + "/api/chats/messages?member_id=\((MyVriables.currentMember?.id!)!)&partner_id=\((ChatUser.currentUser?.id!)!)&page=\(self.curentPage)"
+            urlString = ApiRouts.Api + "/chats/messages?member_id=\((MyVriables.currentMember?.id!)!)&partner_id=\((ChatUser.currentUser?.id!)!)&page=\(self.curentPage)"
         }
          print("CHAT URL IS = \(urlString)")
         HTTP.GET(urlString, parameters: []) { response in

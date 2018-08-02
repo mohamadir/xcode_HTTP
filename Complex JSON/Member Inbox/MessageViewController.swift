@@ -117,7 +117,7 @@ class MessageViewController: UIViewController {
     
     func setPair(sender_id: Int, reciever_id: Int,group_id: Int, approaved: String){
         print("message details: \(sender_id) \(reciever_id) \(group_id) \(approaved)")
-        HTTP.PUT(ApiRouts.Web + "/api/pairs?sender_id=\(sender_id)&receiver_id=\(reciever_id)&group_id=\(group_id)&type=\(approaved)"){response in
+        HTTP.PUT(ApiRouts.Api + "/pairs?sender_id=\(sender_id)&receiver_id=\(reciever_id)&group_id=\(group_id)&type=\(approaved)"){response in
             if response.error != nil {
                 print("setPair: \(response.error)")
                 return
@@ -139,7 +139,7 @@ class MessageViewController: UIViewController {
         }
     }
     func removePair(sender_id: Int, reciever_id: Int,group_id: Int){
-        HTTP.DELETE(ApiRouts.Web + "/api/pairs?sender_id=\(sender_id)&receiver_id=\(reciever_id)&group_id=\(group_id)"){response in
+        HTTP.DELETE(ApiRouts.Api + "/pairs?sender_id=\(sender_id)&receiver_id=\(reciever_id)&group_id=\(group_id)"){response in
             if response.error != nil {
                 print("setPair: \(response.error)")
                 return
@@ -154,7 +154,7 @@ class MessageViewController: UIViewController {
     }
     
     func getGroup(){
-        HTTP.GET(ApiRouts.Web + "/api/groups/\((MyVriables.currentInboxMessage?.group_id!)!)/details/\((MyVriables.currentMember?.id!)!)"){response in
+        HTTP.GET(ApiRouts.Api + "/groups/\((MyVriables.currentInboxMessage?.group_id!)!)/details/\((MyVriables.currentMember?.id!)!)"){response in
             
             if response.error != nil {
                 self.showCloseAlert()

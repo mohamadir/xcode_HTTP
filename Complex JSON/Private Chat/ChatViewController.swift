@@ -181,8 +181,8 @@ class ChatViewController: UIViewController , UITableViewDelegate, UITableViewDat
     }
     func getConversations(){
         self.messagesNoPartner = []
-        print("Url is " + "\(ApiRouts.Web)/api/chats?member_id=\((MyVriables.currentMember?.id!)!)")
-        HTTP.GET("\(ApiRouts.Web)/api/chats?member_id=\((MyVriables.currentMember?.id!)!)", parameters: []) { response in
+        print("Url is " + "\(ApiRouts.Api)/chats?member_id=\((MyVriables.currentMember?.id!)!)")
+        HTTP.GET("\(ApiRouts.Api)/chats?member_id=\((MyVriables.currentMember?.id!)!)", parameters: []) { response in
             if let err = response.error {
                 print("error: \(err.localizedDescription)")
                 return //also notify app of failure as needed

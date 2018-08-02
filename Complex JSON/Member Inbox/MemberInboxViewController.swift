@@ -114,7 +114,7 @@ class MemberInboxViewController: UIViewController , UITableViewDelegate,UITableV
     }
     func getMessages(){
         print(ApiRouts.Web+"/api/getnotifications/\((MyVriables.currentMember?.id!)!)/\(page)")
-        HTTP.POST(ApiRouts.Web+"/api/getnotifications/\((MyVriables.currentMember?.id!)!)/\(page)", parameters: []) { response in
+        HTTP.POST(ApiRouts.Api+"/getnotifications/\((MyVriables.currentMember?.id!)!)/\(page)", parameters: []) { response in
             if response.error != nil{
               
             }
@@ -184,7 +184,7 @@ class MemberInboxViewController: UIViewController , UITableViewDelegate,UITableV
     
     func markRead(id: Int){
         print(ApiRouts.Web + "/api/notifications/\(id)/\((MyVriables.currentMember?.id!)!)")
-        HTTP.PUT(ApiRouts.Web + "/api/notifications/\(id)/members/\((MyVriables.currentMember?.id!)!)") { response in
+        HTTP.PUT(ApiRouts.Api + "/notifications/\(id)/members/\((MyVriables.currentMember?.id!)!)") { response in
             if let err = response.error {
                 print("error: \(err.localizedDescription) not mark read")
                 

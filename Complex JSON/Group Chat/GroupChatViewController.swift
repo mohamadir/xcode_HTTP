@@ -29,7 +29,7 @@ class GroupChatViewController: UIViewController, UITableViewDelegate, UITableVie
                 ] as [String : Any]
             print("params: \(params)")
             
-            HTTP.POST("\(ApiRouts.Web)/api/chats", parameters: params) { response in
+            HTTP.POST("\(ApiRouts.Api)/chats", parameters: params) { response in
                 var newMessage :ChatListGroupItem = ChatListGroupItem()
                 newMessage.message = message
                 newMessage.type = "text"
@@ -222,7 +222,7 @@ class GroupChatViewController: UIViewController, UITableViewDelegate, UITableVie
         print("AlamoUpload: START")
         let imgData = UIImageJPEGRepresentation(image, 0.2)!
         ARSLineProgress.show()
-        var urlString: String = "\(ApiRouts.Media)/api/upload_single_image/Member/\((MyVriables.currentMember?.id!)!)/media"
+        var urlString: String = "\(ApiRouts.Media)/api/v2/upload_single_image/Member/\((MyVriables.currentMember?.id!)!)/media"
         urlString = urlString.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)!
         Alamofire.upload(multipartFormData: { multipartFormData in
             multipartFormData.append(imgData, withName: "single_image",fileName: "image.jpg", mimeType: "image/jpg")
@@ -247,7 +247,7 @@ class GroupChatViewController: UIViewController, UITableViewDelegate, UITableVie
                                 var image_path = ApiRouts.Media + path
                                 let params = ["type":"image","image_path": image_path  , "message": "", "sender_id": (MyVriables.currentMember?.id!)!, "chat_type" : "group", "group_id" : MyVriables.currentGroup?.id!, "chat_id" : MyVriables.currentGroup?.chat?.id!] as [String : Any]
                                 print("params: \(params)")
-                                HTTP.POST("\(ApiRouts.Web)/api/chats", parameters: params) { response in
+                                HTTP.POST("\(ApiRouts.Api)/chats", parameters: params) { response in
                                     print("send chat: \(response.statusCode)" )
                                     var newMessage :ChatListGroupItem = ChatListGroupItem()
                                     newMessage.message = ""
@@ -489,8 +489,8 @@ class GroupChatViewController: UIViewController, UITableViewDelegate, UITableVie
         print("selected selected ")
     }
     func getGroupHistory(isFirstTimee: Bool){
-        print("Group chat " + ApiRouts.Web+"/api/chats/messages?chat_id=\((MyVriables.currentGroup?.chat?.id!)!)&page=\(self.currentPage)")
-        HTTP.GET(ApiRouts.Web+"/api/chats/messages?chat_id=\((MyVriables.currentGroup?.chat?.id!)!)&page=\(self.currentPage)", parameters: ["hello": "world", "param2": "value2"])
+        print("Group chat " + ApiRouts.Api+"/chats/messages?chat_id=\((MyVriables.currentGroup?.chat?.id!)!)&page=\(self.currentPage)")
+        HTTP.GET(ApiRouts.Api+"/chats/messages?chat_id=\((MyVriables.currentGroup?.chat?.id!)!)&page=\(self.currentPage)", parameters: ["hello": "world", "param2": "value2"])
         { response in
             if let err = response.error {
                 print("error: \(err.localizedDescription)")

@@ -51,6 +51,11 @@ struct ModalGDPR {
     var isDeleteAcount: Bool
     
 }
+struct AccessToken: Codable {
+    var token_type: String?
+    var expires_in: Int?
+    var access_token: String?
+}
 
  struct PlanProvider {
  static var CurrentService: [Any]?
@@ -101,6 +106,9 @@ struct RatingModel: Codable {
     var reviewer_id: Int?
     var rating: Double?
     var review: String?
+}
+struct ExistMember: Codable {
+    var exist: Bool?
 }
 
 

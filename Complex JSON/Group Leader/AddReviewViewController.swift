@@ -9,6 +9,7 @@
 import UIKit
 import SwiftEventBus
 import SwiftHTTP
+import TTGSnackbar
 
 class AddReviewViewController: UIViewController,UITextViewDelegate {
 
@@ -70,6 +71,12 @@ class AddReviewViewController: UIViewController,UITextViewDelegate {
         {
             addCommentFunc()
         }
+        else
+        {
+            let snackbar = TTGSnackbar(message: "You must to write a comment", duration: .middle)
+            snackbar.icon = UIImage(named: "AppIcon")
+            snackbar.show()
+        }
      
     }
     func textViewDidEndEditing(_ textView: UITextView) {
@@ -96,13 +103,19 @@ class AddReviewViewController: UIViewController,UITextViewDelegate {
     //ProviderInfo.model_type
     //ProviderInfo.model_id
     func addCommentFunc(){
+        if MyVriables.currentMember?.id == nil || MyVriables.currentMember?.id! == -1
+        {
+            let snackbar = TTGSnackbar(message: "You must register to write a comment", duration: .middle)
+            snackbar.icon = UIImage(named: "AppIcon")
+            snackbar.show()
+        }else{
         let perameters:  [String : Any] = ["model_type": ProviderInfo.model_type!, "model_id": ProviderInfo.model_id!
         , "reviewer_id": (MyVriables.currentMember?.id!)!
             , "rating": "\(self.seekBar.value)"
         , "review": addComment.text!]
         print(perameters)
         
-        HTTP.POST(ApiRouts.Web+"/api/ratings", parameters: perameters)
+        HTTP.POST(ApiRouts.Api+"/ratings", parameters: perameters)
         { response in
             if let err = response.error {
                 print("error: \(err.localizedDescription)")
@@ -114,6 +127,7 @@ class AddReviewViewController: UIViewController,UITextViewDelegate {
                 
                 self.dismiss(animated: true, completion: nil)
             }
+        }
         }
         
         

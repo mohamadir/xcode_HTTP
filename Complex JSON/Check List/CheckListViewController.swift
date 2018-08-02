@@ -167,9 +167,9 @@ class CheckListViewController: UIViewController , UITableViewDelegate, UITableVi
     func getGroupChecklist(){
         let defaults = UserDefaults.standard
         let id = defaults.integer(forKey: "member_id")
-        print(ApiRouts.Web+"/api/groups/\((MyVriables.currentGroup?.id!)!)/members/\(id)/checklist")
+        print(ApiRouts.Api+"/groups/\((MyVriables.currentGroup?.id!)!)/members/\(id)/checklist")
         
-        HTTP.GET(ApiRouts.Web+"/api/groups/\((MyVriables.currentGroup?.id!)!)/members/\(id)/checklist", parameters: ["hello": "world", "param2": "value2"])
+        HTTP.GET(ApiRouts.Api+"/groups/\((MyVriables.currentGroup?.id!)!)/members/\(id)/checklist", parameters: ["hello": "world", "param2": "value2"])
         { response in
             if let err = response.error {
                 print("error: \(err.localizedDescription)")
@@ -230,8 +230,8 @@ class CheckListViewController: UIViewController , UITableViewDelegate, UITableVi
     func setCheckedTrue(id : Int,checked : String)
     {
         let myId =  (MyVriables.currentMember?.id!)!
-        print("5555"+ApiRouts.Web+"/api/checklist/\(id)?member_id=\(myId)&group_id=70&checked=\(checked)")
-        HTTP.PUT(ApiRouts.Web+"/api/checklist/\(id)?member_id=\(myId)&group_id=\((MyVriables.currentGroup?.id!)!)&checked=\(checked)", parameters: ["hello": "world", "param2": "value2"])
+        print("5555"+ApiRouts.Api+"/checklist/\(id)?member_id=\(myId)&group_id=70&checked=\(checked)")
+        HTTP.PUT(ApiRouts.Api+"/checklist/\(id)?member_id=\(myId)&group_id=\((MyVriables.currentGroup?.id!)!)&checked=\(checked)", parameters: ["hello": "world", "param2": "value2"])
         {
             response in
             if let err = response.error {

@@ -90,7 +90,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet var inboxView: UIView!
     @IBOutlet var inboxCounterLbl: UILabel!
     @IBOutlet var chatCounterLbl: UILabel!
-    
+    var lastitem : Int = 0
     @IBOutlet var noGroupText: UILabel!
     /********* Filter Buttons **********/
     @IBOutlet var myGroupsBt: UIButton!
@@ -153,7 +153,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                         let id = defaults.integer(forKey: "member_id")
                         print(ApiRouts.Web + "/api/members/\(id)/phone?no_password=true")
                         
-                        HTTP.PUT(ApiRouts.Web + "/api/members/\(id)/phone?no_password=true", parameters: ["phone" : self.phoneNumber, "country_code" : self.contryCodeString]) { response in
+                        HTTP.PUT(ApiRouts.Api + "/members/\(id)/phone?no_password=true", parameters: ["phone" : self.phoneNumber, "country_code" : self.contryCodeString]) { response in
                             if response.error != nil {
                                 DispatchQueue.main.async {
                                     let snackbar = TTGSnackbar(message: "The phone number you selected is already linked to a different account.", duration: .middle)
@@ -334,7 +334,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     func setCheck(isChecked : Bool, chekAll : Bool, postion : Int){
         var params: [String: Any]
         params = ["push_notifications": isChecked]
-        HTTP.PUT(ApiRouts.Web +  "/api/members/\((MyVriables.currentMember?.id)!)/gdpr", parameters: params) {
+        HTTP.PUT(ApiRouts.Api +  "/members/\((MyVriables.currentMember?.id)!)/gdpr", parameters: params) {
             response in
             if response.error != nil {
                 //print(response.error)
@@ -512,11 +512,15 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         controller = PopoverController(items: items, fromView: filterButton, direction: .down, style: .normal)
         popover(controller!)
     }
+    
+    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+       // getAccessToken()
         swiftEventFunc()
-      
+        
         print("Viewstatus Did load ")
 
         filterButton.addTarget(self, action: #selector(self.pressButton(_:)), for: .touchUpInside) //<- use `#selector(...)`
@@ -532,6 +536,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let isLogged = defaults.bool(forKey: "isLogged")
         //self.tableView.tableHeaderView = self.chatHeaderStackView
         if isLogged != true{
+            
             DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
                 if let window = UIApplication.shared.delegate?.window {
                     if var viewController = window?.rootViewController {
@@ -674,6 +679,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         setCountryPicker()
         setRefresher()
         self.checkCurrentUser()
+      
        
         setFilterView()
         setMemberMenuView()
@@ -862,7 +868,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         Alamofire.upload(multipartFormData: { multipartFormData in
             multipartFormData.append(imgData, withName: "single_image",fileName: "profile_image.jpg", mimeType: "image/jpg")
-        },to:"\(ApiRouts.Media)/api/upload_single_image/Member/\((MyVriables.currentMember?.id!)!)/profile")
+        },to:"\(ApiRouts.Media)/api/v2/upload_single_image/Member/\((MyVriables.currentMember?.id!)!)/profile")
         { (result) in
             switch result {
             case .success(let upload, _, _):
@@ -948,8 +954,18 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let isLogged = defaults.bool(forKey: "isLogged")
         let phone = defaults.string(forKey: "phone")
         print("Im in  isLogged \(isLogged)")
+        
         if isLogged == true{
+            self.lastitem = 0
 
+            let headerView: UIView = UIView.init(frame: CGRect(x: 0, y: 50, width: UIScreen.main.bounds.size.width, height: 50))
+            //headerView.backgroundColor = .red
+            var serachbar : UISearchBar = UISearchBar.init(frame: CGRect(x: 5, y: 5, width: UIScreen.main.bounds.size.width - 10, height: 40))
+            serachbar.placeholder = "Search for group .."
+            serachbar.searchBarStyle = UISearchBarStyle.minimal
+            serachbar.delegate = self
+            headerView.addSubview(serachbar)
+            self.tableView.tableHeaderView = headerView
             print("IS logged = true")
             self.getMember(memberId: id)
             setBadges()
@@ -992,6 +1008,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             
             
         }else{
+            self.tableView.tableHeaderView = nil
+            self.lastitem = 0
             self.page = 1
             self.myGrous = []
             self.hasLoadMore = true
@@ -1044,6 +1062,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     @objc func refreshData(){
         print("refresh is loading")
         self.page = 1
+        self.lastitem = 0
         self.myGrous = []
         self.hasLoadMore = true
         self.tableView.reloadData()
@@ -1086,7 +1105,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func checkIfMember(textFeild: String,type: String, facebookMember: FacebookMember?) {
         var params: [String : Any] = ["" : ""]
-        let strMethod = String(format : ApiRouts.Web + "/api/check_if_member" )
+        let strMethod = String(format : ApiRouts.Api + "/check_if_member" )
         if type == "phone"{
             params = ["phone": textFeild]
             
@@ -1096,57 +1115,33 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             params = ["facebook_id": textFeild]
             
         }
-        print(params)
-        let url = URL(string: strMethod)!
-        let data = try! JSONSerialization.data(withJSONObject: params, options: JSONSerialization.WritingOptions.prettyPrinted)
         
-        let json = NSString(data: data, encoding: String.Encoding.utf8.rawValue)
-        
-        if let json = json {  print(json) }
-        
-        let jsonData = json!.data(using: String.Encoding.utf8.rawValue);
-        
-        var request = URLRequest(url: url)
-        request.httpMethod = HTTPMethod.post.rawValue
-        request.setValue("application/json; charset=UTF-8", forHTTPHeaderField: "Content-Type")
-        
-        var isMmebr: Bool = false
-        request.httpBody = jsonData
-        
-        Alamofire.request(request).responseJSON {  (response) in
-            switch response.result {
-            case .success(let JSON2):
-                print("Success with JSON: \(JSON2)")
-                print("RESPONSE \(response.result)")
-                
-                break
-                
-            case .failure(let error):
-                print("Request failed with error: \(error)")
-                break
+        HTTP.POST(ApiRouts.Api + "/members/check", parameters: params) { response in
+            if response.error != nil {
+                print("error \(response.error?.localizedDescription)")
+                return
             }
-            }
-            .responseString { response in
-               print("is exist ? \(response.result.value!)")
-                if (response.result.value!.range(of: "true") != nil)
+            do {
+            let  existMember = try JSONDecoder().decode(ExistMember.self, from: response.data)
+            print ("successed")
+            DispatchQueue.main.sync {
+               
+                if (existMember.exist)! == true
                 {
                     print("Im here in exist")
                     if type == "phone"{
-                        
                         self.showPinDialog(phone: textFeild)
                     }
                     else
                     {
                         print("Im here in facebook exist")
-
-                         self.isFacebookGdpr = false
+                        self.isFacebookGdpr = false
                         self.regstirFacebook(facebookMember: self.facebookMember!, isGdpr:  self.isFacebookGdpr)
                     }
                     
-                    
                 }else {
                     print("Im here in  else exist")
-
+                    
                     MyVriables.fromGroup = "false"
                     if type != "phone"{
                         MyVriables.facebookMember = facebookMember
@@ -1156,8 +1151,83 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                     }
                     self.performSegue(withIdentifier: "showGdbr", sender: self)
                 }
+            }
+            }
+            catch{
                 
+            }
+            //do things...
         }
+        
+        
+        
+//        print(params)
+//        let url = URL(string: strMethod)!
+//        let data = try! JSONSerialization.data(withJSONObject: params, options: JSONSerialization.WritingOptions.prettyPrinted)
+//
+//        let json = NSString(data: data, encoding: String.Encoding.utf8.rawValue)
+//
+//        if let json = json {  print(json) }
+//
+//        let jsonData = json!.data(using: String.Encoding.utf8.rawValue);
+//
+//        var request = URLRequest(url: url)
+//        let defaults = UserDefaults.standard
+//        let access_token = defaults.string(forKey: "access_token")
+//
+//        request.httpMethod = HTTPMethod.post.rawValue
+//        request.addValue("application/json; charset=UTF-8", forHTTPHeaderField: "Content-Type")
+//        request.addValue("Authorization", forHTTPHeaderField: "Bearer \(access_token!)")
+//        print("requset value \(request) ")
+//        var isMmebr: Bool = false
+//        request.httpBody = jsonData
+//        Alamofire.request(request).responseJSON {  (response) in
+//            switch response.result {
+//            case .success(let JSON2):
+//                print("Success with JSON: \(JSON2)")
+//                print("RESPONSE \(response.result)")
+//
+//                break
+//
+//            case .failure(let error):
+//                print("Request failed with error: \(error)")
+//                break
+//            }
+//            }
+//            .responseString { response in
+//                if response.result != nil
+//                {
+//                    if response.result.value != nil{
+//               print("is exist ? \(response.result.value!)")
+//                if (response.result.value!.range(of: "true") != nil)
+//                {
+//                    print("Im here in exist")
+//                    if type == "phone"{
+//                        self.showPinDialog(phone: textFeild)
+//                    }
+//                    else
+//                    {
+//                        print("Im here in facebook exist")
+//                        self.isFacebookGdpr = false
+//                        self.regstirFacebook(facebookMember: self.facebookMember!, isGdpr:  self.isFacebookGdpr)
+//                    }
+//
+//                }else {
+//                    print("Im here in  else exist")
+//
+//                    MyVriables.fromGroup = "false"
+//                    if type != "phone"{
+//                        MyVriables.facebookMember = facebookMember
+//                    }else {
+//                        self.dismiss(animated: true,completion: nil)
+//                        MyVriables.phoneNumber = textFeild
+//                    }
+//                    self.performSegue(withIdentifier: "showGdbr", sender: self)
+//                }
+//            }
+//        }
+//
+//    }
  
     }
 
@@ -1423,13 +1493,47 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     
     // get groups reqeust: by page
+    func getTokenReuqest() {
+        var params: [String: Any] = [:]
+        params = ["grant_type": "client_credentials", "client_id": "2", "scope": "", "client_secret": "YErvt0T9iPupWJfLOChPSkJKcqZKZhP0DHntkcTL"]
+        let url: String = ApiRouts.Web + "/oauth/token"
+        HTTP.POST(url, parameters: params) { response in
+            if response.error != nil {
+                print("error \(response.error)")
+                return
+            }
+            do {
+                let accessToken : AccessToken =  try JSONDecoder().decode(AccessToken.self, from: response.data)
+                let calendar = Calendar.current
+                let date = calendar.date(byAdding: .second, value: accessToken.expires_in!, to : Date())
+                let defaults = UserDefaults.standard
+                self.setToUserDefaults(value: accessToken.access_token!, key: "access_token")
+                self.setToUserDefaults(value: date, key: "expires_in")
+                DispatchQueue.main.async {
+                    self.getSwiftGroups()
+                }
+                print ("successed \(response.description)")
+            }
+            catch {
+                
+            }
+        }
+    }
+    
     
     func getSwiftGroups(){
+        let defaults = UserDefaults.standard
+        let access_token = defaults.string(forKey: "access_token")
+        if access_token != nil {
+            if access_token != "no value"{
         ARSLineProgress.show()
         print("request PAGE = \(self.page)")
         print("Im in all groups sort url ==" + ApiRouts.AllGroupsRequest +  "?page=\(self.page)&sort=created_at&order=des")
         var groups: [TourGroup]?
-        HTTP.GET(ApiRouts.Web + "/api/groups?page=\(self.page)&sort=created_at&order=des") { response in
+        HTTP.GET(ApiRouts.Api + "/groups?page=\(self.page)&sort=created_at&order=des") { response in
+            let defaults = UserDefaults.standard
+            let access_token = defaults.string(forKey: "access_token")
+            print("Http access token \(access_token!)")
             print(ApiRouts.AllGroupsRequest)
             //do things...
           //  print(response.description)
@@ -1437,9 +1541,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 //            print(response)
 
             do {
-                let  groups2 = try JSONDecoder().decode(Main.self, from: data)
-                groups = groups2.data!
+                let groups2 = try JSONDecoder().decode(Main.self, from: data)
+                self.lastitem = self.lastitem + ((groups2 != nil) ? (groups2.data?.count)! : 0)
+                print("Last item = \(self.lastitem)")
+                groups = groups2.data != nil ? groups2.data! : nil
                 ARSLineProgress.hide()
+                if groups != nil {
                 if (groups2.total)! == 0
                 {
                     DispatchQueue.main.async {
@@ -1450,41 +1557,39 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 }else
                 {
                     DispatchQueue.main.async {
-                        self.noGroupsView.isHidden = true
-                    }
+                        self.noGroupsView.isHidden = true }
                 }
-          
                 DispatchQueue.main.sync {
                     for group in groups! {
                         self.myGrous.append(group)
                     }
-                 //   self.myGrous = groups!
                     self.tableView.reloadData()
                     self.refresher.endRefreshing()
                     self.page += 1
-
                 }
                 DispatchQueue.main.sync {
                     if self.page > groups2.last_page!
                     {
                         self.hasLoadMore = false
                         self.refresher.endRefreshing()
-                        
                         return
                     }
                     self.isLoading = false
-
+                    }
                 }
-                
-                
-               
+                }
+                catch {
+                    
+                }
+            }
+        }else
+            {
+                getTokenReuqest()
 
-              //  print(self.myGrous.count)
             }
-            catch {
-                
-            }
-            
+    }else
+        {
+            getTokenReuqest()
         }
     }
     
@@ -1505,14 +1610,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         self.myGroupByPhoneView.isHidden = true
 
         var groups: [TourGroup]?
-        let withoutFilter = "/api/groups/members/\(self.id)?page=\(self.page)&sort=\(self.sort)"
+        let withoutFilter = "/groups/members/\(self.id)?page=\(self.page)&sort=\(self.sort)"
        // let withoutFilter = "/api/groups?page=\(self.page)&sort=\(self.sort)"
-        let withRole = "/api/groups/members/\(self.id)?page=\(self.page)&role=group_leader&sort=\(self.sort)"
-        let withFilter = "/api/groups?member_id=\(self.id)&page=\(self.page)&filter=\(self.filter)&sort=\(self.sort)"
-        let allGroupsFilter = "/api/groups?member_id=\(self.id)&page=\(self.page)&sort=\(self.sort)"
-        let searchUrl  = "/api/groups?member_id=\(self.id)?page=\(self.page)&sort=\(self.sort)&search=\(self.search)"
-            ////url = Constants.SERVERIP + "api/groups?member_id="+userId+"&search=" + arrayForFilter[2]
-           // +"&page="+page+"&sort=created_at&order=desc";
+        let withRole = "/groups/members/\(self.id)?page=\(self.page)&role=group_leader&sort=\(self.sort)"
+        let withFilter = "/groups?member_id=\(self.id)&page=\(self.page)&filter=\(self.filter)&sort=\(self.sort)"
+        let allGroupsFilter = "/groups?member_id=\(self.id)&page=\(self.page)&sort=\(self.sort)"
+        let searchUrl  = "/groups?member_id=\(self.id)&page=\(self.page)&sort=\(self.sort)&search=\(self.search)"
         var lastFilter: String
         if filter == "all" {
             print("Im here in filter == all")
@@ -1543,8 +1646,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }else{
             lastFilter = withFilter
         }
-        print("The url is \(ApiRouts.Web+lastFilter)")
-        HTTP.GET(ApiRouts.Web+lastFilter) { response in
+        print("The url is \(ApiRouts.Api+lastFilter)")
+        HTTP.GET(ApiRouts.Api+lastFilter) { response in
             if ARSLineProgress.shown == true {
                 ARSLineProgress.hide()
             }
@@ -1559,13 +1662,18 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 let  groups2 = try JSONDecoder().decode(Main.self, from: data)
                 groups = groups2.data!
                 print("------------- \(lastFilter)  Page: \(self.page) groups count: \(groups?.count)")
-
+                self.lastitem = self.lastitem + (groups?.count)!
                 if (groups2.total)! == 0
                 {
                     if self.filter == "no-filter" {
                         DispatchQueue.main.async {
                              self.noGroupsView.isHidden = true
                             let snackbar = TTGSnackbar(message: "You currently have no groups related to you. Check our public groups", duration: .middle)
+                            self.clickes[0] = true
+                            self.clickes[1] = false
+                            self.clickes[2] = false
+                            self.clickes[3] = false
+                            self.clickes[4] = false
                             snackbar.icon = UIImage(named: "AppIcon")
                             snackbar.show()
                             self.hasLoadMore = false
@@ -1643,8 +1751,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     func getMember(memberId: Int){
         
         print("Im in get Member")
-        print("Url is " + ApiRouts.Web +  "/api/members/member/\(memberId)")
-        HTTP.GET(ApiRouts.Web +  "/api/members/member/\(memberId)", parameters: []) { response in
+        print("Url is " + ApiRouts.Api +  "/members/member/\(memberId)")
+        HTTP.GET(ApiRouts.Api +  "/members/member/\(memberId)", parameters: []) { response in
             //do things...
             if response.error != nil {
                 print(response.error)
@@ -1813,10 +1921,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         
-        let lastitem =  self.myGrous.count
-        let currentIndex : Int = indexPath.row + 1
-     
-        if currentIndex == lastitem && hasLoadMore == true && !self.isLoading{
+      //  lastitem =  self.myGrous.count
+        //let currentIndex : Int = indexPath.row + 1
+       // print("Last item is \(lastitem) and index is \(indexPath.row)")
+
+        if indexPath.row + 1 == self.lastitem && hasLoadMore == true && !self.isLoading{
                print("Last item is \(lastitem) and index is \(indexPath.row)")
             self.isLoading = true
 
@@ -1834,11 +1943,16 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
     }
     
+    @IBAction func cancelClick(_ sender: Any) {
+        self.registerView.isHidden = false
+
+    }
     // tableview: tableview count
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // print("hi \(myGrous.count)")
-        return isLogged ? self.myGrous.count+1 : self.myGrous.count
+        //return isLogged ? self.myGrous.count+1 : self.myGrous.count
+        return  self.myGrous.count
     }
     
     
@@ -1846,8 +1960,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     fileprivate func setGroupItmes(_ tableView: UITableView, _ indexPath: IndexPath) -> UITableViewCell {
         //var index = isLogged ? indexPath.row -1 : indexPath
-          var currentIndex = isLogged ? indexPath.row-1 : indexPath.row
-        let cell = tableView.dequeueReusableCell(withIdentifier: "customCell") as! CustomTableViewCell
+         // var currentIndex = isLogged ? indexPath.row-1 : indexPath.row
+        var currentIndex = indexPath.row
+        let cell : CustomTableViewCell = tableView.dequeueReusableCell(withIdentifier: "customCell",for: indexPath) as! CustomTableViewCell
         cell.viewInfo.tag = currentIndex
         cell.viewInfo.addTapGestureRecognizer(action: ShowModel)
         if currentIndex > -1 && currentIndex < self.myGrous.count {
@@ -2041,21 +2156,22 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if isLogged
-        {
-            if indexPath.row != 0 {
-                return setGroupItmes(tableView, indexPath)
-            }
-            else {
-                let cell = tableView.dequeueReusableCell(withIdentifier: "searchCell") as! SearchGroupViewCell
-                cell.search_bar.delegate = self
-                cell.search_bar.searchBarStyle = .minimal;
-                return cell
-            }
-        }
-        else{
-          return setGroupItmes(tableView, indexPath)
-        }
+        return setGroupItmes(tableView, indexPath)
+//        if isLogged
+//        {
+//            if indexPath.row != 0 {
+//                return setGroupItmes(tableView, indexPath)
+//            }
+//            else {
+//                let cell : SearchGroupViewCell = tableView.dequeueReusableCell(withIdentifier: "searchCell",for: indexPath) as! SearchGroupViewCell
+//                cell.search_bar.delegate = self
+//                cell.search_bar.searchBarStyle = .minimal;
+//                return cell
+//            }
+//        }
+//        else{
+//          return setGroupItmes(tableView, indexPath)
+//        }
     }
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         print(searchBar.text)
@@ -2121,8 +2237,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     // tableview: selected row
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        var currentIndex = isLogged ? indexPath.row-1 : indexPath.row
+        var currentIndex = indexPath.row
+
+//        var currentIndex = isLogged ? indexPath.row-1 : indexPath.row
         if self.isFilterShowing {
                 self.leadingConstraint.constant = -199
                // UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded();})
@@ -2547,6 +2664,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         contryCodeString = country.phoneCode
         contryCode = country.code
     }
+    
 }
 
 

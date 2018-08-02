@@ -49,8 +49,8 @@ class ReviewsViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         cell.selectionStyle = .none
         if self.ratingsArray != nil {
-            cell.nameLbl.text = "\((self.ratingsArray?[indexPath.row].first_name)!) \((self.ratingsArray?[indexPath.row].last_name)!)"
-            cell.commentLbl.text = "\((self.ratingsArray?[indexPath.row].review)!) "
+            cell.nameLbl.text = "\(((self.ratingsArray?[indexPath.row].first_name) != nil ? (self.ratingsArray?[indexPath.row].first_name)! : "Gesut\((self.ratingsArray?[indexPath.row].reviewer_id)!)")) \(((self.ratingsArray?[indexPath.row].last_name) != nil ? (self.ratingsArray?[indexPath.row].last_name)! : ""))"
+            cell.commentLbl.text = "\((self.ratingsArray?[indexPath.row].review) != nil ? (self.ratingsArray?[indexPath.row].review)! : "") "
             cell.ratingNumber.text = "\((self.ratingsArray?[indexPath.row].rating)!) out of 10"
             
             

@@ -118,8 +118,8 @@ class ArrivleConfirmationViewController: UIViewController ,UICollectionViewDeleg
         }
     }
     func CancelConfurmation(){
-       print(ApiRouts.Web+"/api/stations?group_id=\((MyVriables.currentGroup?.id!)!)&member_id=\((MyVriables.currentMember?.id!)!)")
-        HTTP.DELETE(ApiRouts.Web+"/api/stations?group_id=\((MyVriables.currentGroup?.id!)!)&member_id=\((MyVriables.currentMember?.id!)!)",  parameters: [])
+       print(ApiRouts.Api+"/stations?group_id=\((MyVriables.currentGroup?.id!)!)&member_id=\((MyVriables.currentMember?.id!)!)")
+        HTTP.DELETE(ApiRouts.Api+"/stations?group_id=\((MyVriables.currentGroup?.id!)!)&member_id=\((MyVriables.currentMember?.id!)!)",  parameters: [])
         { response in
             if let err = response.error {
                 print("  error: \(err.localizedDescription)")
@@ -152,7 +152,7 @@ class ArrivleConfirmationViewController: UIViewController ,UICollectionViewDeleg
     }
     func SetBusStation(rowNumber: Int , stationId: Int){
         print("station id is \(stationId) and group id is \((MyVriables.currentGroup?.id!)! ) and member id is \((MyVriables.currentMember?.id!)!)")
-        HTTP.POST(ApiRouts.Web+"/api/stations/member",  parameters: ["station_id": stationId , "group_id" :(MyVriables.currentGroup?.id!)! , "member_id" : (MyVriables.currentMember?.id!)!])
+        HTTP.POST(ApiRouts.Api+"/stations/member",  parameters: ["station_id": stationId , "group_id" :(MyVriables.currentGroup?.id!)! , "member_id" : (MyVriables.currentMember?.id!)!])
         { response in
             if let err = response.error {
                 print("  error: \(err.localizedDescription)")
@@ -188,8 +188,8 @@ class ArrivleConfirmationViewController: UIViewController ,UICollectionViewDeleg
     //shouldRefreshBusStation = true
     func getGroupStations(){
     
-        print(ApiRouts.Web+"/api/member/\((MyVriables.currentMember?.id!)!)/stations/\((MyVriables.currentGroup?.id!)!)")
-        HTTP.GET(ApiRouts.Web+"/api/member/\((MyVriables.currentMember?.id!)!)/stations/\((MyVriables.currentGroup?.id!)!)", parameters: [])
+        print(ApiRouts.Api+"/member/\((MyVriables.currentMember?.id!)!)/stations/\((MyVriables.currentGroup?.id!)!)")
+        HTTP.GET(ApiRouts.Api+"/member/\((MyVriables.currentMember?.id!)!)/stations/\((MyVriables.currentGroup?.id!)!)", parameters: [])
         { response in
             if let err = response.error {
                 print("error: \(err.localizedDescription)")

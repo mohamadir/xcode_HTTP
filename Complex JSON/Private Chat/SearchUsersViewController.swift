@@ -138,9 +138,9 @@ class SearchUsersViewController: UIViewController, UITableViewDelegate, UITableV
         let defaults = UserDefaults.standard
         let id = defaults.integer(forKey: "member_id")
         let seachText = name.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)!
-        print(ApiRouts.Web+"/api/members?search=\(name)")
+        print(ApiRouts.Api+"/members?search=\(name)")
         
-        HTTP.GET(ApiRouts.Web + "/api/members?search=\(seachText)" ){response in
+        HTTP.GET(ApiRouts.Api + "/members?search=\(seachText)" ){response in
             
             if let err = response.error {
                 print("error: \(err.localizedDescription)")

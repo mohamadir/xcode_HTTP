@@ -157,7 +157,7 @@ class ItineraryViewController: UIViewController, BmoViewPagerDelegate, BmoViewPa
     
     func getDays(){
         print("----!!!!!!----"+ApiRouts.Web+"/api/days/group/\((self.singleGroup?.id!)!)")
-        HTTP.GET(ApiRouts.Web+"/api/days/group/\((self.singleGroup?.id!)!)") { response in
+        HTTP.GET(ApiRouts.Api+"/days/group/\((self.singleGroup?.id!)!)") { response in
             if let err = response.error {
                 print("error: \(err.localizedDescription)")
                 return //also notify app of failure as needed

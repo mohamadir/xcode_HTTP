@@ -423,7 +423,7 @@ class GroupMapViewController: UIViewController , GMSMapViewDelegate
     }
     func sendFcm() {
 
-        HTTP.POST(ApiRouts.Web+"/api/firebase/send_location/\((MyVriables.currentGroup?.id)!)") { response in
+        HTTP.POST(ApiRouts.Api+"/firebase/send_location/\((MyVriables.currentGroup?.id)!)") { response in
             if let err = response.error {
                 ARSLineProgress.hide()
                 print("error: \(err.localizedDescription)")
@@ -446,7 +446,7 @@ class GroupMapViewController: UIViewController , GMSMapViewDelegate
             self.mapDays = []
             self.markerList = []
             ARSLineProgress.show()
-            HTTP.POST(ApiRouts.Web+"/api/members/locations/member/\((MyVriables.currentMember?.id)!)?group_id/\((MyVriables.currentGroup?.id)!)", parameters: ["lat": currentLocation.coordinate.latitude, "lon": currentLocation.coordinate.longitude]) { response in
+            HTTP.POST(ApiRouts.Api+"/members/locations/member/\((MyVriables.currentMember?.id)!)?group_id/\((MyVriables.currentGroup?.id)!)", parameters: ["lat": currentLocation.coordinate.latitude, "lon": currentLocation.coordinate.longitude]) { response in
                 if let err = response.error {
                     DispatchQueue.main.async {
                         ARSLineProgress.hide()
@@ -479,7 +479,7 @@ class GroupMapViewController: UIViewController , GMSMapViewDelegate
     }
     
     fileprivate func getMembersLocationRequest() -> HTTP? {
-        return HTTP.GET(ApiRouts.Web+"/api/members/locations/group/\((MyVriables.currentGroup?.id)!)") { response in
+        return HTTP.GET(ApiRouts.Api+"/members/locations/group/\((MyVriables.currentGroup?.id)!)") { response in
             if let err = response.error {
                 DispatchQueue.main.async {
                     ARSLineProgress.hide()
@@ -555,7 +555,7 @@ class GroupMapViewController: UIViewController , GMSMapViewDelegate
         self.markerList = []
         
        // print("Url is " + ApiRouts.Web+"/api/members/locations/group/\((MyVriables.currentGroup?.id)!)")
-        HTTP.GET(ApiRouts.Web+"/api/members/locations/group/\((MyVriables.currentGroup?.id)!)") { response in
+        HTTP.GET(ApiRouts.Api+"/members/locations/group/\((MyVriables.currentGroup?.id)!)") { response in
             if let err = response.error {
                 ARSLineProgress.hide()
                 print("error: \(err.localizedDescription)")
@@ -619,7 +619,7 @@ class GroupMapViewController: UIViewController , GMSMapViewDelegate
         self.mapDays = []
         ARSLineProgress.show()
         print("Url == " + ApiRouts.Web+"/api/days/group/\((MyVriables.currentGroup?.id)!)")
-        HTTP.GET(ApiRouts.Web+"/api/days/group/\((MyVriables.currentGroup?.id)!)") { response in
+        HTTP.GET(ApiRouts.Api+"/days/group/\((MyVriables.currentGroup?.id)!)") { response in
             if let err = response.error {
                 ARSLineProgress.hide()
                 print("error: \(err.localizedDescription)")

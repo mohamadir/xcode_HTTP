@@ -93,7 +93,8 @@ class UploadFilesViewController: UIViewController, UITableViewDataSource, UITabl
         }
         cell2.vieClickWebView.addTapGestureRecognizer {
             if (self.documents?.files[indexPath.row].path) != nil {
-                var urlString2: String = "https://api.snapgroup.co.il" + (self.documents?.files[indexPath.row].path)!
+                var urlString2: String = ApiRouts.Media + (self.documents?.files[indexPath.row].path)!
+                print("urlString2 \(urlString2)")
                 urlString2 = urlString2.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)!
             MyVriables.currntUrl = urlString2
                 MyVriables.currentType = (self.documents?.files[indexPath.row].mime)!
@@ -165,7 +166,7 @@ class UploadFilesViewController: UIViewController, UITableViewDataSource, UITabl
     func getFilesUpload() {
         
 
-        HTTP.GET("https://api.snapgroup.co.il/api/files/group/\((MyVriables.currentGroup?.id)!)", parameters:[])
+        HTTP.GET(ApiRouts.Api+"/files/group/\((MyVriables.currentGroup?.id)!)", parameters:[])
         { response in
             if let err = response.error {
                 print("error: \(err.localizedDescription)")

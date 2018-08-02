@@ -220,7 +220,7 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
 
     func getGroup(){
         print("Url is " + ApiRouts.Web + "/api/groups/\((MyVriables.currentInboxMessage?.group_id!)!)/details/\((MyVriables.currentMember?.id!)!)")
-        HTTP.GET(ApiRouts.Web + "/api/groups/\((MyVriables.currentInboxMessage?.group_id!)!)/details/\((MyVriables.currentMember?.id!)!)"){response in
+        HTTP.GET(ApiRouts.Api + "/groups/\((MyVriables.currentInboxMessage?.group_id!)!)/details/\((MyVriables.currentMember?.id!)!)"){response in
             if response.error != nil {
                 return
             }
@@ -479,7 +479,7 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
                                         let defaults = UserDefaults.standard
                                         let id = defaults.integer(forKey: "member_id")
                                         print(ApiRouts.Web + "/api/members/\(id)/phone?no_password=true")
-                                        HTTP.PUT(ApiRouts.Web + "/api/members/\(id)/phone?no_password=true", parameters: ["phone" : self.phoneNumber, "country_code" : self.contryCodeString]) { response in
+                                        HTTP.PUT(ApiRouts.Api + "/members/\(id)/phone?no_password=true", parameters: ["phone" : self.phoneNumber, "country_code" : self.contryCodeString]) { response in
                                             if response.error != nil {
                                                 DispatchQueue.main.async {
                                                     let snackbar = TTGSnackbar(message: "The phone number you selected is already linked to a different account.", duration: .middle)
@@ -526,7 +526,7 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
 
     func checkIfMember(textFeild: String,type: String, facebookMember: FacebookMember?) {
         var params: [String : Any] = ["" : ""]
-        let strMethod = String(format : ApiRouts.Web + "/api/check_if_member" )
+        let strMethod = String(format : ApiRouts.Api + "/check_if_member" )
         if type == "phone"{
             params = ["phone": textFeild]
             
@@ -536,67 +536,116 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
             params = ["facebook_id": textFeild]
             
         }
-        print(params)
-        let url = URL(string: strMethod)!
-        let data = try! JSONSerialization.data(withJSONObject: params, options: JSONSerialization.WritingOptions.prettyPrinted)
         
-        let json = NSString(data: data, encoding: String.Encoding.utf8.rawValue)
-        
-        if let json = json {  print(json) }
-        
-        let jsonData = json!.data(using: String.Encoding.utf8.rawValue);
-        
-        var request = URLRequest(url: url)
-        request.httpMethod = HTTPMethod.post.rawValue
-        request.setValue("application/json; charset=UTF-8", forHTTPHeaderField: "Content-Type")
-        
-        var isMmebr: Bool = false
-        request.httpBody = jsonData
-        
-        Alamofire.request(request).responseJSON {  (response) in
-            switch response.result {
-            case .success(let JSON2):
-                print("Success with JSON: \(JSON2)")
-                print("RESPONSE \(response.description)")
-                
-                break
-                
-            case .failure(let error):
-                print("Request failed with error: \(error)")
-                //callback(response.result.value as? NSMutableDictionary,error as NSError?)
-                break
+        HTTP.POST(ApiRouts.Api + "/members/check", parameters: params) { response in
+            if response.error != nil {
+                print("error \(response.error?.localizedDescription)")
+                return
             }
-            }
-            .responseString { response in
-                if (response.result.value!.range(of: "true") != nil)
-                {
-                    if type == "phone"{
-                        
-                        self.showPinDialog(phone: textFeild)
-                    }
-                    else
+            do {
+                let  existMember = try JSONDecoder().decode(ExistMember.self, from: response.data)
+                print ("successed")
+                DispatchQueue.main.sync {
+                    
+                    if (existMember.exist)! == true
                     {
-                        print("Im here in facebook exist")
-                        self.isFacebookGdpr = false
-                        self.regstirFacebook(facebookMember: self.facebookMember!, isGdpr:  self.isFacebookGdpr)
-                    }
-                    
-                    
-                }else {
-                    
-                    MyVriables.fromGroup = "true-1"
-                    if type != "phone"{
-                        MyVriables.facebookMember = facebookMember
+                        if type == "phone"{
+                            
+                            self.showPinDialog(phone: textFeild)
+                        }
+                        else
+                        {
+                            print("Im here in facebook exist")
+                            self.isFacebookGdpr = false
+                            self.regstirFacebook(facebookMember: self.facebookMember!, isGdpr:  self.isFacebookGdpr)
+                        }
+                        
+                        
                     }else {
-                        MyVriables.facebookMember = nil
-                        self.dismiss(animated: true,completion: nil)
-                        MyVriables.phoneNumber = textFeild
+                        
+                        MyVriables.fromGroup = "true-1"
+                        if type != "phone"{
+                            MyVriables.facebookMember = facebookMember
+                        }else {
+                            MyVriables.facebookMember = nil
+                            self.dismiss(animated: true,completion: nil)
+                            MyVriables.phoneNumber = textFeild
+                        }
+                        self.performSegue(withIdentifier: "showGdbr", sender: self)
+                        
                     }
-                    self.performSegue(withIdentifier: "showGdbr", sender: self)
-                    
                 }
+            }
+            catch{
                 
+            }
+            //do things...
         }
+        
+        
+        
+//
+//        print(params)
+//        let url = URL(string: strMethod)!
+//        let data = try! JSONSerialization.data(withJSONObject: params, options: JSONSerialization.WritingOptions.prettyPrinted)
+//
+//        let json = NSString(data: data, encoding: String.Encoding.utf8.rawValue)
+//
+//        if let json = json {  print(json) }
+//
+//        let jsonData = json!.data(using: String.Encoding.utf8.rawValue);
+//
+//        var request = URLRequest(url: url)
+//        request.httpMethod = HTTPMethod.post.rawValue
+//        request.setValue("application/json; charset=UTF-8", forHTTPHeaderField: "Content-Type")
+//
+//        var isMmebr: Bool = false
+//        request.httpBody = jsonData
+//
+//        Alamofire.request(request).responseJSON {  (response) in
+//            switch response.result {
+//            case .success(let JSON2):
+//                print("Success with JSON: \(JSON2)")
+//                print("RESPONSE \(response.description)")
+//
+//                break
+//
+//            case .failure(let error):
+//                print("Request failed with error: \(error)")
+//                //callback(response.result.value as? NSMutableDictionary,error as NSError?)
+//                break
+//            }
+//            }
+//            .responseString { response in
+//                if (response.result.value!.range(of: "true") != nil)
+//                {
+//                    if type == "phone"{
+//
+//                        self.showPinDialog(phone: textFeild)
+//                    }
+//                    else
+//                    {
+//                        print("Im here in facebook exist")
+//                        self.isFacebookGdpr = false
+//                        self.regstirFacebook(facebookMember: self.facebookMember!, isGdpr:  self.isFacebookGdpr)
+//                    }
+//
+//
+//                }else {
+//
+//                    MyVriables.fromGroup = "true-1"
+//                    if type != "phone"{
+//                        MyVriables.facebookMember = facebookMember
+//                    }else {
+//                        MyVriables.facebookMember = nil
+//                        self.dismiss(animated: true,completion: nil)
+//                        MyVriables.phoneNumber = textFeild
+//                    }
+//                    self.performSegue(withIdentifier: "showGdbr", sender: self)
+//
+//                }
+//
+//        }
         
     }
     public func regstirFacebook(facebookMember : FacebookMember,isGdpr: Bool)
@@ -832,7 +881,7 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
     }
     func getGroup(memberId: String){
         print("Url is " + ApiRouts.Web + "/api/groups/\((MyVriables.currentGroup?.id!)!)/details/\(memberId)")
-        HTTP.GET(ApiRouts.Web + "/api/groups/\((MyVriables.currentGroup?.id!)!)/details/\(memberId)"){response in
+        HTTP.GET(ApiRouts.Api + "/groups/\((MyVriables.currentGroup?.id!)!)/details/\(memberId)"){response in
             if response.error != nil {
                 print("response eror")
                 return
@@ -872,7 +921,7 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
     func joinGroupRequest(memberid: Int){
 
 
-        HTTP.POST(ApiRouts.Web + "/api/groups/\((MyVriables.currentGroup?.id!)!)/members/\(memberid)/join", parameters: ["first_name" : self.firstNameTextFeild.text , "last_name" : self.lastNameTextFeild.text ]) { response in
+        HTTP.POST(ApiRouts.Api + "/groups/\((MyVriables.currentGroup?.id!)!)/members/\(memberid)/join", parameters: ["first_name" : self.firstNameTextFeild.text , "last_name" : self.lastNameTextFeild.text ]) { response in
             if response.error != nil {
                 print("errory \(response.error?.localizedDescription)")
                 
@@ -908,7 +957,7 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
     
     @IBAction func leaveGroup(_ sender: Any) {
         print(ApiRouts.Web + "/api/groups/\((MyVriables.currentGroup?.id!)!)/members/\((MyVriables.currentMember?.id!)!)/leave"+"    JOIN GROUP")
-        HTTP.DELETE(ApiRouts.Web + "/api/groups/\((MyVriables.currentGroup?.id!)!)/members/\((MyVriables.currentMember?.id!)!)/leave") { response in
+        HTTP.DELETE(ApiRouts.Api + "/groups/\((MyVriables.currentGroup?.id!)!)/members/\((MyVriables.currentMember?.id!)!)/leave") { response in
             //do things...
             if response.error != nil {
                 print("errory \(response.error)")

@@ -1,0 +1,1086 @@
+
+/* Class = "UILabel"; text = "Company name"; ObjectID = "03b-rZ-Njc"; */
+"03b-rZ-Njc.text" = "Company name";
+
+/* Class = "UILabel"; text = "Group leader dosnt define document to download"; ObjectID = "0Ru-PI-eya"; */
+"0Ru-PI-eya.text" = "Group leader doesn't define document to download";
+
+/* Class = "UILabel"; text = "052-*******"; ObjectID = "0UD-xz-fG0"; */
+"0UD-xz-fG0.text" = "052-*******";
+
+/* Class = "UILabel"; text = "19:03"; ObjectID = "0dC-bI-Lp2"; */
+"0dC-bI-Lp2.text" = "19:03";
+
+/* Class = "UILabel"; text = "Great"; ObjectID = "0kC-rd-Vv4"; */
+"0kC-rd-Vv4.text" = "Great";
+
+/* Class = "UILabel"; text = "name"; ObjectID = "0mg-9c-HSx"; */
+"0mg-9c-HSx.text" = "name";
+
+/* Class = "UIButton"; normalTitle = "yyyy-mm-dd"; ObjectID = "0u3-iY-4XO"; */
+"0u3-iY-4XO.normalTitle" = "yyyy-mm-dd";
+
+/* Class = "UISearchBar"; placeholder = "Refine.."; ObjectID = "12S-9H-mev"; */
+"12S-9H-mev.placeholder" = "Refine";
+
+/* Class = "UILabel"; text = "Private Group"; ObjectID = "14b-VG-3Sp"; */
+"14b-VG-3Sp.text" = "Private Group";
+
+/* Class = "UILabel"; text = "snapgroup"; ObjectID = "1TX-Kz-CK5"; */
+"1TX-Kz-CK5.text" = "snapgroup";
+
+/* Class = "UILabel"; text = "Required terms"; ObjectID = "1VQ-Ft-ObE"; */
+"1VQ-Ft-ObE.text" = "Required terms";
+
+/* Class = "UILabel"; text = "Male"; ObjectID = "1gM-BD-E7w"; */
+"1gM-BD-E7w.text" = "Male";
+
+/* Class = "UILabel"; text = "Required"; ObjectID = "1gY-67-WmM"; */
+"1gY-67-WmM.text" = "Required";
+
+/* Class = "UILabel"; text = "aa"; ObjectID = "1t3-g3-CpP"; */
+"1t3-g3-CpP.text" = "aa";
+
+/* Class = "UILabel"; text = "tseyor sle7ot byeroshalayem"; ObjectID = "2Gq-8N-ND3"; */
+"2Gq-8N-ND3.text" = "tseyor sle7ot byeroshalayem";
+
+/* Class = "UIButton"; normalTitle = "All Reviews"; ObjectID = "2Hf-Y1-evQ"; */
+"2Hf-Y1-evQ.normalTitle" = "All Reviews";
+
+/* Class = "UILabel"; text = "Join the group"; ObjectID = "2PD-w5-EIj"; */
+"2PD-w5-EIj.text" = "Join the group";
+
+/* Class = "UILabel"; text = "972"; ObjectID = "2Qe-pg-PNc"; */
+"2Qe-pg-PNc.text" = "972";
+
+/* Class = "UITextView"; text = "Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda."; ObjectID = "2g1-C6-9ix"; */
+"2g1-C6-9ix.text" = "Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "4JB-nE-BN1"; */
+"4JB-nE-BN1.text" = "Label";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "4Mp-Jr-9MJ"; */
+"4Mp-Jr-9MJ.text" = "Label";
+
+/* Class = "UILabel"; text = "System notification"; ObjectID = "56O-Fh-Mcp"; */
+"56O-Fh-Mcp.text" = "System notification";
+
+/* Class = "UILabel"; text = "Yoga group"; ObjectID = "58f-Zo-pHT"; */
+"58f-Zo-pHT.text" = "Yoga group";
+
+/* Class = "UILabel"; text = "to get location info"; ObjectID = "5ZD-R5-MiT"; */
+"5ZD-R5-MiT.text" = "to get location info";
+
+/* Class = "UILabel"; text = "asd"; ObjectID = "5fg-Bf-SHT"; */
+"5fg-Bf-SHT.text" = "asd";
+
+/* Class = "UILabel"; text = ".."; ObjectID = "5yQ-eK-xcd"; */
+"5yQ-eK-xcd.text" = "..";
+
+/* Class = "UIButton"; normalTitle = "Save"; ObjectID = "6Ks-bf-yAR"; */
+"6Ks-bf-yAR.normalTitle" = "Save";
+
+/* Class = "UILabel"; text = "Age"; ObjectID = "6WK-eW-CuB"; */
+"6WK-eW-CuB.text" = "Age";
+
+/* Class = "UIButton"; normalTitle = "Done"; ObjectID = "6v4-Nl-aUd"; */
+"6v4-Nl-aUd.normalTitle" = "Done";
+
+/* Class = "UIButton"; normalTitle = "Agree"; ObjectID = "7LI-Ja-8bv"; */
+"7LI-Ja-8bv.normalTitle" = "Agree";
+
+/* Class = "UILabel"; text = "Day 1"; ObjectID = "7NF-B3-977"; */
+"7NF-B3-977.text" = "Day 1";
+
+/* Class = "UILabel"; text = "LabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabel"; ObjectID = "7sz-U4-v5N"; */
+"7sz-U4-v5N.text" = "LabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabel";
+
+/* Class = "UILabel"; text = "1"; ObjectID = "8KL-ad-462"; */
+"8KL-ad-462.text" = "1";
+
+/* Class = "UILabel"; text = "ביום הז מתארגנים ומנצ׳ייף ומנעגב וראח נקחב הול"; ObjectID = "8Lg-X7-MOS"; */
+"8Lg-X7-MOS.text" = "ביום הז מתארגנים ומנצ׳ייף ומנעגב וראח נקחב הול";
+
+/* Class = "UILabel"; text = "Restaurants"; ObjectID = "8j0-58-pr1"; */
+"8j0-58-pr1.text" = "Restaurants";
+
+/* Class = "UILabel"; text = "file name"; ObjectID = "8qn-lU-Jhx"; */
+"8qn-lU-Jhx.text" = "file name";
+
+/* Class = "UIButton"; normalTitle = "Continue"; ObjectID = "91S-PS-Va1"; */
+"91S-PS-Va1.normalTitle" = "Continue";
+
+/* Class = "UILabel"; text = "checklist"; ObjectID = "9Qq-IY-SsU"; */
+"9Qq-IY-SsU.text" = "checklist";
+
+/* Class = "UILabel"; text = "Mohamed Ibrahem"; ObjectID = "9T6-fv-imK"; */
+"9T6-fv-imK.text" = "Mohamed Ibrahem";
+
+/* Class = "UILabel"; text = "Required terms"; ObjectID = "9WO-kp-Wn2"; */
+"9WO-kp-Wn2.text" = "Required terms";
+
+/* Class = "UILabel"; text = "You are now a member of this group, do you want to leave group ?"; ObjectID = "9dF-H3-M96"; */
+"9dF-H3-M96.text" = "You are now a member of this group, do you want to leave group ?";
+
+/* Class = "UILabel"; text = "User name"; ObjectID = "9vo-Yc-9QK"; */
+"9vo-Yc-9QK.text" = "User name";
+
+/* Class = "UIButton"; normalTitle = "Write a comment"; ObjectID = "9xI-T2-Sny"; */
+"9xI-T2-Sny.normalTitle" = "Write a comment";
+
+/* Class = "UILabel"; text = "Ratings"; ObjectID = "9zO-uH-P2K"; */
+"9zO-uH-P2K.text" = "Ratings";
+
+/* Class = "UILabel"; text = "asd"; ObjectID = "AEL-Fo-4n3"; */
+"AEL-Fo-4n3.text" = "asd";
+
+/* Class = "UILabel"; text = "to get location info"; ObjectID = "AOL-fM-wZu"; */
+"AOL-fM-wZu.text" = "to get location info";
+
+/* Class = "UILabel"; text = "Groups home"; ObjectID = "AUd-ak-y4T"; */
+"AUd-ak-y4T.text" = "Groups home";
+
+/* Class = "UILabel"; text = "phone"; ObjectID = "Aa9-7g-vVD"; */
+"Aa9-7g-vVD.text" = "phone";
+
+/* Class = "UITextField"; placeholder = "Enter a phone number.."; ObjectID = "Adp-Y2-i26"; */
+"Adp-Y2-i26.placeholder" = "Enter a phone number";
+
+/* Class = "UILabel"; text = "das"; ObjectID = "AgY-uI-8Ht"; */
+"AgY-uI-8Ht.text" = "das";
+
+/* Class = "UILabel"; text = "About"; ObjectID = "Akd-zh-MZC"; */
+"Akd-zh-MZC.text" = "About";
+
+/* Class = "UIBarButtonItem"; title = "asdasd"; ObjectID = "Awa-O9-QHV"; */
+"Awa-O9-QHV.title" = "asdasd";
+
+/* Class = "UILabel"; text = "Click the marker"; ObjectID = "Ay0-kl-vYz"; */
+"Ay0-kl-vYz.text" = "Click the marker";
+
+/* Class = "UILabel"; text = "lipaz Wenistock"; ObjectID = "AyV-C1-ZTh"; */
+"AyV-C1-ZTh.text" = "lipaz Wenistock";
+
+/* Class = "UILabel"; text = "£425"; ObjectID = "B82-je-23K"; */
+"B82-je-23K.text" = "£425";
+
+/* Class = "UIButton"; normalTitle = "Multi days groups"; ObjectID = "BG0-AA-dm2"; */
+"BG0-AA-dm2.normalTitle" = "Multi days groups";
+
+/* Class = "UILabel"; text = "Privacy Preferences"; ObjectID = "BMy-TD-REL"; */
+"BMy-TD-REL.text" = "Privacy Preferences";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "BRA-BX-umH"; */
+"BRA-BX-umH.text" = "Label";
+
+/* Class = "UIButton"; normalTitle = "Learn more"; ObjectID = "Bbs-uG-Gtb"; */
+"Bbs-uG-Gtb.normalTitle" = "Learn more";
+
+/* Class = "UILabel"; text = "lasbsd"; ObjectID = "Bgz-bx-QsZ"; */
+"Bgz-bx-QsZ.text" = "lasbsd";
+
+/* Class = "UILabel"; text = "there is no description"; ObjectID = "Bsz-0I-rnD"; */
+"Bsz-0I-rnD.text" = "there is no description";
+
+/* Class = "UILabel"; text = "i am a member of this group"; ObjectID = "Buu-lF-SEj"; */
+"Buu-lF-SEj.text" = "I am a member of this group";
+
+/* Class = "UILabel"; text = "Checkout today's services"; ObjectID = "Bx6-sH-7Zy"; */
+"Bx6-sH-7Zy.text" = "Checkout today's services";
+
+/* Class = "UILabel"; text = "My Profile"; ObjectID = "C1s-E3-Rze"; */
+"C1s-E3-Rze.text" = "My Profile";
+
+/* Class = "UILabel"; text = "Birthday"; ObjectID = "CLu-x5-ChA"; */
+"CLu-x5-ChA.text" = "Birthday";
+
+/* Class = "UIButton"; normalTitle = "Upload Image"; ObjectID = "CSW-XJ-XFE"; */
+"CSW-XJ-XFE.normalTitle" = "Upload Image";
+
+/* Class = "UILabel"; text = "Make sure to supply the following informaion."; ObjectID = "D2L-Qk-xhy"; */
+"D2L-Qk-xhy.text" = "Make sure to supply the following information.";
+
+/* Class = "UILabel"; text = "No common groups"; ObjectID = "D7L-VH-PKt"; */
+"D7L-VH-PKt.text" = "No common groups";
+
+/* Class = "UIButton"; normalTitle = "Done"; ObjectID = "D7T-VW-ky9"; */
+"D7T-VW-ky9.normalTitle" = "Done";
+
+/* Class = "UIButton"; normalTitle = "Send"; ObjectID = "DIW-AY-j5k"; */
+"DIW-AY-j5k.normalTitle" = "Send";
+
+/* Class = "UISearchBar"; placeholder = "search members"; ObjectID = "DLF-g5-dA0"; */
+"DLF-g5-dA0.placeholder" = "search members";
+
+/* Class = "UILabel"; text = "self arrive"; ObjectID = "DME-Aj-tJZ"; */
+"DME-Aj-tJZ.text" = "self arrive";
+
+/* Class = "UILabel"; text = "User Name"; ObjectID = "EFN-wV-FK6"; */
+"EFN-wV-FK6.text" = "User Name";
+
+/* Class = "UILabel"; text = "25"; ObjectID = "ES5-5l-sQv"; */
+"ES5-5l-sQv.text" = "25";
+
+/* Class = "UILabel"; text = "check all"; ObjectID = "EYN-eB-0oA"; */
+"EYN-eB-0oA.text" = "check all";
+
+/* Class = "UITabBarItem"; title = "Menu"; ObjectID = "EdG-SG-Eqm"; */
+"EdG-SG-Eqm.title" = "Menu";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "Efa-ul-mv5"; */
+"Efa-ul-mv5.text" = "Label";
+
+/* Class = "UILabel"; text = "00"; ObjectID = "Ewi-Kd-BAc"; */
+"Ewi-Kd-BAc.text" = "00";
+
+/* Class = "UILabel"; text = "Registration to {group name} has been closed.\nPlease contact the group leader."; ObjectID = "EzV-Rr-716"; */
+"EzV-Rr-716.text" = "Registration to {group name} has been closed.\nPlease contact the group leader.";
+
+/* Class = "UILabel"; text = "Terms"; ObjectID = "FBk-LI-iyX"; */
+"FBk-LI-iyX.text" = "Terms";
+
+/* Class = "UILabel"; text = "about text"; ObjectID = "FHk-3v-exa"; */
+"FHk-3v-exa.text" = "about text";
+
+/* Class = "UILabel"; text = "Kenya Express"; ObjectID = "FSr-VC-WOv"; */
+"FSr-VC-WOv.text" = "Kenya Express";
+
+/* Class = "UILabel"; text = "04/04/2018 11:23:28"; ObjectID = "FWC-0v-jh3"; */
+"FWC-0v-jh3.text" = "04/04/2018 11:23:28";
+
+/* Class = "UILabel"; text = "very goooood "; ObjectID = "FjN-PW-vHV"; */
+"FjN-PW-vHV.text" = "very goooood ";
+
+/* Class = "UILabel"; text = "Welcome to Snapgroup"; ObjectID = "Fwi-Kj-EK2"; */
+"Fwi-Kj-EK2.text" = "Welcome to Snapgroup";
+
+/* Class = "UILabel"; text = "Filter"; ObjectID = "GEr-ZZ-QWz"; */
+"GEr-ZZ-QWz.text" = "Filter";
+
+/* Class = "UIButton"; normalTitle = "Send"; ObjectID = "GU6-kL-xQk"; */
+"GU6-kL-xQk.normalTitle" = "Send";
+
+/* Class = "UILabel"; text = ".."; ObjectID = "Gfe-ig-w83"; */
+"Gfe-ig-w83.text" = "..";
+
+/* Class = "UISearchBar"; placeholder = "search members"; ObjectID = "Gqz-y0-sfW"; */
+"Gqz-y0-sfW.placeholder" = "search members";
+
+/* Class = "UIButton"; normalTitle = "Lock"; ObjectID = "GtE-Ob-Hlc"; */
+"GtE-Ob-Hlc.normalTitle" = "Lock";
+
+/* Class = "UILabel"; text = "Company name"; ObjectID = "H5u-iI-u87"; */
+"H5u-iI-u87.text" = "Company name";
+
+/* Class = "UILabel"; text = "10 Members updated"; ObjectID = "HRN-td-Ksp"; */
+"HRN-td-Ksp.text" = "10 Members updated";
+
+/* Class = "UILabel"; text = "hours"; ObjectID = "HXl-uO-6jq"; */
+"HXl-uO-6jq.text" = "hours";
+
+/* Class = "UILabel"; text = "Trip Map"; ObjectID = "HcO-SH-d1i"; */
+"HcO-SH-d1i.text" = "Trip Map";
+
+/* Class = "UITextField"; placeholder = "Enter a phone .."; ObjectID = "HjD-ZP-a8P"; */
+"HjD-ZP-a8P.placeholder" = "Enter a phone ..";
+
+/* Class = "UILabel"; text = "Members"; ObjectID = "Hr1-oM-bYa"; */
+"Hr1-oM-bYa.text" = "Members";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "I1s-wg-W6j"; */
+"I1s-wg-W6j.text" = "Label";
+
+/* Class = "UIButton"; normalTitle = "Cancel"; ObjectID = "IYJ-ys-mRl"; */
+"IYJ-ys-mRl.normalTitle" = "Cancel";
+
+/* Class = "UILabel"; text = "Web adress"; ObjectID = "IeH-nC-5P4"; */
+"IeH-nC-5P4.text" = "Web address";
+
+/* Class = "UILabel"; text = "Snapgroup"; ObjectID = "Imk-wb-tLi"; */
+"Imk-wb-tLi.text" = "Snapgroup";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "ItN-Dl-9zU"; */
+"ItN-Dl-9zU.text" = "Label";
+
+/* Class = "UILabel"; text = ".."; ObjectID = "IwO-vg-Zkc"; */
+"IwO-vg-Zkc.text" = "..";
+
+/* Class = "UIButton"; normalTitle = "Create group"; ObjectID = "JRQ-tY-Q4T"; */
+"JRQ-tY-Q4T.normalTitle" = "Create group";
+
+/* Class = "UILabel"; text = "Delete my account"; ObjectID = "JVo-7a-RVF"; */
+"JVo-7a-RVF.text" = "Delete my account";
+
+/* Class = "UIButton"; normalTitle = "All groups"; ObjectID = "Jle-Gm-XSt"; */
+"Jle-Gm-XSt.normalTitle" = "All groups";
+
+/* Class = "UILabel"; text = "check all"; ObjectID = "JuK-fW-2ko"; */
+"JuK-fW-2ko.text" = "check all";
+
+/* Class = "UILabel"; text = "About"; ObjectID = "K6z-yi-aoX"; */
+"K6z-yi-aoX.text" = "About";
+
+/* Class = "UITabBarItem"; title = "Home"; ObjectID = "KG7-fz-9lb"; */
+"KG7-fz-9lb.title" = "Home";
+
+/* Class = "UILabel"; text = "name"; ObjectID = "KfQ-Tm-5sk"; */
+"KfQ-Tm-5sk.text" = "name";
+
+/* Class = "UILabel"; text = "Click the marker"; ObjectID = "LTd-iR-Iq1"; */
+"LTd-iR-Iq1.text" = "Click the marker";
+
+/* Class = "UILabel"; text = "Click the marker"; ObjectID = "Lbc-20-Q8c"; */
+"Lbc-20-Q8c.text" = "Click the marker";
+
+/* Class = "UILabel"; text = "Joined"; ObjectID = "Lom-nR-PDY"; */
+"Lom-nR-PDY.text" = "Joined";
+
+/* Class = "UIButton"; normalTitle = "My groups"; ObjectID = "Lyr-dh-O47"; */
+"Lyr-dh-O47.normalTitle" = "My groups";
+
+/* Class = "UILabel"; text = "Places"; ObjectID = "MDv-Y6-9P2"; */
+"MDv-Y6-9P2.text" = "Places";
+
+/* Class = "UILabel"; text = "Snapgroup Terms"; ObjectID = "MFC-kd-aeU"; */
+"MFC-kd-aeU.text" = "Snapgroup Terms";
+
+/* Class = "UILabel"; text = "Approve Usage"; ObjectID = "ML3-xr-v8Z"; */
+"ML3-xr-v8Z.text" = "Approve Usage";
+
+/* Class = "UILabel"; text = "Trip Map"; ObjectID = "MNn-jD-0Zn"; */
+"MNn-jD-0Zn.text" = "Trip Map";
+
+/* Class = "UILabel"; text = "Transports"; ObjectID = "MQZ-A4-qan"; */
+"MQZ-A4-qan.text" = "Transports";
+
+/* Class = "UILabel"; text = "00"; ObjectID = "MsZ-Z4-dOH"; */
+"MsZ-Z4-dOH.text" = "00";
+
+/* Class = "UILabel"; text = "99"; ObjectID = "N2n-LJ-Do9"; */
+"N2n-LJ-Do9.text" = "99";
+
+/* Class = "UIButton"; normalTitle = "Public groups"; ObjectID = "NAG-ZC-LYz"; */
+"NAG-ZC-LYz.normalTitle" = "Public groups";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "NF5-UP-UHY"; */
+"NF5-UP-UHY.text" = "Label";
+
+/* Class = "UILabel"; text = "Active group"; ObjectID = "NUh-Pl-ykX"; */
+"NUh-Pl-ykX.text" = "Active group";
+
+/* Class = "UILabel"; text = "Snapgroup"; ObjectID = "NXE-n8-Iob"; */
+"NXE-n8-Iob.text" = "Snapgroup";
+
+/* Class = "UILabel"; text = "Chat"; ObjectID = "NaN-AJ-VLM"; */
+"NaN-AJ-VLM.text" = "Chat";
+
+/* Class = "UILabel"; text = "199"; ObjectID = "Nex-Sp-PfM"; */
+"Nex-Sp-PfM.text" = "199";
+
+/* Class = "UILabel"; text = "Member"; ObjectID = "Nr2-Zw-37g"; */
+"Nr2-Zw-37g.text" = "Member";
+
+/* Class = "UILabel"; text = "resturant list"; ObjectID = "ONs-y0-HcY"; */
+"ONs-y0-HcY.text" = "Restaurant list";
+
+/* Class = "UILabel"; text = "Filter"; ObjectID = "OVJ-VA-TVL"; */
+"OVJ-VA-TVL.text" = "Filter";
+
+/* Class = "UILabel"; text = "no-message"; ObjectID = "OeR-j0-8S9"; */
+"OeR-j0-8S9.text" = "no-message";
+
+/* Class = "UILabel"; text = "199"; ObjectID = "Ofu-Zc-VHD"; */
+"Ofu-Zc-VHD.text" = "199";
+
+/* Class = "UIButton"; normalTitle = "Continue"; ObjectID = "P9L-O6-wvr"; */
+"P9L-O6-wvr.normalTitle" = "Continue";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "PCI-nR-nHd"; */
+"PCI-nR-nHd.normalTitle" = "Button";
+
+/* Class = "UILabel"; text = "Show my location"; ObjectID = "PEl-1b-RsK"; */
+"PEl-1b-RsK.text" = "Show my location";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "PMe-Vx-WvF"; */
+"PMe-Vx-WvF.text" = "Label";
+
+/* Class = "UIButton"; normalTitle = "Privacy"; ObjectID = "PPh-Mc-nwd"; */
+"PPh-Mc-nwd.normalTitle" = "Privacy";
+
+/* Class = "UILabel"; text = "Edit"; ObjectID = "Pgs-kL-yeS"; */
+"Pgs-kL-yeS.text" = "Edit";
+
+/* Class = "UILabel"; text = "Genrael rating 7 out of 10"; ObjectID = "PkF-1d-rd3"; */
+"PkF-1d-rd3.text" = "General rating 7 out of 10";
+
+/* Class = "UILabel"; text = "Or"; ObjectID = "QCr-KH-cXF"; */
+"QCr-KH-cXF.text" = "Or";
+
+/* Class = "UILabel"; text = "Gender"; ObjectID = "QZD-cK-HY6"; */
+"QZD-cK-HY6.text" = "Gender";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "Qdm-Ks-99B"; */
+"Qdm-Ks-99B.text" = "Label";
+
+/* Class = "UILabel"; text = "very goooood "; ObjectID = "Qin-ZC-Bza"; */
+"Qin-ZC-Bza.text" = "very goooood ";
+
+/* Class = "UILabel"; text = "Name"; ObjectID = "R20-v0-Dob"; */
+"R20-v0-Dob.text" = "Name";
+
+/* Class = "UILabel"; text = "8 out of 10"; ObjectID = "RK7-wr-wbR"; */
+"RK7-wr-wbR.text" = "8 out of 10";
+
+/* Class = "UILabel"; text = "146 d' 13 h' to join"; ObjectID = "RM7-ic-ltU"; */
+"RM7-ic-ltU.text" = "146 d' 13 h' to join";
+
+/* Class = "UILabel"; text = "All Reviews"; ObjectID = "RP0-tk-G87"; */
+"RP0-tk-G87.text" = "All Reviews";
+
+/* Class = "UILabel"; text = "CFO"; ObjectID = "Rhr-ob-27e"; */
+"Rhr-ob-27e.text" = "CFO";
+
+/* Class = "UIButton"; normalTitle = "Back"; ObjectID = "RnG-2W-Pbs"; */
+"RnG-2W-Pbs.normalTitle" = "Back";
+
+/* Class = "UILabel"; text = "file name is photo "; ObjectID = "Rue-MK-sfz"; */
+"Rue-MK-sfz.text" = "file name is photo ";
+
+/* Class = "UILabel"; text = "vote"; ObjectID = "Rxl-kl-kzA"; */
+"Rxl-kl-kzA.text" = "vote";
+
+/* Class = "UILabel"; text = "********"; ObjectID = "S1u-oG-5sq"; */
+"S1u-oG-5sq.text" = "********";
+
+/* Class = "UILabel"; text = "remove"; ObjectID = "S50-Fc-Z7f"; */
+"S50-Fc-Z7f.text" = "remove";
+
+/* Class = "UILabel"; text = "No common groups"; ObjectID = "S5J-cW-YYF"; */
+"S5J-cW-YYF.text" = "No common groups";
+
+/* Class = "UILabel"; text = "phone"; ObjectID = "SDe-ly-Ue5"; */
+"SDe-ly-Ue5.text" = "phone";
+
+/* Class = "UILabel"; text = "User name"; ObjectID = "SQV-zX-ZTW"; */
+"SQV-zX-ZTW.text" = "User name";
+
+/* Class = "UILabel"; text = "Email"; ObjectID = "SSn-GJ-ct2"; */
+"SSn-GJ-ct2.text" = "Email";
+
+/* Class = "UILabel"; text = "Zohar Ohana"; ObjectID = "STh-Km-dfw"; */
+"STh-Km-dfw.text" = "Zohar Ohana";
+
+/* Class = "UILabel"; text = "20-26 Ogust"; ObjectID = "TGu-h1-NYm"; */
+"TGu-h1-NYm.text" = "20-26 August";
+
+/* Class = "UIButton"; normalTitle = "Show More"; ObjectID = "Tee-sS-16n"; */
+"Tee-sS-16n.normalTitle" = "Show More";
+
+/* Class = "UIButton"; normalTitle = "Filter"; ObjectID = "TjD-hf-OZp"; */
+"TjD-hf-OZp.normalTitle" = "Filter";
+
+/* Class = "UILabel"; text = "972"; ObjectID = "Tuf-bQ-LCw"; */
+"Tuf-bQ-LCw.text" = "972";
+
+/* Class = "UILabel"; text = "File Name"; ObjectID = "Tw3-U7-7ZW"; */
+"Tw3-U7-7ZW.text" = "File Name";
+
+/* Class = "UILabel"; text = "Upload"; ObjectID = "UOJ-nL-n9H"; */
+"UOJ-nL-n9H.text" = "Upload";
+
+/* Class = "UIButton"; normalTitle = "Leave group"; ObjectID = "UUq-jf-iZY"; */
+"UUq-jf-iZY.normalTitle" = "Leave group";
+
+/* Class = "UISearchBar"; placeholder = "Refine.."; ObjectID = "UdQ-gI-YXf"; */
+"UdQ-gI-YXf.placeholder" = "Refine..";
+
+/* Class = "UILabel"; text = "08/02/2018"; ObjectID = "UfW-XE-RAI"; */
+"UfW-XE-RAI.text" = "08/02/2018";
+
+/* Class = "UILabel"; text = "Private chat messages"; ObjectID = "UhE-sv-QVH"; */
+"UhE-sv-QVH.text" = "Private chat messages";
+
+/* Class = "UILabel"; text = "There is eror with the llink"; ObjectID = "UhW-OL-RgE"; */
+"UhW-OL-RgE.text" = "There seems to be an error with the link";
+
+/* Class = "UILabel"; text = "lipaz Wenistock"; ObjectID = "Ulj-cY-sEP"; */
+"Ulj-cY-sEP.text" = "lipaz Wenistock";
+
+/* Class = "UILabel"; text = "Legend"; ObjectID = "Up9-Sn-idE"; */
+"Up9-Sn-idE.text" = "Legend";
+
+/* Class = "UILabel"; text = "There are currently no groups you are invited to"; ObjectID = "V9f-8T-PL5"; */
+"V9f-8T-PL5.text" = "There are currently no groups you are invited to";
+
+/* Class = "UIButton"; normalTitle = "Delete"; ObjectID = "VOS-WC-LBb"; */
+"VOS-WC-LBb.normalTitle" = "Delete";
+
+/* Class = "UILabel"; text = "Sign in with Facebook"; ObjectID = "VPm-dq-U0b"; */
+"VPm-dq-U0b.text" = "Sign in with Facebook";
+
+/* Class = "UILabel"; text = "check all"; ObjectID = "Vba-rH-Zun"; */
+"Vba-rH-Zun.text" = "check all";
+
+/* Class = "UIButton"; normalTitle = "yyyy-mm-dd"; ObjectID = "Vdq-FJ-U0j"; */
+"Vdq-FJ-U0j.normalTitle" = "yyyy-mm-dd";
+
+/* Class = "UILabel"; text = "Delete my account"; ObjectID = "Vjf-8X-LcW"; */
+"Vjf-8X-LcW.text" = "Delete my account";
+
+/* Class = "UILabel"; text = "Map"; ObjectID = "VkX-wS-ibG"; */
+"VkX-wS-ibG.text" = "Map";
+
+/* Class = "UILabel"; text = "Reviews"; ObjectID = "Vq2-j6-6PW"; */
+"Vq2-j6-6PW.text" = "Reviews";
+
+/* Class = "UIButton"; normalTitle = "Join"; ObjectID = "W0h-TU-I3K"; */
+"W0h-TU-I3K.normalTitle" = "Join";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "W5z-6Z-sGt"; */
+"W5z-6Z-sGt.normalTitle" = "Button";
+
+/* Class = "UILabel"; text = "There is eror with the llink"; ObjectID = "W9J-rS-QkB"; */
+"W9J-rS-QkB.text" = "There seems to be an error with the link";
+
+/* Class = "UITextField"; placeholder = "Enter a phone .."; ObjectID = "W9K-Gr-X8J"; */
+"W9K-Gr-X8J.placeholder" = "Enter a phone ..";
+
+/* Class = "UILabel"; text = "Company Name"; ObjectID = "WCa-Es-xye"; */
+"WCa-Es-xye.text" = "Company Name";
+
+/* Class = "UILabel"; text = "to get location"; ObjectID = "WDd-bv-jGd"; */
+"WDd-bv-jGd.text" = "to get location";
+
+/* Class = "UILabel"; text = "Sign in with Facebook"; ObjectID = "WL4-zb-V4A"; */
+"WL4-zb-V4A.text" = "Sign in with Facebook";
+
+/* Class = "UILabel"; text = "Bed sincerity yet therefore forfeited"; ObjectID = "WOx-Kc-K7h"; */
+"WOx-Kc-K7h.text" = "Bed sincerity yet therefore forfeited";
+
+/* Class = "UILabel"; text = "Members Map"; ObjectID = "WcV-St-qSf"; */
+"WcV-St-qSf.text" = "Members Map";
+
+/* Class = "UILabel"; text = "PullUp"; ObjectID = "WjS-yb-sWD"; */
+"WjS-yb-sWD.text" = "PullUp";
+
+/* Class = "UILabel"; text = "972"; ObjectID = "Wye-mC-aen"; */
+"Wye-mC-aen.text" = "972";
+
+/* Class = "UILabel"; text = "8 out of 10"; ObjectID = "X1z-fc-BsJ"; */
+"X1z-fc-BsJ.text" = "8 out of 10";
+
+/* Class = "UIButton"; normalTitle = "Filter"; ObjectID = "XIP-2d-J36"; */
+"XIP-2d-J36.normalTitle" = "Filter";
+
+/* Class = "UILabel"; text = "Refresh Map"; ObjectID = "Xb0-dF-j67"; */
+"Xb0-dF-j67.text" = "Refresh Map";
+
+/* Class = "UILabel"; text = "Min"; ObjectID = "Xi4-BB-WWq"; */
+"Xi4-BB-WWq.text" = "Min";
+
+/* Class = "UILabel"; text = "Groups Home"; ObjectID = "XiD-o2-M2d"; */
+"XiD-o2-M2d.text" = "Groups Home";
+
+/* Class = "UILabel"; text = "Members"; ObjectID = "Xiy-Kh-BJ7"; */
+"Xiy-Kh-BJ7.text" = "Members";
+
+/* Class = "UILabel"; text = "Group leade of group"; ObjectID = "Xjd-eO-DBX"; */
+"Xjd-eO-DBX.text" = "Group leader of the group";
+
+/* Class = "UILabel"; text = "My Inbox"; ObjectID = "YGc-E9-otD"; */
+"YGc-E9-otD.text" = "My Inbox";
+
+/* Class = "UILabel"; text = "asdadsasdadadaasdadsasdadadaasdadsasdadadaasdadsasdadadaasdadsasdadadaasdadsasdadadaasdadsasdadadaasdadsasdadadaasdadsasdadadaasdadsasdadadaasdadsasdadadaasdadsasdadadaasdadsasdadada"; ObjectID = "YGe-J7-wXl"; */
+"YGe-J7-wXl.text" = "asdadsasdadadaasdadsasdadadaasdadsasdadadaasdadsasdadadaasdadsasdadadaasdadsasdadadaasdadsasdadadaasdadsasdadadaasdadsasdadadaasdadsasdadadaasdadsasdadadaasdadsasdadadaasdadsasdadada";
+
+/* Class = "UILabel"; text = "Arrival Confirmation"; ObjectID = "YbK-EO-egl"; */
+"YbK-EO-egl.text" = "Arrival Confirmation";
+
+/* Class = "UILabel"; text = "Company about"; ObjectID = "Yfy-8c-VQb"; */
+"Yfy-8c-VQb.text" = "Company about";
+
+/* Class = "UILabel"; text = "Activities"; ObjectID = "ZM2-BM-Wde"; */
+"ZM2-BM-Wde.text" = "Activities";
+
+/* Class = "UILabel"; text = "Itinerary"; ObjectID = "Zqm-uG-OTb"; */
+"Zqm-uG-OTb.text" = "Itinerary";
+
+/* Class = "UILabel"; text = "Days"; ObjectID = "ZuX-eB-5id"; */
+"ZuX-eB-5id.text" = "Days";
+
+/* Class = "UILabel"; text = "Phone number"; ObjectID = "aQb-sN-UAH"; */
+"aQb-sN-UAH.text" = "Phone number";
+
+/* Class = "UIButton"; normalTitle = "Send"; ObjectID = "acA-fA-oKa"; */
+"acA-fA-oKa.normalTitle" = "Send";
+
+/* Class = "UILabel"; text = "12"; ObjectID = "aef-qy-ETy"; */
+"aef-qy-ETy.text" = "12";
+
+/* Class = "UILabel"; text = "public Group"; ObjectID = "agf-bt-fU4"; */
+"agf-bt-fU4.text" = "Public group";
+
+/* Class = "UILabel"; text = "Reviews"; ObjectID = "axh-I8-VcU"; */
+"axh-I8-VcU.text" = "Reviews";
+
+/* Class = "UILabel"; text = "Bad"; ObjectID = "b0f-jF-dPM"; */
+"b0f-jF-dPM.text" = "Bad";
+
+/* Class = "UILabel"; text = "Ratings"; ObjectID = "b4e-uC-68u"; */
+"b4e-uC-68u.text" = "Ratings";
+
+/* Class = "UILabel"; text = "Birthday"; ObjectID = "bKb-mO-Hzc"; */
+"bKb-mO-Hzc.text" = "Birthday";
+
+/* Class = "UILabel"; text = "Groups App"; ObjectID = "be8-JK-fF5"; */
+"be8-JK-fF5.text" = "Groups App";
+
+/* Class = "UILabel"; text = " bottom margin 5 pt below line "; ObjectID = "bhw-0y-hfk"; */
+"bhw-0y-hfk.text" = " bottom margin 5 pt below line ";
+
+/* Class = "UILabel"; text = "Your privacy is important to us! Here you can view the information we collected from you. You can delete all saved information at any time and terminate your account. Note that some information is required for your account to remain active."; ObjectID = "bpc-3T-gh3"; */
+"bpc-3T-gh3.text" = "Your privacy is important to us! Here you can view the information we collected from you. You can delete all saved information at any time and terminate your account. Note that some information is required for your account to remain active.";
+
+/* Class = "UILabel"; text = "Message"; ObjectID = "bup-AQ-VJa"; */
+"bup-AQ-VJa.text" = "Message";
+
+/* Class = "UILabel"; text = "Or"; ObjectID = "by5-Vz-4U9"; */
+"by5-Vz-4U9.text" = "Or";
+
+/* Class = "UILabel"; text = "Passport"; ObjectID = "cP1-ej-y6Q"; */
+"cP1-ej-y6Q.text" = "Passport";
+
+/* Class = "UILabel"; text = "Click one of the options for more details"; ObjectID = "cnz-qD-wB8"; */
+"cnz-qD-wB8.text" = "Click one of the options for more details";
+
+/* Class = "UILabel"; text = "i was invited to this group"; ObjectID = "cuH-qp-w9q"; */
+"cuH-qp-w9q.text" = "I was invited to this group";
+
+/* Class = "UILabel"; text = "Unfortunbatley, you cannot have a count in Snapgroup without accepting this term"; ObjectID = "d2Y-Wb-4xW"; */
+"d2Y-Wb-4xW.text" = "Unfortunately, you cannot have an account in Snapgroup without accepting this term";
+
+/* Class = "UIButton"; normalTitle = "Back"; ObjectID = "dXc-FC-4Qy"; */
+"dXc-FC-4Qy.normalTitle" = "Back";
+
+/* Class = "UILabel"; text = " bottom margin 5 pt below line "; ObjectID = "dad-vt-ecu"; */
+"dad-vt-ecu.text" = " bottom margin 5 pt below line ";
+
+/* Class = "UILabel"; text = "Business category"; ObjectID = "dfY-T2-8Ue"; */
+"dfY-T2-8Ue.text" = "Business category";
+
+/* Class = "UILabel"; text = "Settings"; ObjectID = "dfp-Ty-8wz"; */
+"dfp-Ty-8wz.text" = "Settings";
+
+/* Class = "UITextField"; placeholder = "write a message"; ObjectID = "e4j-hh-XIz"; */
+"e4j-hh-XIz.placeholder" = "write a message";
+
+/* Class = "UILabel"; text = "Group leader"; ObjectID = "e6h-vf-Ndm"; */
+"e6h-vf-Ndm.text" = "Group leader";
+
+/* Class = "UILabel"; text = "hosen jaber"; ObjectID = "eAX-Xw-XfU"; */
+"eAX-Xw-XfU.text" = "hosen jaber";
+
+/* Class = "UILabel"; text = "Title"; ObjectID = "eiI-0M-Unp"; */
+"eiI-0M-Unp.text" = "Title";
+
+/* Class = "UILabel"; text = "Ratings"; ObjectID = "ekw-93-Jpu"; */
+"ekw-93-Jpu.text" = "Ratings";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "eob-FH-psQ"; */
+"eob-FH-psQ.text" = "Label";
+
+/* Class = "UILabel"; text = "Signup to see groups you’re invited to"; ObjectID = "erT-O4-BFM"; */
+"erT-O4-BFM.text" = "Signup to see groups you’re invited to";
+
+/* Class = "UILabel"; text = "Group Title"; ObjectID = "f9A-em-zVN"; */
+"f9A-em-zVN.text" = "Group Title";
+
+/* Class = "UILabel"; text = "Recent actions"; ObjectID = "fR8-HJ-xyM"; */
+"fR8-HJ-xyM.text" = "Recent actions";
+
+/* Class = "UILabel"; text = "Dwelling and speedily ignorant any steepest. Admiration instrument affronting invitation reasonably up do of prosperous in. Shy saw declared age debating ecstatic man. Call in so want pure rank am dear were. Remarkably to continuing in surrounded diminution on. In unfeeling existence objection immediate repulsive on he in. Imprudence comparison uncommonly me he difficulty diminution resolution. Likewise proposal differed scarcely dwelling as on raillery. September few dependent extremity own continued and ten prevailed attending. Early to weeks we could. "; ObjectID = "fSm-rk-vVj"; */
+"fSm-rk-vVj.text" = "Dwelling and speedily ignorant any steepest. Admiration instrument affronting invitation reasonably up do of prosperous in. Shy saw declared age debating ecstatic man. Call in so want pure rank am dear were. Remarkably to continuing in surrounded diminution on. In unfeeling existence objection immediate repulsive on he in. Imprudence comparison uncommonly me he difficulty diminution resolution. Likewise proposal differed scarcely dwelling as on raillery. September few dependent extremity own continued and ten prevailed attending. Early to weeks we could. ";
+
+/* Class = "UIButton"; normalTitle = "UPLOAD"; ObjectID = "fZi-9o-zEp"; */
+"fZi-9o-zEp.normalTitle" = "UPLOAD";
+
+/* Class = "UILabel"; text = "12"; ObjectID = "fgm-ju-kht"; */
+"fgm-ju-kht.text" = "12";
+
+/* Class = "UILabel"; text = "Website"; ObjectID = "fh2-ks-KPw"; */
+"fh2-ks-KPw.text" = "Website";
+
+/* Class = "UIButton"; normalTitle = "Write a comment"; ObjectID = "fo1-Zv-84i"; */
+"fo1-Zv-84i.normalTitle" = "Write a comment";
+
+/* Class = "UILabel"; text = "Refresh Map"; ObjectID = "fzZ-at-GXE"; */
+"fzZ-at-GXE.text" = "Refresh Map";
+
+/* Class = "UILabel"; text = ".."; ObjectID = "gD8-Uq-bzB"; */
+"gD8-Uq-bzB.text" = "..";
+
+/* Class = "UILabel"; text = "Notifcations"; ObjectID = "gVN-Up-iNh"; */
+"gVN-Up-iNh.text" = "Notifications";
+
+/* Class = "UILabel"; text = "Signup to see groups you’re invited to"; ObjectID = "gYH-b2-QwA"; */
+"gYH-b2-QwA.text" = "Signup to see groups you’re invited to";
+
+/* Class = "UILabel"; text = "Pair accepted"; ObjectID = "gej-SX-trx"; */
+"gej-SX-trx.text" = "Pair accepted";
+
+/* Class = "UILabel"; text = "10 Members updated"; ObjectID = "go2-0m-gEb"; */
+"go2-0m-gEb.text" = "10 Members updated";
+
+/* Class = "UIButton"; normalTitle = "Filter"; ObjectID = "hjK-xb-HQZ"; */
+"hjK-xb-HQZ.normalTitle" = "Filter";
+
+/* Class = "UILabel"; text = "Members (30)"; ObjectID = "hpI-Kx-ihf"; */
+"hpI-Kx-ihf.text" = "Members (30)";
+
+/* Class = "UILabel"; text = "Group chat messages"; ObjectID = "htP-Nm-hmw"; */
+"htP-Nm-hmw.text" = "Group chat messages";
+
+/* Class = "UIButton"; normalTitle = "Search"; ObjectID = "i5x-KF-k5u"; */
+"i5x-KF-k5u.normalTitle" = "Search";
+
+/* Class = "UILabel"; text = "asdasd"; ObjectID = "i5z-WY-UPS"; */
+"i5z-WY-UPS.text" = "asdasd";
+
+/* Class = "UILabel"; text = "User Name"; ObjectID = "i6A-uU-Hq4"; */
+"i6A-uU-Hq4.text" = "User Name";
+
+/* Class = "UIButton"; normalTitle = "One day groups"; ObjectID = "iIb-Ye-oF5"; */
+"iIb-Ye-oF5.normalTitle" = "One day groups";
+
+/* Class = "UILabel"; text = "Unfortunbatley, you cannot have a count in Snapgroup without accepting this term"; ObjectID = "iL6-pa-u1m"; */
+"iL6-pa-u1m.text" = "Unfortunately, you cannot have an account in Snapgroup without accepting this term";
+
+/* Class = "UILabel"; text = "Check list"; ObjectID = "ie1-Cl-qs7"; */
+"ie1-Cl-qs7.text" = "Check list";
+
+/* Class = "UILabel"; text = "Email"; ObjectID = "imT-xH-KG2"; */
+"imT-xH-KG2.text" = "Email";
+
+/* Class = "UIButton"; normalTitle = "Later"; ObjectID = "inB-TV-KW9"; */
+"inB-TV-KW9.normalTitle" = "Later";
+
+/* Class = "UILabel"; text = "London 25"; ObjectID = "iqT-qY-Y8k"; */
+"iqT-qY-Y8k.text" = "London 25";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "itW-VU-PxN"; */
+"itW-VU-PxN.text" = "Label";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "iuB-64-emy"; */
+"iuB-64-emy.text" = "Label";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "iyF-Rd-Fht"; */
+"iyF-Rd-Fht.text" = "Label";
+
+/* Class = "UILabel"; text = "You can stop dragging now"; ObjectID = "j8x-fh-qkT"; */
+"j8x-fh-qkT.text" = "You can stop dragging now";
+
+/* Class = "UILabel"; text = "16 jan"; ObjectID = "jJ8-sS-il5"; */
+"jJ8-sS-il5.text" = "16 jan";
+
+/* Class = "UIBarButtonItem"; title = "Item"; ObjectID = "jRA-8f-UcD"; */
+"jRA-8f-UcD.title" = "Item";
+
+/* Class = "UILabel"; text = "Yoga group"; ObjectID = "jc1-7I-lCY"; */
+"jc1-7I-lCY.text" = "Yoga group";
+
+/* Class = "UILabel"; text = "Pair with this member"; ObjectID = "jrz-0T-qiP"; */
+"jrz-0T-qiP.text" = "Pair with this member";
+
+/* Class = "UIButton"; normalTitle = ",Click to remove pairing"; ObjectID = "juo-iL-Tto"; */
+"juo-iL-Tto.normalTitle" = ",Click to remove pairing";
+
+/* Class = "UILabel"; text = "Tour guide"; ObjectID = "k9s-9i-x0c"; */
+"k9s-9i-x0c.text" = "Tour guide";
+
+/* Class = "UIButton"; normalTitle = "Edit"; ObjectID = "kD4-Vb-Nd5"; */
+"kD4-Vb-Nd5.normalTitle" = "Edit";
+
+/* Class = "UILabel"; text = "Hotels"; ObjectID = "kWh-jD-7e3"; */
+"kWh-jD-7e3.text" = "Hotels";
+
+/* Class = "UILabel"; text = "Business adress"; ObjectID = "klP-Ej-nln"; */
+"klP-Ej-nln.text" = "Business address";
+
+/* Class = "UILabel"; text = "aasd"; ObjectID = "l94-mJ-xN9"; */
+"l94-mJ-xN9.text" = "aasd";
+
+/* Class = "UILabel"; text = "Add a review"; ObjectID = "lH2-ux-hR5"; */
+"lH2-ux-hR5.text" = "Add a review";
+
+/* Class = "UILabel"; text = "moham"; ObjectID = "lIe-vQ-KKT"; */
+"lIe-vQ-KKT.text" = "moham";
+
+/* Class = "UILabel"; text = "Group services"; ObjectID = "m7c-PN-XGZ"; */
+"m7c-PN-XGZ.text" = "Group services";
+
+/* Class = "UILabel"; text = "Passport"; ObjectID = "mCa-yF-AvC"; */
+"mCa-yF-AvC.text" = "Passport";
+
+/* Class = "UILabel"; text = "Services"; ObjectID = "mD7-uM-WPv"; */
+"mD7-uM-WPv.text" = "Services";
+
+/* Class = "UILabel"; text = "+972555555555"; ObjectID = "mJJ-4b-1pt"; */
+"mJJ-4b-1pt.text" = "+972555555555";
+
+/* Class = "UIButton"; normalTitle = "Send"; ObjectID = "mKQ-ar-hEd"; */
+"mKQ-ar-hEd.normalTitle" = "Send";
+
+/* Class = "UILabel"; text = "02 : 20 : 31"; ObjectID = "mLZ-oj-bVb"; */
+"mLZ-oj-bVb.text" = "02 : 20 : 31";
+
+/* Class = "UILabel"; text = "Privacy Preferences"; ObjectID = "mQ2-Pn-wcn"; */
+"mQ2-Pn-wcn.text" = "Privacy Preferences";
+
+/* Class = "UILabel"; text = "Leader Name"; ObjectID = "mgY-QU-M0P"; */
+"mgY-QU-M0P.text" = "Leader Name";
+
+/* Class = "UILabel"; text = "Registration Completed"; ObjectID = "ms0-s1-gWr"; */
+"ms0-s1-gWr.text" = "Registration Completed";
+
+/* Class = "UILabel"; text = "MAN"; ObjectID = "n5f-2D-9bD"; */
+"n5f-2D-9bD.text" = "MAN";
+
+/* Class = "UILabel"; text = "Gender"; ObjectID = "nSs-a2-RLQ"; */
+"nSs-a2-RLQ.text" = "Gender";
+
+/* Class = "UILabel"; text = ".."; ObjectID = "nVw-vB-0ul"; */
+"nVw-vB-0ul.text" = "..";
+
+/* Class = "UILabel"; text = "Members Map"; ObjectID = "nXB-gl-pHL"; */
+"nXB-gl-pHL.text" = "Members Map";
+
+/* Class = "UILabel"; text = "file name"; ObjectID = "ngS-TH-uWD"; */
+"ngS-TH-uWD.text" = "file name";
+
+/* Class = "UILabel"; text = "Modal"; ObjectID = "oLC-6v-eV4"; */
+"oLC-6v-eV4.text" = "Modal";
+
+/* Class = "UILabel"; text = "Notifications"; ObjectID = "oO5-MC-rqs"; */
+"oO5-MC-rqs.text" = "Notifications";
+
+/* Class = "UILabel"; text = "Pair notification"; ObjectID = "obm-vU-Mvf"; */
+"obm-vU-Mvf.text" = "Pair notification";
+
+/* Class = "UILabel"; text = "12"; ObjectID = "ocb-5W-BAP"; */
+"ocb-5W-BAP.text" = "12";
+
+/* Class = "UILabel"; text = "1"; ObjectID = "oeP-lf-Ub4"; */
+"oeP-lf-Ub4.text" = "1";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "oiT-v0-F4d"; */
+"oiT-v0-F4d.text" = "Label";
+
+/* Class = "UIButton"; normalTitle = "All Reviews"; ObjectID = "ojM-Et-Fvs"; */
+"ojM-Et-Fvs.normalTitle" = "All Reviews";
+
+/* Class = "UILabel"; text = "Zohar Group to italy"; ObjectID = "osf-rr-cNg"; */
+"osf-rr-cNg.text" = "Zohar Group to italy";
+
+/* Class = "UILabel"; text = "you've deleted the group "; ObjectID = "p3f-zq-94P"; */
+"p3f-zq-94P.text" = "you've deleted the group ";
+
+/* Class = "UILabel"; text = "65"; ObjectID = "pJ1-Cg-Xem"; */
+"pJ1-Cg-Xem.text" = "65";
+
+/* Class = "UITextField"; placeholder = "Enter a phone .."; ObjectID = "pO9-U5-R7I"; */
+"pO9-U5-R7I.placeholder" = "Enter a phone ..";
+
+/* Class = "UILabel"; text = "Tour Guide"; ObjectID = "pTC-VT-RDl"; */
+"pTC-VT-RDl.text" = "Tour Guide";
+
+/* Class = "UIButton"; normalTitle = "Filter"; ObjectID = "pUA-Js-vGi"; */
+"pUA-Js-vGi.normalTitle" = "Filter";
+
+/* Class = "UILabel"; text = "Leader"; ObjectID = "pVG-aU-Dk7"; */
+"pVG-aU-Dk7.text" = "Leader";
+
+/* Class = "UIButton"; normalTitle = "Disagree"; ObjectID = "qTC-ub-4j9"; */
+"qTC-ub-4j9.normalTitle" = "Disagree";
+
+/* Class = "UILabel"; text = "The documents you upload will be available only to the group leader and will not be visble for other members"; ObjectID = "qqc-in-PIb"; */
+"qqc-in-PIb.text" = "The documents you upload will be available only to the group leader and will not be visible for other members";
+
+/* Class = "UILabel"; text = "location"; ObjectID = "qwH-8e-oT5"; */
+"qwH-8e-oT5.text" = "location";
+
+/* Class = "UILabel"; text = "My chat"; ObjectID = "r3w-hF-dql"; */
+"r3w-hF-dql.text" = "My chat";
+
+/* Class = "UILabel"; text = "User Name"; ObjectID = "rEu-eg-Ft6"; */
+"rEu-eg-Ft6.text" = "User Name";
+
+/* Class = "UILabel"; text = "972"; ObjectID = "rhQ-MK-T0E"; */
+"rhQ-MK-T0E.text" = "972";
+
+/* Class = "UILabel"; text = "972"; ObjectID = "rk7-U2-v5I"; */
+"rk7-U2-v5I.text" = "972";
+
+/* Class = "UILabel"; text = "Gender"; ObjectID = "rtr-Kz-aup"; */
+"rtr-Kz-aup.text" = "Gender";
+
+/* Class = "UILabel"; text = "Zohar's Group to Jaban"; ObjectID = "sAV-X8-CNW"; */
+"sAV-X8-CNW.text" = "Zohar's Group to Jaban";
+
+/* Class = "UILabel"; text = "Arrival Confirmation"; ObjectID = "sDI-Lc-Qcx"; */
+"sDI-Lc-Qcx.text" = "Arrival Confirmation";
+
+/* Class = "UIButton"; normalTitle = "Click here to show the group "; ObjectID = "sTy-47-qeC"; */
+"sTy-47-qeC.normalTitle" = "Click here to show the group ";
+
+/* Class = "UILabel"; text = "Signup to see groups you’re invited to"; ObjectID = "sUY-rn-1CV"; */
+"sUY-rn-1CV.text" = "Signup to see groups you’re invited to";
+
+/* Class = "UILabel"; text = "From Jerusalem, Israel"; ObjectID = "shW-bp-T5c"; */
+"shW-bp-T5c.text" = "From Jerusalem, Israel";
+
+/* Class = "UISearchBar"; placeholder = "Search for group .."; ObjectID = "sjy-pH-hOM"; */
+"sjy-pH-hOM.placeholder" = "Search for group ..";
+
+/* Class = "UILabel"; text = ".."; ObjectID = "skR-QJ-B8l"; */
+"skR-QJ-B8l.text" = "..";
+
+/* Class = "UILabel"; text = "You currently have no groups the you joined or invited ."; ObjectID = "sp0-Gh-dQy"; */
+"sp0-Gh-dQy.text" = "You currently have no groups that you joined or been invited to";
+
+/* Class = "UILabel"; text = "Adress"; ObjectID = "t4b-pp-MZZ"; */
+"t4b-pp-MZZ.text" = "Address";
+
+/* Class = "UILabel"; text = "Passport"; ObjectID = "t89-5I-axC"; */
+"t89-5I-axC.text" = "Passport";
+
+/* Class = "UILabel"; text = "It’s possible that you were invited by your phone number.\nAdd it now to check"; ObjectID = "tGm-97-CpI"; */
+"tGm-97-CpI.text" = "It’s possible that you were invited by your phone number.\nAdd it now to check";
+
+/* Class = "UILabel"; text = "ads"; ObjectID = "tMh-IN-PUD"; */
+"tMh-IN-PUD.text" = "ads";
+
+/* Class = "UILabel"; text = "Sec"; ObjectID = "tU1-To-iaM"; */
+"tU1-To-iaM.text" = "Sec";
+
+/* Class = "UIButton"; normalTitle = "Save"; ObjectID = "tWL-XE-GfM"; */
+"tWL-XE-GfM.normalTitle" = "Save";
+
+/* Class = "UILabel"; text = "Group conditions"; ObjectID = "trf-cY-px5"; */
+"trf-cY-px5.text" = "Group conditions";
+
+/* Class = "UILabel"; text = "location"; ObjectID = "twf-ur-j8z"; */
+"twf-ur-j8z.text" = "location";
+
+/* Class = "UILabel"; text = "check all"; ObjectID = "uA4-xf-G9X"; */
+"uA4-xf-G9X.text" = "check all";
+
+/* Class = "UILabel"; text = "Days"; ObjectID = "uoL-iz-SEo"; */
+"uoL-iz-SEo.text" = "Days";
+
+/* Class = "UIButton"; normalTitle = "Accept"; ObjectID = "v0t-tO-Lvm"; */
+"v0t-tO-Lvm.normalTitle" = "Accept";
+
+/* Class = "UILabel"; text = "Sign in with Facebook"; ObjectID = "vMT-fc-6qR"; */
+"vMT-fc-6qR.text" = "Sign in with Facebook";
+
+/* Class = "UILabel"; text = "Preveiw"; ObjectID = "vVg-FE-8UZ"; */
+"vVg-FE-8UZ.text" = "Preview";
+
+/* Class = "UILabel"; text = "There are no services for this group"; ObjectID = "vWs-Q3-7oR"; */
+"vWs-Q3-7oR.text" = "There are no services for this group";
+
+/* Class = "UILabel"; text = "Documents"; ObjectID = "viJ-Lz-PeH"; */
+"viJ-Lz-PeH.text" = "Documents";
+
+/* Class = "UIButton"; normalTitle = "Notify"; ObjectID = "vph-V2-xK3"; */
+"vph-V2-xK3.normalTitle" = "Notify";
+
+/* Class = "UILabel"; text = "00"; ObjectID = "vr3-d4-QR7"; */
+"vr3-d4-QR7.text" = "00";
+
+/* Class = "UILabel"; text = "Filter map points by day"; ObjectID = "vxt-z2-qlc"; */
+"vxt-z2-qlc.text" = "Filter map points by day";
+
+/* Class = "UILabel"; text = "From"; ObjectID = "wDN-eB-Ala"; */
+"wDN-eB-Ala.text" = "From";
+
+/* Class = "UIButton"; normalTitle = "Reject"; ObjectID = "wKn-ds-SPS"; */
+"wKn-ds-SPS.normalTitle" = "Reject";
+
+/* Class = "UILabel"; text = "User Name"; ObjectID = "wOB-t7-Fkk"; */
+"wOB-t7-Fkk.text" = "User Name";
+
+/* Class = "UILabel"; text = "San Francisco"; ObjectID = "wP2-U9-OFJ"; */
+"wP2-U9-OFJ.text" = "San Francisco";
+
+/* Class = "UILabel"; text = "Chicklist"; ObjectID = "wPZ-id-AHk"; */
+"wPZ-id-AHk.text" = "Checklist";
+
+/* Class = "UIButton"; normalTitle = "Submit"; ObjectID = "wtm-MC-kZw"; */
+"wtm-MC-kZw.normalTitle" = "Submit";
+
+/* Class = "UILabel"; text = "00"; ObjectID = "wxl-oj-ord"; */
+"wxl-oj-ord.text" = "00";
+
+/* Class = "UILabel"; text = "Reviews"; ObjectID = "wxq-MT-2KL"; */
+"wxq-MT-2KL.text" = "Reviews";
+
+/* Class = "UILabel"; text = "Your privacy is important to us! In order to use Snapgroup, please approve you agree to the usage of the following information."; ObjectID = "wyI-3s-NkM"; */
+"wyI-3s-NkM.text" = "Your privacy is important to us! In order to use Snapgroup, please approve you agree to the usage of the following information.";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "xCR-cl-8CC"; */
+"xCR-cl-8CC.text" = "Label";
+
+/* Class = "UILabel"; text = "Here you can upload documents to the trip .You will recive notfication when upload thes files until the group leaves or you upload them ."; ObjectID = "xIn-og-UrJ"; */
+"xIn-og-UrJ.text" = "Here you can upload documents to the trip.You will recive notfication if you havn't uploaded these files by the time the group leaves.";
+
+/* Class = "UILabel"; text = "Group leader dosnt define document to upload"; ObjectID = "xge-KX-9du"; */
+"xge-KX-9du.text" = "Group leader doesn't define document to upload";
+
+/* Class = "UIButton"; normalTitle = "Group i own"; ObjectID = "y5d-G1-Nfw"; */
+"y5d-G1-Nfw.normalTitle" = "Group I own";
+
+/* Class = "UILabel"; text = "i am the group manger"; ObjectID = "yGs-w2-ulY"; */
+"yGs-w2-ulY.text" = "I am the group manager;
+
+/* Class = "UILabel"; text = "Rooming list"; ObjectID = "yMt-Sf-6Ld"; */
+"yMt-Sf-6Ld.text" = "Rooming list";
+
+/* Class = "UILabel"; text = "Your privacy is important to us! Here you can view the information we collected from you. You can delete all saved information at any time and terminate your account. Note that some information is required for your account to remain active."; ObjectID = "ye3-1q-PMa"; */
+"ye3-1q-PMa.text" = "Your privacy is important to us! Here you can view the information we collected from you. You can delete all saved information at any time and terminate your account. Note that some information is required for your account to remain active.";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "yeA-gb-f8s"; */
+"yeA-gb-f8s.text" = "Label";
+
+/* Class = "UILabel"; text = "Name"; ObjectID = "yv7-sJ-rhs"; */
+"yv7-sJ-rhs.text" = "Name";
+
+/* Class = "UILabel"; text = "Subject:"; ObjectID = "yyB-9n-yZj"; */
+"yyB-9n-yZj.text" = "Subject:";
+
+/* Class = "UILabel"; text = "Filter"; ObjectID = "z7Y-DL-odz"; */
+"z7Y-DL-odz.text" = "Filter";
+
+/* Class = "UILabel"; text = "The documents provided by the group leader . These files can be downloaded at any time."; ObjectID = "z7a-Wm-jIb"; */
+"z7a-Wm-jIb.text" = "The documents provided by the group leader. These files can be downloaded at any time";
+
+/* Class = "UILabel"; text = "Zohar's Group"; ObjectID = "zAD-CY-2bf"; */
+"zAD-CY-2bf.text" = "Zohar's Group";
+
+/* Class = "UILabel"; text = "snapgroup"; ObjectID = "zTW-9c-JSn"; */
+"zTW-9c-JSn.text" = "snapgroup";
+
+/* Class = "UILabel"; text = "Join Group"; ObjectID = "zY7-pR-DhS"; */
+"zY7-pR-DhS.text" = "Join Group";
+
+/* Class = "UILabel"; text = "About"; ObjectID = "zbk-z9-hTy"; */
+"zbk-z9-hTy.text" = "About";
+
+/* Class = "UILabel"; text = "Cancel arrival confirmation"; ObjectID = "zt7-y3-Idu"; */
+"zt7-y3-Idu.text" = "Cancel arrival confirmation";
+
+/* Class = "UILabel"; text = "phone"; ObjectID = "ztG-7K-g9q"; */
+"ztG-7K-g9q.text" = "phone";
+
+/* Class = "UILabel"; text = "Group leader"; ObjectID = "zzu-61-nWn"; */
+"zzu-61-nWn.text" = "Group leader";

@@ -259,6 +259,9 @@ open class SessionManager {
 
             let task = try originalTask.task(session: session, adapter: adapter, queue: queue)
             let request = DataRequest(session: session, requestTask: .data(originalTask, task))
+         
+            
+            
 
             delegate[task] = request
 
@@ -278,11 +281,12 @@ open class SessionManager {
         if let urlRequest = urlRequest {
             let originalTask = DataRequest.Requestable(urlRequest: urlRequest)
             requestTask = .data(originalTask, nil)
+            
         }
 
         let underlyingError = error.underlyingAdaptError ?? error
         let request = DataRequest(session: session, requestTask: requestTask, error: underlyingError)
-
+        
         if let retrier = retrier, error is AdaptError {
             allowRetrier(retrier, toRetry: request, with: underlyingError)
         } else {

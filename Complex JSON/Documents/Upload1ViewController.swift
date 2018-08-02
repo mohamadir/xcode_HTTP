@@ -97,7 +97,7 @@ class Upload1ViewController: UIViewController ,UITableViewDelegate, UIImagePicke
     }
     func removeFile(id: Int){
         ARSLineProgress.show()
-        HTTP.POST("https://api.snapgroup.co.il/api/files/\(id)/group/\((MyVriables.currentGroup?.id)!)", parameters:[])
+        HTTP.POST(ApiRouts.Api+"/files/\(id)/group/\((MyVriables.currentGroup?.id)!)", parameters:[])
         { response in
             ARSLineProgress.hide()
             if let err = response.error {
@@ -141,7 +141,7 @@ class Upload1ViewController: UIViewController ,UITableViewDelegate, UIImagePicke
         print("AlamoUpload: START")
         let imgData = UIImageJPEGRepresentation(image, 0.2)!
         ARSLineProgress.show()
-        var urlString: String = ApiRouts.Media + "/api/upload/\((MyVriables.currentMember?.id!)!)?upload_type=group&group_id=\((MyVriables.currentGroup?.id)!)&file_type=\((self.documents?.required_documents[indexMedia].item)!)"
+        var urlString: String = ApiRouts.Media + "/api/v2/upload/\((MyVriables.currentMember?.id!)!)?upload_type=group&group_id=\((MyVriables.currentGroup?.id)!)&file_type=\((self.documents?.required_documents[indexMedia].item)!)"
         urlString = urlString.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)!
         Alamofire.upload(multipartFormData: { multipartFormData in
             multipartFormData.append(imgData, withName: "file",fileName: "profile_image.jpg", mimeType: "image/jpg")
@@ -173,7 +173,7 @@ class Upload1ViewController: UIViewController ,UITableViewDelegate, UIImagePicke
         
         //        ProviderInfo.model_id = (ProviderInfo.currentProviderId)!
         //        ProviderInfo.model_type = "activities"
-        HTTP.GET("https://api.snapgroup.co.il/api/required_docs/members/\((MyVriables.currentMember?.id)!)/groups/\((MyVriables.currentGroup?.id)!)", parameters:[])
+        HTTP.GET(ApiRouts.Api+"/required_docs/members/\((MyVriables.currentMember?.id)!)/groups/\((MyVriables.currentGroup?.id)!)", parameters:[])
         { response in
             if let err = response.error {
                 print("error: \(err.localizedDescription)")

@@ -317,7 +317,7 @@ extension Request: CustomDebugStringConvertible {
             #endif
             }
         }
-
+        
         var headers: [AnyHashable: Any] = [:]
 
         if let additionalHeaders = session.configuration.httpAdditionalHeaders {

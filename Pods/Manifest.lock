@@ -106,7 +106,7 @@ PODS:
   - SDWebImage/Core (4.4.2)
   - SearchTextField (1.2.1)
   - SkyFloatingLabelTextField (3.5.1)
-  - Socket.IO-Client-Swift (13.2.1):
+  - Socket.IO-Client-Swift (13.3.0):
     - Starscream (~> 3.0.2)
   - Starscream (3.0.5)
   - SVProgressHUD (2.2.5)
@@ -227,7 +227,7 @@ SPEC CHECKSUMS:
   SDWebImage: 624d6e296c69b244bcede364c72ae0430ac14681
   SearchTextField: 261b0febd49194492f29555fff3c5c0019ca84d2
   SkyFloatingLabelTextField: 4cbeece9c3aae97c6019d8fae511cb5b755874f7
-  Socket.IO-Client-Swift: b94943e2fb916fe2f95244b9ed21828634002280
+  Socket.IO-Client-Swift: 0afb192a562db90d50e3f7f7421c06925a3f0179
   Starscream: faf918b2f2eff7d5dd21180646bf015a669673bd
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
   SwiftEventBus: 667baca2f107fa0c9c2068950298dbfd6a4111cc
@@ -239,6 +239,6 @@ SPEC CHECKSUMS:
   XLPagerTabStrip: c908b17cbf42fcd2598ee1adfc49bae25444d88a
   YNExpandableCell: 47bf7cff721aa535c0e9e1163bf22b5573441bb4
 
-PODFILE CHECKSUM: 22530c8be407617e6ad14169428655bc68b6cac7
+PODFILE CHECKSUM: 978f96a36f6ef344459a76ab2c2f7f63684747ad
 
 COCOAPODS: 1.4.0

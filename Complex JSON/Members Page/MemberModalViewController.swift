@@ -190,8 +190,8 @@ class MemberModalViewController: UIViewController {
         self.navigationController?.setNavigationBarHidden(true, animated: false)
     }
     func sendPair(){
-        print("Url send Pair is " + ApiRouts.Web+"/api/pairs?sender_id=\((MyVriables.currentMember?.id)!)&receiver_id=\((GroupMembers.currentMemmber?.id)!)&group_id=\((MyVriables.currentGroup?.id)!)")
-        HTTP.POST(ApiRouts.Web+"/api/pairs?sender_id=\((MyVriables.currentMember?.id)!)&receiver_id=\((GroupMembers.currentMemmber?.id)!)&group_id=\((MyVriables.currentGroup?.id)!)", parameters: []) { response in
+        print("Url send Pair is " + ApiRouts.Api+"/pairs?sender_id=\((MyVriables.currentMember?.id)!)&receiver_id=\((GroupMembers.currentMemmber?.id)!)&group_id=\((MyVriables.currentGroup?.id)!)")
+        HTTP.POST(ApiRouts.Api+"/pairs?sender_id=\((MyVriables.currentMember?.id)!)&receiver_id=\((GroupMembers.currentMemmber?.id)!)&group_id=\((MyVriables.currentGroup?.id)!)", parameters: []) { response in
             if let err = response.error {
                 print("error: \(err.localizedDescription)")
                 return //also notify app of failure as needed
@@ -214,7 +214,7 @@ class MemberModalViewController: UIViewController {
     }
     func removePair(){
         print("Url send Pair is " + ApiRouts.Web+"/api/pairs?sender_id=\((MyVriables.currentMember?.id)!)&receiver_id=\((GroupMembers.currentMemmber?.id)!)&group_id=\((MyVriables.currentGroup?.id)!)")
-        HTTP.DELETE(ApiRouts.Web+"/api/pairs?sender_id=\((MyVriables.currentMember?.id)!)&receiver_id=\((GroupMembers.currentMemmber?.id)!)&group_id=\((MyVriables.currentGroup?.id)!)", parameters: []) { response in
+        HTTP.DELETE(ApiRouts.Api+"/pairs?sender_id=\((MyVriables.currentMember?.id)!)&receiver_id=\((GroupMembers.currentMemmber?.id)!)&group_id=\((MyVriables.currentGroup?.id)!)", parameters: []) { response in
             if let err = response.error {
                 print("error: \(err.localizedDescription)")
                 return //also notify app of failure as needed

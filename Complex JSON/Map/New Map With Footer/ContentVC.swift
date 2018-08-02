@@ -66,10 +66,14 @@ class ContentVC: UIViewController, ISHPullUpContentDelegate, GMSMapViewDelegate,
         SwiftEventBus.onMainThread(self, name: "daysFilter") { result in
             let planDyas : [Bool] = result!.object as! [Bool]
             if  planDyas != nil {
+                print("planDyas \(planDyas.count)")
                 var postion : Int = 0
                 var j : Int = 0
                 var index : Int = 1
+               // print("planDyas \(self.googleMaps)")
+                if self.googleMaps != nil {
                 self.googleMaps.clear()
+                }
                 for planDya in planDyas
                 {
                     if planDya == true
@@ -318,7 +322,9 @@ class ContentVC: UIViewController, ISHPullUpContentDelegate, GMSMapViewDelegate,
         CATransaction.setValue(NSNumber(value: 1.0), forKey: kCATransactionAnimationDuration)
         // change the camera, set the zoom, whatever.  Just make sure to call the animate* method.
         //  self.googleMaps.animate(toViewingAngle: 45)
+        if self.googleMaps != nil {
         self.googleMaps.animate(with: GMSCameraUpdate.fit(bounds))
+        }
         CATransaction.commit()
     }
     
@@ -450,7 +456,7 @@ class ContentVC: UIViewController, ISHPullUpContentDelegate, GMSMapViewDelegate,
             }
             if marker.accessibilityHint != nil && marker.accessibilityHint! != ""
             {
-                let urlString = try ApiRouts.Web + marker.accessibilityHint!
+                let urlString = try ApiRouts.Media + marker.accessibilityHint!
                 var url = URL(string: urlString)
                 print("Url string is \(urlString)")
                 if url == nil {
@@ -506,7 +512,7 @@ class ContentVC: UIViewController, ISHPullUpContentDelegate, GMSMapViewDelegate,
     }
     func sendFcm() {
         
-        HTTP.POST(ApiRouts.Web+"/api/firebase/send_location/\((MyVriables.currentGroup?.id)!)") { response in
+        HTTP.POST(ApiRouts.Api+"/firebase/send_location/\((MyVriables.currentGroup?.id)!)") { response in
             if let err = response.error {
                 ARSLineProgress.hide()
                 print("error: \(err.localizedDescription)")
@@ -529,7 +535,7 @@ class ContentVC: UIViewController, ISHPullUpContentDelegate, GMSMapViewDelegate,
             self.mapDays = []
             self.markerList = []
             ARSLineProgress.show()
-            HTTP.POST(ApiRouts.Web+"/api/members/locations/member/\((MyVriables.currentMember?.id)!)?group_id/\((MyVriables.currentGroup?.id)!)", parameters: ["lat": currentLocation.coordinate.latitude, "lon": currentLocation.coordinate.longitude]) { response in
+            HTTP.POST(ApiRouts.Api+"/members/locations/member/\((MyVriables.currentMember?.id)!)?group_id/\((MyVriables.currentGroup?.id)!)", parameters: ["lat": currentLocation.coordinate.latitude, "lon": currentLocation.coordinate.longitude]) { response in
                 if let err = response.error {
                     ARSLineProgress.hide()
                     print("error: \(err.localizedDescription)")
@@ -555,7 +561,7 @@ class ContentVC: UIViewController, ISHPullUpContentDelegate, GMSMapViewDelegate,
     }
     
     fileprivate func getMembersLocationRequest() -> HTTP? {
-        return HTTP.GET(ApiRouts.Web+"/api/members/locations/group/\((MyVriables.currentGroup?.id)!)") { response in
+        return HTTP.GET(ApiRouts.Api+"/members/locations/group/\((MyVriables.currentGroup?.id)!)") { response in
             if let err = response.error {
                 ARSLineProgress.hide()
                 print("error: \(err.localizedDescription)")
@@ -621,7 +627,7 @@ class ContentVC: UIViewController, ISHPullUpContentDelegate, GMSMapViewDelegate,
         self.memberMap = []
         self.markerList = []
         
-        HTTP.GET(ApiRouts.Web+"/api/members/locations/group/\((MyVriables.currentGroup?.id)!)") { response in
+        HTTP.GET(ApiRouts.Api+"/members/locations/group/\((MyVriables.currentGroup?.id)!)") { response in
             if let err = response.error {
                 ARSLineProgress.hide()
                 print("error: \(err.localizedDescription)")
@@ -701,7 +707,7 @@ class ContentVC: UIViewController, ISHPullUpContentDelegate, GMSMapViewDelegate,
         self.mapDays = []
         ARSLineProgress.show()
         print("Url == " + ApiRouts.Web+"/api/days/group/\((MyVriables.currentGroup?.id)!)")
-        HTTP.GET(ApiRouts.Web+"/api/days/group/\((MyVriables.currentGroup?.id)!)") { response in
+        HTTP.GET(ApiRouts.Api+"/days/group/\((MyVriables.currentGroup?.id)!)") { response in
             if let err = response.error {
                 ARSLineProgress.hide()
                 print("error: \(err.localizedDescription)")

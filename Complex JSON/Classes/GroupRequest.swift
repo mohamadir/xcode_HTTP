@@ -53,8 +53,12 @@ struct Main: Codable{
     
     func  getGroupImages(id: Int,completionBlock: @escaping ([GroupImage]?) -> Void) -> Void {
 
-        guard let url = URL(string: "\(ApiRouts.Web)/api/groups/\(id)/images")  else { return }
-        URLSession.shared.dataTask(with: url) { (data, response, error) in
+        guard let url = URL(string: "\(ApiRouts.Api)/groups/\(id)/images")  else { return }
+        var urlRequest = URLRequest(url: url)
+        let defaults = UserDefaults.standard
+        let access_token = defaults.string(forKey: "access_token")
+        urlRequest.setValue("Authorization", forHTTPHeaderField: "Bearer \(access_token!)")
+        URLSession.shared.dataTask(with: urlRequest) { (data, response, error) in
             if error != nil {
                 print(error!.localizedDescription)
             }

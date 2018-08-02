@@ -253,9 +253,27 @@ open class HTTP {
     }
     
     @discardableResult class func Run(_ url: String, method: HTTPVerb, parameters: HTTPParameterProtocol? = nil, headers: [String:String]? = nil, requestSerializer: HTTPSerializeProtocol = HTTPParameterSerializer(), completionHandler: ((Response) -> Void)? = nil) -> HTTP?  {
-        guard let task = HTTP.New(url, method: method, parameters: parameters, headers: headers, requestSerializer: requestSerializer, completionHandler: completionHandler) else {return nil}
-        task.run()
-        return task
+        print("Im in run requset \(url)")
+
+        let defaults = UserDefaults.standard
+        let access_token = defaults.string(forKey: "access_token")
+        if access_token != nil && access_token != "no value"
+        {
+            let header: [String:String] = ["Authorization" : "Bearer \(access_token!)" ]
+           // print("header is \(header)")
+            guard let task = HTTP.New(url, method: method, parameters: parameters, headers: header, requestSerializer: requestSerializer, completionHandler: completionHandler) else {return nil}
+            task.run()
+            return task
+            
+        }else{
+            
+           
+            guard let task = HTTP.New(url, method: method, parameters: parameters, headers: headers, requestSerializer: requestSerializer, completionHandler: completionHandler) else {return nil}
+            task.run()
+            return task
+            
+        }
+        
     }
     
     /**

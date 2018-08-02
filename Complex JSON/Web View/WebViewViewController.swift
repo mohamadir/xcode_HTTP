@@ -31,7 +31,7 @@ class WebViewViewController: UIViewController, WKNavigationDelegate {
         }
         imageView.isHidden = true
         indictorProgress.show()
-        if (MyVriables.currentType)!.range(of: "image/") != nil {
+        if true != true {
              indictorProgress.isHidden = true
           //  webView.isHidden = true
             imageView.isHidden = false
@@ -60,8 +60,10 @@ class WebViewViewController: UIViewController, WKNavigationDelegate {
         {
             urlStringa = MyVriables.currntUrl!
         }
+            print("media.snapgroup.co======= \(urlStringa)")
         if verifyUrl(urlString: urlStringa)
         {
+            
             webview.load(URLRequest(url: NSURL(string: urlStringa)! as URL))
         }
         else

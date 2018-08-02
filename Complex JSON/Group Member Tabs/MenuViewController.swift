@@ -431,7 +431,7 @@ class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UI
         }
         else
         {
-        HTTP.GET(ApiRouts.Web+"/api/members/\((MyVriables.currentMember?.id!)!)/groups/\((MyVriables.currentGroup?.id!)!)/stations", parameters: [])
+        HTTP.GET(ApiRouts.Api+"/members/\((MyVriables.currentMember?.id!)!)/groups/\((MyVriables.currentGroup?.id!)!)/stations", parameters: [])
         { response in
             if let err = response.error {
                 print("error: \(err.localizedDescription)")

@@ -353,7 +353,7 @@ class SignUpVC: UIViewController, UIPickerViewDelegate, UITextFieldDelegate, UIP
         //print("--- BT IS "+(birthdayBt.titleLabel?.text)!)
         print("params is \(params)")
         print("url for paramas is " + ApiRouts.Web + "/api/members/\((MyVriables.currentMember?.id!)!)")
-        HTTP.PUT(ApiRouts.Web+"/api/members/\((MyVriables.currentMember?.id!)!)"
+        HTTP.PUT(ApiRouts.Api+"/members/\((MyVriables.currentMember?.id!)!)"
             , parameters: params)
         { response in
             if let err = response.error {
@@ -418,7 +418,7 @@ class SignUpVC: UIViewController, UIPickerViewDelegate, UITextFieldDelegate, UIP
                             let defaults = UserDefaults.standard
                             let id = defaults.integer(forKey: "member_id")
                             print(ApiRouts.Web + "/api/members/\(id)/phone?no_password=true")
-                            HTTP.PUT(ApiRouts.Web + "/api/members/\(id)/phone?no_password=true", parameters: ["phone" : self.phoneNumber, "country_code" : self.contryCodeString]) { response in
+                            HTTP.PUT(ApiRouts.Api + "/members/\(id)/phone?no_password=true", parameters: ["phone" : self.phoneNumber, "country_code" : self.contryCodeString]) { response in
                                 if response.error != nil {
                                     DispatchQueue.main.async {
                                         let snackbar = TTGSnackbar(message: "The phone number you selected is already linked to a different account.", duration: .middle)
@@ -507,7 +507,7 @@ class SignUpVC: UIViewController, UIPickerViewDelegate, UITextFieldDelegate, UIP
             {
                 params.append(["facebook_profile_image": (facebookMember?.facebook_profile_image!)!])
             }
-            HTTP.PUT(ApiRouts.Web+"/api/members/\((MyVriables.currentMember?.id!)!)"
+            HTTP.PUT(ApiRouts.Api+"/members/\((MyVriables.currentMember?.id!)!)"
                 , parameters: params)
             { response in
                 if let err = response.error {

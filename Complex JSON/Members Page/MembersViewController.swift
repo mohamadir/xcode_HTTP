@@ -69,12 +69,13 @@ class MembersViewController: UIViewController,UICollectionViewDelegate, UICollec
 //        cell.memberImage.layer.cornerRadius = cell.memberImage.frame.height/2
 //        cell.memberImage.clipsToBounds = true
         if self.filterdMembers[indexPath.row].profile_image != nil {
-        var urlString = ApiRouts.Web + (self.filterdMembers[indexPath.row].profile_image)!
+        var urlString = ApiRouts.Media + (self.filterdMembers[indexPath.row].profile_image)!
             print(urlString)
         if self.filterdMembers[indexPath.row].profile_image?.contains("https") == true {
             print("in IF ")
            urlString =  (self.filterdMembers[indexPath.row].profile_image)!
         }
+        urlString = urlString.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)!
         var url = URL(string: urlString)
 
         cell.memberImage.downloadedFrom(url: url!)
@@ -127,7 +128,7 @@ class MembersViewController: UIViewController,UICollectionViewDelegate, UICollec
     }
     func getMembers(){
         print("Url get member is " + ApiRouts.Web+"/api/members/\((MyVriables.currentMember?.id)!)/groups/\((MyVriables.currentGroup?.id)!)")
-        HTTP.GET(ApiRouts.Web+"/api/members/\((MyVriables.currentMember?.id)!)/groups/\((MyVriables.currentGroup?.id)!)", parameters: ["hello": "world", "param2": "value2"]) { response in
+        HTTP.GET(ApiRouts.Api+"/members/\((MyVriables.currentMember?.id)!)/groups/\((MyVriables.currentGroup?.id)!)", parameters: ["hello": "world", "param2": "value2"]) { response in
             if let err = response.error {
                 print("error: \(err.localizedDescription)")
                 DispatchQueue.main.sync {

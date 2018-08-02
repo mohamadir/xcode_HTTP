@@ -35,7 +35,7 @@ class GroupLeaderViewController: UIViewController,UITableViewDelegate,UITableVie
     @IBAction func allReviewClick(_ sender: Any) {
         performSegue(withIdentifier: "showAllReview", sender: self)
         ProviderInfo.nameProvider = leaderNameLbl.text!
-        ProviderInfo.urlRatings = "https://api.snapgroup.co.il/api/getratings/members/\((MyVriables.currentGroup?.group_leader_id)!)"
+        ProviderInfo.urlRatings = ApiRouts.Api+"/getratings/members/\((MyVriables.currentGroup?.group_leader_id)!)"
     }
     
     override func viewDidLoad() {
@@ -158,7 +158,7 @@ class GroupLeaderViewController: UIViewController,UITableViewDelegate,UITableVie
         
         //        ProviderInfo.model_id = (ProviderInfo.currentProviderId)!
         //        ProviderInfo.model_type = "activities"
-        HTTP.GET("https://api.snapgroup.co.il/api/getratings/members/\((MyVriables.currentGroup?.group_leader_id)!)", parameters:[])
+        HTTP.GET(ApiRouts.Api+"/getratings/members/\((MyVriables.currentGroup?.group_leader_id)!)", parameters:[])
         { response in
             if let err = response.error {
                 print("error: \(err.localizedDescription)")
