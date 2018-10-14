@@ -5,14 +5,14 @@
 //  Created by snapmac on 2/25/18.
 //  Copyright © 2018 snapmac. All rights reserved.
 //
-
 import UIKit
 import Auk
 import ImageSlideshow
 import SwiftHTTP
 import SwiftEventBus
 import Scrollable
-import Kingfisher
+import ARSLineProgress
+
 
 extension String {
     subscript (bounds: CountableClosedRange<Int>) -> String {
@@ -29,16 +29,25 @@ extension String {
 }
 class DetailsViewController: UIViewController {
    
+    @IBOutlet weak var price: UILabel!
+    @IBOutlet weak var bookNowView: UIView!
     @IBOutlet var groupLeaderView: UIView!
+    @IBOutlet weak var tagLineConstrate: NSLayoutConstraint!
+    @IBOutlet weak var oldPrice: UILabel!
+    @IBOutlet weak var newPrice: UILabel!
+    @IBOutlet weak var tagLineView: UIView!
     var images2: [InputSource] = []
     @IBOutlet var joinView: UIView!
     @IBOutlet var leftToJoinLbl: UILabel!
+    @IBOutlet weak var tagLineLbl: UILabel!
+    @IBOutlet weak var priceWithSale: UIView!
     
     let cvv: ViewController  = ViewController()
      var groupImages: [GroupImage] = []
     @IBOutlet var scrollView: UIScrollView!
     var singleGroup: TourGroup?
     
+
     @IBOutlet var groupAppView: UIView!
     @IBOutlet var slideShow: ImageSlideshow!
     @IBOutlet var titleLabel: UILabel!
@@ -47,6 +56,10 @@ class DetailsViewController: UIViewController {
     var isCollapsed: Bool = false
     
     
+    @IBOutlet weak var filterTwo: UIView!
+    @IBOutlet weak var filterThree: UIView!
+    @IBOutlet weak var filterOne: UIView!
+    @IBOutlet weak var pricesView: UIView!
     @IBOutlet var member_status_view: UIView!
     @IBOutlet var member_status_lbl: UILabel!
     @IBOutlet var member_Status_Im: UIImageView!
@@ -102,16 +115,92 @@ class DetailsViewController: UIViewController {
             //do things...
         }
     }
+    @IBAction func moreInfoClick(_ sender: Any) {
+        self.tabBarController?.selectedIndex = 2
+    }
+    fileprivate func bookNowFunc() {
+        if MyVriables.currentGroup?.role != nil &&  (MyVriables.currentGroup?.role)! != "observer"
+        {
+            MyVriables.isBookClick = false
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let vc = storyboard.instantiateViewController(withIdentifier: "PaymentsViewController") as! PaymentsViewController
+            self.navigationController?.pushViewController(vc,animated: true)
+            
+        }else{
+            MyVriables.isBookClick = true
+            self.tabBarController?.selectedIndex = 1
+        }
+    }
     
+    @IBAction func bookNowClick(_ sender: Any) {
+        bookNowFunc()
+    }
+    @IBAction func availbleDateClick(_ sender: Any) {
+        bookNowFunc()
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         joinView.layer.borderColor = Colors.PrimaryColor.cgColor
         joinView.layer.borderWidth = 1
-        /*
-         self.tabBarController?.tabBar.items![1].image = UIImage(named: "joinedFooter")
-         self.tabBarController?.tabBar.items![1].title = "Joined"
- */
+        ARSLineProgress.hide()
+
         //member
+        if MyVriables.currentGroup!.special_price_tagline != nil {
+            self.tagLineView.isHidden = false
+            self.tagLineLbl.text = "\((MyVriables.currentGroup!.special_price_tagline)!)"
+           // self.tagLineConstrate.constant = 90
+            
+        }else
+        {
+            //self.tagLineConstrate.constant = 60
+             self.tagLineView.isHidden = true
+        }
+        
+        //member
+        if MyVriables.currentGroup!.price != nil {
+            pricesView.isHidden = false
+            self.price.text = "£\((MyVriables.currentGroup!.price)!)"
+        }else
+        {
+            pricesView.isHidden = true
+            self.price.text = ""
+        }
+        if MyVriables.currentGroup!.special_price != nil {
+            
+            if MyVriables.currentGroup!.price != nil {
+                pricesView.isHidden = true
+                priceWithSale.isHidden = false
+                oldPrice.text = "£\((MyVriables.currentGroup!.price)!)"
+                newPrice.text = "£\((MyVriables.currentGroup!.special_price)!)"
+            }else {
+                priceWithSale.isHidden = true
+                pricesView.isHidden = false
+            self.price.text = "£\((MyVriables.currentGroup!.special_price)!)"
+         
+            
+            }
+        }else
+        {
+            priceWithSale.isHidden = true
+            
+        }
+        if (MyVriables.currentGroup?.group_tools?.payments!)! == false
+        {
+            self.groupAppView.isHidden = false
+            self.filterTwo.isHidden = true
+            self.filterThree.isHidden = true
+        }else{
+            if (MyVriables.currentGroup?.rotation) != nil && (MyVriables.currentGroup?.rotation)! == "reccuring"{
+                self.groupAppView.isHidden = true
+                self.filterTwo.isHidden = true
+                self.filterThree.isHidden = false
+            }else{
+                self.groupAppView.isHidden = true
+                self.filterTwo.isHidden = false
+                self.filterThree.isHidden = true
+            }
+           // self.bookNowView.isHidden = false
+        }
         SwiftEventBus.onMainThread(self, name: "roleChanges") { result in
             self.member_status_lbl.text = self.tabBarController?.tabBar.items![1].title
             self.member_Status_Im.image = self.tabBarController?.tabBar.items![1].image
@@ -155,6 +244,8 @@ class DetailsViewController: UIViewController {
        
         if singleGroup?.registration_end_date != nil{
             calculateRegisterDate(date: (singleGroup?.registration_end_date)!)
+        }else {
+            calculateRegisterDate(date: (singleGroup?.start_date)!)
         }
         slideShow.activityIndicator = DefaultActivityIndicator()
         slideShow.circular = false
@@ -171,7 +262,8 @@ class DetailsViewController: UIViewController {
         // Do any additional setup after loading the view.
         
     }
-
+    
+    
     override func viewDidAppear(_ animated: Bool) {
         self.slideShow.currentPageChanged = nil
     }
@@ -202,6 +294,15 @@ class DetailsViewController: UIViewController {
 
 
     func calculateRegisterDate(date: String){
+        if MyVriables.currentGroup?.rotation != nil && (MyVriables.currentGroup?.rotation)! == "reccuring"
+        {
+            if MyVriables.currentGroup?.start_time != nil && MyVriables.currentGroup?.end_time != nil {
+                self.tripDurationLbl.text = "\(setFormat(date: (MyVriables.currentGroup?.start_time)!)) - \(setFormat(date: (MyVriables.currentGroup?.end_time)!))"
+            }else {
+                self.tripDurationLbl.text = " "
+            }
+        }
+        else{
         let currentDate = Date()
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
@@ -214,10 +315,11 @@ class DetailsViewController: UIViewController {
         let hours: Int = Calendar.current.dateComponents([.day,.hour,.minute,.month], from: currentDate, to: date2).hour!
         print("days: \(days) , hours: \(hours)")
         if days < 0 || hours < 0 {
-            self.leftToJoinLbl.text = "Closed"
+            self.tripDurationLbl.text = "Closed"
         }
         else{
-            self.leftToJoinLbl.text = "\(days) d' \(hours) h' to join"
+            self.tripDurationLbl.text = "\(days) d' \(hours) h'"
+        }
         }
 
     }
@@ -238,7 +340,7 @@ class DetailsViewController: UIViewController {
 
         }
         if singleGroup?.is_company! != 0 {
-            companyLbl.text = (singleGroup?.group_leader_company_name!)!
+            companyLbl.text = (singleGroup?.group_leader_company_name) != nil ? (singleGroup?.group_leader_company_name!)! : ""
             
         }
         else{
@@ -248,30 +350,36 @@ class DetailsViewController: UIViewController {
         
     }
     func setTripTimeDuration(startDate: String, endDate: String){
+        if (MyVriables.currentGroup?.rotation) != nil && (MyVriables.currentGroup?.rotation)! == "reccuring"{
+            
+            
+            leftToJoinLbl.text = MyVriables.currentGroup?.translations?[0].destination != nil ? (MyVriables.currentGroup?.translations?[0].destination)! : ""
+        }
+        else {
         let startMonth: String = self.getMonthName(month: startDate[5...6])
         let endMonth: String = self.getMonthName(month: endDate[5...6])
         let startDay: String = startDate[8...9]
         let endDay: String = endDate[8...9]
         if startMonth == endMonth {
             if startDay == endDay{
-                tripDurationLbl.text = "One day"
+                leftToJoinLbl.text = "One day"
             }
             else{
               //  tripDurationLbl.text = startDay+" "+startMonth + "-" + endDay+" "+endMonth
-                tripDurationLbl.text = startDay+"-" + endDay+" "+endMonth
+                leftToJoinLbl.text = startDay+"-" + endDay+" "+endMonth
 
             }
             
 
         }else{
-            tripDurationLbl.text = startDay+"'"+startMonth + " - " + endDay+"'"+endMonth
+            leftToJoinLbl.text = startDay+"'"+startMonth + " - " + endDay+"'"+endMonth
+        }
         }
     
     }
-    
-    
-    
+  
   func getMonthName(month: String) -> String{
+    
         switch month {
             case "01":
                 return "Jan"

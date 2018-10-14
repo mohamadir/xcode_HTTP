@@ -99,15 +99,15 @@ class SearchUsersViewController: UIViewController, UITableViewDelegate, UITableV
         cell.selectionStyle = .none
         cell.personName.text = (members[indexPath.row].first_name != nil ?  members[indexPath.row].first_name! : "Guset" ) + " " + (members[indexPath.row].last_name != nil ? members[indexPath.row].last_name! : "\((members[indexPath.row].member_id)!)")
         if members[indexPath.row].profile_image != nil {
-            var urlString = ApiRouts.Web + (members[indexPath.row].profile_image)!
+            var urlString = ApiRouts.Media + (members[indexPath.row].profile_image)!
             if (members[indexPath.row].profile_image)!.contains("http")
             {
                 urlString = (members[indexPath.row].profile_image!)
             }
+            urlString = urlString.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)!
              print("im in \(urlString)")
             var url = URL(string: urlString)
             cell.pesonImage.downloadedFrom(url: url!)
-           // cell.pesonImage.image.
          cell.pesonImage.contentMode = .scaleAspectFill
         
         }

@@ -1,0 +1,6 @@
+framework module VideoPlaybackKit {
+  umbrella header "VideoPlaybackKit-umbrella.h"
+
+  export *
+  module * { export * }
+}

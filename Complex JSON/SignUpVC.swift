@@ -72,6 +72,7 @@ class SignUpVC: UIViewController, UIPickerViewDelegate, UITextFieldDelegate, UIP
         self.lastNameTf.autocorrectionType = .no
         self.phoneTf.autocorrectionType = .no
         self.emailTf.delegate = self
+        
         self.firstNameTf.delegate = self
         self.lastNameTf.delegate = self
         self.phoneTf.delegate = self
@@ -175,10 +176,7 @@ class SignUpVC: UIViewController, UIPickerViewDelegate, UITextFieldDelegate, UIP
         self.view.endEditing(true)
         return false
     }
-    
-    
-    
-   
+
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }

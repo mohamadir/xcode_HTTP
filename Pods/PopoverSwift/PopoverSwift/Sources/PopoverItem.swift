@@ -38,14 +38,12 @@ public final class PopoverItem {
         self.title = title
         self.titleColor = titleColor
         self.image = image
-        self.textColor = titleColor
         self.handler = handler
     }
-    
 
 #if DEBUG
     deinit {
-//        debugPrint("\(#file):\(#line):\(type(of: self)):\(#function)")
+        debugPrint("\(#file):\(#line):\(type(of: self)):\(#function)")
     }
 #endif
 }

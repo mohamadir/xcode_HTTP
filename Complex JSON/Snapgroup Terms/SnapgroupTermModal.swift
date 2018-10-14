@@ -14,19 +14,22 @@ import SwiftEventBus
 class SnapgroupTermModal: UIViewController, UIGestureRecognizerDelegate , UIWebViewDelegate, WKNavigationDelegate, UIScrollViewDelegate{
     @IBOutlet weak var buttonsView: UIView!
     @IBOutlet weak var progress: UIActivityIndicatorView!
+    @IBOutlet weak var buttonScoll: UIButton!
     var webview : WKWebView? = WKWebView()
     @IBOutlet weak var coverWebView: UIView!
+    var isclickble: Bool = false
     @IBOutlet weak var overview: UIView!
     override func viewDidLoad() {
         super.viewDidLoad()
        // webview.frame =
        //webview.frame  = self.overview.frame
+        webview?.scrollView.delegate = self
         webview?.frame = CGRect(x: 0, y: 0, width: self.coverWebView.frame.width, height: self.coverWebView.frame.height)
         webview?.frame = self.coverWebView.bounds
      //   self.coverWebView = webview!
        // self.coverWebView.frame = (webview?.frame)!
        
-       
+       buttonScoll.isHidden = true
         var urlString: String = "https://www.snapgroup.co/end-user-licence-agreement"
         urlString = urlString.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)!
         //webview.load(urlRequest)
@@ -44,6 +47,24 @@ class SnapgroupTermModal: UIViewController, UIGestureRecognizerDelegate , UIWebV
 
         self.dismiss(animated: true, completion: nil)
     }
+   
+    
+    @IBAction func scrollToBottom(_ sender: Any) {
+        let scrollPoint = CGPoint(x: 0, y: webview!.scrollView.contentSize.height - webview!.frame.size.height)
+        webview!.scrollView.setContentOffset(scrollPoint, animated: true)
+        self.isclickble = true
+    }
+    func verifyUrl (urlString: String?) -> Bool {
+        //Check for nil
+        if let urlString = urlString {
+            // create NSURL instance
+            if let url = NSURL(string: urlString) {
+                // check if your application can open the NSURL instance
+                return UIApplication.shared.canOpenURL(url as URL)
+            }
+        }
+        return false
+    }
     public func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebViewNavigationType) -> Bool
     {
         if navigationType == .linkClicked
@@ -57,22 +78,6 @@ class SnapgroupTermModal: UIViewController, UIGestureRecognizerDelegate , UIWebV
     func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
         webView.frame = self.coverWebView.frame
     }
-    
-    @IBAction func scrollToBottom(_ sender: Any) {
-        let scrollPoint = CGPoint(x: 0, y: webview!.scrollView.contentSize.height - webview!.frame.size.height)
-        webview!.scrollView.setContentOffset(scrollPoint, animated: true)
-    }
-    func verifyUrl (urlString: String?) -> Bool {
-        //Check for nil
-        if let urlString = urlString {
-            // create NSURL instance
-            if let url = NSURL(string: urlString) {
-                // check if your application can open the NSURL instance
-                return UIApplication.shared.canOpenURL(url as URL)
-            }
-        }
-        return false
-    }
     func webViewDidStartLoad(_ webView: UIWebView) {
         progress.show()
         webView.frame = self.coverWebView.frame
@@ -83,8 +88,42 @@ class SnapgroupTermModal: UIViewController, UIGestureRecognizerDelegate , UIWebV
         progress.hide()
         progress.isHidden = true
     }
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        print("yessss \(webView.tag)")
+        self.progress.hide()
+        self.progress.isHidden = true
+         buttonScoll.isHidden = false
+        webView.frame = self.coverWebView.frame
+        
+        //        webView.frame.size = webView.sizeThatFits(CGSize.zero)
+        
+        
+    }
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let  height = scrollView.frame.size.height
+        let contentYoffset = scrollView.contentOffset.y
+        let distanceFromBottom = scrollView.contentSize.height - contentYoffset
+        if (self.webview?.scrollView.contentOffset.y)! >= ((self.webview?.scrollView.contentSize.height)! - (self.webview?.scrollView.frame.size.height)!) {
+           // print("Reahc bottom")
+            self.isclickble = true
+
+            //you reached end of the table
+        }
+    }
+    
+    func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation:
+        WKNavigation!, withError error: Error) {
+        webView.frame = self.coverWebView.bounds
+        self.webview? = WKWebView(frame: self.coverWebView.bounds, configuration: WKWebViewConfiguration())
+    }
+    func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
+        webView.frame = self.coverWebView.bounds
+        self.webview? = WKWebView(frame: self.coverWebView.bounds, configuration: WKWebViewConfiguration())
+        
+    }
     
     @IBAction func agreeClick(_ sender: Any) {
+        if self.isclickble == true {
         if MyVriables.kindRegstir == "phone"{
             MyVriables.kindRegstir = ""
             SwiftEventBus.post("termConfirm")
@@ -116,6 +155,7 @@ class SnapgroupTermModal: UIViewController, UIGestureRecognizerDelegate , UIWebV
             SwiftEventBus.post("phone-join")
         }
         self.dismiss(animated: true, completion: nil)
+        }
 
     }
     @IBAction func disagreeClick(_ sender: Any) {
@@ -124,28 +164,7 @@ class SnapgroupTermModal: UIViewController, UIGestureRecognizerDelegate , UIWebV
 
     }
     
-    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        print("yessss \(webView.tag)")
-        self.progress.hide()
-        self.progress.isHidden = true
-        webView.frame = self.coverWebView.frame
-        
-//        webView.frame.size = webView.sizeThatFits(CGSize.zero)
-        
-        
-    }
-    
-    
-    func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation:
-        WKNavigation!, withError error: Error) {
-        webView.frame = self.coverWebView.bounds
-        self.webview? = WKWebView(frame: self.coverWebView.bounds, configuration: WKWebViewConfiguration())
-    }
-    func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
-        webView.frame = self.coverWebView.bounds
-        self.webview? = WKWebView(frame: self.coverWebView.bounds, configuration: WKWebViewConfiguration())
-
-    }
+   
     
 
 }

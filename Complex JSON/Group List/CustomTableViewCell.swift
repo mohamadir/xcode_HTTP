@@ -16,11 +16,19 @@ class CustomTableViewCell: UITableViewCell {
     @IBOutlet weak var cellView: UIView!
     @IBOutlet weak var groupLeaderLbl: UILabel!
     @IBOutlet weak var groupLeaderImageView: UIImageView!
-    
+    @IBOutlet weak var frequencyDescrptionLbl: UILabel!
+    @IBOutlet weak var frequencyLbl: UILabel!
+    @IBOutlet weak var tagLinefrequencyView: UIView!
     @IBOutlet weak var contsratWidthImage: NSLayoutConstraint!
     @IBOutlet weak var totalDaysLbl: UILabel!
+    @IBOutlet weak var membersIcon: UIImageView!
+    @IBOutlet weak var ItineraryImage: UIImageView!
+    @IBOutlet weak var membersLbl: UILabel!
     @IBOutlet weak var groupLabel: UILabel!
-    
+    @IBOutlet weak var daysNumbers: UILabel!
+    @IBOutlet weak var daysLbl: UILabel!
+    @IBOutlet weak var progressImage: UIActivityIndicatorView!
+    @IBOutlet weak var isReccuring: UIImageView!
     @IBOutlet weak var descriptionLbl: UILabel!
     @IBOutlet weak var privateIcon: UIImageView!
     @IBOutlet weak var openIcon: UIImageView!
@@ -28,6 +36,7 @@ class CustomTableViewCell: UITableViewCell {
     @IBOutlet weak var memberIcon: UIImageView!
     @IBOutlet weak var inviteIcon: UIImageView!
     @IBOutlet weak var timeOutIcon: UIImageView!
+    @IBOutlet weak var isSaleGroup: UIView!
     
 
     @IBOutlet weak var viewInfo: UIView!

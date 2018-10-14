@@ -10,6 +10,9 @@ import Foundation
 // ********************************    CURRENT OPJECT *****************************
 struct MyVriables {
     
+    static var currentIndexCompanion: Int = 0
+    static var currentComapnion: CompanionInfo = CompanionInfo(first_name: "", last_name: "", group_id: -1, gender: "male", birth_date: "01/01/18", id: -1)
+    static var currentPhoneNumber: String?
     static var facebookMember: FacebookMember?
     static var currentGdbr: ModalGDPR?
     static var enableGdpr: GdprObject?
@@ -23,6 +26,7 @@ struct MyVriables {
     static var kindRegstir: String?
     static var currentType: String?
     static var currentGroup: TourGroup?
+    static var isBookClick: Bool = false
     static var isAvailble: Bool = true
     static var isMember: Bool = false
     var profile: MemberProfile?
@@ -40,6 +44,15 @@ struct MyVriables {
     
 }
 
+struct CompanionInfo : Codable{
+    var first_name: String?
+    var last_name: String?
+    var group_id: Int?
+    var gender: String?
+    var birth_date: String?
+    var id: Int?
+
+}
 struct ChatUser {
     static var currentUser: Partner?
     static var ChatId: Int?
@@ -61,10 +74,52 @@ struct AccessToken: Codable {
  static var CurrentService: [Any]?
 }
 struct GroupMembers{
-    static var currentMemmber: GroupMember? = GroupMember(id : -1, email : "", first_name : "", last_name : "", profile_image : "", status : "", role : "")
+    static var currentMemmber: GroupMember? = GroupMember(id : -1, email : "", first_name : "", last_name : "", profile_image : "", companion_number : 0, status : "", role : "")
     static var isGoing: Bool?
 }
+func getTodayString() -> String{
+    
+    let date = Date()
+    let calender = Calendar.current
+    let components = calender.dateComponents([.year,.month,.day,.hour,.minute,.second], from: date)
+    let year = components.year
+    let month = components.month
+    let day = components.day
+    let hour = components.hour
+    let minute = components.minute
+    let second = components.second
+    
+    let today_string = String(year!) + "-" + String(month!) + "-" + String(day!) + " " + String(hour!)  + ":" + String(minute!) + ":" +  String(second!)
+    print("Today is \(today_string)")
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+    dateFormatter.timeZone = TimeZone.current
+    let dt = dateFormatter.date(from: today_string)
+    dateFormatter.timeZone = TimeZone(identifier: "Asia/Jerusalem")
+    return dateFormatter.string(from: dt!)
+    
+}
+func gmtToLocal(date:String) -> String {
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "HH:mm:ss"
+    dateFormatter.timeZone = TimeZone(identifier: "Asia/Jerusalem")
+    print("Tine zon is \(TimeZone.current)")
+    let dt = dateFormatter.date(from: date)
+    dateFormatter.timeZone = TimeZone.current
+    dateFormatter.dateFormat = "HH:mm"
+    return dateFormatter.string(from: dt!)
+}
+func setFormat(date:String) -> String {
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "HH:mm:ss"
+    let dt = dateFormatter.date(from: date)
+    dateFormatter.dateFormat = "HH:mm"
+    return dateFormatter.string(from: dt!)
+}
 
+struct CompanionsRequset: Codable {
+    var campanions: [CompanionInfo]?
+}
 /////////////////////////////////////////////// servivices model ///////////////
 struct ServicesModel: Codable {
     var hotels: [ServiceModel]?
@@ -104,11 +159,42 @@ struct RatingModel: Codable {
     var last_name: String?
     var image_path: String?
     var reviewer_id: Int?
+    var id: Int?
     var rating: Double?
     var review: String?
 }
 struct ExistMember: Codable {
     var exist: Bool?
+}
+func convertToUTC(dateToConvert:String)  {
+//    let dateFormatter = DateFormatter()
+//    dateFormatter.dateFormat = "yyyy-MM-dd hh:mm:ss"//Input Format
+//    dateFormatter.timeZone = NSTimeZone(name: "UTC+02") as TimeZone!
+//    let UTCDate = dateFormatter.date(from: dateToConvert)
+//    dateFormatter.dateFormat = "yyyy-MM-dd hh:mm:ss" // Output Format
+//    dateFormatter.timeZone = TimeZone.current
+//    print("My time zone is \(dateFormatter.timeZone!)    Time zone is \(TimeZone.current.description)")
+//    let UTCToCurrentFormat = dateFormatter.string(from: UTCDate!)
+//    return UTCToCurrentFormat
+//    let dateFormatter = DateFormatter()
+//    dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+//    dateFormatter.timeZone = TimeZone(abbreviation: "GMT‎+03")
+//    let dt = dateFormatter.date(from: "2018-08-08 10:42:00")
+//    print("Date dt = \(String(describing: dt))")
+//    dateFormatter.timeZone = TimeZone.current
+//    //dateFormatter.dateFormat = "yyyy-MM-dd hh:mm:ss"
+//    print("current time zone is \(TimeZone.current) and time zone is \(dateFormatter.timeZone) AND new date is \(dateFormatter.string(from: dt!))")
+//    return dateFormatter.string(from: dt!)
+    
+//    let dateFormatter = DateFormatter()
+//    dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+//    dateFormatter.timeZone = TimeZone(abbreviation: "UTC")
+//    let date = dateFormatter.date(from: dateToConvert)
+//    dateFormatter.timeZone = TimeZone.current
+//    let timeStamp = dateFormatter.string(from: date!)
+//    print("Date is \(String(describing: date)) and timestamp id = \(timeStamp)")
+//    return date!
+
 }
 
 
@@ -164,9 +250,11 @@ struct TourGroup: Codable {
     var id: Int?
     var title: String?
     var image: String?
+    var days: Int?
     var description: String?
     var open: Bool?
     var role: String?
+    var price: String?
     var registration_end_date: String?
     var start_date: String?
     var target_members: Int?
@@ -187,12 +275,23 @@ struct TourGroup: Codable {
     var group_leader_about: String?
     var group_leader_company_physical_address: String?
     var group_leader_gender: String?
+    var rotation: String?
+    var hours_of_operation: String?
+    var frequency: String?
+    var start_time: String?
+    var end_time: String?
     var group_leader_id: Int?
+    var special_price: Float?
+    var special_price_tagline: String?
     var translations: [GroupTranslation]?
     var group_tools: GroupTools?
+    var group_settings: GroupSettings?
     var chat: ChatObject?
     var group_conditions: String?
     
+}
+struct GroupSettings: Codable{
+    var payments_url: String?
 }
 struct ChatObject: Codable{
     var id: Int?
@@ -233,6 +332,8 @@ struct GroupTools: Codable {
     var rooming_list: Bool?
     var voting: Bool?
     var arrival_confirmation: Bool?
+    var payments: Bool?
+    
     
 }
 

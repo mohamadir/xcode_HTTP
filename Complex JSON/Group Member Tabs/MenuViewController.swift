@@ -75,9 +75,10 @@ class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UI
     @IBOutlet weak var rolesView: UIControl!
     @IBOutlet weak var roomlistView: UIControl!
     @IBOutlet weak var counterLbl: UILabel!
+    @IBOutlet weak var recuringView: UIView!
     @IBOutlet weak var mapsView: UIControl!
     @IBOutlet weak var leaderView: UIControl!
-    @IBOutlet weak var votesView: UIControl!
+    @IBOutlet weak var paymentsView: UIControl!
     @IBOutlet weak var membersView: UIControl!
     @IBOutlet weak var docsView: UIView!
     @IBOutlet weak var servicesView: UIView!
@@ -91,12 +92,20 @@ class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UI
     
     @IBOutlet weak var backToDeatils: UIStackView!
     
+    @IBOutlet weak var timeView: UIView!
     @IBOutlet weak var backView: UIView!
     var timer1 = Timer()
     var arrives: ArriveChecked?
     var secondsLeft: Int?
    
     override func viewWillAppear(_ animated: Bool) {
+        if MyVriables.currentGroup?.rotation != nil && (MyVriables.currentGroup?.rotation)! == "reccuring"{
+            recuringView.isHidden = false
+            timeView.isHidden = true
+        }else{
+            recuringView.isHidden = true
+            timeView.isHidden = false
+        }
         self.singleGroup  = MyVriables.currentGroup!
         if MyVriables.currentGroup?.registration_end_date != nil {
            calculateRegisterDate( date : (MyVriables.currentGroup?.registration_end_date!)!)
@@ -114,6 +123,10 @@ class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UI
         }
     }
     
+    @IBAction func bookNoewClick(_ sender: Any) {
+    }
+    @IBAction func avilbleDateClick(_ sender: Any) {
+    }
     override func viewWillDisappear(_ animated: Bool) {
         timer1.invalidate()
         // self.navigationController?.setNavigationBarHidden(false, animated: false)
@@ -131,14 +144,6 @@ class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UI
         super.viewDidLoad()
               print("view xcontroler 231 \(MyVriables.shouldRefreshBusStation)")
         self.singleGroup  = MyVriables.currentGroup!
-        if self.singleGroup?.role != nil {
-            print("Role is not nil == \((self.singleGroup?.role)!)")
-        }
-        else
-        {
-             print("Role is  nil == nil")
-        }
-       
         if singleGroup?.translations?.count == 0 {
             self.groupNameLbl.text = singleGroup?.title
         }
@@ -146,6 +151,8 @@ class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UI
             self.groupNameLbl.text = singleGroup?.translations?[0].title
 
         }
+        
+        
         if (self.singleGroup?.group_tools?.arrival_confirmation!)! == true
         {
             getArriveChecked()
@@ -156,16 +163,20 @@ class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UI
         self.groupNameLbl.lineBreakMode = .byWordWrapping
      //   self.membersTp.addTarget(self, action: #selector(membersClick), for: .touchUpInside)
         membersView.addTapGestureRecognizer {
+            
             if (self.singleGroup?.group_tools?.members!)! == true
             {
+                if (self.singleGroup?.role) != nil && (self.singleGroup?.role)! != "observer"
+                {
                 self.performSegue(withIdentifier: "showMembers", sender: self)
+                }
             }
         
         }
-        backToDeatils.addTapGestureRecognizer {
-            self.tabBarController?.selectedIndex = 0
-
-        }
+//        backToDeatils.addTapGestureRecognizer {
+//            self.tabBarController?.selectedIndex = 0
+//
+//        }
         backView.addTapGestureRecognizer {
             self.tabBarController?.selectedIndex = 0
             
@@ -174,10 +185,16 @@ class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UI
             self.tabBarController?.selectedIndex = 0
             
         }
-        votesView.addTapGestureRecognizer {
-            if (self.singleGroup?.group_tools?.voting!)! == true
+        paymentsView.addTapGestureRecognizer {
+            if (self.singleGroup?.group_tools?.payments!)! == true
             {
-                self.performSegue(withIdentifier: "showScroll", sender: self)
+                if (self.singleGroup?.role) != nil && (self.singleGroup?.role)! != "observer"
+                {
+                    let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                    let vc = storyboard.instantiateViewController(withIdentifier: "PaymentsViewController") as! PaymentsViewController
+                    self.navigationController?.pushViewController(vc,animated: true)
+//                    self.performSegue(withIdentifier: "showDocsSegue", sender: self)
+                }
             }
 
         }
@@ -328,16 +345,10 @@ class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UI
     }
     func setAlphaView()
     {
-        if self.singleGroup?.role == nil
-        {
-            print("im hereeeee true")
-
-        }
-        else {
-        print("im hereeeee false")
-        }
         if (self.singleGroup?.role) == nil
         {
+             self.membersView.alpha = 0.3
+            self.paymentsView.alpha = 0.3
             self.checkListView.alpha = 0.3
              self.roomlistView.alpha = 0.3
              self.docsView.alpha = 0.3
@@ -348,6 +359,8 @@ class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UI
         {
              if (self.singleGroup?.role)! == "observer"
              {
+                 self.membersView.alpha = 0.3
+                self.paymentsView.alpha = 0.3
                 self.checkListView.alpha = 0.3
                 self.roomlistView.alpha = 0.3
                 self.docsView.alpha = 0.3
@@ -356,7 +369,8 @@ class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UI
             }
             else
              {
-                
+                 self.membersView.alpha = 1
+                self.paymentsView.alpha = 1
                 self.checkListView.alpha = 1
                // self.roomlistView.alpha = 1
                 self.docsView.alpha = 1
@@ -368,9 +382,36 @@ class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UI
         {
             self.groupChatView.alpha = 0.3
         }
-        if (self.singleGroup?.group_tools?.voting!)! == false
+        if (self.singleGroup?.group_tools?.members!)! == false
         {
-              self.votesView.alpha = 0.3
+            self.membersView.alpha = 0.3
+        }
+        if (self.singleGroup?.group_tools?.payments!)! == false
+        {
+              self.paymentsView.alpha = 0.3
+            self.paymentsView.backgroundColor = UIColor.clear
+        }else{
+          
+            if (MyVriables.currentGroup?.role) != nil && ((MyVriables.currentGroup?.role)! != "member" || (MyVriables.currentGroup?.role)! != "group_leader")
+            {
+                self.paymentsView.alpha = 1
+                paymentsView.layer.cornerRadius = 10
+                // border
+                paymentsView.layer.borderWidth = 0.5
+                paymentsView.layer.borderColor = Colors.PrimaryColor.cgColor
+                
+                // shadow
+                paymentsView.layer.shadowColor = UIColor.black.cgColor
+                paymentsView.layer.shadowOffset = CGSize(width: 1, height: 1)
+                paymentsView.layer.shadowOpacity = 0.7
+                paymentsView.layer.shadowRadius = 2.0
+                
+            }else{
+                self.paymentsView.alpha = 0.3
+                self.paymentsView.backgroundColor = UIColor.clear
+
+            }
+           
         }
         if (self.singleGroup?.group_tools?.rooming_list!)! == false
         {

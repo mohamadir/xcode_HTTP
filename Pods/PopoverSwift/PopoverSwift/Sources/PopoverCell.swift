@@ -73,10 +73,7 @@ internal final class PopoverCell: UITableViewCell {
     
     func setupData(_ data: PopoverItem) {
         contentLabel.text = data.title
-        if let textColor = data.textColor {
-            contentLabel.textColor = textColor
-        }
-        
+        contentLabel.textColor = data.titleColor
         contentView.backgroundColor = data.coverColor ?? UIColor.white
     }
 
@@ -156,9 +153,7 @@ final class PopoverWihtImageCell: UITableViewCell {
     
     func setupData(_ data: PopoverItem) {
         contentLabel.text = data.title
-        if let textColor = data.textColor {
-            contentLabel.textColor = textColor
-        }
+        contentLabel.textColor = data.titleColor
         leftImageView.image = data.image
         contentView.backgroundColor = data.coverColor ?? UIColor.white
     }

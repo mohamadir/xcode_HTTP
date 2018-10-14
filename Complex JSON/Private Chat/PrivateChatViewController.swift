@@ -568,6 +568,7 @@ class PrivateChatViewController: UIViewController ,UIImagePickerControllerDelega
         socket!.on(clientEvent: .connect) {data, ack in
             self.socket!.emit("subscribe", "member-\((MyVriables.currentMember?.id!)!)")
         }
+        print("member-\((MyVriables.currentMember?.id!)!):member-channel")
         socket!.on("member-\((MyVriables.currentMember?.id!)!):member-channel") {data, ack in
             print("onMessageRec: \(data[0])")
             if let data2 = data[0] as? Dictionary<String, Any> {
@@ -648,7 +649,7 @@ class PrivateChatViewController: UIViewController ,UIImagePickerControllerDelega
         self.markConvRead()
         
     }
-    
+   
     fileprivate func sendMessage() {
         var oponent_id =  ChatUser.currentUser?.id!
         print("myId: \(myId!)")
@@ -662,12 +663,15 @@ class PrivateChatViewController: UIViewController ,UIImagePickerControllerDelega
             
             HTTP.POST(ApiRouts.Api + "/chats", parameters: params) { response in
                 print("send chat: \(response.statusCode)" )
-                var newMessage :Message = Message()
-                newMessage.message = message
-                newMessage.type = "text"
-                newMessage.member_id = MyVriables.currentMember?.id!
-                print(newMessage)
+               
                 DispatchQueue.main.async {
+                    var newMessage :Message = Message()
+                    newMessage.message = message
+                    newMessage.type = "text"
+                    let today : String!
+                    today = getTodayString()
+                    newMessage.created_at = today
+                    newMessage.member_id = MyVriables.currentMember?.id!
                     self.allMessages.append(newMessage)
                     self.chatTableView.reloadData()
                     self.scrollToLast()
@@ -708,9 +712,19 @@ class PrivateChatViewController: UIViewController ,UIImagePickerControllerDelega
         
         if allMessages[indexPath.row].member_id == MyVriables.currentMember?.id! {
             //imageMeCell
+            
 
             if allMessages[indexPath.row].type == "image" {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "imageMeCell") as! ImageMeTableViewCell
+                if allMessages[indexPath.row].created_at != nil {
+                let createdAt : String =  ((allMessages[indexPath.row].created_at)!.components(separatedBy: " ")[1])
+               
+                    cell.time.text = gmtToLocal(date: createdAt)
+                }else
+                {
+                    cell.time.text = ""
+
+                }
                 if (allMessages[indexPath.row].image_path) != nil {
                    
                     if (allMessages[indexPath.row].image_path)!.contains("http"){
@@ -721,6 +735,7 @@ class PrivateChatViewController: UIViewController ,UIImagePickerControllerDelega
                         urlString = ApiRouts.Media +  (allMessages[indexPath.row].image_path)!
 
                     }
+                urlString = urlString.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)!
                 let url = URL(string: urlString)
                 print("--PRIVATECHAT \(urlString)")
                 cell.meImageView.sd_setImage(with: url! , placeholderImage: UIImage(named: "Group Placeholder"))
@@ -732,17 +747,39 @@ class PrivateChatViewController: UIViewController ,UIImagePickerControllerDelega
                 return cell
             }else {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "privateCustomCell") as! PrivateChatMessageCelVc
+                
+                if allMessages[indexPath.row].created_at != nil {
+                    let createdAt : String = ((allMessages[indexPath.row].created_at)!.components(separatedBy: " ")[1])
+                    cell.time.text = gmtToLocal(date: createdAt)
+
+                }else
+                {
+                    cell.time.text = ""
+                    
+                }
+                
                 cell.sentMessageLbl.text = allMessages[indexPath.row].message!
                 cell.selectionStyle = .none
                 if (indexPath.row == self.allMessages.count-1) {
                     cell.separatorInset = UIEdgeInsetsMake(0, cell.bounds.size.width, 0, 0);
                 }
+               // print("new Date is \(convertToUTC(dateToConvert: "2018-08-08 10:42:00"))")
+                
                 return cell
             }
             
         } else {
             if allMessages[indexPath.row].type == "image" {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "partnerImageCell") as! ImagePartnerTableViewCell
+                
+                if allMessages[indexPath.row].created_at != nil {
+                    let createdAt : String = ((allMessages[indexPath.row].created_at)!.components(separatedBy: " ")[1])
+                    cell.time.text = gmtToLocal(date: createdAt)
+                }else
+                {
+                    cell.time.text = ""
+                    
+                }
                 if (allMessages[indexPath.row].image_path) != nil {
                 if (allMessages[indexPath.row].image_path)!.contains("http"){
                     urlString =  (allMessages[indexPath.row].image_path)!
@@ -761,6 +798,14 @@ class PrivateChatViewController: UIViewController ,UIImagePickerControllerDelega
                 return cell
             }else{
                 let cell = tableView.dequeueReusableCell(withIdentifier: "partnerCell") as! PartnerViewCell
+                if allMessages[indexPath.row].created_at != nil {
+                    let createdAt : String = ((allMessages[indexPath.row].created_at)!.components(separatedBy: " ")[1])
+                    cell.time.text = gmtToLocal(date: createdAt)
+                }else
+                {
+                    cell.time.text = ""
+                    
+                }
                 cell.recMessageLbl.text = allMessages[indexPath.row].message!
                 cell.selectionStyle = .none
                 if (indexPath.row == self.allMessages.count-1) {
@@ -796,7 +841,6 @@ class PrivateChatViewController: UIViewController ,UIImagePickerControllerDelega
         HTTP.GET(urlString, parameters: []) { response in
             if let err = response.error {
                 print("error: \(err.localizedDescription)")
-                self.progressStar.isHidden = true
                 print("request messages here")
                 
                 return //also notify app of failure as needed
@@ -804,7 +848,7 @@ class PrivateChatViewController: UIViewController ,UIImagePickerControllerDelega
             do {
                 let  messages = try JSONDecoder().decode(PrivateMessages.self, from: response.data)
                 DispatchQueue.main.sync {
-                   
+                    self.progressStar.isHidden = true
 
                     DispatchQueue.main.async {
                         

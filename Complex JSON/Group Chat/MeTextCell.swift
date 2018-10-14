@@ -15,6 +15,7 @@ class MeTextCell: UITableViewCell {
         // Initialization code
     }
     @IBOutlet weak var textLbl: UILabel!
+    @IBOutlet weak var time: UILabel!
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)

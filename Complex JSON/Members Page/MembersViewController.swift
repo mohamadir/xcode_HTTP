@@ -10,13 +10,14 @@ import UIKit
 import SwiftHTTP
 import SwiftEventBus
 import TTGSnackbar
-
+import ARSLineProgress
 struct GroupMember: Codable{
     var id: Int?
     var email: String?
     var first_name: String?
     var last_name: String?
     var profile_image: String?
+    var companion_number: Int?
     var status: String?
     var role: String?
 }
@@ -24,6 +25,7 @@ struct GroupMember: Codable{
 class MembersViewController: UIViewController,UICollectionViewDelegate, UICollectionViewDataSource , UISearchBarDelegate{
     
     
+    @IBOutlet weak var addCompnionBt: UIButton!
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var membersCoView: UICollectionView!
     @IBOutlet weak var membersCountLbl: UILabel!
@@ -61,6 +63,9 @@ class MembersViewController: UIViewController,UICollectionViewDelegate, UICollec
     }
     
     
+    @IBAction func addCompanion(_ sender: Any) {
+        self.performSegue(withIdentifier: "showAddCompanions", sender: self)
+    }
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = membersCoView.dequeueReusableCell(withReuseIdentifier: "memberCell", for: indexPath) as! MemberCollectionCell
         
@@ -87,6 +92,11 @@ class MembersViewController: UIViewController,UICollectionViewDelegate, UICollec
         if filterdMembers[indexPath.row].first_name != nil && filterdMembers[indexPath.row].last_name != nil {
         cell.memberNameLbl.text = filterdMembers[indexPath.row].first_name! + " " + filterdMembers[indexPath.row].last_name!
         }
+        if filterdMembers[indexPath.row].companion_number != nil && filterdMembers[indexPath.row].companion_number! != 0 {
+            cell.memberRoleLbl.text =  "(+\(filterdMembers[indexPath.row].companion_number!))"
+        }else{
+           cell.memberRoleLbl.text = ""
+        }
        
         cell.memberImage.contentMode = .scaleAspectFill
         return cell
@@ -102,11 +112,16 @@ class MembersViewController: UIViewController,UICollectionViewDelegate, UICollec
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         SwiftEventBus.onMainThread(self, name: "refreshMembers") { result in
             self.getMembers()
         }
         SwiftEventBus.onMainThread(self, name: "GoToPrivateChat") { result in
             self.performSegue(withIdentifier: "privateChatSegue", sender: self)
+        }
+        if (MyVriables.currentGroup?.role) != nil && (MyVriables.currentGroup?.role)! != "observer"
+        {
+            addCompnionBt.isHidden = false
         }
 
         self.singleGroup  = MyVriables.currentGroup!
@@ -127,11 +142,16 @@ class MembersViewController: UIViewController,UICollectionViewDelegate, UICollec
         // Dispose of any resources that can be recreated.
     }
     func getMembers(){
+        // TODO
+        ARSLineProgress.show()
         print("Url get member is " + ApiRouts.Web+"/api/members/\((MyVriables.currentMember?.id)!)/groups/\((MyVriables.currentGroup?.id)!)")
         HTTP.GET(ApiRouts.Api+"/members/\((MyVriables.currentMember?.id)!)/groups/\((MyVriables.currentGroup?.id)!)", parameters: ["hello": "world", "param2": "value2"]) { response in
+            ARSLineProgress.hide()
+
             if let err = response.error {
                 print("error: \(err.localizedDescription)")
                 DispatchQueue.main.sync {
+                    
                     // add to table view
                     self.membersCountLbl.text = "Members (0)"
                     let snackbar = TTGSnackbar(message: "In order to see the members list, please sign in at the top bar", duration: .long)
@@ -145,8 +165,18 @@ class MembersViewController: UIViewController,UICollectionViewDelegate, UICollec
                 self.filterdMembers = self.members
                 DispatchQueue.main.sync {
                     // add to table view
+                    var totalMembers : Int = 0
+                    for member in self.members
+                    {
+                        if member.companion_number != nil
+                        {
+                            totalMembers = totalMembers + member.companion_number!
+                        }
+                    }
+                    
+                    
                         // add to table view
-                        self.membersCountLbl.text = "Members (\(self.members.count))"
+                        self.membersCountLbl.text = "Members (\(self.members.count + totalMembers))"
                   
                     self.membersCoView.reloadData()
                 }

@@ -31,6 +31,7 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
     
     var isFacebookGdpr: Bool = false
 
+    @IBOutlet weak var joinBt: UIButton!
     @IBOutlet weak var facebookView: UIView!
     @IBOutlet weak var member_view: UIView!
     @IBOutlet weak var leaveText: UILabel!
@@ -59,36 +60,10 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
     let genderData: [String] = ["Male","Female","Other"]
     override func viewDidLoad() {
         super.viewDidLoad()
-        SwiftEventBus.onMainThread(self, name: "facebookLogin3") { result in
-            // let facebookId : String = result.object as! String
-            //self.checkIfMember(phone: phonenumber)
-            MyVriables.kindRegstir = "facebook-join"
-            self.facebookMember = result?.object as! FacebookMember
-             self.performSegue(withIdentifier: "showTerms", sender: self)
-        }
-        SwiftEventBus.onMainThread(self, name: "facebook-join") { result in
-            self.checkIfMember(textFeild: (self.facebookMember?.facebook_id!)!, type: "facebook_id",facebookMember: self.facebookMember)
-        }
-        SwiftEventBus.onMainThread(self, name: "phone-join") { result in
-           self.checkIfMember(textFeild: self.phoneNumber!,type: "phone", facebookMember: self.facebookMember)
-        }
+
         //self.checkIfMember(textFeild: (self.facebookMember?.facebook_id!)!, type: "facebook_id",facebookMember: self.facebookMember)
         fbBt.addTarget(self, action: #selector(handleCustomFBLogin), for: .touchUpInside)
-        SwiftEventBus.onMainThread(self, name: "refreshFromGroupJoin") { result in
-            print("fromGdpr12")
-            self.showPinDialog(phone: "")
-        }
-        SwiftEventBus.onMainThread(self, name: "joinGroup") { result in
-            print("fromGdpr")
-            if result?.object != nil {
-                self.facebookMember = result?.object as! FacebookMember
-                self.isFacebookGdpr = true
-                self.regstirFacebook(facebookMember: self.facebookMember!, isGdpr:  self.isFacebookGdpr)
-                
-            }else {
-                self.showPinDialog(phone: "")
-            }
-        }
+       
         //joinGroup
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "dismissKeyboard")
 
@@ -123,8 +98,11 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
         //}
         let defaults = UserDefaults.standard
         let phone = defaults.string(forKey: "phone")
+        
         let isLogged = defaults.bool(forKey: "isLogged")
         if isLogged == true{
+            joinBt.setTitle("Join",for: .normal)
+
             if phone != "no value"{
                 phoneTextFeild.text = phone
                 phoneTextFeild.isEnabled = false
@@ -141,6 +119,8 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
             facebookView.isHidden = true
             
         }else {
+            joinBt.setTitle("Sign up",for: .normal)
+
             facebookView.isHidden = false
             self.phoneTextFeild.isEnabled = true
             constaratPickerView.constant = 93
@@ -200,9 +180,9 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
     }
    
     override func viewWillDisappear(_ animated: Bool) {
+        MyVriables.isBookClick = false
         SwiftEventBus.unregister(self)
-
-             self.navigationController?.setNavigationBarHidden(true, animated: false)
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
     }
     fileprivate func setFontType(_ tf: SkyFloatingLabelTextField) {
         tf.font = UIFont(name: "Arial", size: 16)
@@ -243,7 +223,36 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        print("roleStatus" +  MyVriables.roleStatus)
+         setObserverPage()
+        SwiftEventBus.onMainThread(self, name: "facebookLogin3") { result in
+            // let facebookId : String = result.object as! String
+            //self.checkIfMember(phone: phonenumber)
+            MyVriables.kindRegstir = "facebook-join"
+            self.facebookMember = result?.object as! FacebookMember
+            self.performSegue(withIdentifier: "showTerms", sender: self)
+        }
+        SwiftEventBus.onMainThread(self, name: "facebook-join") { result in
+            self.checkIfMember(textFeild: (self.facebookMember?.facebook_id!)!, type: "facebook_id",facebookMember: self.facebookMember)
+        }
+        SwiftEventBus.onMainThread(self, name: "phone-join") { result in
+            self.checkIfMember(textFeild: self.phoneNumber!,type: "phone", facebookMember: self.facebookMember)
+        }
+        SwiftEventBus.onMainThread(self, name: "refreshFromGroupJoin") { result in
+            print("fromGdpr12")
+            self.showPinDialog(phone: "")
+        }
+        SwiftEventBus.onMainThread(self, name: "joinGroup") { result in
+            print("fromGdpr")
+            if result?.object != nil {
+                self.facebookMember = result?.object as! FacebookMember
+                self.isFacebookGdpr = true
+                self.regstirFacebook(facebookMember: self.facebookMember!, isGdpr:  self.isFacebookGdpr)
+                
+            }else {
+                self.showPinDialog(phone: "")
+            }
+        }
+       // print("roleStatus" +  MyVriables.roleStatus)
         pickerView.delegate = self
         regstrtionCloseLbl.text = "Registration to \((MyVriables.currentGroup?.translations?[0].title)!) has been closed.Please contact the group leader."
         pickerView.dataSource = self
@@ -255,7 +264,7 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
         contryCodeString = country.phoneCode
         contryCode = country.code
         print("my vairbels : : \(MyVriables.isAvailble)")
-        setObserverPage()
+       
         if MyVriables.currentGroup?.role != nil {
         if (MyVriables.currentGroup?.role)! == "member" || (MyVriables.currentGroup?.role)! == "group_leader" {
             observerView.isHidden = true
@@ -277,7 +286,7 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
                 leaveText.text = "You are now a member of this group, do you want to leave group ?"
                  leaveGrouoBt.isHidden = false
                 self.tabBarController?.tabBar.items![1].image = UIImage(named: "joinedIcon1")
-                self.tabBarController?.tabBar.items![1].title = "Joined"
+                self.tabBarController?.tabBar.items![1].title = "Interested"
                 self.tabBarController?.tabBar.items![1].selectedImage =  UIImage(named: "joinedIcon1")
             }
           
@@ -302,7 +311,7 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
                 observerView.isHidden = false
                 memberView.isHidden = true
             self.tabBarController?.tabBar.items![1].image = UIImage(named: "joinicon1")
-            self.tabBarController?.tabBar.items![1].title = "join"
+            self.tabBarController?.tabBar.items![1].title = "Interested"
             self.tabBarController?.tabBar.items![1].selectedImage =   UIImage(named: "joinicon1")
             
             }
@@ -332,12 +341,25 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
         
         let defaults = UserDefaults.standard
 
-        let id = defaults.integer(forKey: "member_id")
         let first = defaults.string(forKey: "first_name")
         let last = defaults.string(forKey: "last_name")
-        let email = defaults.string(forKey: "email")
+    
         let phone = defaults.string(forKey: "phone")
-        
+        let isLogged = defaults.bool(forKey: "isLogged")
+        if isLogged != nil && isLogged == true{
+            if MyVriables.currentGroup?.role == nil {
+                if first != nil && last != nil && phone != nil && first != "no value" && last != "no value" && phone != "no value"
+                {
+                    self.joinGroupRequest(memberid: (MyVriables.currentMember?.id)!, firstname: (first)!, lastName: (last)!)
+                }
+            }
+            else
+            {
+                if MyVriables.currentGroup?.role != nil  && MyVriables.currentGroup?.role != "member" && MyVriables.currentGroup?.role != "group_leader" {
+                    self.joinGroupRequest(memberid: (MyVriables.currentMember?.id)!, firstname: (first)!, lastName: (last)!)
+                }
+            }
+        }
         if first == "no value" || last == "no value"
         {
             
@@ -382,30 +404,22 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
         let isLogged = defaults.bool(forKey: "isLogged")
          let phone = defaults.string(forKey: "phone")
         if isLogged == false{
-              if firstNameTextFeild.text != "" && lastNameTextFeild.text != "" && phoneTextFeild.text != "" {
-                
+        if firstNameTextFeild.text != "" && lastNameTextFeild.text != "" && phoneTextFeild.text != "" {
             if isValidPhone(phone: contryCodeString+phoneTextFeild.text!)
             {
-                
-                
                 self.phoneNumber = contryCodeString+phoneTextFeild.text!
-                
                 if contryCodeString == "+972" {
                     if self.phoneTextFeild.text!.count > 4 && self.phoneTextFeild.text![0...0] == "0"
                     {
                         self.phoneTextFeild.text!.remove(at: self.phoneTextFeild.text!.startIndex)
                         self.phoneNumber = "\(self.contryCodeString)\(self.phoneTextFeild.text!)"
                         print("yes im inside \(self.phoneNumber)")
-                        
-                        
                     }
                 }
-                
                 let VerifyAlert = UIAlertController(title: "Verify", message: "is this is your phone number? \n \(self.phoneNumber!)", preferredStyle: .alert)
                 if contryCodeString == "+972" {
                     print("asd")
                 }
-                
                 VerifyAlert.addAction(UIAlertAction(title: NSLocalizedString("Yes", comment: "Default action"), style: .`default`, handler: { _ in
                     let params = ["phone": self.phoneNumber!]
                     
@@ -419,22 +433,10 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
                             //
                             MyVriables.kindRegstir = "phone-join"
                             self.performSegue(withIdentifier: "showTerms", sender: self)
-
-                            
-                            
-                            
                         }
-                        //do things...
                     }
-                    
-                    
-                    
                 }))
                 VerifyAlert.addAction(UIAlertAction(title: NSLocalizedString("No", comment: "Default action"), style: .`default`, handler: { _ in
-                    print("no")
-                    
-                    
-                    
                 }))
                 self.present(VerifyAlert, animated: true, completion: nil)
             }
@@ -451,7 +453,7 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
             if firstNameTextFeild.text != "" && lastNameTextFeild.text != "" && phoneTextFeild.text != "" {
 
                  if phone != "no value"{
-                     joinGroupRequest(memberid: (MyVriables.currentMember?.id)!)
+                    joinGroupRequest(memberid: (MyVriables.currentMember?.id)!, firstname: (firstNameTextFeild.text)!, lastName: (lastNameTextFeild.text)!)
                 }
                 else
                  {
@@ -494,7 +496,7 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
                                                 //
                                                 self.setToUserDefaults(value: self.phoneNumber, key: "phone")
                                                 print("Phone number is \(self.phoneNumber)")
-                                                self.joinGroupRequest(memberid: (MyVriables.currentMember?.id!)!)
+                                                self.joinGroupRequest(memberid: (MyVriables.currentMember?.id!)!, firstname: (self.firstNameTextFeild.text)!, lastName: (self.lastNameTextFeild.text)!)
                                             }
                                         }
                                     }))
@@ -652,6 +654,7 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
     {
         print("Is gdpr equal to \(isGdpr)")
         var params: [String: Any] = [:]
+        let deviceToken = UIDevice.current.identifierForVendor!.uuidString
         if facebookMember.facebook_id != "" {
             if  isGdpr == true
             {
@@ -665,10 +668,10 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
                                                "real_time_location":(MyVriables.arrayGdpr?.real_time_location)!,
                                                "rating_reviews":(MyVriables.arrayGdpr?.rating_reviews)!]
                 print("GDPRARR from faceboooook - \(gdprArr)")
-                params = ["facebook_id": facebookMember.facebook_id!, "type": "facebook", "first_name": facebookMember.first_name!,"last_name": facebookMember.last_name!,"facebook_profile_image": facebookMember.facebook_profile_image != nil ? facebookMember.facebook_profile_image! : nil, "gdpr":gdprArr]
+                params = ["device_id": deviceToken,"login_type": "ios", "facebook_id": facebookMember.facebook_id!, "type": "facebook", "first_name": facebookMember.first_name!,"last_name": facebookMember.last_name!,"facebook_profile_image": facebookMember.facebook_profile_image != nil ? facebookMember.facebook_profile_image! : nil, "gdpr":gdprArr]
             }
             else{
-                params = ["facebook_id": facebookMember.facebook_id!, "type": "facebook", "first_name": facebookMember.first_name!,"last_name": facebookMember.last_name!,"facebook_profile_image": facebookMember.facebook_profile_image != nil ? facebookMember.facebook_profile_image! : nil]
+                params = ["device_id": deviceToken,"login_type": "ios", "facebook_id": facebookMember.facebook_id!, "type": "facebook", "first_name": facebookMember.first_name!,"last_name": facebookMember.last_name!,"facebook_profile_image": facebookMember.facebook_profile_image != nil ? facebookMember.facebook_profile_image! : nil]
             }
             HTTP.POST(ApiRouts.Register, parameters: params) { response in
                 //do things...
@@ -703,7 +706,7 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
                     self.currentProfile = self.currentMember?.profile != nil ? self.currentMember?.profile! : nil
                     if (MyVriables.fromGroup)! == "true-1"
                     {
-                        self.joinGroupRequest(memberid: (self.currentMember?.profile?.member_id)!)
+                        self.joinGroupRequest(memberid: (self.currentMember?.profile?.member_id)!, firstname: (self.firstNameTextFeild.text)!, lastName: (self.lastNameTextFeild.text)!)
                         MyVriables.fromGroup = ""
                         
                     }
@@ -713,7 +716,7 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
                         //SwiftEventBus.post("refreshGroupRole")
                         //SwiftEventBus.post("changeProfileInfo")
                       //  SwiftEventBus.post("refreshData")
-                        self.joinGroupRequest(memberid : (self.currentMember?.profile?.member_id)!)
+                        self.joinGroupRequest(memberid: (self.currentMember?.profile?.member_id)!, firstname: (self.firstNameTextFeild.text)!, lastName: (self.lastNameTextFeild.text)!)
                         
                         if Messaging.messaging().fcmToken != nil {
                             MyVriables.TopicSubscribe = true
@@ -769,6 +772,7 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
             self.PINCODE = textField?.text
             print("PIN CODE : \((textField?.text)!)")
             var params: [String: Any] = [:]
+            let deviceToken = UIDevice.current.identifierForVendor!.uuidString
             if (MyVriables.fromGroup)! == "true-1" {
                 let gdprArr: [String: Bool] = ["chat_messaging":(MyVriables.arrayGdpr?.chat_messaging)!,
                                                "files_upload":(MyVriables.arrayGdpr?.files_upload)!,
@@ -779,13 +783,13 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
                                                "push_notifications":(MyVriables.arrayGdpr?.push_notifications)!,
                                                "real_time_location":(MyVriables.arrayGdpr?.real_time_location)!,
                                                "rating_reviews":(MyVriables.arrayGdpr?.rating_reviews)!]
-                 params = ["code": (textField?.text)!, "phone": self.phoneNumber!, "gdpr":gdprArr]
+                 params = ["device_id": deviceToken,"login_type": "ios", "code": (textField?.text)!, "phone": self.phoneNumber!, "gdpr":gdprArr]
                 
             }
             else
             {
                 
-                 params = ["code": (textField?.text)!, "phone": self.phoneNumber!]
+                 params = ["device_id": deviceToken,"login_type": "ios", "code": (textField?.text)!, "phone": self.phoneNumber!]
             }
             
            
@@ -821,7 +825,7 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
                     self.currentProfile = self.currentMember?.profile!
                     if (MyVriables.fromGroup)! == "true-1"
                     {
-                        self.joinGroupRequest(memberid: (self.currentMember?.profile?.member_id)!)
+                        self.joinGroupRequest(memberid: (self.currentMember?.profile?.member_id)!, firstname: (self.firstNameTextFeild.text)!, lastName: (self.lastNameTextFeild.text)!)
                         MyVriables.fromGroup = ""
                         
                     }
@@ -831,7 +835,7 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
                         //SwiftEventBus.post("refreshGroupRole")
                         SwiftEventBus.post("changeProfileInfo")
                         SwiftEventBus.post("refreshData")
-                        self.joinGroupRequest(memberid : (self.currentMember?.profile?.member_id)!)
+                       self.joinGroupRequest(memberid: (self.currentMember?.profile?.member_id)!, firstname: (self.firstNameTextFeild.text)!, lastName: (self.lastNameTextFeild.text)!)
                         
                         if Messaging.messaging().fcmToken != nil {
                             MyVriables.TopicSubscribe = true
@@ -918,12 +922,21 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
         
     }
     
-    func joinGroupRequest(memberid: Int){
+    public func joinGroupRequest(memberid: Int,firstname: String,lastName: String){
 
-
-        HTTP.POST(ApiRouts.Api + "/groups/\((MyVriables.currentGroup?.id!)!)/members/\(memberid)/join", parameters: ["first_name" : self.firstNameTextFeild.text , "last_name" : self.lastNameTextFeild.text ]) { response in
+        HTTP.POST(ApiRouts.Api + "/groups/\((MyVriables.currentGroup?.id!)!)/members/\(memberid)/join", parameters: ["first_name" : firstname , "last_name" : lastName ]) { response in
             if response.error != nil {
-                print("errory \(response.error?.localizedDescription)")
+                
+                print("errory \( response.statusCode!)")
+                if response.statusCode! == 406
+                {
+                    DispatchQueue.main.async {
+                        let snackbar = TTGSnackbar(message: "Unfortunately the group is full. Contact the group leader for help.", duration: .middle)
+                        snackbar.icon = UIImage(named: "AppIcon")
+                        snackbar.show()
+                    }
+                   
+                }
                 
                 return
             }else{
@@ -933,21 +946,18 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
                     SwiftEventBus.post("changeProfileInfo")
 
                     //changeProfileInfo
-                    print("Sucess and role after  = \(MyVriables.currentGroup?.role!)")
                     if Messaging.messaging().fcmToken != nil {
                         MyVriables.TopicSubscribe = true
                         print("/topics/\(MyVriables.CurrentTopic)")
                         Messaging.messaging().subscribe(toTopic: "/topics/IOS-GROUP-\(String(describing: (MyVriables.currentGroup?.id!)!))")
                         Messaging.messaging().subscribe(toTopic: "/topics/IOS-CHAT-GROUP-\(String(describing: (MyVriables.currentGroup?.id!)!))")
                         Messaging.messaging().subscribe(toTopic: "/topics/IOS-LOCATION-\(((MyVriables.currentGroup?.id))!)")
-
-
                     }
                     MyVriables.shouldRefresh = true
                     self.showToast("You'v left the group successfully", 0.3)
                     self.changeStatusTo(type: "member")
-                    self.setToUserDefaults(value: self.firstNameTextFeild.text , key: "first_name")
-                    self.setToUserDefaults(value: self.lastNameTextFeild.text, key: "last_name")
+                    self.setToUserDefaults(value: firstname , key: "first_name")
+                    self.setToUserDefaults(value: lastName, key: "last_name")
                     }
                 print("descc "+response.description)
         
@@ -994,15 +1004,23 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
         if type == "member" {
             MyVriables.roleStatus = "member"
             self.tabBarController?.tabBar.items![1].image = UIImage(named: "joinedIcon1")
-            self.tabBarController?.tabBar.items![1].title = "Joined"
+            self.tabBarController?.tabBar.items![1].title = "Interested"
+            if MyVriables.isBookClick == true {
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                let vc = storyboard.instantiateViewController(withIdentifier: "PaymentsViewController") as! PaymentsViewController
+                self.navigationController?.pushViewController(vc,animated: true)
+                self.tabBarController?.selectedIndex = 0
+                MyVriables.isBookClick = false
+            }else {
             self.tabBarController?.selectedIndex = 0
+            }
             MyVriables.isAvailble = true
         }
         else {
             if type == "observer" {
                 MyVriables.roleStatus = "observer"
                 self.tabBarController?.tabBar.items![1].image = UIImage(named: "joinicon1")
-                self.tabBarController?.tabBar.items![1].title = "Join"
+                self.tabBarController?.tabBar.items![1].title = "Interested"
                 self.tabBarController?.selectedIndex = 0
                 MyVriables.isAvailble = true
                 
@@ -1028,7 +1046,7 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
                         {
                             MyVriables.roleStatus = "null"
                             self.tabBarController?.tabBar.items![1].image = UIImage(named: "joinicon1")
-                            self.tabBarController?.tabBar.items![1].title = "Join"
+                            self.tabBarController?.tabBar.items![1].title = "Interested"
                             self.tabBarController?.selectedIndex = 0
                             MyVriables.isAvailble = true
                         }

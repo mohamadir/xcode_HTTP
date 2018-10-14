@@ -33,6 +33,9 @@ class GroupChatViewController: UIViewController, UITableViewDelegate, UITableVie
                 var newMessage :ChatListGroupItem = ChatListGroupItem()
                 newMessage.message = message
                 newMessage.type = "text"
+                let today : String!
+                today = getTodayString()
+                newMessage.created_at = today
                 newMessage.member_id = MyVriables.currentMember?.id!
                 print(newMessage)
                 DispatchQueue.main.async {
@@ -331,7 +334,21 @@ class GroupChatViewController: UIViewController, UITableViewDelegate, UITableVie
           let imagePartnerCell = tableView.dequeueReusableCell(withIdentifier: "imagePartnerCell", for: indexPath) as! ImagePartnerCell
            let filePartnerCell = tableView.dequeueReusableCell(withIdentifier: "partnerFileCell", for: indexPath) as! PartnerFileCell
           let fileMeCell = tableView.dequeueReusableCell(withIdentifier: "meFileCell", for: indexPath) as! MeFileCell
-        
+        if (self.messages?.messages?.data![indexPath.row].created_at) != nil {
+            let createdAt : String =  (((self.messages?.messages?.data![indexPath.row].created_at))!.components(separatedBy: " ")[1])
+            cell.time.text = gmtToLocal(date: createdAt)
+            cell2.time.text = gmtToLocal(date: createdAt)
+            imageMeCell.time.text = gmtToLocal(date: createdAt)
+            imagePartnerCell.time.text = gmtToLocal(date: createdAt)
+            
+        }else
+        {
+            cell.time.text = ""
+            cell2.time.text = ""
+            imageMeCell.time.text = ""
+            imagePartnerCell.time.text = ""
+            
+        }
         imageMeCell.imageViewClick.addTapGestureRecognizer {
             if (self.messages?.messages?.data![indexPath.row].type)! == "image"
                     {

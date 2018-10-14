@@ -157,7 +157,11 @@ class RegisterModal: UIViewController, CountryPickerViewDelegate, CountryPickerV
     }
     
     @IBAction func onBack(_ sender: Any) {
+        
+        
         self.dismiss(animated: true,completion: nil)
+        
+        
     }
     func countryPickerView(_ countryPickerView: CountryPickerView, didSelectCountry country: Country) {
         contryCodeString = country.phoneCode

@@ -12,7 +12,6 @@ class GdbrCell: UITableViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
     }
 
     @IBOutlet weak var checkSwitch: UISwitch!

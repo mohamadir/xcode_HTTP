@@ -81,20 +81,28 @@ class MainTabController: UITabBarController, UITabBarControllerDelegate{
             // Fallback on earlier versions
         }
         self.tabBar.backgroundColor = UIColor.white
-        var isGroupAvailable: Bool?
+        var isGroupAvailable: Bool? = false
+        if MyVriables.currentGroup?.rotation != nil && (MyVriables.currentGroup?.rotation)! == "reccuring"
+        {
+            isGroupAvailable = true
+           // MyVriables.currentGroup.reg
+        }
+        else{
         if MyVriables.currentGroup?.registration_end_date != nil {
              isGroupAvailable = isAvailable(date: (MyVriables.currentGroup?.registration_end_date!)!)
             print("\(isGroupAvailable!)")
             
+        }else{
+                isGroupAvailable = isAvailable(date: (MyVriables.currentGroup?.start_date!)!)
+        }
         }
         
-            
             if role == nil {
                 if isOpen == true  {
-                    if isGroupAvailable != nil && isGroupAvailable! {
+                    if isGroupAvailable! {
                         print("role = nil and is open ")
                         self.tabBar.items?[1].image = UIImage(named: "joinicon1")
-                        self.tabBar.items?[1].title = "Join"
+                        self.tabBar.items?[1].title = "Interested"
                         MyVriables.roleStatus = "observer"
                      MyVriables.isAvailble = true
                     }
@@ -119,7 +127,7 @@ class MainTabController: UITabBarController, UITabBarControllerDelegate{
             }else if role! == "member" {
                 print("role = member")
                 self.tabBar.items?[1].image = UIImage(named: "joinedIcon1")
-                self.tabBar.items?[1].title = "joined"
+                self.tabBar.items?[1].title = "Interested"
                 MyVriables.roleStatus = "member"
                 MyVriables.isAvailble = true
                 // leave group
@@ -138,7 +146,7 @@ class MainTabController: UITabBarController, UITabBarControllerDelegate{
                 print("role = observer")
                    if isGroupAvailable != nil && isGroupAvailable! {
                     self.tabBar.items?[1].image = UIImage(named: "joinicon1")
-                    self.tabBar.items?[1].title = "Join"
+                    self.tabBar.items?[1].title = "Interested"
                     MyVriables.roleStatus = "observer"
                      MyVriables.isAvailble = true
                 }
@@ -173,7 +181,7 @@ class MainTabController: UITabBarController, UITabBarControllerDelegate{
         let hours: Int = Calendar.current.dateComponents([.day,.hour,.minute,.month], from: currentDate, to: date2).hour!
         let month: Int = Calendar.current.dateComponents([.day,.hour,.minute,.month], from: currentDate, to: date2).month!
         let year: Int = Calendar.current.dateComponents([.year,.hour,.minute,.month], from: currentDate, to: date2).year!
-        print("days: \(days) , hours: \(hours) , hours: \(month) ,hours: \(year) ")
+        print("days: \(days) , hours: \(hours) , month: \(month) ,year: \(year) ")
         if days < 0 || hours < 0 || month < 0  || year < 0 {
             return false
         }
@@ -196,7 +204,7 @@ class MainTabController: UITabBarController, UITabBarControllerDelegate{
     
     public func changeToJoin(){
         self.tabBar.items?[1].image = UIImage(named: "joinedIcon1")
-        self.tabBar.items?[1].title = "Joined"
+        self.tabBar.items?[1].title = "Interested"
         MyVriables.roleStatus = "member"
     }
 }

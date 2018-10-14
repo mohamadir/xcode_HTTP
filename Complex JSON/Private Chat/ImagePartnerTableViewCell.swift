@@ -10,6 +10,7 @@ import UIKit
 
 class ImagePartnerTableViewCell: UITableViewCell {
 
+    @IBOutlet weak var time: UILabel!
     @IBOutlet weak var partnerImageview: UIImageView!
     
     override func awakeFromNib() {

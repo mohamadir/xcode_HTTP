@@ -44,6 +44,12 @@ class ReviewsViewController: UIViewController, UITableViewDelegate, UITableViewD
         }else
         {return 0}
     }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let currentMemmber: GroupMember? = GroupMember(id : self.ratingsArray?[indexPath.row].reviewer_id!, email : "", first_name : self.ratingsArray?[indexPath.row].first_name != nil ? self.ratingsArray?[indexPath.row].first_name! : "", last_name : self.ratingsArray?[indexPath.row].last_name != nil ? self.ratingsArray?[indexPath.row].last_name! : "", profile_image : self.ratingsArray?[indexPath.row].image_path != nil ? self.ratingsArray?[indexPath.row].image_path! : nil,companion_number : 0, status : "nil", role : "member")
+        GroupMembers.currentMemmber = currentMemmber
+        performSegue(withIdentifier: "showMember", sender: self)
+        
+    }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "reviewCell", for: indexPath) as! AllReviewsTableViewCell
         

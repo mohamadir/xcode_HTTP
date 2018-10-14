@@ -43,16 +43,15 @@ pod 'SearchTextField', '~> 1.2.0'
 pod 'ModernSearchBar' 
 pod 'ISHPullUp'
 pod 'ARNTransitionAnimator'
-pod 'Kingfisher', '~> 4.0'
 pod 'FBSDKLoginKit'
 pod 'FBSDKCoreKit'
 pod 'FBSDKShareKit'
 pod 'FTPopOverMenu_Swift', '~> 0.1.1'
 pod 'PopOverMenu'
 pod 'PopoverSwift'
-
-
-
+pod 'VideoPlaybackKit'
+pod 'BetterSegmentedControl', '~> 1.0'
+pod ‘SwiftRangeSlider’
 
   # Pods for Snapgroup
   target 'SnapgroupTests' do
@@ -64,3 +63,4 @@ pod 'PopoverSwift'
     # Pods for testing
   end
 end
+	

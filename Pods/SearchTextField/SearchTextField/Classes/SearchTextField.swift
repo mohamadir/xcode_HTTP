@@ -144,7 +144,7 @@ open class SearchTextField: UITextField {
     fileprivate var timer: Timer? = nil
     fileprivate var placeholderLabel: UILabel?
     fileprivate static let cellIdentifier = "APSearchTextFieldCell"
-    fileprivate let indicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+    let indicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.gray)
     fileprivate var maxTableViewSize: CGFloat = 0
     
     fileprivate var filteredResults = [SearchTextFieldItem]()
@@ -180,7 +180,7 @@ open class SearchTextField: UITextField {
         
         NotificationCenter.default.addObserver(self, selector: #selector(SearchTextField.keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(SearchTextField.keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(SearchTextField.keyboardDidChangeFrame(_:)), name: NSNotification.Name.UIKeyboardDidChangeFrame, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(SearchTextField.keyboardDidChangeFrame(_:)), name:     NSNotification.Name.UIKeyboardDidChangeFrame, object: nil)
     }
     
     override open func layoutSubviews() {
@@ -568,8 +568,7 @@ extension SearchTextField: UITableViewDelegate, UITableViewDataSource {
             cell = UITableViewCell(style: .subtitle, reuseIdentifier: SearchTextField.cellIdentifier)
         }
         
-        cell!.backgroundColor = UIColor.white
-        cell?.alpha = 0.5
+        cell!.backgroundColor = UIColor.clear
         cell!.layoutMargins = UIEdgeInsets.zero
         cell!.preservesSuperviewLayoutMargins = false
         cell!.textLabel?.font = theme.font
@@ -583,16 +582,8 @@ extension SearchTextField: UITableViewDelegate, UITableViewDataSource {
         cell!.detailTextLabel?.attributedText = filteredResults[(indexPath as NSIndexPath).row].attributedSubtitle
         
         cell!.imageView?.image = filteredResults[(indexPath as NSIndexPath).row].image
-         cell!.imageView?.layer.borderWidth=1.0
-         cell!.imageView?.layer.masksToBounds = false
-        cell!.imageView?.layer.borderColor = UIColor.white.cgColor
-        cell!.imageView?.layer.cornerRadius =  (cell!.imageView?.frame.size.width)!/2
-         cell!.imageView?.clipsToBounds = true
+        
         cell!.selectionStyle = .none
-       cell?.imageView?.contentMode = .scaleToFill
-//        cell?.imageView?.layer.cornerRadius = self.frame.size.width / 2
-//        cell?.imageView?.clipsToBounds = true
-
         
         return cell!
     }
@@ -658,13 +649,11 @@ open class SearchTextFieldItem {
     public var title: String
     public var subtitle: String?
     public var image: UIImage?
-    public var postion: Int?
     
-    public init(title: String, subtitle: String?, image: UIImage?, postion: Int?) {
+    public init(title: String, subtitle: String?, image: UIImage?) {
         self.title = title
         self.subtitle = subtitle
         self.image = image
-        self.postion = postion
     }
     
     public init(title: String, subtitle: String?) {

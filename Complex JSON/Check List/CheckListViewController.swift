@@ -19,6 +19,7 @@ class CheckListViewController: UIViewController , UITableViewDelegate, UITableVi
     typealias sectionType = [(HeaderVew: UIView, height: CGFloat)]
     var sectionTitleArray : [String] = []
     // Data Array
+    @IBOutlet weak var noCheckListView: UIView!
     var exam: [GroupCheckList] = []
     var examp: [GroupCheckList] = []
     var dataArray1 : [GroupCheckList] = []
@@ -200,7 +201,10 @@ class CheckListViewController: UIViewController , UITableViewDelegate, UITableVi
                     }
                     
                     if self.dataArray1.count == 0 && self.dataArray2.count == 0 {
-                        
+                        DispatchQueue.main.async {
+                            self.noCheckListView.isHidden = false
+
+                        }
                     }
                     else
                     {
@@ -219,7 +223,7 @@ class CheckListViewController: UIViewController , UITableViewDelegate, UITableVi
                    
                 }
             }
-            catch let error {
+            catch let _ {
             }
             
         }
@@ -236,12 +240,9 @@ class CheckListViewController: UIViewController , UITableViewDelegate, UITableVi
             response in
             if let err = response.error {
                 print("error: \(err.localizedDescription)")
-                return //also notify app of failure as needed
+                return
             }
             print(response.description)
-            
-         
-            
         }
     }
 

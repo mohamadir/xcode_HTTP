@@ -73,6 +73,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
         
       
     }
+    
     func getTokenReuqest() {
         var params: [String: Any] = [:]
         params = ["grant_type": "client_credentials", "client_id": "2", "scope": "", "client_secret": "YErvt0T9iPupWJfLOChPSkJKcqZKZhP0DHntkcTL"]
@@ -90,7 +91,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
             self.setToUserDefaults(value: accessToken.access_token!, key: "access_token")
             self.setToUserDefaults(value: date, key: "expires_in")
             DispatchQueue.main.async {
+                let defaults = UserDefaults.standard
+                let firstDownload = defaults.string(forKey: "first_download")
+                if firstDownload != nil && firstDownload == "true"
+                {
+                    
+                }
+                else{
+                    self.firstDownloadFunc()
+                }
                 self.checkCurrentUser()
+
             }
             print ("successed \(response.description)")
             }
@@ -100,15 +111,44 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
         }
     }
     
+     func firstDownloadFunc() {
+        var params: [String: Any] = [:]
+        let deviceToken = UIDevice.current.identifierForVendor!.uuidString
+         let countryName = Locale.current.localizedString(forRegionCode: Locale.current.regionCode!)
+        params = ["device_type": "ios", "device_id": deviceToken, "local": countryName]
+        HTTP.POST(ApiRouts.Api + "/downloads", parameters: params) { response in
+            if response.error != nil {
+                print("error \(response.error)")
+                return
+            }
+            do {
+
+                print("Discription is \(response.description)")
+                DispatchQueue.main.async {
+                    self.setToUserDefaults(value: "true", key: "first_download")
+                    print("Discription is true")
+
+                }
+            
+            }
+            catch {
+
+            }
+        }
+    }
+    
     func getAccessToken() {
         let defaults = UserDefaults.standard
         let access_token = defaults.string(forKey: "access_token")
         let expires_in = defaults.object(forKey: "expires_in")
         let calendar = Calendar.current
+        let firstDownload = defaults.string(forKey: "first_download")
         let date = calendar.date(byAdding: .second, value: 0, to : Date())
         print("current date is \(date) and exp date is \(expires_in)")
+        
         if access_token == nil
         {
+           
             print("Token is nil")
             getTokenReuqest()
         }
@@ -117,6 +157,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
             if (expires_in as! Date) > date! {
                 print("Token is not  nil and date < from exp date")
                 self.checkCurrentUser()
+                if firstDownload != nil && firstDownload == "true"
+                {
+                    
+                }
+                else{
+                    firstDownloadFunc()
+                }
+                //
+                
                 }
                 else
                 {

@@ -11,9 +11,10 @@ import TTGSnackbar
 import SwiftEventBus
 import SwiftHTTP
 
-class MemberModalViewController: UIViewController {
+class MemberModalViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     var currentMember: GroupMember?
     @IBOutlet weak var memberView: UIView!
+    @IBOutlet weak var companionView: UIView!
     @IBOutlet weak var memberRoleLbl: UILabel!
     @IBOutlet weak var memberOriginLbl: UILabel!
     @IBOutlet weak var memberImageView: UIImageView!
@@ -22,7 +23,9 @@ class MemberModalViewController: UIViewController {
     @IBOutlet weak var pairView: UIView!
     @IBOutlet weak var memberNameLbl: UILabel!
     @IBOutlet weak var chatIcon: UIButton!
-    
+    @IBOutlet weak var companionsTableView: UITableView!
+    var editMmeber: Bool = false
+    var companionsHttp: CompanionsRequset?
     fileprivate func setPair() {
         if (GroupMembers.currentMemmber?.status) != nil {
             print("Status is \((GroupMembers.currentMemmber?.status)!)")
@@ -73,12 +76,22 @@ class MemberModalViewController: UIViewController {
         }))
         self.present(VerifyAlert, animated: true, completion: nil)
     }
+    override func viewWillAppear(_ animated: Bool) {
+        //refreshCompanions
+        SwiftEventBus.onMainThread(self, name: "refreshCompanions") { result in
+            self.getCompanions()
+            SwiftEventBus.post("refreshMembers")
+        }
+    }
     
   
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        companionsTableView.delegate = self
+        companionsTableView.dataSource = self
         let defaults = UserDefaults.standard
+        companionsTableView.separatorStyle = .none
+
         let isLogged = defaults.bool(forKey: "isLogged")
         if isLogged == true{
             print("Current member is == \((GroupMembers.currentMemmber?.id)!) and My id is \((MyVriables.currentMember?.id)!)")
@@ -96,6 +109,9 @@ class MemberModalViewController: UIViewController {
             chatIcon.isHidden = true
         }
         setPair()
+        if (GroupMembers.currentMemmber?.id)! == (MyVriables.currentMember?.id)!{
+            getCompanions()
+        }
         self.currentMember = GroupMembers.currentMemmber
         pairView.addTapGestureRecognizer {
             if (MyVriables.currentGroup?.role) != nil && (MyVriables.currentGroup?.role)! != "observer" {
@@ -212,6 +228,42 @@ class MemberModalViewController: UIViewController {
             
         }
     }
+    func getCompanions(){
+        // TODO
+        //self.companionsHttp = []
+        
+        HTTP.GET(ApiRouts.Api+"/members/\((MyVriables.currentMember?.id)!)/group/\((MyVriables.currentGroup?.id)!)/companions", parameters: ["hello": "world", "param2": "value2"]) { response in
+            if let err = response.error {
+                print("error: \(err.localizedDescription)")
+                return //also notify app of failure as needed
+            }
+            
+            do{
+
+                self.companionsHttp = try JSONDecoder().decode(CompanionsRequset.self, from: response.data)
+                DispatchQueue.main.sync {
+
+                    if self.companionsHttp?.campanions != nil && self.companionsHttp?.campanions?.count != 0{
+                        self.companionView.isHidden = false
+                        self.companionsTableView.reloadData()
+                    }
+                    else
+                    {
+                        self.companionsTableView.reloadData()
+                        self.companionView.isHidden = true
+                    }
+                    
+                }
+
+            }
+            catch let error {
+
+            }
+            
+        }
+    }
+    
+    
     func removePair(){
         print("Url send Pair is " + ApiRouts.Web+"/api/pairs?sender_id=\((MyVriables.currentMember?.id)!)&receiver_id=\((GroupMembers.currentMemmber?.id)!)&group_id=\((MyVriables.currentGroup?.id)!)")
         HTTP.DELETE(ApiRouts.Api+"/pairs?sender_id=\((MyVriables.currentMember?.id)!)&receiver_id=\((GroupMembers.currentMemmber?.id)!)&group_id=\((MyVriables.currentGroup?.id)!)", parameters: []) { response in
@@ -238,8 +290,68 @@ class MemberModalViewController: UIViewController {
         }
     }
    
+    
     @IBAction func onCloseTapped(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return self.companionsHttp?.campanions != nil ? (self.companionsHttp?.campanions?.count)! : 0
+    }
     
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "CompanionCell", for: indexPath) as! CompanionCell
+        cell.selectionStyle = .none
+        cell.birthDate.text = self.companionsHttp?.campanions![indexPath.row].birth_date != nil ? (self.companionsHttp?.campanions![indexPath.row].birth_date)! : ""
+        cell.fullName.text = ((self.companionsHttp?.campanions![indexPath.row].first_name != nil) && (self.companionsHttp?.campanions![indexPath.row].last_name != nil)) ? "\((self.companionsHttp?.campanions![indexPath.row].first_name)!) \((self.companionsHttp?.campanions![indexPath.row].last_name)!)"  : ""
+        
+        cell.edit.tag = indexPath.row
+        cell.edit.addTarget(self, action: #selector(self.editCompanion(_:)), for: .touchUpInside)
+        cell.remove.tag = indexPath.row
+        cell.remove.addTarget(self, action: #selector(self.removeCompanion(_:)), for: .touchUpInside)
+
+        return cell
+        
+    }
+    @objc func editCompanion(_ sender: UIButton){ //<- needs `@objc`
+        print("edit \(sender.tag)")
+        MyVriables.currentComapnion = CompanionInfo(first_name: (self.companionsHttp?.campanions![sender.tag].first_name != nil ? (self.companionsHttp?.campanions![sender.tag].first_name)! : ""), last_name: (self.companionsHttp?.campanions![sender.tag].last_name != nil ? (self.companionsHttp?.campanions![sender.tag].last_name)! : ""), group_id: (MyVriables.currentGroup?.id)!, gender: "male", birth_date: (self.companionsHttp?.campanions![sender.tag].birth_date != nil ? self.companionsHttp?.campanions![sender.tag].birth_date! : ""), id: (self.companionsHttp?.campanions![sender.tag].id)!)
+        MyVriables.currentIndexCompanion = -1
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "editCompanion") as! EditCompanionModal
+        self.present(vc, animated: true, completion: nil)
+
+    }
+    @objc func removeCompanion(_ sender: UIButton){ //<- needs `@objc`
+        let VerifyAlert = UIAlertController(title: "Are uou sure to remove companion ?", message: nil, preferredStyle: .alert)
+        
+        VerifyAlert.addAction(UIAlertAction(title: NSLocalizedString("Yes", comment: "Default action"), style: .`default`, handler: { _ in
+            let url = ApiRouts.Api+"/members/companions/\((self.companionsHttp?.campanions?[sender.tag].id)!)"
+            HTTP.DELETE(url, parameters: []) { response in
+                if let err = response.error {
+                    print("error: \(err.localizedDescription)")
+                    return //also notify app of failure as needed
+                }
+                do{
+                    DispatchQueue.main.sync {
+                        SwiftEventBus.post("refreshCompanions")
+
+               }
+                }
+                catch let error {
+                }
+            }
+        }))
+        VerifyAlert.addAction(UIAlertAction(title: NSLocalizedString("No", comment: "Default action"), style: .`default`, handler: { _ in
+            print("no")
+            
+            
+        }))
+        self.present(VerifyAlert, animated: true) {
+            VerifyAlert.view.superview?.isUserInteractionEnabled = true
+            VerifyAlert.view.superview?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.alertControllerBackgroundTapped)))
+        }
+    }
+    @objc func alertControllerBackgroundTapped()
+    {
+        self.dismiss(animated: true, completion: nil)
+    }
 }

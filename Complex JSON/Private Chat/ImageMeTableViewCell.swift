@@ -11,6 +11,7 @@ import UIKit
 class ImageMeTableViewCell: UITableViewCell {
 
     
+    @IBOutlet weak var time: UILabel!
     @IBOutlet weak var meImageView: UIImageView!
     
     

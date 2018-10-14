@@ -80,6 +80,8 @@ class ItemViewController: UIViewController, UITableViewDelegate, UITableViewData
 //                print(error)
 //            }
             if url != nil{
+                dayImageView.sd_setShowActivityIndicatorView(true)
+                dayImageView.sd_setIndicatorStyle(UIActivityIndicatorViewStyle.gray)
                 dayImageView.sd_setImage(with: url!, completed: nil)
             }
         }

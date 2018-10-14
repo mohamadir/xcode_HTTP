@@ -12,6 +12,7 @@ class PrivateChatMessageCelVc: UITableViewCell {
 
     @IBOutlet weak var sentMessageView: DesignableView!
     @IBOutlet weak var sentMessageLbl: UILabel!
+    @IBOutlet weak var time: UILabel!
     
    
     override func awakeFromNib() {

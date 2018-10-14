@@ -10,11 +10,13 @@
 		1294593FE97C9B8000392AE8 /* Pods_SnapgroupUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 954F494034F6DE94FDE0436F /* Pods_SnapgroupUITests.framework */; };
 		3224F4A14D6F26AAD4E072C0 /* Pods_Snapgroup.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4F2DA88D0C7A1EAE5A7D431 /* Pods_Snapgroup.framework */; };
 		6CDDC9F893AE0BE7F11C3AC8 /* Pods_SnapgroupTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EE6866909E660EDD3CCCEB5 /* Pods_SnapgroupTests.framework */; };
+		740254A8211C4680002BB719 /* AddCompanionsModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 740254A7211C4680002BB719 /* AddCompanionsModal.swift */; };
 		7404F38220569F220017762F /* ItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7404F38120569F220017762F /* ItemViewController.swift */; };
 		740FD77020F38F2500FAD766 /* FilterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 740FD76F20F38F2500FAD766 /* FilterCell.swift */; };
 		74138E0220440E9D00F37028 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74138E0120440E9D00F37028 /* MenuViewController.swift */; };
 		74138E042044207700F37028 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74138E032044207700F37028 /* ChatViewController.swift */; };
 		74138E07204442FD00F37028 /* ChatCustomCellController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74138E06204442FD00F37028 /* ChatCustomCellController.swift */; };
+		741630E3216637BB005EFF6A /* PaymentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 741630E2216637BB005EFF6A /* PaymentsViewController.swift */; };
 		7418822920B4566E0026D5D9 /* RolesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7418822820B4566E0026D5D9 /* RolesViewController.swift */; };
 		741D2A102042B40C00DB8975 /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 741D2A0F2042B40C00DB8975 /* DetailsViewController.swift */; };
 		741E7B8820EB9F420029497C /* DesignableUITextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 741E7B8720EB9F420029497C /* DesignableUITextField.swift */; };
@@ -37,6 +39,7 @@
 		74438D2320CE5B5A0072558D /* PrivacyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74438D2120CE5B580072558D /* PrivacyCell.swift */; };
 		74438D2420CE5B5A0072558D /* PrivacyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74438D2220CE5B590072558D /* PrivacyViewController.swift */; };
 		74490C1D2052B8F0007AD4FA /* KeyboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74490C1C2052B8F0007AD4FA /* KeyboardViewController.swift */; };
+		746BA81F211728D200C87608 /* HelpCenterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 746BA81E211728D200C87608 /* HelpCenterViewController.swift */; };
 		746E9F382077B9CB009B3258 /* MemberInboxViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 746E9F372077B9CB009B3258 /* MemberInboxViewController.swift */; };
 		746E9F3A2077BA88009B3258 /* NotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 746E9F392077BA88009B3258 /* NotificationCell.swift */; };
 		7472404720C7C62B0054FB35 /* UploadFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7472404620C7C62B0054FB35 /* UploadFile.swift */; };
@@ -71,6 +74,11 @@
 		74B4E90420A1862900AD873A /* ImageMeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B4E90020A1862900AD873A /* ImageMeTableViewCell.swift */; };
 		74B9BCFB205CF82D005A0C60 /* CheckListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B9BCFA205CF82D005A0C60 /* CheckListViewController.swift */; };
 		74BB5D51208DDC0D00248CA1 /* MessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74BB5D50208DDC0D00248CA1 /* MessageViewController.swift */; };
+		74CC21B9213288ED00C54DE4 /* MemberColectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74CC21B8213288ED00C54DE4 /* MemberColectionCell.swift */; };
+		74D4B887215CF0F6001A4111 /* GroupMediaCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74D4B886215CF0F6001A4111 /* GroupMediaCell.swift */; };
+		74D4B88921637407001A4111 /* YoutubeGroupCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74D4B88821637407001A4111 /* YoutubeGroupCell.swift */; };
+		74D54E46213E6AD00044D488 /* EditCompanionModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74D54E45213E6AD00044D488 /* EditCompanionModal.swift */; };
+		74D54E48213FC1F10044D488 /* CompanionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74D54E47213FC1F10044D488 /* CompanionCell.swift */; };
 		74D73CCB20DB806A0094F7AB /* EnableGdprModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74D73CCA20DB806A0094F7AB /* EnableGdprModal.swift */; };
 		74E08F98210F860500380F13 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 74E08F96210F860400380F13 /* InfoPlist.strings */; };
 		74E08F9B210F860500380F13 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 74E08F99210F860500380F13 /* InfoPlist.strings */; };
@@ -155,11 +163,13 @@
 		26E2EFF4411A8F8197BB5C88 /* Pods-SnapgroupUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SnapgroupUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SnapgroupUITests/Pods-SnapgroupUITests.release.xcconfig"; sourceTree = "<group>"; };
 		2EE6866909E660EDD3CCCEB5 /* Pods_SnapgroupTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SnapgroupTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4CF86BF3C56B0D575EA7CC1C /* Pods-Complex JSON.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Complex JSON.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Complex JSON/Pods-Complex JSON.debug.xcconfig"; sourceTree = "<group>"; };
+		740254A7211C4680002BB719 /* AddCompanionsModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCompanionsModal.swift; sourceTree = "<group>"; };
 		7404F38120569F220017762F /* ItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemViewController.swift; sourceTree = "<group>"; };
 		740FD76F20F38F2500FAD766 /* FilterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterCell.swift; sourceTree = "<group>"; };
 		74138E0120440E9D00F37028 /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 		74138E032044207700F37028 /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		74138E06204442FD00F37028 /* ChatCustomCellController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatCustomCellController.swift; sourceTree = "<group>"; };
+		741630E2216637BB005EFF6A /* PaymentsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentsViewController.swift; sourceTree = "<group>"; };
 		7418822820B4566E0026D5D9 /* RolesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RolesViewController.swift; sourceTree = "<group>"; };
 		7418AFBA203EB3C1007BBC3D /* UIImage+AspectFit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+AspectFit.swift"; sourceTree = "<group>"; };
 		7418AFBB203EB3C1007BBC3D /* UIImageView+Tools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Tools.swift"; sourceTree = "<group>"; };
@@ -206,6 +216,7 @@
 		74438D2120CE5B580072558D /* PrivacyCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrivacyCell.swift; sourceTree = "<group>"; };
 		74438D2220CE5B590072558D /* PrivacyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrivacyViewController.swift; sourceTree = "<group>"; };
 		74490C1C2052B8F0007AD4FA /* KeyboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardViewController.swift; sourceTree = "<group>"; };
+		746BA81E211728D200C87608 /* HelpCenterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpCenterViewController.swift; sourceTree = "<group>"; };
 		746D27FE205C022C001832F6 /* Snapgroup.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Snapgroup.entitlements; sourceTree = "<group>"; };
 		746E9F372077B9CB009B3258 /* MemberInboxViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberInboxViewController.swift; sourceTree = "<group>"; };
 		746E9F392077BA88009B3258 /* NotificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCell.swift; sourceTree = "<group>"; };
@@ -241,6 +252,11 @@
 		74B4E90020A1862900AD873A /* ImageMeTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageMeTableViewCell.swift; sourceTree = "<group>"; };
 		74B9BCFA205CF82D005A0C60 /* CheckListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckListViewController.swift; sourceTree = "<group>"; };
 		74BB5D50208DDC0D00248CA1 /* MessageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageViewController.swift; sourceTree = "<group>"; };
+		74CC21B8213288ED00C54DE4 /* MemberColectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberColectionCell.swift; sourceTree = "<group>"; };
+		74D4B886215CF0F6001A4111 /* GroupMediaCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupMediaCell.swift; sourceTree = "<group>"; };
+		74D4B88821637407001A4111 /* YoutubeGroupCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeGroupCell.swift; sourceTree = "<group>"; };
+		74D54E45213E6AD00044D488 /* EditCompanionModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditCompanionModal.swift; sourceTree = "<group>"; };
+		74D54E47213FC1F10044D488 /* CompanionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompanionCell.swift; sourceTree = "<group>"; };
 		74D73CCA20DB806A0094F7AB /* EnableGdprModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnableGdprModal.swift; sourceTree = "<group>"; };
 		74E08F97210F860500380F13 /* (null) */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "(null)"; path = "(null).lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		74E08F9A210F860500380F13 /* (null) */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "(null)"; path = "(null).lproj/InfoPlist.strings"; sourceTree = "<group>"; };
@@ -346,6 +362,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		740254A6211C45CA002BB719 /* Companions */ = {
+			isa = PBXGroup;
+			children = (
+				740254A7211C4680002BB719 /* AddCompanionsModal.swift */,
+				74CC21B8213288ED00C54DE4 /* MemberColectionCell.swift */,
+				74D54E45213E6AD00044D488 /* EditCompanionModal.swift */,
+			);
+			path = Companions;
+			sourceTree = "<group>";
+		};
 		74138E052044211400F37028 /* Private Chat */ = {
 			isa = PBXGroup;
 			children = (
@@ -361,6 +387,14 @@
 				7E2ED4B92097048B002921A5 /* SearchTableViewCell.swift */,
 			);
 			path = "Private Chat";
+			sourceTree = "<group>";
+		};
+		741630E121663799005EFF6A /* Payments */ = {
+			isa = PBXGroup;
+			children = (
+				741630E2216637BB005EFF6A /* PaymentsViewController.swift */,
+			);
+			path = Payments;
 			sourceTree = "<group>";
 		};
 		7418822720B456580026D5D9 /* Group Roles */ = {
@@ -489,6 +523,10 @@
 		743A207F203C1B12008DF1AA /* Complex JSON */ = {
 			isa = PBXGroup;
 			children = (
+				741630E121663799005EFF6A /* Payments */,
+				74D4B885215CF0B3001A4111 /* New Filter */,
+				740254A6211C45CA002BB719 /* Companions */,
+				746BA81B211712D300C87608 /* Help center */,
 				74ED5BDA210DEF5B0035B8EC /* Snapgroup Terms */,
 				7472404820C8217E0054FB35 /* Assets.xcassets */,
 				7E869DD420BD3EF800DD8E5E /* Contry Code */,
@@ -564,6 +602,14 @@
 				74E52A6520F242C50018D5B2 /* FilterMapViewController.swift */,
 			);
 			path = Map;
+			sourceTree = "<group>";
+		};
+		746BA81B211712D300C87608 /* Help center */ = {
+			isa = PBXGroup;
+			children = (
+				746BA81E211728D200C87608 /* HelpCenterViewController.swift */,
+			);
+			path = "Help center";
 			sourceTree = "<group>";
 		};
 		746E9F362077B99F009B3258 /* Member Inbox */ = {
@@ -655,6 +701,15 @@
 			path = "Check List";
 			sourceTree = "<group>";
 		};
+		74D4B885215CF0B3001A4111 /* New Filter */ = {
+			isa = PBXGroup;
+			children = (
+				74D4B886215CF0F6001A4111 /* GroupMediaCell.swift */,
+				74D4B88821637407001A4111 /* YoutubeGroupCell.swift */,
+			);
+			path = "New Filter";
+			sourceTree = "<group>";
+		};
 		74E52A7120F259660018D5B2 /* New Map With Footer */ = {
 			isa = PBXGroup;
 			children = (
@@ -695,6 +750,7 @@
 				74FBD105205009FD002D223A /* MembersViewController.swift */,
 				74FBD10920514220002D223A /* MemberCollectionCell.swift */,
 				74FBD10B20518542002D223A /* MemberModalViewController.swift */,
+				74D54E47213FC1F10044D488 /* CompanionCell.swift */,
 			);
 			path = "Members Page";
 			sourceTree = "<group>";
@@ -1071,9 +1127,11 @@
 				"${SRCROOT}/Pods/Target Support Files/Pods-Snapgroup/Pods-Snapgroup-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/ARNTransitionAnimator/ARNTransitionAnimator.framework",
 				"${BUILT_PRODUCTS_DIR}/ARSLineProgress/ARSLineProgress.framework",
+				"${BUILT_PRODUCTS_DIR}/ASValueTrackingSlider/ASValueTrackingSlider.framework",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/AlamofireImage/AlamofireImage.framework",
 				"${BUILT_PRODUCTS_DIR}/Auk/Auk.framework",
+				"${BUILT_PRODUCTS_DIR}/BetterSegmentedControl/BetterSegmentedControl.framework",
 				"${BUILT_PRODUCTS_DIR}/BmoViewPager/BmoViewPager.framework",
 				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
 				"${BUILT_PRODUCTS_DIR}/CCAutocomplete/CCAutocomplete.framework",
@@ -1085,10 +1143,9 @@
 				"${BUILT_PRODUCTS_DIR}/FBSDKShareKit/FBSDKShareKit.framework",
 				"${BUILT_PRODUCTS_DIR}/FTPopOverMenu_Swift/FTPopOverMenu_Swift.framework",
 				"${BUILT_PRODUCTS_DIR}/GoneVisible/GoneVisible.framework",
-				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
 				"${BUILT_PRODUCTS_DIR}/ISHPullUp/ISHPullUp.framework",
 				"${BUILT_PRODUCTS_DIR}/ImageSlideshow/ImageSlideshow.framework",
-				"${BUILT_PRODUCTS_DIR}/Kingfisher/Kingfisher.framework",
 				"${BUILT_PRODUCTS_DIR}/M13Checkbox/M13Checkbox.framework",
 				"${BUILT_PRODUCTS_DIR}/MRCountryPicker/MRCountryPicker.framework",
 				"${BUILT_PRODUCTS_DIR}/ModernSearchBar/ModernSearchBar.framework",
@@ -1103,14 +1160,17 @@
 				"${BUILT_PRODUCTS_DIR}/Scrollable/Scrollable.framework",
 				"${BUILT_PRODUCTS_DIR}/SearchTextField/SearchTextField.framework",
 				"${BUILT_PRODUCTS_DIR}/SkyFloatingLabelTextField/SkyFloatingLabelTextField.framework",
+				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
 				"${BUILT_PRODUCTS_DIR}/Socket.IO-Client-Swift/SocketIO.framework",
 				"${BUILT_PRODUCTS_DIR}/Starscream/Starscream.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftEventBus/SwiftEventBus.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftHTTP/SwiftHTTP.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftRangeSlider/SwiftRangeSlider.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyAvatar/SwiftyAvatar.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyPickerPopover/SwiftyPickerPopover.framework",
 				"${BUILT_PRODUCTS_DIR}/TTGSnackbar/TTGSnackbar.framework",
 				"${BUILT_PRODUCTS_DIR}/Toast-Swift/Toast_Swift.framework",
+				"${BUILT_PRODUCTS_DIR}/VideoPlaybackKit/VideoPlaybackKit.framework",
 				"${BUILT_PRODUCTS_DIR}/XLPagerTabStrip/XLPagerTabStrip.framework",
 				"${BUILT_PRODUCTS_DIR}/YNExpandableCell/YNExpandableCell.framework",
 				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
@@ -1121,9 +1181,11 @@
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ARNTransitionAnimator.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ARSLineProgress.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ASValueTrackingSlider.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AlamofireImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Auk.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BetterSegmentedControl.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BmoViewPager.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bolts.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CCAutocomplete.framework",
@@ -1135,10 +1197,9 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKShareKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FTPopOverMenu_Swift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoneVisible.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ISHPullUp.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ImageSlideshow.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Kingfisher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/M13Checkbox.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MRCountryPicker.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ModernSearchBar.framework",
@@ -1153,14 +1214,17 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Scrollable.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SearchTextField.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SkyFloatingLabelTextField.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SocketIO.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Starscream.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftEventBus.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftHTTP.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftRangeSlider.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyAvatar.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyPickerPopover.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TTGSnackbar.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Toast_Swift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/VideoPlaybackKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/XLPagerTabStrip.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/YNExpandableCell.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
@@ -1262,9 +1326,11 @@
 				74905903203D89E000C6B8C1 /* SignUpVC.swift in Sources */,
 				74B4E90420A1862900AD873A /* ImageMeTableViewCell.swift in Sources */,
 				74138E07204442FD00F37028 /* ChatCustomCellController.swift in Sources */,
+				74CC21B9213288ED00C54DE4 /* MemberColectionCell.swift in Sources */,
 				74F7AAA120580D1F00E66DF8 /* ScrollTestViewController.swift in Sources */,
 				743A2102203C6468008DF1AA /* GroupViewController.swift in Sources */,
 				74E52A7920F25E4C0018D5B2 /* MainMapViewController.swift in Sources */,
+				74D54E48213FC1F10044D488 /* CompanionCell.swift in Sources */,
 				74905905203DB5DA00C6B8C1 /* MainTabController.swift in Sources */,
 				7E8F2C6A20A9C0B500854AF0 /* AllReviewsTableViewCell.swift in Sources */,
 				749058FE203D605F00C6B8C1 /* CustomTableViewCell.swift in Sources */,
@@ -1289,6 +1355,7 @@
 				7E2ED4B02091B14F002921A5 /* ProviderModel.swift in Sources */,
 				74B3CDF0205538F700440EB0 /* Colors.swift in Sources */,
 				74FBD10E20528D2D002D223A /* Models.swift in Sources */,
+				746BA81F211728D200C87608 /* HelpCenterViewController.swift in Sources */,
 				74490C1D2052B8F0007AD4FA /* KeyboardViewController.swift in Sources */,
 				74730C4F205666680091D657 /* ItineraryViewController.swift in Sources */,
 				7EBD078320A1A9E700369E36 /* MeFileCell.swift in Sources */,
@@ -1316,11 +1383,13 @@
 				74F0208620FB7FA2000193ED /* RegisterModal.swift in Sources */,
 				7E869DD620BD3F1500DD8E5E /* ContryCodeCell.swift in Sources */,
 				74AADDB02106FDD700F2F732 /* Registration.swift in Sources */,
+				741630E3216637BB005EFF6A /* PaymentsViewController.swift in Sources */,
 				7EBD077920A05F5400369E36 /* PartnerTextCell.swift in Sources */,
 				74438D2020C969100072558D /* ToyataJoinGroup.swift in Sources */,
 				742BE2B220B2B0A2005922D1 /* HeaderViewController.swift in Sources */,
 				743A2083203C1B12008DF1AA /* ViewController.swift in Sources */,
 				7443303F2063EC7400D4073F /* JoinViewController.swift in Sources */,
+				74D4B88921637407001A4111 /* YoutubeGroupCell.swift in Sources */,
 				748B842320C03841005D45D4 /* DocsViewController.swift in Sources */,
 				7EBD077F20A1851300369E36 /* ImageMeCell.swift in Sources */,
 				7ED602A920BAB7200073EEB9 /* GdbrViewController.swift in Sources */,
@@ -1328,6 +1397,8 @@
 				74B9BCFB205CF82D005A0C60 /* CheckListViewController.swift in Sources */,
 				746E9F3A2077BA88009B3258 /* NotificationCell.swift in Sources */,
 				7404F38220569F220017762F /* ItemViewController.swift in Sources */,
+				74D54E46213E6AD00044D488 /* EditCompanionModal.swift in Sources */,
+				74D4B887215CF0F6001A4111 /* GroupMediaCell.swift in Sources */,
 				7E869DD320BD3EEC00DD8E5E /* ContryCodeViewController.swift in Sources */,
 				742375082046DC0300B9A0C0 /* ApiRequests.swift in Sources */,
 				7E2D7B252090C06900DAC98F /* TableViewCell.swift in Sources */,
@@ -1343,6 +1414,7 @@
 				7E843A2120B6B55B00E36A69 /* WebViewCell.swift in Sources */,
 				7418822920B4566E0026D5D9 /* RolesViewController.swift in Sources */,
 				74138E042044207700F37028 /* ChatViewController.swift in Sources */,
+				740254A8211C4680002BB719 /* AddCompanionsModal.swift in Sources */,
 				7E2D7B1F2090C06900DAC98F /* DestinationData.swift in Sources */,
 				7E843A2420B6B55B00E36A69 /* DownloadCell.swift in Sources */,
 				74FBD10C20518542002D223A /* MemberModalViewController.swift in Sources */,

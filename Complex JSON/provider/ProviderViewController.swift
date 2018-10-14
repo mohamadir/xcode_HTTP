@@ -10,6 +10,7 @@ import UIKit
 import SwiftHTTP
 import ImageSlideshow
 import SwiftEventBus
+import ARSLineProgress
 
 class ProviderViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
 
@@ -399,12 +400,59 @@ class ProviderViewController: UIViewController,UITableViewDelegate,UITableViewDa
                     
                 }
             }
+            if self.ratingsArray?[indexPath.row].reviewer_id! == MyVriables.currentMember?.id! {
+                cell.removeRate.isHidden = false
+            }
+            else {
+                cell.removeRate.isHidden = true
+            }
+            cell.removeRate.tag = (self.ratingsArray?[indexPath.row].id)!
+            cell.removeRate.addTarget(self,action:#selector(buttonClicked),for:.touchUpInside)
         }
-    
+        
         return cell
     }
+    @objc func buttonClicked(sender:UIButton)
+    {
+        let VerifyAlert = UIAlertController(title: "Verify", message: "Are you sure you want to remove this rate ?", preferredStyle: .alert)
+        VerifyAlert.addAction(UIAlertAction(title: NSLocalizedString("Yes", comment: "Default action"), style: .`default`, handler: { _ in
+            self.removeRate(reviwerId : sender.tag)
+        }))
+        VerifyAlert.addAction(UIAlertAction(title: NSLocalizedString("No", comment: "Default action"), style: .`default`, handler: { _ in
+            print("no")
+        }))
+        self.present(VerifyAlert, animated: true, completion: nil)
+    }
+    func removeRate(reviwerId : Int) {
+        
+        //print(ApiRouts.Api+"/ratings/\((reviwerId))")
+        ARSLineProgress.show()
+        HTTP.DELETE(ApiRouts.Api+"/ratings/\((reviwerId))", parameters:[])
+        { response in
+            if let err = response.error {
+                print("error: \(err.localizedDescription)")
+                ARSLineProgress.hide()
+                
+                return //also notify app of failure as needed
+            }
+            do {
+                
+                print("removed is \(response.description)")
+                
+                DispatchQueue.main.sync {
+                    ARSLineProgress.hide()
+                    self.getRatings()
+                }
+            }
+            catch {
+                
+            }
+        }
+    }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.allowsSelection = false
+        let currentMemmber: GroupMember? = GroupMember(id : self.ratingsArray?[indexPath.row].reviewer_id!, email : "", first_name : self.ratingsArray?[indexPath.row].first_name != nil ? self.ratingsArray?[indexPath.row].first_name! : "", last_name : self.ratingsArray?[indexPath.row].last_name != nil ? self.ratingsArray?[indexPath.row].last_name! : "", profile_image : self.ratingsArray?[indexPath.row].image_path != nil ? self.ratingsArray?[indexPath.row].image_path! : nil,companion_number : 0, status : "nil", role : "member")
+        GroupMembers.currentMemmber = currentMemmber
+        performSegue(withIdentifier: "showMember", sender: self)
        
     }
   

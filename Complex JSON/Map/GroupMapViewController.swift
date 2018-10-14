@@ -398,7 +398,7 @@ class GroupMapViewController: UIViewController , GMSMapViewDelegate
         }
         else
         {
-            var currentMemmber: GroupMember? = GroupMember(id : self.memberMap[Int(marker.snippet!)!].member_id, email : "", first_name : self.memberMap[Int(marker.snippet!)!].first_name != nil ? self.memberMap[Int(marker.snippet!)!].first_name! : "", last_name : self.memberMap[Int(marker.snippet!)!].last_name != nil ? self.memberMap[Int(marker.snippet!)!].last_name! : "", profile_image : self.memberMap[Int(marker.snippet!)!].profile_image != nil ? self.memberMap[Int(marker.snippet!)!].profile_image! : nil, status : "nil", role : "member")
+            var currentMemmber: GroupMember? = GroupMember(id : self.memberMap[Int(marker.snippet!)!].member_id, email : "", first_name : self.memberMap[Int(marker.snippet!)!].first_name != nil ? self.memberMap[Int(marker.snippet!)!].first_name! : "", last_name : self.memberMap[Int(marker.snippet!)!].last_name != nil ? self.memberMap[Int(marker.snippet!)!].last_name! : "", profile_image : self.memberMap[Int(marker.snippet!)!].profile_image != nil ? self.memberMap[Int(marker.snippet!)!].profile_image! : nil, companion_number : 0, status : "nil", role : "member")
             GroupMembers.currentMemmber = currentMemmber
             performSegue(withIdentifier: "showMemberModal", sender: self)
 

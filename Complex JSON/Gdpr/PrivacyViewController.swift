@@ -55,11 +55,7 @@ class PrivacyViewController: UIViewController, UITableViewDelegate, UITableViewD
             }
             self.checkAllTrue()
         }
-        SwiftEventBus.onMainThread(self, name: "setCheckTrue") { result in
-           
-           self.navigationController?.popToRootViewController(animated: true)
-
-        }
+   
         SwiftEventBus.onMainThread(self, name: "setCheck") { result in
             self.checkAllTrue()
             print("Is checked = \(self.checkAllSwitch.isOn)")
@@ -91,6 +87,12 @@ class PrivacyViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        SwiftEventBus.onMainThread(self, name: "setCheckTrue") { result in
+            
+            print("before pop ti root view controler swift")
+            self.navigationController?.popToRootViewController(animated: true)
+            
+        }
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
       
        // checkAllTrue()

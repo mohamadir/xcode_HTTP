@@ -16,6 +16,7 @@ class ImageMeCell: UITableViewCell {
         // Initialization code
     }
 
+    @IBOutlet weak var time: UILabel!
     @IBOutlet weak var imageViewClick: DesignableView!
     @IBOutlet weak var meImage: SwiftyAvatar!
     override func setSelected(_ selected: Bool, animated: Bool) {

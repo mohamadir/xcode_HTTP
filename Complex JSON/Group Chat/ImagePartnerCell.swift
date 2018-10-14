@@ -16,6 +16,7 @@ class ImagePartnerCell: UITableViewCell {
         // Initialization code
     }
 
+    @IBOutlet weak var time: UILabel!
     @IBOutlet weak var imageViewClick: UIView!
     @IBOutlet weak var partnerName: UILabel!
     @IBOutlet weak var partnerImage: SwiftyAvatar!

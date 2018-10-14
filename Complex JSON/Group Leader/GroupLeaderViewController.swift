@@ -10,6 +10,7 @@ import UIKit
 import SDWebImage
 import SwiftHTTP
 import SwiftEventBus
+import ARSLineProgress
 class GroupLeaderViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
    
 
@@ -43,6 +44,9 @@ class GroupLeaderViewController: UIViewController,UITableViewDelegate,UITableVie
         SwiftEventBus.onMainThread(self, name: "newComment") { result in
             self.getRatings()
         }
+        ratingTbaleview.delegate = self
+        ratingTbaleview.dataSource = self
+
        // print("Refresh is \((MyVriables.enableGdpr?.parmter)!)")
         SwiftEventBus.onMainThread(self, name: "refresh-rating_reviews") { result in
             ProviderInfo.model_type = "members"
@@ -63,8 +67,6 @@ class GroupLeaderViewController: UIViewController,UITableViewDelegate,UITableVie
         ratingTbaleview.dataSource = self
         ratingTbaleview.isScrollEnabled = false
         ratingTbaleview.separatorStyle = .none
-        
-        ratingTbaleview.allowsSelection = false
         if MyVriables.currentGroup?.is_company != nil
         {
             if MyVriables.currentGroup?.is_company! == 1
@@ -128,16 +130,62 @@ class GroupLeaderViewController: UIViewController,UITableViewDelegate,UITableVie
             
             if self.ratingsArray?[indexPath.row].image_path != nil
             {
-                var urlString: String = try ApiRouts.Web + (self.ratingsArray?[indexPath.row].image_path)!
+                var urlString: String = try ApiRouts.Media + (self.ratingsArray?[indexPath.row].image_path)!
                 urlString = urlString.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)!
                 if let url = URL(string: urlString) {
                     cell.profileImage.sd_setImage(with: url, placeholderImage: UIImage(named: "default user"), completed: nil)
                     
                 }
             }
+            if self.ratingsArray?[indexPath.row].reviewer_id! == MyVriables.currentMember?.id! {
+                cell.removeRate.isHidden = false
+            }
+            else {
+                cell.removeRate.isHidden = true
+            }
+            cell.removeRate.tag = (self.ratingsArray?[indexPath.row].id)!
+            cell.removeRate.addTarget(self,action:#selector(buttonClicked),
+                                      for:.touchUpInside)
         }
         
         return cell
+    }
+    @objc func buttonClicked(sender:UIButton)
+    {
+        let VerifyAlert = UIAlertController(title: "Verify", message: "Are you sure you want to remove this rate ?", preferredStyle: .alert)
+        VerifyAlert.addAction(UIAlertAction(title: NSLocalizedString("Yes", comment: "Default action"), style: .`default`, handler: { _ in
+            self.removeRate(reviwerId : sender.tag)
+        }))
+        VerifyAlert.addAction(UIAlertAction(title: NSLocalizedString("No", comment: "Default action"), style: .`default`, handler: { _ in
+            print("no")
+        }))
+        self.present(VerifyAlert, animated: true, completion: nil)
+    }
+    func removeRate(reviwerId : Int) {
+        
+        print(ApiRouts.Api+"/ratings/\((reviwerId))")
+        ARSLineProgress.show()
+        HTTP.DELETE(ApiRouts.Api+"/ratings/\((reviwerId))", parameters:[])
+        { response in
+            if let err = response.error {
+                print("error: \(err.localizedDescription)")
+                ARSLineProgress.hide()
+
+                return //also notify app of failure as needed
+            }
+            do {
+                
+                print("removed is \(response.description)")
+                
+                DispatchQueue.main.sync {
+                    ARSLineProgress.hide()
+                    self.getRatings()
+                }
+            }
+            catch {
+                
+            }
+        }
     }
     @IBAction func showAddReview(_ sender: Any) {
         //showAddReview
@@ -154,10 +202,9 @@ class GroupLeaderViewController: UIViewController,UITableViewDelegate,UITableVie
         }
 
     }
+  // showMember
     func getRatings() {
-        
-        //        ProviderInfo.model_id = (ProviderInfo.currentProviderId)!
-        //        ProviderInfo.model_type = "activities"
+
         HTTP.GET(ApiRouts.Api+"/getratings/members/\((MyVriables.currentGroup?.group_leader_id)!)", parameters:[])
         { response in
             if let err = response.error {
@@ -183,7 +230,6 @@ class GroupLeaderViewController: UIViewController,UITableViewDelegate,UITableVie
                         {
                             self.count = 2
                             self.ratingTbaleview.reloadData()
-                            
                         }
                         
                     }
@@ -199,7 +245,11 @@ class GroupLeaderViewController: UIViewController,UITableViewDelegate,UITableVie
         }
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.allowsSelection = false
+        print("im here in select ")
+        //tableView.allowsSelection = false
+        var currentMemmber: GroupMember? = GroupMember(id : self.ratingsArray?[indexPath.row].reviewer_id!, email : "", first_name : self.ratingsArray?[indexPath.row].first_name != nil ? self.ratingsArray?[indexPath.row].first_name! : "", last_name : self.ratingsArray?[indexPath.row].last_name != nil ? self.ratingsArray?[indexPath.row].last_name! : "", profile_image : self.ratingsArray?[indexPath.row].image_path != nil ? self.ratingsArray?[indexPath.row].image_path! : nil,companion_number : 0, status : "nil", role : "member")
+        GroupMembers.currentMemmber = currentMemmber
+        performSegue(withIdentifier: "showMember", sender: self)
     }
     @IBAction func onBack(_ sender: Any) {
         navigationController?.popViewController(animated: true)

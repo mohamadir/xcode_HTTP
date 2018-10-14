@@ -44,7 +44,6 @@ public extension UIViewController {
         assertFromView(controller.fromView)
                 
         let popoverView = PopoverView(controller, commonSuperView: view)
-        popoverView.alpha = 0.95
         popoverView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(popoverView)
         self.popoverView = popoverView

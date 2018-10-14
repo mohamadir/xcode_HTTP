@@ -35,7 +35,7 @@ public enum ImagePreload {
 open class ImageSlideshow: UIView {
 
     /// Scroll View to wrap the slideshow
-    open let scrollView = UIScrollView()
+    public let scrollView = UIScrollView()
 
     /// Page Control shown in the slideshow
     @available(*, deprecated, message: "Use pageIndicator.view instead")

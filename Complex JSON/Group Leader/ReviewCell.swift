@@ -14,6 +14,7 @@ class ReviewCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
     }
+    @IBOutlet weak var removeRate: UIButton!
     @IBOutlet weak var fullNameLbl: UILabel!
     @IBOutlet weak var ratingNumber: UILabel!
     @IBOutlet weak var reviewLbl: UILabel!

@@ -10,6 +10,7 @@ import UIKit
 
 class PartnerViewCell: UITableViewCell {
 
+    @IBOutlet weak var time: UILabel!
     @IBOutlet weak var recMessageView: DesignableView!
     @IBOutlet weak var recMessageLbl: UILabel!
     

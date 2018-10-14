@@ -102,6 +102,7 @@ class ModalPrivacyController: UIViewController {
 
                 self.dismiss(animated: true,completion: nil)
                 SwiftEventBus.post("setCheckTrue")
+               
                 SwiftEventBus.post("changeProfileInfooo")
 
             }
