@@ -52,6 +52,8 @@ pod 'PopoverSwift'
 pod 'VideoPlaybackKit'
 pod 'BetterSegmentedControl', '~> 1.0'
 pod ‘SwiftRangeSlider’
+pod 'JGProgressHUD'
+
 
   # Pods for Snapgroup
   target 'SnapgroupTests' do

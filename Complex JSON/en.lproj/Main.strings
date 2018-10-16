@@ -1041,7 +1041,7 @@
 "y5d-G1-Nfw.normalTitle" = "Group I own";
 
 /* Class = "UILabel"; text = "i am the group manger"; ObjectID = "yGs-w2-ulY"; */
-"yGs-w2-ulY.text" = "I am the group manager;
+"yGs-w2-ulY.text" = "I am the group manager";
 
 /* Class = "UILabel"; text = "Rooming list"; ObjectID = "yMt-Sf-6Ld"; */
 "yMt-Sf-6Ld.text" = "Rooming list";

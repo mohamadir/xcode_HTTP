@@ -179,28 +179,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         print("Im here in notfaction fire base function 1")
         getAccessToken()
-
+        
         // Override point for customization after application launch.
         //        UNUserNotificationCenter.current().delegate = self
-       
+        
         
         
         FirebaseApp.configure()
         print("Sdk facebook im before didFinishLaunchingWithOptions ")
-       // FBSDKApplicationDelegate.sharedInstance().application(application,didFinishLaunchingWithOptions: launchOptions)
+        // FBSDKApplicationDelegate.sharedInstance().application(application,didFinishLaunchingWithOptions: launchOptions)
         print("Sdk facebook im after didFinishLaunchingWithOptions ")
-
+        
         print()
         UIApplication.shared.applicationIconBadgeNumber = 0
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "Snapgroup.Snap2"), object: nil)
-
+        
         
         setRemoteNotfactionSettings(application)
         
-       // UIApplication.shared.unregisterForRemoteNotifications()
+        // UIApplication.shared.unregisterForRemoteNotifications()
         
         ConnectToFcm()
-
+        
         SwiftEventBus.onMainThread(self, name: "registerRemote") { result in
             self.setRemoteNotfactionSettings(application)
         }
@@ -211,21 +211,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
         
         return FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
 
+
     }
-    
-    
-    
+
     
     func checkCurrentUser(){
         print("hihihi")
         let defaults = UserDefaults.standard
         let id = defaults.integer(forKey: "member_id")
-        let first = defaults.string(forKey: "first_name")
-        let last = defaults.string(forKey: "last_name")
-        let email = defaults.string(forKey: "email")
-        let phone = defaults.string(forKey: "phone")
-        let profile_image = defaults.string(forKey: "profile_image")
-        let gender = defaults.string(forKey: "gender")
         let isLogged = defaults.bool(forKey: "isLogged")
         if isLogged == true{
             subscribeToMyGroups(id: id)
@@ -316,7 +309,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
         let id = defaults.integer(forKey: "member_id")
         let isLogged = defaults.bool(forKey: "isLogged")
        // if isLogged == true
-        var  manager = SocketManager(socketURL: URL(string: ApiRouts.ChatServer)!, config: [.log(true),.forcePolling(true)])
+        let  manager = SocketManager(socketURL: URL(string: ApiRouts.ChatServer)!, config: [.log(true),.forcePolling(true)])
         print("chat api: "+ApiRouts.ChatServer)
         socket = manager.defaultSocket
         socket!.on(clientEvent: .connect) {data, ack in
@@ -382,9 +375,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
         print("Im here in notfaction fire base function 5")
 
         print("Sdk facebook im before sourceApplication ")
-
         return FBSDKApplicationDelegate.sharedInstance().application(application, open: url, sourceApplication: sourceApplication, annotation: annotation)
-        print("Sdk facebook im after sourceApplication ")
 
     }
     func applicationDidEnterBackground(_ application: UIApplication) {
@@ -406,6 +397,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
     
     func applicationDidBecomeActive(_ application: UIApplication) {
         print("Im here in notfaction fire base function 8")
+        FBSDKAppEvents.activateApp()
 
         print("Sdk facebook im before applicationDidBecomeActive ")
         print("Sdk facebook im after applicationDidBecomeActive ")
@@ -416,6 +408,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
     func applicationWillTerminate(_ application: UIApplication) {
         print("Im here in notfaction fire base function 9")
 
+        
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
     

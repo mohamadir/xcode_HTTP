@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import SwiftHTTP
 // ********************************    CURRENT OPJECT *****************************
 struct MyVriables {
     
@@ -20,6 +21,7 @@ struct MyVriables {
     static var joinToGroup: String? = ""
     static var prefContry: String?
     static var phoneNumber: String?
+     static var phoneNumberr: String?
     static var fileName: String?
     static var arrayGdpr : GdprPost?
     static var currntUrl: String?
@@ -76,6 +78,41 @@ struct AccessToken: Codable {
 struct GroupMembers{
     static var currentMemmber: GroupMember? = GroupMember(id : -1, email : "", first_name : "", last_name : "", profile_image : "", companion_number : 0, status : "", role : "")
     static var isGoing: Bool?
+}
+
+
+func setCheckTrue(type:String,groupID: Int) {
+    var params: [String : Any] = ["" : ""]
+    if groupID == -1 {
+        params = [type : true]
+    }else {
+        params = [type : true, "group_id" : groupID]
+    }
+    print("Type : \(type) , group _ id : \(groupID)")
+    let strMethod: String = ApiRouts.Api + "/downloads/\(UIDevice.current.identifierForVendor!.uuidString)"
+    HTTP.PUT(strMethod, parameters: params) { response in
+        if response.error != nil {
+            print("error \(String(describing: response.error?.localizedDescription))")
+            return
+        }
+        print("SETchek true \(response.description)")
+
+    }
+    
+}
+func sendSms(phonenum : String) {
+    let params = ["phone": phonenum]
+    
+    HTTP.POST(ApiRouts.RegisterCode, parameters: params) { response in
+        if response.error != nil {
+            print("error \(response.error?.localizedDescription)")
+            return
+        }
+        setCheckTrue(type: "sms_sent", groupID: -1)
+        
+        
+        //do things...
+    }
 }
 func getTodayString() -> String{
     

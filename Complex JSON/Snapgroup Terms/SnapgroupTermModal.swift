@@ -17,11 +17,13 @@ class SnapgroupTermModal: UIViewController, UIGestureRecognizerDelegate , UIWebV
     @IBOutlet weak var buttonScoll: UIButton!
     var webview : WKWebView? = WKWebView()
     @IBOutlet weak var coverWebView: UIView!
+    @IBOutlet weak var agreeBtt: UIButton!
     var isclickble: Bool = false
     @IBOutlet weak var overview: UIView!
     override func viewDidLoad() {
         super.viewDidLoad()
        // webview.frame =
+        progress.startAnimating()
        //webview.frame  = self.overview.frame
         webview?.scrollView.delegate = self
         webview?.frame = CGRect(x: 0, y: 0, width: self.coverWebView.frame.width, height: self.coverWebView.frame.height)
@@ -44,6 +46,7 @@ class SnapgroupTermModal: UIViewController, UIGestureRecognizerDelegate , UIWebV
     }
     @IBAction func onDismiss(_ sender: Any) {
         MyVriables.kindRegstir = ""
+        setCheckTrue(type: "terms_decline", groupID: -1)
 
         self.dismiss(animated: true, completion: nil)
     }
@@ -53,6 +56,8 @@ class SnapgroupTermModal: UIViewController, UIGestureRecognizerDelegate , UIWebV
         let scrollPoint = CGPoint(x: 0, y: webview!.scrollView.contentSize.height - webview!.frame.size.height)
         webview!.scrollView.setContentOffset(scrollPoint, animated: true)
         self.isclickble = true
+        self.agreeBtt.titleLabel?.textColor = Colors.PrimaryColor
+
     }
     func verifyUrl (urlString: String?) -> Bool {
         //Check for nil
@@ -106,6 +111,7 @@ class SnapgroupTermModal: UIViewController, UIGestureRecognizerDelegate , UIWebV
         if (self.webview?.scrollView.contentOffset.y)! >= ((self.webview?.scrollView.contentSize.height)! - (self.webview?.scrollView.frame.size.height)!) {
            // print("Reahc bottom")
             self.isclickble = true
+            self.agreeBtt.titleLabel?.textColor = Colors.PrimaryColor
 
             //you reached end of the table
         }
@@ -157,9 +163,11 @@ class SnapgroupTermModal: UIViewController, UIGestureRecognizerDelegate , UIWebV
         self.dismiss(animated: true, completion: nil)
         }
 
+        setCheckTrue(type: "terms_accept", groupID: -1)
     }
     @IBAction func disagreeClick(_ sender: Any) {
         MyVriables.kindRegstir = ""
+        setCheckTrue(type: "terms_decline", groupID: -1)
         self.dismiss(animated: true, completion: nil)
 
     }

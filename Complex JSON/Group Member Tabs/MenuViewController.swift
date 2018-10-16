@@ -142,6 +142,7 @@ class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UI
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+        paymentLbl.text = "Booking"
               print("view xcontroler 231 \(MyVriables.shouldRefreshBusStation)")
         self.singleGroup  = MyVriables.currentGroup!
         if singleGroup?.translations?.count == 0 {
@@ -190,10 +191,10 @@ class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UI
             {
                 if (self.singleGroup?.role) != nil && (self.singleGroup?.role)! != "observer"
                 {
+                    setCheckTrue(type: "booking", groupID: (MyVriables.currentGroup?.id)!)
                     let storyboard = UIStoryboard(name: "Main", bundle: nil)
                     let vc = storyboard.instantiateViewController(withIdentifier: "PaymentsViewController") as! PaymentsViewController
                     self.navigationController?.pushViewController(vc,animated: true)
-//                    self.performSegue(withIdentifier: "showDocsSegue", sender: self)
                 }
             }
 
@@ -450,6 +451,7 @@ class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UI
         
         
     }
+    @IBOutlet weak var paymentLbl: UILabel!
     func uploadImageToServer(){
         var myPickerController = UIImagePickerController()
         myPickerController.delegate = self

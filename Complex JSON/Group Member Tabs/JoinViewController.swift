@@ -130,8 +130,16 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
       
     }
     @objc func handleCustomFBLogin() {
+         setCheckTrue(type: "facebook_header", groupID: -1)
         FBSDKLoginManager().logIn(withReadPermissions: ["email"], from: self) { (result, err) in
+            if (result?.isCancelled)! {
+                setCheckTrue(type: "facebook_cancel", groupID: -1)
+                print("eror ")
+                return
+            }
             if err != nil {
+                setCheckTrue(type: "facebook_cancel", groupID: -1)
+                
                 print("Custom FB Login failed:", err)
                 return
             }
@@ -145,6 +153,7 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
         let _ = request?.start(completionHandler: { (connection, result, error) in
             
             if error != nil {
+                setCheckTrue(type: "facebook_cancel", groupID: -1)
                 print("Failed to start graph request:", error)
                 return
             }
@@ -229,6 +238,7 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
             //self.checkIfMember(phone: phonenumber)
             MyVriables.kindRegstir = "facebook-join"
             self.facebookMember = result?.object as! FacebookMember
+            setCheckTrue(type: "create_member", groupID: -1)
             self.performSegue(withIdentifier: "showTerms", sender: self)
         }
         SwiftEventBus.onMainThread(self, name: "facebook-join") { result in
@@ -421,20 +431,12 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
                     print("asd")
                 }
                 VerifyAlert.addAction(UIAlertAction(title: NSLocalizedString("Yes", comment: "Default action"), style: .`default`, handler: { _ in
-                    let params = ["phone": self.phoneNumber!]
-                    
-                    HTTP.POST(ApiRouts.RegisterCode, parameters: params) { response in
-                        if response.error != nil {
-                            print("error \(response.error?.localizedDescription)")
-                            return
-                        }
-                        print ("successed")
-                        DispatchQueue.main.sync {
                             //
                             MyVriables.kindRegstir = "phone-join"
+                            MyVriables.phoneNumberr = self.phoneNumber!
                             self.performSegue(withIdentifier: "showTerms", sender: self)
-                        }
-                    }
+                    
+                    
                 }))
                 VerifyAlert.addAction(UIAlertAction(title: NSLocalizedString("No", comment: "Default action"), style: .`default`, handler: { _ in
                 }))
@@ -442,6 +444,7 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
             }
             }
               else {
+            //setCheckTrue(type: "joined", groupID: (MyVriables.currentGroup?.id)!)
                 let snackbar = TTGSnackbar(message: "Please fill all the feilds", duration: .middle)
                 snackbar.icon = UIImage(named: "AppIcon")
                 snackbar.show()
@@ -569,6 +572,7 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
                         if type != "phone"{
                             MyVriables.facebookMember = facebookMember
                         }else {
+                            MyVriables.phoneNumberr = textFeild
                             MyVriables.facebookMember = nil
                             self.dismiss(animated: true,completion: nil)
                             MyVriables.phoneNumber = textFeild
@@ -682,6 +686,8 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
                 }
                 print(response.description)
                 do{
+                    setCheckTrue(type: "sms_verification", groupID: -1)
+                    setCheckTrue(type: "member_logged", groupID: -1)
                     let  member = try JSONDecoder().decode(CurrentMember.self, from: response.data)
                     print(member)
                     
@@ -752,6 +758,8 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
         }
     }
     public func showPinDialog(phone: String) {
+        sendSms(phonenum: (MyVriables.phoneNumberr)!)
+        MyVriables.phoneNumberr = ""
         let PinAlert = UIAlertController(title: "Please enter PIN code wer'e sent you", message: "Pin code", preferredStyle: .alert)
         print ("pin created from join")
         
@@ -801,6 +809,8 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
                 }
                 print(response.description)
                 do{
+                    setCheckTrue(type: "sms_verification", groupID: -1)
+                    setCheckTrue(type: "member_logged", groupID: -1)
                     let  member = try JSONDecoder().decode(CurrentMember.self, from: response.data)
                     print(member)
                     
@@ -941,10 +951,9 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
                 return
             }else{
                 DispatchQueue.main.sync {
-                    
+                    setCheckTrue(type: "joined", groupID: (MyVriables.currentGroup?.id)!)
                     MyVriables.currentGroup?.role = "member"
                     SwiftEventBus.post("changeProfileInfo")
-
                     //changeProfileInfo
                     if Messaging.messaging().fcmToken != nil {
                         MyVriables.TopicSubscribe = true

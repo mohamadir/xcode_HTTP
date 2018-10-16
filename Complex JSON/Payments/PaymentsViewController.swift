@@ -21,6 +21,7 @@ class PaymentsViewController: UIViewController , UIGestureRecognizerDelegate , U
         // webview.frame =
         //webview.frame  = self.overview.frame
         webview?.scrollView.delegate = self
+        progress.startAnimating()
         webview?.frame = CGRect(x: 0, y: 0, width: self.coverWebView.frame.width, height: self.coverWebView.frame.height)
         webview?.frame = self.coverWebView.bounds
         //   self.coverWebView = webview!

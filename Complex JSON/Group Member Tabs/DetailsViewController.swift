@@ -133,9 +133,11 @@ class DetailsViewController: UIViewController {
     }
     
     @IBAction func bookNowClick(_ sender: Any) {
+         setCheckTrue(type: "book_now", groupID: (MyVriables.currentGroup?.id)!)
         bookNowFunc()
     }
     @IBAction func availbleDateClick(_ sender: Any) {
+        setCheckTrue(type: "available_dates", groupID: (MyVriables.currentGroup?.id)!)
         bookNowFunc()
     }
     override func viewDidLoad() {
@@ -215,6 +217,7 @@ class DetailsViewController: UIViewController {
           self.performSegue(withIdentifier: "showGroupLeader", sender: self)
         }
         member_status_view.addTapGestureRecognizer {
+            setCheckTrue(type: "interested", groupID: (MyVriables.currentGroup?.id)!)
             self.tabBarController?.selectedIndex = 1
         }
         groupAppView.addTapGestureRecognizer {

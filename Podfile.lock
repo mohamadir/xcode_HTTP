@@ -105,6 +105,7 @@ PODS:
     - ImageSlideshow/Core
   - ImageSlideshow/Core (1.7.0)
   - ISHPullUp (1.0.7)
+  - JGProgressHUD (2.0.3)
   - leveldb-library (1.20)
   - M13Checkbox (3.2.2)
   - moa (9.0.2)
@@ -178,6 +179,7 @@ DEPENDENCIES:
   - ImageSlideshow (~> 1.5)
   - ImageSlideshow/Alamofire
   - ISHPullUp
+  - JGProgressHUD
   - M13Checkbox
   - moa (~> 9.0)
   - ModernSearchBar
@@ -248,6 +250,7 @@ SPEC CHECKSUMS:
   GoogleUtilities: 760ccb53b7c7f40f9c02d8c241f76f841a7a6162
   ImageSlideshow: f8eec5e37a980f60923b585ff23b0e140fd24018
   ISHPullUp: eaa91bef06270264e1f923bc764705173d341495
+  JGProgressHUD: 12b20a8f4ffe05258f8635c1ab92816e451f904d
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
   M13Checkbox: a8c2491cfbbca10797925fd0b9154a782bf40d89
   moa: b73dc5e0efa1fad00711c4608e41b197f4d15b12
@@ -279,6 +282,6 @@ SPEC CHECKSUMS:
   XLPagerTabStrip: c908b17cbf42fcd2598ee1adfc49bae25444d88a
   YNExpandableCell: 47bf7cff721aa535c0e9e1163bf22b5573441bb4
 
-PODFILE CHECKSUM: 9ff2394caec4ed1be8550a60ae532b24d6c7f0df
+PODFILE CHECKSUM: 6a78c49950505f8efd01bb87498096a749ddb301
 
 COCOAPODS: 1.4.0

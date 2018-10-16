@@ -20,6 +20,7 @@ class WebViewViewController: UIViewController, WKNavigationDelegate {
     var urlStringa: String = ""
     override func viewDidLoad() {
         super.viewDidLoad()
+        indictorProgress.startAnimating()
        viewShadow.layer.borderWidth = 1
         viewShadow.layer.borderColor = UIColor.gray.cgColor
         viewShadow.layer.shadowColor = UIColor.black.cgColor

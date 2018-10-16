@@ -75,25 +75,11 @@ class HeaderViewController: UIViewController,UITextFieldDelegate,  CountryPicker
             }
             
             VerifyAlert.addAction(UIAlertAction(title: NSLocalizedString("Yes", comment: "Default action"), style: .`default`, handler: { _ in
-                let params = ["phone": self.phoneNumber!]
-                
-                HTTP.POST(ApiRouts.RegisterCode, parameters: params) { response in
-                    if response.error != nil {
-                        print("error \(response.error?.localizedDescription)")
-                        return
-                    }
-                    print ("successed")
-                    DispatchQueue.main.sync {
                         MyVriables.kindRegstir = "phone-Header"
                         self.performSegue(withIdentifier: "showTerms", sender: self)
+                        MyVriables.phoneNumberr =  self.contryCodeString+self.phoneLbl.text!
                         MyVriables.currentPhoneNumber = self.contryCodeString+self.phoneLbl.text!
-//                        self.checkIfMember(textFeild: self.phoneNumber!,type: "phone", facebookMember: self.facebookMember)
-                        
-                        
-                    }
-                    //do things...
-                }
-                
+
                 
                 
             }))
@@ -148,7 +134,6 @@ class HeaderViewController: UIViewController,UITextFieldDelegate,  CountryPicker
                     if (existMember.exist)! == true
                     {
                         if type == "phone"{
-                            
                             self.showPinDialog(phone: textFeild)
                         }
                         else
@@ -175,6 +160,8 @@ class HeaderViewController: UIViewController,UITextFieldDelegate,  CountryPicker
                             MyVriables.facebookMember = nil
 //                            self.dismiss(animated: true,completion: nil)
                             MyVriables.phoneNumber = textFeild
+                            MyVriables.phoneNumberr = textFeild
+                            
                             let vc = self.storyboard?.instantiateViewController(withIdentifier: "GdprViewControler") as! GdbrViewController
                             self.present(vc, animated: true, completion: nil)
 
@@ -190,70 +177,7 @@ class HeaderViewController: UIViewController,UITextFieldDelegate,  CountryPicker
             //do things...
         }
         
-        
-//
-//
-//        print(params)
-//        let url = URL(string: strMethod)!
-//        let data = try! JSONSerialization.data(withJSONObject: params, options: JSONSerialization.WritingOptions.prettyPrinted)
-//
-//        let json = NSString(data: data, encoding: String.Encoding.utf8.rawValue)
-//
-//        if let json = json {  print(json) }
-//
-//        let jsonData = json!.data(using: String.Encoding.utf8.rawValue);
-//
-//        var request = URLRequest(url: url)
-//        request.httpMethod = HTTPMethod.post.rawValue
-//        request.setValue("application/json; charset=UTF-8", forHTTPHeaderField: "Content-Type")
-//
-//        var isMmebr: Bool = false
-//        request.httpBody = jsonData
-//
-//        Alamofire.request(request).responseJSON {  (response) in
-//            switch response.result {
-//            case .success(let JSON2):
-//                print("Success with JSON: \(JSON2)")
-//                print("RESPONSE \(response.description)")
-//
-//                break
-//
-//            case .failure(let error):
-//                print("Request failed with error: \(error)")
-//                //callback(response.result.value as? NSMutableDictionary,error as NSError?)
-//                break
-//            }
-//            }
-//            .responseString { response in
-//                if (response.result.value!.range(of: "true") != nil)
-//                {
-//                    if type == "phone"{
-//
-//                        self.showPinDialog(phone: textFeild)
-//                    }
-//                    else
-//                    {
-//                        print("Im here in facebook exist")
-//                        self.isFacebookGdpr = false
-//                        self.regstirFacebook(facebookMember: self.facebookMember!, isGdpr:  self.isFacebookGdpr)
-//                    }
-//
-//
-//                }else {
-//
-//                    MyVriables.fromGroup = "true"
-//                    if type != "phone"{
-//                        MyVriables.facebookMember = facebookMember
-//                    }else {
-//                        MyVriables.facebookMember = nil
-//                        self.dismiss(animated: true,completion: nil)
-//                        MyVriables.phoneNumber = textFeild
-//                    }
-//                    self.performSegue(withIdentifier: "showGdbr", sender: self)
-//
-//                }
-//
-//        }
+
         
     }
     @IBAction func cancelAction(_ sender: Any) {
@@ -306,17 +230,7 @@ class HeaderViewController: UIViewController,UITextFieldDelegate,  CountryPicker
         contryCodeString = country.phoneCode
         contryCode = country.code
 
-        SwiftEventBus.onMainThread(self, name: "facebookLogin2") { result in
-            MyVriables.kindRegstir = "facebook-Header"
-            self.facebookMember = result?.object as! FacebookMember
-            self.performSegue(withIdentifier: "showTerms", sender: self)
-            
-        }
-        SwiftEventBus.onMainThread(self, name: "facebook-Header") { result in
-            
-            self.checkIfMember(textFeild: (self.facebookMember?.facebook_id!)!, type: "facebook_id",facebookMember: self.facebookMember)
-            
-        }
+    
         fbBt.addTarget(self, action: #selector(handleCustomFBLogin), for: .touchUpInside)
 
 //        facebookRegisterView.addTapGestureRecognizer {
@@ -350,6 +264,24 @@ class HeaderViewController: UIViewController,UITextFieldDelegate,  CountryPicker
     }
     override func viewWillAppear(_ animated: Bool) {
         setBadges()
+        
+        SwiftEventBus.onMainThread(self, name: "changeProfileInfoHeader") { result in
+            self.pickerView.isHidden = true
+            self.registerView.isHidden = true
+            
+        }
+        SwiftEventBus.onMainThread(self, name: "facebookLogin2") { result in
+            MyVriables.kindRegstir = "facebook-Header"
+            self.facebookMember = result?.object as! FacebookMember
+            setCheckTrue(type: "create_member", groupID: -1)
+            self.performSegue(withIdentifier: "showTerms", sender: self)
+            
+        }
+        SwiftEventBus.onMainThread(self, name: "facebook-Header") { result in
+            
+            self.checkIfMember(textFeild: (self.facebookMember?.facebook_id!)!, type: "facebook_id",facebookMember: self.facebookMember)
+            
+        }
         SwiftEventBus.onMainThread(self, name: "refreshGroupRolee") { result in
             self.pickerView.isHidden = true
             self.registerView.isHidden = true
@@ -382,22 +314,13 @@ class HeaderViewController: UIViewController,UITextFieldDelegate,  CountryPicker
        
         
         phoneRegisterView.addTapGestureRecognizer {
+            setCheckTrue(type: "telephone_header", groupID: -1)
             self.registerView.isHidden = true
             self.pickerView.isHidden = false
 
         }
 
-//        facebookRegisterView.addTapGestureRecognizer {
-//            print("Im clicked hereeee")
-//            FBSDKLoginManager().logIn(withReadPermissions: ["email"], from: self) { (result, err) in
-//                if err != nil {
-//                    print("Custom FB Login failed:", err)
-//                    return
-//                }
-//
-//                self.showEmailAddress()
-//            }
-//        }
+
         SwiftEventBus.onMainThread(self, name: "refreshFromGroup") { result in
             if result?.object != nil {
                 self.facebookMember = result?.object as! FacebookMember
@@ -502,7 +425,7 @@ class HeaderViewController: UIViewController,UITextFieldDelegate,  CountryPicker
                 }
                 print(response.description)
                 do{
-                    self.view.endEditing(true)
+                    setCheckTrue(type: "member_logged", groupID: -1)
                     let  member = try JSONDecoder().decode(CurrentMember.self, from: response.data)
                     print(member)
                     self.currentMember = member
@@ -521,11 +444,11 @@ class HeaderViewController: UIViewController,UITextFieldDelegate,  CountryPicker
                     
                     self.currentProfile = self.currentMember?.profile != nil ? self.currentMember?.profile! : nil
                     DispatchQueue.main.sync {
+                        self.view.endEditing(true)
                         self.getGroup(memberId: "\((self.currentMember?.member?.id!)!)")
                         //SwiftEventBus.post("refreshGroupRole")
                         SwiftEventBus.post("changeProfileInfoHeader")
-                        SwiftEventBus.unregister(self, name: "changeProfileInfoHeader")
-
+                      
                         if Messaging.messaging().fcmToken != nil {
                             MyVriables.TopicSubscribe = true
                             Messaging.messaging().subscribe(toTopic: "/topics/IOS-CHAT-\(String(describing: (self.currentMember?.member?.id!)!))")
@@ -534,9 +457,7 @@ class HeaderViewController: UIViewController,UITextFieldDelegate,  CountryPicker
                             
                             Messaging.messaging().subscribe(toTopic: "/topics/IOS-SYSTEM-\(String(describing: (self.currentMember?.member?.id!)!))")
                         }
-                        //                                    self.phoneNumberStackView.isHidden = true
-                        //                                    self.chatHeaderStackView.isHidden = false
-                        //                                }
+
                     }
                     MyVriables.isMember = true
                     
@@ -565,6 +486,8 @@ class HeaderViewController: UIViewController,UITextFieldDelegate,  CountryPicker
     }
     
     public func showPinDialog(phone: String) {
+        sendSms(phonenum: (MyVriables.phoneNumberr)!)
+        MyVriables.phoneNumberr = ""
         let PinAlert = UIAlertController(title: "Please enter PIN code wer'e sent you", message: "Pin code", preferredStyle: .alert)
         print ("pin created")
         
@@ -601,6 +524,8 @@ class HeaderViewController: UIViewController,UITextFieldDelegate,  CountryPicker
                         SwiftEventBus.post("refreshGroupRolee")
                         SwiftEventBus.post("refreshHeader")
                     }
+                    setCheckTrue(type: "sms_verification", groupID: -1)
+                    setCheckTrue(type: "member_logged", groupID: -1)
                     let  member = try JSONDecoder().decode(CurrentMember.self, from: response.data)
                     print(member)
                     self.currentMember = member
@@ -757,6 +682,8 @@ class HeaderViewController: UIViewController,UITextFieldDelegate,  CountryPicker
     }
     public func showPinDialogGdpr() {
         // dismiss(animated: true, completion: nil)
+        sendSms(phonenum: (MyVriables.phoneNumberr)!)
+        MyVriables.phoneNumberr = ""
         let PinAlert = UIAlertController(title: "Please enter PIN code wer'e sent you", message: "Pin code", preferredStyle: .alert)
         print ("pin created")
         
@@ -800,7 +727,8 @@ class HeaderViewController: UIViewController,UITextFieldDelegate,  CountryPicker
                 }
                 print(response.description)
                 do{
-                    
+                    setCheckTrue(type: "sms_verification", groupID: -1)
+                    setCheckTrue(type: "member_logged", groupID: -1)
                     let  member = try JSONDecoder().decode(CurrentMember.self, from: response.data)
                     print(member)
                     self.currentMember = member
@@ -880,10 +808,16 @@ class HeaderViewController: UIViewController,UITextFieldDelegate,  CountryPicker
         print ("pin after present ")
     }
     @objc func handleCustomFBLogin() {
-        self.navigationController?.popToRootViewController(animated: true)
+        setCheckTrue(type: "facebook_header", groupID: -1)
         FBSDKLoginManager().logIn(withReadPermissions: ["email"], from: self) { (result, err) in
             if err != nil {
+                 setCheckTrue(type: "facebook_cancel", groupID: -1)
                 print("Custom FB Login failed:", err)
+                return
+            }
+            if (result?.isCancelled)! {
+                 setCheckTrue(type: "facebook_cancel", groupID: -1)
+                print("eror ")
                 return
             }
             
@@ -896,6 +830,7 @@ class HeaderViewController: UIViewController,UITextFieldDelegate,  CountryPicker
         let _ = request?.start(completionHandler: { (connection, result, error) in
             
             if error != nil {
+                setCheckTrue(type: "facebook_cancel", groupID: -1)
                 print("Failed to start graph request:", error)
                 return
             }
@@ -908,18 +843,13 @@ class HeaderViewController: UIViewController,UITextFieldDelegate,  CountryPicker
                 // print("Image utl is \(imageURL)")
                 //Download image from imageURL
             }
-            
-            var facebookMember : FacebookMember = FacebookMember(first_name: userInfo["first_name"] != nil ? userInfo["first_name"] as? String : "", last_name: userInfo["last_name"] != nil ? userInfo["last_name"] as? String : "", facebook_id: userInfo["id"] != nil ? userInfo["id"] as? String : "", facebook_profile_image: ((userInfo["picture"] as? [String: Any])?["data"] as? [String: Any])?["url"] as? String)
+             print("Access token is \(FBSDKAccessToken.current())")
+            let facebookMember : FacebookMember = FacebookMember(first_name: userInfo["first_name"] != nil ? userInfo["first_name"] as? String : "", last_name: userInfo["last_name"] != nil ? userInfo["last_name"] as? String : "", facebook_id: userInfo["id"] != nil ? userInfo["id"] as? String : "", facebook_profile_image: ((userInfo["picture"] as? [String: Any])?["data"] as? [String: Any])?["url"] as? String)
             self.dismiss(animated: true, completion: nil)
+            SwiftEventBus.post("facebookLogin2", sender: facebookMember)
             
-            SwiftEventBus.post("facebookLogin", sender: facebookMember)
         })
-        
-        
-        //
-        //
-        //            print(result)
-        //        }
+    
     }
     func loginButton(_ loginButton: FBSDKLoginButton!, didCompleteWith result: FBSDKLoginManagerLoginResult!, error: Error!) {
      
