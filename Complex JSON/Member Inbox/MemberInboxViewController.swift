@@ -57,8 +57,8 @@ class MemberInboxViewController: UIViewController , UITableViewDelegate,UITableV
         }
         if self.messageArray[indexPath.row].type == "notification" {
             cell.messageIconImageview.image = UIImage(named: "group Leader icon")
-            cell.groupTitleLbl.text = self.messageArray[indexPath.row].first_name! + " " + self.messageArray[indexPath.row].last_name!
-            cell.titlelbl.text = "From: " + self.messageArray[indexPath.row].title!
+            cell.groupTitleLbl.text = (self.messageArray[indexPath.row].first_name != nil ? self.messageArray[indexPath.row].first_name! : "") + " " + (self.messageArray[indexPath.row].last_name != nil ? self.messageArray[indexPath.row].last_name! : "")
+            cell.titlelbl.text = "From: " + (self.messageArray[indexPath.row].title != nil ? self.messageArray[indexPath.row].title! : "")
              cell.bodyLbl.text = self.messageArray[indexPath.row].body!
             
             
@@ -113,30 +113,29 @@ class MemberInboxViewController: UIViewController , UITableViewDelegate,UITableV
         
     }
     func getMessages(){
-        print(ApiRouts.Web+"/api/getnotifications/\((MyVriables.currentMember?.id!)!)/\(page)")
-        HTTP.POST(ApiRouts.Api+"/getnotifications/\((MyVriables.currentMember?.id!)!)/\(page)", parameters: []) { response in
+        print(ApiRouts.ApiV3+"/notifications/members/\((MyVriables.currentMember?.id!)!)?page=\(page)")
+        HTTP.GET(ApiRouts.ApiV3+"/notifications/members/\((MyVriables.currentMember?.id!)!)?page=\(page)", parameters: []) { response in
             if response.error != nil{
               
             }
             else{
                 do{
-                 let tempMessageArray = try JSONDecoder().decode([InboxMessage].self, from: response.data)
+                 let tempMessageArray = try JSONDecoder().decode(InboxMessageObj.self, from: response.data)
                     
-                    if tempMessageArray.count == 0 {
+                    if (tempMessageArray.last_page)! < self.page {
                         self.hasLoadMore = false
                         return
                     }
                     
                     DispatchQueue.main.sync {
                         
-                        for message in tempMessageArray {
+                        for message in tempMessageArray.data {
                             if !self.messageArray.contains(where: { (mMessage) -> Bool in
-                                return mMessage.notification_id == message.notification_id
+                                return mMessage.id == message.id
                             }) {
                                 self.messageArray.append(message)
                             }
                         }
-                        //   self.myGrous = groups!
                         self.inboxTabelView.reloadData()
                         if self.refresher.isRefreshing{
                             self.refresher.endRefreshing()
@@ -161,14 +160,12 @@ class MemberInboxViewController: UIViewController , UITableViewDelegate,UITableV
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         MyVriables.currentInboxMessage = messageArray[indexPath.row]
-        let iP: IndexPath = indexPath
         DispatchQueue.main.async {
             let cell = tableView.cellForRow(at: indexPath)! as! NotificationCell
             cell.backgroundColor = Colors.InboxItemBg
             cell.ItemView.backgroundColor = UIColor.white
         }
-        
-        markRead(id: messageArray[indexPath.row].notification_id!)
+        markRead(id: messageArray[indexPath.row].id!)
         performSegue(withIdentifier: "showMessageItem", sender: self)
         
     }

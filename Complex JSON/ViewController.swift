@@ -29,6 +29,7 @@ import FBSDKCoreKit
 import FTPopOverMenu_Swift
 import PopoverSwift
 import BetterSegmentedControl
+import GooglePlacesSearchController
 import JGProgressHUD
 
 
@@ -39,9 +40,13 @@ import JGProgressHUD
 /***********************************************      VIEW CONTROLLER     *************************************************************/
 
 
-class ViewController: UIViewController,UICollectionViewDelegate, UICollectionViewDataSource, UITableViewDelegate, UITableViewDataSource ,  MRCountryPickerDelegate , UIImagePickerControllerDelegate, UINavigationControllerDelegate, UISearchBarDelegate, CountryPickerViewDelegate, CountryPickerViewDataSource, FBSDKLoginButtonDelegate,UICollectionViewDelegateFlowLayout {
-    
-    
+class ViewController: UIViewController,UICollectionViewDelegate, UICollectionViewDataSource, UITableViewDelegate, UITableViewDataSource ,  MRCountryPickerDelegate , UIImagePickerControllerDelegate, UINavigationControllerDelegate, UISearchBarDelegate, CountryPickerViewDelegate, CountryPickerViewDataSource, FBSDKLoginButtonDelegate,UICollectionViewDelegateFlowLayout,GooglePlacesAutocompleteViewControllerDelegate {
+    func viewController(didAutocompleteWith place: PlaceDetails) {
+        print(place.description)
+        placesSearchController.isActive = false
+        searchDestantion.text = "\((place.name != nil ? place.name : "" )!) ,  \((place.country != nil ? place.country : "" )!)"
+        
+    }
     func loginButtonDidLogOut(_ loginButton: FBSDKLoginButton!) {
         
     }
@@ -228,8 +233,8 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
     @IBOutlet var settingClick: UIButton!
     /******* VARIABLES *********/
     var menuIcon: String = "iMenuIcon"
-    var myGrous: [TourGroup] = []
-    var currentGroup: TourGroup?
+    var myGrous: [GroupItemObject] = []
+    var currentGroup: GroupItemObject?
     @IBOutlet weak var fbBt: UIButton!
     var currentMember: CurrentMember?
     let cellSpacingHeight: CGFloat = 5
@@ -254,28 +259,28 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
     var isMemberMenuShowing: Bool = false
     
     @IBAction func filterClick(_ sender: Any) {
-       // newFilterView.isHidden = false
-        print("Im clicked")
-        let config = FTConfiguration.shared
-        config.backgoundTintColor = UIColor.white
-        config.menuWidth = 220
-        config.menuSeparatorColor = UIColor.white
-        config.menuRowHeight = 60
-        config.cornerRadius = 6
-        let cellConfi = FTCellConfiguration()
-        cellConfi.textColor = UIColor.black
-        cellConfi.textFont = UIFont.systemFont(ofSize: 20)
-        var cellConfis = Array(repeating: cellConfi, count: 5)
-        let cellConfi1 = FTCellConfiguration()
-        cellConfi1.textFont = UIFont.systemFont(ofSize: 20)
-        let PrimaryColor : UIColor = UIColor(rgb: 0xC1B46A)
-        cellConfi1.textColor = PrimaryColor
-        cellConfis[1] = cellConfi1
-        FTPopOverMenu.showForSender(sender: sender as! UIView, with: menuOptionNameArray, menuImageArray: menuOptionImageNameArray, cellConfigurationArray: cellConfis, done: { (selectedIndex) in
-            print(selectedIndex)
-        }) {
-            print("cancel")
-        }
+        newFilterView.isHidden = false
+//        print("Im clicked")
+//        let config = FTConfiguration.shared
+//        config.backgoundTintColor = UIColor.white
+//        config.menuWidth = 220
+//        config.menuSeparatorColor = UIColor.white
+//        config.menuRowHeight = 60
+//        config.cornerRadius = 6
+//        let cellConfi = FTCellConfiguration()
+//        cellConfi.textColor = UIColor.black
+//        cellConfi.textFont = UIFont.systemFont(ofSize: 20)
+//        var cellConfis = Array(repeating: cellConfi, count: 5)
+//        let cellConfi1 = FTCellConfiguration()
+//        cellConfi1.textFont = UIFont.systemFont(ofSize: 20)
+//        let PrimaryColor : UIColor = UIColor(rgb: 0xC1B46A)
+//        cellConfi1.textColor = PrimaryColor
+//        cellConfis[1] = cellConfi1
+//        FTPopOverMenu.showForSender(sender: sender as! UIView, with: menuOptionNameArray, menuImageArray: menuOptionImageNameArray, cellConfigurationArray: cellConfis, done: { (selectedIndex) in
+//            print(selectedIndex)
+//        }) {
+//            print("cancel")
+//        }
     }
     @IBAction func onFilterTapped(_ sender: Any) {
         //newFilterView.isHidden = false
@@ -472,7 +477,7 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
     }
     @objc func pressButton(_ sender: UIButton){
         
-        //newFilterView.isHidden = false
+       // newFilterView.isHidden = false
             if isMemberMenuShowing {
                 menuImage.image = UIImage(named: menuIcon)
                 UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded();})
@@ -545,13 +550,40 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         
     }
-
+    func dismissKeyboardd() {
+        //Causes the view (or one of its embedded text fields) to resign the first responder status.
+        view.endEditing(true)
+        self.hud.dismiss()
+    }
+    lazy var placesSearchController: GooglePlacesSearchController = {
+        let controller = GooglePlacesSearchController(delegate: self,
+                                                      apiKey: "AIzaSyDmGEPxVxdVhfUgFXMQ5L-2nJ3QeRs_XUg",
+                                                      placeType: .all
+            // Optional: coordinate: CLLocationCoordinate2D(latitude: 55.751244, longitude: 37.618423),
+            // Optional: radius: 10,
+            // Optional: strictBounds: true,
+            // Optional: searchBarPlaceholder: "Start typing..."
+        )
+        //Optional: controller.searchBar.isTranslucent = false
+        //Optional: controller.searchBar.barStyle = .black
+        //Optional: controller.searchBar.tintColor = .white
+        //Optional: controller.searchBar.barTintColor = .black
+        return controller
+    }()
+    @objc func myTargetFunction(textField: UITextField) {
+    present(placesSearchController, animated: true, completion: nil)
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         print("hiosh")
-        hud.addTapGestureRecognizer {
-            self.hud.dismiss()
-        }
+        searchDestantion.addTarget(self, action: #selector(myTargetFunction), for: UIControlEvents.touchDown)
+
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "dismissKeyboardd")
+        
+        //Uncomment the line below if you want the tap not not interfere and cancel other interactions.
+        //tap.cancelsTouchesInView = false
+        
+        view.addGestureRecognizer(tap)
         gridView.addTapGestureRecognizer  {
             print("mediaViewClick click")
             self.tableView.fadeOut(completion: {
@@ -651,6 +683,10 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
             MyVriables.kindRegstir = "facebook-Regstir"
             setCheckTrue(type: "create_member", groupID: -1)
             self.performSegue(withIdentifier: "showTerms", sender: self)
+        }
+        SwiftEventBus.onMainThread(self, name: "refreshNotficatons") { result in
+            self.getMember(memberId: (MyVriables.currentMember?.id)!)
+
         }
         SwiftEventBus.onMainThread(self, name: "facebook-Regstir") { result in
             self.checkIfMember(textFeild: (self.facebookMember?.facebook_id!)!, type: "facebook_id",facebookMember: self.facebookMember)
@@ -1015,6 +1051,9 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
         
     }
    
+    @IBAction func searcDestnation(_ sender: Any) {
+    }
+    @IBOutlet weak var searchDestantion: UITextField!
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let padding: CGFloat =  10
         let collectionViewSize = collectionView.frame.size.width - padding
@@ -1022,6 +1061,9 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
         return CGSize(width: collectionViewSize/2, height: collectionViewSize/2)
     }
     
+    @IBAction func onSearchClcik(_ sender: Any) {
+      present(placesSearchController, animated: true, completion: nil)
+    }
     func checkCurrentUser(){
         print("im in check current user Func")
         let defaults = UserDefaults.standard
@@ -1099,6 +1141,7 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
         let defaults = UserDefaults.standard
         let chat_counter = defaults.integer(forKey: "chat_counter")
         let inbox_counter = defaults.integer(forKey: "inbox_counter")
+        
         print("ICOUNTER- notifications counters: \(inbox_counter)")
         print("ICOUNTER- messages counters: \(chat_counter)")
 
@@ -1321,6 +1364,11 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
             //do things...
             if response.error != nil {
                 print("im in error func \(response.error)")
+                DispatchQueue.main.async {
+                    let snackbar = TTGSnackbar(message: "There was an error please try again.", duration: .middle)
+                    snackbar.icon = UIImage(named: "AppIcon")
+                    snackbar.show()
+                }
                 return
             }
             print("im in response func \(response.description)")
@@ -1343,8 +1391,7 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
                 else{
                 self.setToUserDefaults(value: self.currentMember?.profile?.profile_image, key: "profile_image")
                 }
-                self.setToUserDefaults(value: self.currentMember?.total_unread_messages, key: "chat_counter")
-                self.setToUserDefaults(value: self.currentMember?.total_unread_notifications, key: "inbox_counter")
+
 
                 self.currentProfile = self.currentMember?.profile!
                 DispatchQueue.main.sync {
@@ -1411,6 +1458,11 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
                 //do things...
                 if response.error != nil {
                     print(response.error)
+                    DispatchQueue.main.async {
+                        let snackbar = TTGSnackbar(message: "The code you entered is invaid.", duration: .middle)
+                        snackbar.icon = UIImage(named: "AppIcon")
+                        snackbar.show()
+                    }
                     return
                 }
                 print(response.description)
@@ -1431,8 +1483,7 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
                     self.setToUserDefaults(value: self.currentMember?.profile?.gender, key: "gender")
                      self.setToUserDefaults(value: self.currentMember?.profile?.birth_date, key: "birth_date")
                     self.setToUserDefaults(value: self.currentMember?.profile?.profile_image, key: "profile_image")
-                    self.setToUserDefaults(value: self.currentMember?.total_unread_messages, key: "chat_counter")
-                     self.setToUserDefaults(value: self.currentMember?.total_unread_notifications, key: "inbox_counter")
+
                    
                     self.currentProfile = self.currentMember?.profile!
                     DispatchQueue.main.sync {
@@ -1522,10 +1573,10 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
             if access_token != "no value"{
         print("request PAGE = \(self.page)")
         print("Im in all groups sort url ==" + ApiRouts.AllGroupsRequest +  "?page=\(self.page)&sort=created_at&order=des")
-        var groups: [TourGroup]?
+        var groups: [GroupItemObject]?
         hud.textLabel.text = ""
         hud.show(in: self.view)
-         HTTP.GET(ApiRouts.Api + "/groups?page=\(self.page)&sort=created_at&order=des") { response in
+         HTTP.GET(ApiRouts.ApiV3 + "/groups?page=\(self.page)&sort=created_at&order=des") { response in
             let defaults = UserDefaults.standard
             let access_token = defaults.string(forKey: "access_token")
             print("Http access token \(access_token!)")
@@ -1538,9 +1589,7 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
             do {
                 let groups2 = try JSONDecoder().decode(Main.self, from: data)
                 self.lastitem = self.lastitem + ((groups2 != nil) ? (groups2.data?.count)! : 0)
-                DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
-                    self.hud.textLabel.text = "Loading. Please wait Slow internet connection may take a bit longer"
-                }
+
                 print("Last item = \(self.lastitem)")
                 groups = groups2.data != nil ? groups2.data! : nil
                 if groups != nil {
@@ -1603,15 +1652,13 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
     func getGroupsByFilter() {
         print("request PAGE = \(self.page)")
         var searchUrl: String = ""
-        let defaults = UserDefaults.standard
         self.myGroupByPhoneView.isHidden = true
-        var groups: [TourGroup]?
-        let withoutFilter = "/groups/members/\(self.id)?page=\(self.page)&sort=\(self.sort)"
+        var groups: [GroupItemObject]?
+        let withoutFilter = "/groups?member_id=\(self.id)&my_groups=true&page=\(self.page)&sort=\(self.sort)"
        // let withoutFilter = "/api/groups?page=\(self.page)&sort=\(self.sort)"
         let withRole = "/groups/members/\(self.id)?page=\(self.page)&role=group_leader&sort=\(self.sort)"
         let daysGroup = "/groups?member_id=\(self.id)&page=\(self.page)&filter=days&sort=\(self.sort)"
         let oneDayGroup = "/groups?member_id=\(self.id)&page=\(self.page)&filter=day&sort=\(self.sort)"
-        let withFilter = "/groups?member_id=\(self.id)&page=\(self.page)&filter=\(self.filter)&sort=\(self.sort)"
         let allGroupsFilter = "/groups?member_id=\(self.id)&page=\(self.page)&sort=\(self.sort)"
         if self.id == -1 {
             searchUrl  = "/groups?page=\(self.page)&sort=\(self.sort)&search=\(self.search)"
@@ -1656,7 +1703,7 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
         hud.textLabel.text = ""
         hud.show(in: self.view)
         print("The url is \(ApiRouts.Api+lastFilter)")
-        HTTP.GET(ApiRouts.Api+lastFilter) { response in
+        HTTP.GET(ApiRouts.ApiV3+lastFilter) { response in
             if let error = response.error {
                 print(error)
                 self.hud.dismiss()
@@ -1668,9 +1715,7 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
                 groups = groups2.data!
                 print("------------- \(lastFilter)  Page: \(self.page) groups count: \(groups?.count)")
                 self.lastitem = self.lastitem + (groups?.count)!
-                DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
-                    self.hud.textLabel.text = "Loading. Please wait Slow internet connection may take a bit longer"
-                }
+
                 if (groups2.total)! == 0
                 {
                     self.hud.dismiss()
@@ -1764,12 +1809,8 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
             do{
                 let  member : MyMemberInfo = try JSONDecoder().decode(MyMemberInfo.self, from: response.data)
                 if response.error != nil {
-                    print("Memberinfo is \(response.error)")
-                }else {
-                    print("MemberInfo is" + "*************")
-                    print(member.member?.gdpr)
-                    print("*************")
-
+                    print("Memberinfo is \(String(describing: response.error))")
+                    return
                 }
                 self.currentMember = CurrentMember(member: member.member, profile: member.member?.profile, total_unread_messages: (member.total_unread_messages)!, total_unread_notifications: (member.total_unread_notifications)!)
                 MyVriables.currentMember =  (self.currentMember?.member)!
@@ -1812,8 +1853,7 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
                 self.setToUserDefaults(value: self.currentMember?.profile?.gender, key: "gender")
                 self.setToUserDefaults(value: self.currentMember?.profile?.birth_date, key: "birth_date")
                 self.setToUserDefaults(value: (self.currentMember?.member?.profile_image) != nil ? (self.currentMember?.member?.profile_image)! : nil, key: "profile_image")
-                self.setToUserDefaults(value: self.currentMember?.total_unread_messages, key: "chat_counter")
-                self.setToUserDefaults(value: self.currentMember?.total_unread_notifications, key: "inbox_counter")
+                setUnreadMessages(member_id:  (MyVriables.currentMember?.id)!)
                 //print("Current profile image is \(self.currentMember?.profile?.profile_image != nil ? (self.currentMember?.profile?.profile_image)! : "")")
 
                 do {
@@ -1825,10 +1865,8 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
                     let phone = defaults.string(forKey: "phone")
                     let id = defaults.integer(forKey: "member_id")
                     let profile_image = defaults.string(forKey: "profile_image")
-                    let chat_counter = defaults.integer(forKey: "chat_counter")
-                    let inbox_counter = defaults.integer(forKey: "inbox_counter")
+
                         
-                    print("notfaction is \(inbox_counter) and chats is \(chat_counter)")
                     if let profile =  member.member?.profile {
                         print("PROFILE: OK")
                         
@@ -1910,9 +1948,10 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = groupCollectionView.dequeueReusableCell(withReuseIdentifier: "GroupMediaCell", for: indexPath) as! GroupMediaCell
         var currentIndex:Int = indexPath.row
-        if self.myGrous[currentIndex].image != nil{
+        if currentIndex < (self.myGrous.count){
+        if self.myGrous[currentIndex].images != nil && (self.myGrous[currentIndex].images?.count)! > 0 {
             do{
-                var urlString: String = try ApiRouts.Media + (self.myGrous[currentIndex].image)!
+                var urlString: String = try ApiRouts.Media + (self.myGrous[currentIndex].images?[0].path)!
                 urlString = urlString.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)!
                 if let url = URL(string: urlString) {
                     //                     cell.imageosh.sd_setImage(with: url, placeholderImage: UIImage(named: "Group Placeholder"), completed: nil)
@@ -1931,7 +1970,6 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
                 
             }
             catch{
-                print("in the catch with image \((self.myGrous[currentIndex].title)!)")
                 cell.groupImage.image = UIImage(named: "Group Placeholder")
                 
             }
@@ -1944,9 +1982,9 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
             cell.groupTitle.text = self.myGrous[currentIndex].translations?[0].title
             
         }else{
-            cell.groupTitle.text = self.myGrous[currentIndex].title
+            cell.groupTitle.text = ""
         }
-        
+        }
         return cell
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -2017,7 +2055,7 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
     fileprivate func setGroupItmes(_ tableView: UITableView, _ indexPath: IndexPath) -> UITableViewCell {
         //var index = isLogged ? indexPath.row -1 : indexPath
          // var currentIndex = isLogged ? indexPath.row-1 : indexPath.row
-        var currentIndex = indexPath.row
+        let currentIndex = indexPath.row
         let cell : CustomTableViewCell = tableView.dequeueReusableCell(withIdentifier: "customCell",for: indexPath) as! CustomTableViewCell
         cell.viewInfo.tag = currentIndex
         cell.viewInfo.addTapGestureRecognizer(action: ShowModel)
@@ -2045,7 +2083,11 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
             cell.totalDaysLbl.text = ""
             cell.daysLbl.text = ""
             cell.totalMembersLbl.text = ""
-           
+            if self.myGrous[currentIndex].start_time != nil && self.myGrous[currentIndex].end_time != nil {
+                    cell.totalDaysLbl.text = "\(setFormat(date: (self.myGrous[currentIndex].start_time)!)) - \(setFormat(date: (self.myGrous[currentIndex].end_time)!))"
+                }else {
+                    cell.totalDaysLbl.text = " "
+            }
             if self.myGrous[currentIndex].hours_of_operation != nil
             {
             
@@ -2058,7 +2100,7 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
                 
             }
             cell.ItineraryImage.isHidden = false
-            cell.membersIcon.isHidden = true
+            //cell.membersIcon.isHidden = true
             if self.myGrous[currentIndex].frequency != nil
             {
                 cell.tagLinefrequencyView.isHidden = false
@@ -2068,6 +2110,8 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
                 cell.tagLinefrequencyView.isHidden = true
                 cell.startDayLbl.text = "" 
             }
+            
+            
             //cell.startDayLbl.text = getStartDate(date: self.myGrous[currentIndex].start_date!)
             cell.isReccuring.image = UIImage(named: "dailyicon")
         }else
@@ -2075,19 +2119,17 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
             cell.daysLbl.text = "Days"
             cell.tagLinefrequencyView.isHidden = true
             cell.ItineraryImage.isHidden = false
-            cell.membersIcon.isHidden = true
+            //cell.membersIcon.isHidden = true
             cell.startDayLbl.text = getStartDate(date: self.myGrous[currentIndex].start_date!)
             cell.isReccuring.image = UIImage(named: "calendar")
             
         }
         if currentIndex > -1 && currentIndex < self.myGrous.count {
-        if self.myGrous[currentIndex].image != nil{
+        if self.myGrous[currentIndex].images != nil && (self.myGrous[currentIndex].images?.count)! > 0{
             do{
-                var urlString: String = try ApiRouts.Media + (self.myGrous[currentIndex].image)!
+                var urlString: String =  ApiRouts.Media + (self.myGrous[currentIndex].images?[0].path)!
                 urlString = urlString.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)!
                 if let url = URL(string: urlString) {
-//                     cell.imageosh.sd_setImage(with: url, placeholderImage: UIImage(named: "Group Placeholder"), completed: nil)
-                     // cell.imageosh.kf.indicatorType = .activity
                     cell.imageosh.sd_setShowActivityIndicatorView(true)
                     cell.imageosh.sd_setIndicatorStyle(UIActivityIndicatorViewStyle.gray)
                     cell.imageosh.sd_setImage(with: url, completed: nil)
@@ -2102,7 +2144,6 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
                 
             }
             catch{
-                print("in the catch with image \((self.myGrous[currentIndex].title)!)")
                 cell.imageosh.image = UIImage(named: "Group Placeholder")
                 
             }
@@ -2116,13 +2157,14 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
         
         // if company
         if self.myGrous[currentIndex].is_company == 0 {
+            if self.myGrous[currentIndex].group_leader != nil {
+                if self.myGrous[currentIndex].group_leader?.profile != nil {
+                    cell.groupLeaderLbl.text = self.myGrous[currentIndex].group_leader?.profile?.first_name != nil ?"\((self.myGrous[currentIndex].group_leader?.profile?.first_name)!) \((self.myGrous[currentIndex].group_leader?.profile?.last_name)!)": ""
+                }
             
-            cell.groupLeaderLbl.text = (self.myGrous[currentIndex].group_leader_first_name != nil ? self.myGrous[currentIndex].group_leader_first_name! : "" ) + " " + (self.myGrous[currentIndex].group_leader_last_name != nil ? self.myGrous[currentIndex].group_leader_last_name! : "" )
-            
-            if self.myGrous[currentIndex].group_leader_image != nil{
+            if self.myGrous[currentIndex].group_leader?.images != nil && (self.myGrous[currentIndex].group_leader?.images?.count)! > 0 {
                 do{
-                    
-                    var urlString = try ApiRouts.Media + (self.myGrous[currentIndex].group_leader_image)!
+                    var urlString =  ApiRouts.Media + (self.myGrous[currentIndex].group_leader?.images?[0].path)!
                     urlString = urlString.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)!
                     
                     var url = URL(string: urlString)
@@ -2147,14 +2189,20 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
                 cell.groupLeaderImageView.layer.cornerRadius = 0;
                 cell.groupLeaderImageView.clipsToBounds = false;
             }
+            }
            
         } // if just group leader
         else{
-            cell.groupLeaderLbl.text = self.myGrous[currentIndex].group_leader_company_name != nil ? self.myGrous[currentIndex].group_leader_company_name! : "Company"
-            if self.myGrous[currentIndex].group_leader_company_image != nil{
+            if self.myGrous[currentIndex].group_leader != nil {
+                if self.myGrous[currentIndex].group_leader?.profile != nil {
+                    cell.groupLeaderLbl.text = self.myGrous[currentIndex].group_leader?.profile?.company_name != nil ? (self.myGrous[currentIndex].group_leader?.profile?.company_name)! : "Company"
+                }
+                
+            
+            if self.myGrous[currentIndex].group_leader?.profile?.company_image != nil{
                 
                 do{
-                    var urlString = try ApiRouts.Media + (self.myGrous[currentIndex].group_leader_company_image)!
+                    var urlString = try ApiRouts.Media + (self.myGrous[currentIndex].group_leader?.profile?.company_image)!
                     urlString = urlString.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)!
                     var url = URL(string: urlString)
                     if url == nil {
@@ -2174,6 +2222,7 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
             cell.groupLeaderImageView.layer.cornerRadius = 0;
             cell.groupLeaderImageView.clipsToBounds = false;
             cell.groupLeaderImageView.contentMode = .scaleAspectFit
+            }
         }
         
         cell.selectionStyle = .none
@@ -2181,7 +2230,7 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
             cell.groupLabel.text = self.myGrous[currentIndex].translations?[0].title
             
         }else{
-            cell.groupLabel.text = self.myGrous[currentIndex].title
+            cell.groupLabel.text = ""
         }
         if self.myGrous[currentIndex].translations?.count != 0
         {
@@ -2270,9 +2319,9 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
         var currentIndex = indexPath.row
         let cell : YoutubeGroupCell = tableView.dequeueReusableCell(withIdentifier: "YoutubeGroupCell",for: indexPath) as! YoutubeGroupCell
         
-                if self.myGrous[currentIndex].image != nil{
+                if self.myGrous[currentIndex].images != nil && (self.myGrous[currentIndex].images?.count)! > 0{
                         do{
-                            var urlString: String = try ApiRouts.Media + (self.myGrous[currentIndex].image)!
+                            var urlString: String = try ApiRouts.Media + (self.myGrous[currentIndex].images?[0].path)!
                             urlString = urlString.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)!
                             if let url = URL(string: urlString) {
                                 //                     cell.imageosh.sd_setImage(with: url, placeholderImage: UIImage(named: "Group Placeholder"), completed: nil)
@@ -2291,7 +2340,6 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
         
                         }
                         catch{
-                            print("in the catch with image \((self.myGrous[currentIndex].title)!)")
                             cell.groupImage.image = UIImage(named: "Group Placeholder")
         
                         }
@@ -2312,18 +2360,23 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
 //                    cell.totalMembersLbl.text = "\(self.myGrous[currentIndex].max_members!)"
 //                }
 //            }
+        
+        
+        
 //
 //            // if company
-            if self.myGrous[currentIndex].is_company == 0 {
-
-                cell.groupleadername.text = (self.myGrous[currentIndex].group_leader_first_name != nil ? self.myGrous[currentIndex].group_leader_first_name! : "" ) + " " + (self.myGrous[currentIndex].group_leader_last_name != nil ? self.myGrous[currentIndex].group_leader_last_name! : "" )
-
-                if self.myGrous[currentIndex].group_leader_image != nil{
+        
+        if self.myGrous[currentIndex].is_company == 0 {
+            if self.myGrous[currentIndex].group_leader != nil {
+                if self.myGrous[currentIndex].group_leader?.profile != nil {
+                    cell.groupleadername.text = self.myGrous[currentIndex].group_leader?.profile?.first_name != nil ?"\((self.myGrous[currentIndex].group_leader?.profile?.first_name)!) \((self.myGrous[currentIndex].group_leader?.profile?.last_name)!)": ""
+                }
+                
+                if self.myGrous[currentIndex].group_leader?.images != nil && (self.myGrous[currentIndex].group_leader?.images?.count)! > 0 {
                     do{
-
-                        var urlString = try ApiRouts.Media + (self.myGrous[currentIndex].group_leader_image)!
+                        var urlString =  ApiRouts.Media + (self.myGrous[currentIndex].group_leader?.images?[0].path)!
                         urlString = urlString.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)!
-
+                        
                         var url = URL(string: urlString)
                         if url == nil {
                         }else {
@@ -2337,7 +2390,7 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
                     }
                     catch let error{
                     }
-
+                    
                 }
                 else
                 {
@@ -2346,23 +2399,29 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
                     cell.groupleaderIm.layer.cornerRadius = 0;
                     cell.groupleaderIm.clipsToBounds = false;
                 }
-
-            } // if just group leader
-            else{
-                cell.groupleadername.text = self.myGrous[currentIndex].group_leader_company_name != nil ? self.myGrous[currentIndex].group_leader_company_name! : "Company"
-                if self.myGrous[currentIndex].group_leader_company_image != nil{
-
+            }
+            
+        } // if just group leader
+        else{
+            if self.myGrous[currentIndex].group_leader != nil {
+                if self.myGrous[currentIndex].group_leader?.profile != nil {
+                    cell.groupleadername.text = self.myGrous[currentIndex].group_leader?.profile?.company_name != nil ? (self.myGrous[currentIndex].group_leader?.profile?.company_name)! : "Company"
+                }
+                
+                
+                if self.myGrous[currentIndex].group_leader?.profile?.company_image != nil{
+                    
                     do{
-                        var urlString = try ApiRouts.Media + (self.myGrous[currentIndex].group_leader_company_image)!
+                        var urlString = try ApiRouts.Media + (self.myGrous[currentIndex].group_leader?.profile?.company_image)!
                         urlString = urlString.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)!
                         var url = URL(string: urlString)
                         if url == nil {
                         }else {
                             cell.groupleaderIm.sd_setImage(with: url!, completed: nil)
-
+                            
                         }
                     }catch {
-
+                        
                     }
                 }
                 else
@@ -2374,93 +2433,16 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
                 cell.groupleaderIm.clipsToBounds = false;
                 cell.groupleaderIm.contentMode = .scaleAspectFit
             }
-
+        }
             cell.selectionStyle = .none
             if self.myGrous[currentIndex].translations?.count != 0 {
                 cell.groupTitle.text = self.myGrous[currentIndex].translations?[0].title
 
             }else{
-                cell.groupTitle.text = self.myGrous[currentIndex].title
+                cell.groupTitle.text = ""
         }
-        cell.members.text =  self.myGrous[currentIndex].target_members != nil ? "\((self.myGrous[currentIndex].target_members)!) Members" : ""
-//            if self.myGrous[currentIndex].translations?.count != 0
-//            {
-//                cell.descriptionLbl.text = self.myGrous[currentIndex].translations?[0].description
-//            }
-//            if self.myGrous[currentIndex].registration_end_date != nil {
-//                if isClosed(date: self.myGrous[currentIndex].registration_end_date!)
-//                {
-//                    cell.timeOutIcon.isHidden = false
-//                }
-//                else{
-//                    cell.timeOutIcon.isHidden = true
-//                }
-//            }
-//            if (self.myGrous[currentIndex].role) == nil
-//            {
-//                cell.inviteIcon.isHidden = true
-//                cell.memberIcon.isHidden = true
-//                cell.leaderIcon.isHidden = true
-//
-//                if (self.myGrous[currentIndex].open)! == true
-//                {
-//                    cell.openIcon.isHidden = false
-//                    cell.privateIcon.isHidden = true
-//                }
-//                else{
-//                    cell.openIcon.isHidden = true
-//                    cell.privateIcon.isHidden = false
-//                }
-//
-//            }
-//            else{
-//                if (self.myGrous[currentIndex].open)! == true
-//                {
-//                    cell.openIcon.isHidden = false
-//                    cell.privateIcon.isHidden = true
-//                }
-//                else{
-//                    cell.openIcon.isHidden = true
-//                    cell.privateIcon.isHidden = false
-//                }
-//                if (self.myGrous[currentIndex].role)! == "observer"
-//                {
-//                    cell.inviteIcon.isHidden = false
-//                    cell.memberIcon.isHidden = true
-//                    cell.leaderIcon.isHidden = true
-//
-//                }
-//                else
-//                {
-//                    if (self.myGrous[currentIndex].role)! == "member"
-//                    {
-//                        cell.inviteIcon.isHidden = true
-//                        cell.memberIcon.isHidden = false
-//                        cell.leaderIcon.isHidden = true
-//                    }
-//                    else
-//                    {
-//                        if (self.myGrous[currentIndex].role)! == "group_leader"
-//                        {
-//                            cell.inviteIcon.isHidden = true
-//                            cell.memberIcon.isHidden = true
-//                            cell.leaderIcon.isHidden = false
-//                        }
-//                        else
-//                        {
-//                            print("role is \((self.myGrous[currentIndex].role)!))")
-//                            cell.inviteIcon.isHidden = true
-//                            cell.memberIcon.isHidden = true
-//                            cell.leaderIcon.isHidden = true
-//                        }
-//
-//                    }
-//
-//                }
-//
-//            }
-//        }
-        
+//        cell.members.text =  self.myGrous[currentIndex].target_members != nil ? "\((self.myGrous[currentIndex].target_members)!) Members" : ""
+
         
         return cell
     }
@@ -2574,6 +2556,45 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
     
     // tableview: selected row
     
+    func getGroup(group_id: Int , member_id : Int){
+        var urlstring: String?
+        if member_id != -1 {
+            urlstring = ApiRouts.ApiV3 + "/groups/\((group_id))?member_id=\((member_id))"
+        }else {
+            urlstring = ApiRouts.ApiV3 + "/groups/\((group_id))"
+        }
+        print("Url string is \(urlstring!)")
+
+        self.hud.show(in: self.view)
+        HTTP.GET((urlstring)!){response in
+            if response.error != nil {
+                self.hud.dismiss()
+                return
+            }
+            do {
+                let  group2  = try JSONDecoder().decode(InboxGroup.self, from: response.data)
+                MyVriables.currentGroup = group2.group
+                DispatchQueue.main.sync {
+                    MyVriables.currentGroup = group2.group
+                    self.hud.dismiss()
+                    let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                    let vc = storyboard.instantiateViewController(withIdentifier: "MainTap") as! MainTabController
+                    
+                    self.navigationController?.pushViewController(vc,                  animated: true)
+                    
+                    let params: [String: Any] = ["member_id": (MyVriables.currentMember?.id!)! , "group_id": (MyVriables.currentGroup?.id!)! , "type": ApiRouts.VisitGroupType]
+                    print("PARAMS - \(params)")
+                    ApiRouts.actionRequest(parameters: params)
+                    
+                }
+            }
+            catch let error{
+                self.hud.dismiss()
+                print("getGroup : \(error)")
+                
+            }
+        }
+    }
     fileprivate func selcetGroup(_ indexPath: IndexPath) {
         var currentIndex = indexPath.row
         let pasteboard = UIPasteboard.general
@@ -2600,30 +2621,13 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
             
             if self.myGrous[currentIndex].role  == nil {
                 if isOpen {
-                    MyVriables.currentGroup = self.myGrous[currentIndex]
-                    //                    self.performSegue(withIdentifier: "groupDetailsBar", sender: self)
-                    
-                    let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                    let vc = storyboard.instantiateViewController(withIdentifier: "MainTap") as! MainTabController
-                    
-                    self.navigationController?.pushViewController(vc,                  animated: true)
-                    
-                    let params: [String: Any] = ["member_id": (MyVriables.currentMember?.id!)! , "group_id": (MyVriables.currentGroup?.id!)! , "type": ApiRouts.VisitGroupType]
-                    print("PARAMS - \(params)")
-                    ApiRouts.actionRequest(parameters: params)
-                    
-                    
-                    
+                    getGroup(group_id: (self.myGrous[currentIndex].id)! , member_id: (MyVriables.currentMember?.id)!)
                 }else {
                     showCloseAlert()
                 }
             }else{
-                MyVriables.currentGroup = self.myGrous[currentIndex]
-                self.performSegue(withIdentifier: "groupDetailsBar", sender: self)
-                let params: [String: Any] = ["member_id": (MyVriables.currentMember?.id!)! , "group_id": (MyVriables.currentGroup?.id!)! , "type": ApiRouts.VisitGroupType]
-                print(params)
-                print("PARAMS - \(params)")
-                ApiRouts.actionRequest(parameters: params)
+                // must to set group
+                getGroup(group_id: (self.myGrous[currentIndex].id)! , member_id: (MyVriables.currentMember?.id)!)
                 // do some
                 
             }
@@ -2951,6 +2955,11 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
                 //do things...
                 if response.error != nil {
                     print(response.error)
+                    DispatchQueue.main.async {
+                        let snackbar = TTGSnackbar(message: "The code you entered is invaid.", duration: .middle)
+                        snackbar.icon = UIImage(named: "AppIcon")
+                        snackbar.show()
+                    }
                     return
                 }
                 print(response.description)
@@ -2972,8 +2981,7 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
                     self.setToUserDefaults(value: self.currentMember?.profile?.gender, key: "gender")
                     self.setToUserDefaults(value: self.currentMember?.profile?.birth_date, key: "birth_date")
                     self.setToUserDefaults(value: self.currentMember?.profile?.profile_image, key: "profile_image")
-                    self.setToUserDefaults(value: self.currentMember?.total_unread_messages, key: "chat_counter")
-                    self.setToUserDefaults(value: self.currentMember?.total_unread_notifications, key: "inbox_counter")
+
                     
                     self.currentProfile = self.currentMember?.profile!
                     DispatchQueue.main.sync {

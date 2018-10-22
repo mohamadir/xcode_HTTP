@@ -11,19 +11,19 @@ import UIKit
 import SwiftHTTP
 
 struct Main: Codable{
-    var data: [TourGroup]?
+    var data: [GroupItemObject]?
     var last_page: Int?
     var current_page: Int?
      var total: Int?
     
     // POST METHOD TO GET GROUPS REQUEST
-    func  getGroups(completionBlock: @escaping ([TourGroup]?) -> Void) -> Void {
+    func  getGroups(completionBlock: @escaping ([GroupItemObject]?) -> Void) -> Void {
         
             guard let url = URL(string: "https://api.snapgroup.co.il/api/getallgroups") else { return  }
             var request = URLRequest(url: url)
             request.httpMethod = "POST"
             request.addValue("Content-Type", forHTTPHeaderField: "application/json")
-                var groups: [TourGroup]?
+                var groups: [GroupItemObject]?
 
             guard let httpBody = try? JSONSerialization.data(withJSONObject: [], options: []) else { return }
                     request.httpBody = httpBody

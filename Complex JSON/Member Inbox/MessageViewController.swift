@@ -154,14 +154,15 @@ class MessageViewController: UIViewController {
     }
     
     func getGroup(){
-        HTTP.GET(ApiRouts.Api + "/groups/\((MyVriables.currentInboxMessage?.group_id!)!)/details/\((MyVriables.currentMember?.id!)!)"){response in
-            
+        print(ApiRouts.ApiV3 + "/groups/\(((MyVriables.currentInboxMessage?.group_id!)!))?member_id=\(((MyVriables.currentMember?.id)!))")
+        HTTP.GET(ApiRouts.ApiV3 + "/groups/\(((MyVriables.currentInboxMessage?.group_id!)!))?member_id=\(((MyVriables.currentMember?.id)!))"){response in
             if response.error != nil {
                 self.showCloseAlert()
                 return
             }
             do {
                 let  group2  = try JSONDecoder().decode(InboxGroup.self, from: response.data)
+                print("Group \(group2.group)")
                 MyVriables.currentGroup = group2.group
                 DispatchQueue.main.sync {
                     self.performSegue(withIdentifier: "showGroup", sender: self)

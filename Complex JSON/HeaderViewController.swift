@@ -421,6 +421,11 @@ class HeaderViewController: UIViewController,UITextFieldDelegate,  CountryPicker
                 //do things...
                 if response.error != nil {
                     print(response.error)
+                    DispatchQueue.main.async {
+                        let snackbar = TTGSnackbar(message: "There was an error please try again.", duration: .middle)
+                        snackbar.icon = UIImage(named: "AppIcon")
+                        snackbar.show()
+                    }
                     return
                 }
                 print(response.description)
@@ -515,6 +520,11 @@ class HeaderViewController: UIViewController,UITextFieldDelegate,  CountryPicker
                 //do things...
                 if response.error != nil {
                     print(response.error)
+                    DispatchQueue.main.async {
+                        let snackbar = TTGSnackbar(message: "The code you entered is invaid.", duration: .middle)
+                        snackbar.icon = UIImage(named: "AppIcon")
+                        snackbar.show()
+                    }
                     return
                 }
                 print(response.description)
@@ -609,7 +619,8 @@ class HeaderViewController: UIViewController,UITextFieldDelegate,  CountryPicker
         return false
     }
     func getGroup(memberId: String){
-        HTTP.GET(ApiRouts.Api + "/groups/\((MyVriables.currentGroup?.id != nil ? MyVriables.currentGroup?.id! : -1)!)/details/\(memberId)"){response in
+        
+        HTTP.GET(ApiRouts.ApiV3 + "/groups/\((MyVriables.currentGroup?.id != nil ? MyVriables.currentGroup?.id! : -1)!)?member_id=\((memberId))"){response in
             if response.error != nil {
                 print("response eror")
             return
@@ -723,6 +734,11 @@ class HeaderViewController: UIViewController,UITextFieldDelegate,  CountryPicker
                 //do things...
                 if response.error != nil {
                     print(response.error)
+                    DispatchQueue.main.async {
+                        let snackbar = TTGSnackbar(message: "The code you entered is invaid.", duration: .middle)
+                        snackbar.icon = UIImage(named: "AppIcon")
+                        snackbar.show()
+                    }
                     return
                 }
                 print(response.description)

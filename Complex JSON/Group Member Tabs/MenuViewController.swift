@@ -122,10 +122,26 @@ class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UI
             }
         }
     }
-    
+    fileprivate func bookNowFunc() {
+        if MyVriables.currentGroup?.role != nil &&  (MyVriables.currentGroup?.role)! != "observer"
+        {
+            MyVriables.isBookClick = false
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let vc = storyboard.instantiateViewController(withIdentifier: "PaymentsViewController") as! PaymentsViewController
+            self.navigationController?.pushViewController(vc,animated: true)
+            
+        }else{
+            MyVriables.isBookClick = true
+            self.tabBarController?.selectedIndex = 1
+        }
+    }
     @IBAction func bookNoewClick(_ sender: Any) {
+        setCheckTrue(type: "book_now", groupID: (MyVriables.currentGroup?.id)!)
+        bookNowFunc()
     }
     @IBAction func avilbleDateClick(_ sender: Any) {
+        setCheckTrue(type: "available_dates", groupID: (MyVriables.currentGroup?.id)!)
+        bookNowFunc()
     }
     override func viewWillDisappear(_ animated: Bool) {
         timer1.invalidate()

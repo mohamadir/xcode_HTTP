@@ -227,8 +227,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
         }
     }
     func subscribeToMyGroups(id: Int) {
-        print("Urlllll \(ApiRouts.Web+"/api/v2/groups/members/\((id))?roles[]=group_leader&roles[]=member")")
-        HTTP.GET(ApiRouts.Api+"/groups/members/\((id))?roles[]=group_leader&roles[]=member") { response in
+        HTTP.GET(ApiRouts.Api+"/groups?member_id=\((id))&my_groups=true&roles[]=group_leader&roles[]=member") { response in
             if let error = response.error {
                 print("V2 error is \(error)")
                 return
@@ -415,9 +414,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
     
     func messaging(_ messaging: Messaging, didReceive remoteMessage: MessagingRemoteMessage) {
         print("Im here in notfaction fire base function 10")
-
+        
+        print("recieve in MessagingRemoteMessage \(remoteMessage.appData["total_unread_notifications"])")
         print("recieve in MessagingRemoteMessage \(remoteMessage.appData["total_unread_messages"])")
         print("recieve in MessagingRemoteMessage \(remoteMessage.appData["click_action"])")
+        if remoteMessage.appData["total_unread_notifications"] != nil
+        {
+            self.setToUserDefaults(value: (remoteMessage.appData["total_unread_notifications"])!, key: "inbox_counter")
+        }
+        if remoteMessage.appData["total_unread_messages"] != nil
+        {
+            self.setToUserDefaults(value: (remoteMessage.appData["total_unread_messages"])!, key: "chat_counter")
+        }
+        SwiftEventBus.post("counters")
         if remoteMessage.appData["click_action"] != nil
         {
             if "\((remoteMessage.appData["click_action"])!)" == "DELETE_FROM_GROUP"
@@ -514,18 +523,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
     }
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         print("Im here in notfaction fire base function 14")
-
         print("recieve in UIBackgroundFetchResult \(userInfo)")
-        if userInfo["total_unread_messages"] != nil {
-            print("CHAT-COUNTER IN RECEIVE REMOTE ")
-            self.setToUserDefaults(value: userInfo["total_unread_messages"]! , key: "chat_counter")
-            SwiftEventBus.post("counters")
-        }
-        if userInfo["total_unread_notifications"] != nil {
-            print("INBOX-COUNTER IN RECEIVE REMOTE ")
-            self.setToUserDefaults(value: userInfo["total_unread_notifications"]! , key: "inbox_counter")
-            SwiftEventBus.post("counters")
-        }
         if userInfo["click_action"] != nil
         {
             if "\((userInfo["click_action"])!)" == "DELETE_FROM_GROUP"
@@ -553,10 +551,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
                 if "\(userInfo["click_action"]!)" == "LOCATION-NOTIFICATION"
                 {
                     setMemberLocaion(group_id: "\(userInfo["group_id"]!)")
+                }else {
+                    setUnreadMessages(member_id: (MyVriables.currentMember?.id)!)
                 }
             }
         }
         else {
+            setUnreadMessages(member_id: (MyVriables.currentMember?.id)!)
         UIApplication.shared.applicationIconBadgeNumber += 1
         }
 //        timedNotifications(inSeconds: 1) { (success) in

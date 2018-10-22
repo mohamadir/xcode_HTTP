@@ -19,6 +19,7 @@ import CountryPickerView
 import Alamofire
 import FBSDKLoginKit
 import FBSDKCoreKit
+import ARSLineProgress
 
 class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate, CountryPickerViewDelegate, CountryPickerViewDataSource, FBSDKLoginButtonDelegate{
     func loginButton(_ loginButton: FBSDKLoginButton!, didCompleteWith result: FBSDKLoginManagerLoginResult!, error: Error!) {
@@ -207,29 +208,7 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
     }
     
 
-    func getGroup(){
-        print("Url is " + ApiRouts.Web + "/api/groups/\((MyVriables.currentInboxMessage?.group_id!)!)/details/\((MyVriables.currentMember?.id!)!)")
-        HTTP.GET(ApiRouts.Api + "/groups/\((MyVriables.currentInboxMessage?.group_id!)!)/details/\((MyVriables.currentMember?.id!)!)"){response in
-            if response.error != nil {
-                return
-            }
-            do {
-                let  group2  = try JSONDecoder().decode(InboxGroup.self, from: response.data)
-                MyVriables.currentGroup = group2.group
-                DispatchQueue.main.sync {
-                  
-                    if MyVriables.currentGroup?.role != nil {
-                        self.changeStatusTo(type: (MyVriables.currentGroup?.role!)!)
-                    }
-                      print("Role is \((MyVriables.currentGroup?.role!)!)")
-                }
-            }
-            catch let error{
-                print("getGroup : \(error)")
-                
-            }
-        }
-    }
+
     
     override func viewWillAppear(_ animated: Bool) {
          setObserverPage()
@@ -657,6 +636,7 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
     public func regstirFacebook(facebookMember : FacebookMember,isGdpr: Bool)
     {
         print("Is gdpr equal to \(isGdpr)")
+        
         var params: [String: Any] = [:]
         let deviceToken = UIDevice.current.identifierForVendor!.uuidString
         if facebookMember.facebook_id != "" {
@@ -677,11 +657,20 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
             else{
                 params = ["device_id": deviceToken,"login_type": "ios", "facebook_id": facebookMember.facebook_id!, "type": "facebook", "first_name": facebookMember.first_name!,"last_name": facebookMember.last_name!,"facebook_profile_image": facebookMember.facebook_profile_image != nil ? facebookMember.facebook_profile_image! : nil]
             }
+            ARSLineProgress.show()
+
             HTTP.POST(ApiRouts.Register, parameters: params) { response in
                 //do things...
                 //do things...
                 if response.error != nil {
                     print(response.error)
+                    ARSLineProgress.hide()
+                    DispatchQueue.main.async {
+                        let snackbar = TTGSnackbar(message: "There was an error please try again.", duration: .middle)
+                        snackbar.icon = UIImage(named: "AppIcon")
+                        snackbar.show()
+                    }
+
                     return
                 }
                 print(response.description)
@@ -716,12 +705,13 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
                         MyVriables.fromGroup = ""
                         
                     }
+                    ARSLineProgress.hide()
+
                     MyVriables.fromGroup = ""
                     DispatchQueue.main.sync {
-                        self.getGroup(memberId: "\((self.currentMember?.profile?.member_id!)!)")
-                        //SwiftEventBus.post("refreshGroupRole")
-                        //SwiftEventBus.post("changeProfileInfo")
-                      //  SwiftEventBus.post("refreshData")
+                        ARSLineProgress.hide()
+
+                        //self.getGroup(memberId: "\((self.currentMember?.profile?.member_id!)!)")
                         self.joinGroupRequest(memberid: (self.currentMember?.profile?.member_id)!, firstname: (self.firstNameTextFeild.text)!, lastName: (self.lastNameTextFeild.text)!)
                         
                         if Messaging.messaging().fcmToken != nil {
@@ -733,6 +723,7 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
                             Messaging.messaging().subscribe(toTopic: "/topics/IOS-SYSTEM-\(String(describing: (self.currentMember?.member?.id!)!))")
                         }
                     }
+                    
                     MyVriables.isMember = true
                     
                     DispatchQueue.main.async {
@@ -741,6 +732,8 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
                     
                 }
                 catch {
+                    ARSLineProgress.hide()
+
                     print("catch error")
                     DispatchQueue.main.async {
                         self.pickerView.isHidden = false
@@ -799,12 +792,18 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
                 
                  params = ["device_id": deviceToken,"login_type": "ios", "code": (textField?.text)!, "phone": self.phoneNumber!]
             }
-            
+            ARSLineProgress.show()
            
             HTTP.POST(ApiRouts.Register, parameters: params) { response in
                 //do things...
                 if response.error != nil {
                     print(response.error)
+                    ARSLineProgress.hide()
+                    DispatchQueue.main.async {
+                        let snackbar = TTGSnackbar(message: "The code you entered is invaid.", duration: .middle)
+                        snackbar.icon = UIImage(named: "AppIcon")
+                        snackbar.show()
+                    }
                     return
                 }
                 print(response.description)
@@ -841,8 +840,8 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
                     }
                      MyVriables.fromGroup = ""
                     DispatchQueue.main.sync {
-                        self.getGroup(memberId: "\((self.currentMember?.profile?.member_id!)!)")
-                        //SwiftEventBus.post("refreshGroupRole")
+                        ARSLineProgress.hide()
+
                         SwiftEventBus.post("changeProfileInfo")
                         SwiftEventBus.post("refreshData")
                        self.joinGroupRequest(memberid: (self.currentMember?.profile?.member_id)!, firstname: (self.firstNameTextFeild.text)!, lastName: (self.lastNameTextFeild.text)!)
@@ -867,6 +866,7 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
                     
                 }
                 catch {
+                    ARSLineProgress.hide()
                     print("catch error")
                     DispatchQueue.main.async {
                         self.pickerView.isHidden = false
@@ -894,8 +894,9 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
         print ("pin after present ")
     }
     func getGroup(memberId: String){
-        print("Url is " + ApiRouts.Web + "/api/groups/\((MyVriables.currentGroup?.id!)!)/details/\(memberId)")
-        HTTP.GET(ApiRouts.Api + "/groups/\((MyVriables.currentGroup?.id!)!)/details/\(memberId)"){response in
+        
+        print("Url is " + ApiRouts.ApiV3 + "/groups/\(((MyVriables.currentGroup?.id!)!))?member_id=\((memberId))")
+        HTTP.GET(ApiRouts.ApiV3 + "/groups/\(((MyVriables.currentGroup?.id!)!))?member_id=\((memberId))"){response in
             if response.error != nil {
                 print("response eror")
                 return
@@ -904,13 +905,7 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
                 print("response sucess")
                 let  group2  = try JSONDecoder().decode(InboxGroup.self, from: response.data)
                 MyVriables.currentGroup = group2.group
-                DispatchQueue.main.async {
-                    print("Role is \((MyVriables.currentGroup?.role!)!)")
-                    if MyVriables.currentGroup?.role != nil {
-//                        self.changeStatusTo(type: (MyVriables.currentGroup?.role!)!)
-                    }
-                    
-                }
+
             }
             catch let error{
                 print("getGroup : \(error)")
@@ -951,6 +946,7 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
                 return
             }else{
                 DispatchQueue.main.sync {
+                    
                     setCheckTrue(type: "joined", groupID: (MyVriables.currentGroup?.id)!)
                     MyVriables.currentGroup?.role = "member"
                     SwiftEventBus.post("changeProfileInfo")
@@ -962,6 +958,9 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
                         Messaging.messaging().subscribe(toTopic: "/topics/IOS-CHAT-GROUP-\(String(describing: (MyVriables.currentGroup?.id!)!))")
                         Messaging.messaging().subscribe(toTopic: "/topics/IOS-LOCATION-\(((MyVriables.currentGroup?.id))!)")
                     }
+                    let snackbar = TTGSnackbar(message: "You have been joined successfully", duration: .middle)
+                    snackbar.icon = UIImage(named: "AppIcon")
+                    snackbar.show()
                     MyVriables.shouldRefresh = true
                     self.showToast("You'v left the group successfully", 0.3)
                     self.changeStatusTo(type: "member")

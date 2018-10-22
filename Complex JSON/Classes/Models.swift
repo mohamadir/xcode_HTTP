@@ -8,6 +8,7 @@
 
 import Foundation
 import SwiftHTTP
+import SwiftEventBus
 // ********************************    CURRENT OPJECT *****************************
 struct MyVriables {
     
@@ -99,6 +100,49 @@ func setCheckTrue(type:String,groupID: Int) {
 
     }
     
+}
+func setUnreadMessages(member_id:Int) {
+    let strMethod: String = ApiRouts.Api + "/members/\(member_id)/unread"
+    HTTP.GET(strMethod, parameters: []) { response in
+        if response.error != nil {
+            print("error \(String(describing: response.error?.localizedDescription))")
+            return
+        }
+        do {
+            let  totalUnreads = try JSONDecoder().decode(UnreadMesages.self, from: response.data)
+            if totalUnreads.total_unread_messages != nil {
+                    setToUserDefaults(value: (totalUnreads.total_unread_messages)!, key: "chat_counter")
+            }
+            if totalUnreads.total_unread_notifications != nil {
+                    setToUserDefaults(value: (totalUnreads.total_unread_notifications)!, key: "inbox_counter")
+            }
+            SwiftEventBus.post("counters")
+            
+            print("SETchek true \(response.description)")
+        }catch{
+            
+        }
+        
+        
+        
+    }
+}
+func setToUserDefaults(value: Any?, key: String){
+    if value != nil {
+        let defaults = UserDefaults.standard
+        defaults.set(value!, forKey: key)
+    }
+    else{
+        let defaults = UserDefaults.standard
+        
+        defaults.set("no value", forKey: key)
+    }
+    
+    
+}
+struct UnreadMesages: Codable {
+    var total_unread_notifications: Int?
+    var total_unread_messages: Int?
 }
 func sendSms(phonenum : String) {
     let params = ["phone": phonenum]
@@ -327,15 +371,54 @@ struct TourGroup: Codable {
     var group_conditions: String?
     
 }
+struct GroupItemObject: Codable {
+    var id: Int?
+    var start_date: String?
+    var end_date: String?
+    var registration_end_date: String?
+    var is_company: Int?
+    var open: Bool?
+    var rotation: String?
+    var start_time: String?
+    var end_time: String?
+    var frequency: String?
+    var special_price: Float?
+    var hours_of_operation: String?
+    var group_leader_id: Int?
+    var days: Int?
+    var group_leader: GroupLeaderStruct?
+    var translations: [GroupTranslation]?
+    var images: [ImageStruct]?
+    var role: String?
+}
+struct GroupLeaderStruct: Codable{
+    var id: Int?
+    var profile: GroupLeaderProfileStruct?
+    var images: [ImageStruct]?
+}
+struct ImageStruct: Codable{
+    var path: String?
+}
+struct GroupLeaderProfileStruct: Codable{
+    var first_name: String?
+    var last_name: String?
+    var company_name: String?
+    var company_image: String?
+}
 struct GroupSettings: Codable{
     var payments_url: String?
 }
 struct ChatObject: Codable{
     var id: Int?
 }
-
+struct InboxMessageObj: Codable{
+    var data: [InboxMessage]
+    var current_page: Int?
+    var last_page: Int?
+    var total: Int?
+}
 struct InboxMessage: Codable{
-    var notification_id: Int?
+    var id: Int?
     var sender_id: Int?
     var group_id: Int?
     var member_id: Int?
