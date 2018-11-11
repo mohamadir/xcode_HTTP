@@ -447,7 +447,7 @@
 "Rue-MK-sfz.text" = "file name is photo ";
 
 /* Class = "UILabel"; text = "vote"; ObjectID = "Rxl-kl-kzA"; */
-"Rxl-kl-kzA.text" = "vote";
+"Rxl-kl-kzA.text" = "Booking";
 
 /* Class = "UILabel"; text = "********"; ObjectID = "S1u-oG-5sq"; */
 "S1u-oG-5sq.text" = "********";
@@ -585,7 +585,7 @@
 "Xiy-Kh-BJ7.text" = "Members";
 
 /* Class = "UILabel"; text = "Group leade of group"; ObjectID = "Xjd-eO-DBX"; */
-"Xjd-eO-DBX.text" = "Group leader of the group";
+"Xjd-eO-DBX.text" = "Group leader of ";
 
 /* Class = "UILabel"; text = "My Inbox"; ObjectID = "YGc-E9-otD"; */
 "YGc-E9-otD.text" = "My Inbox";
@@ -690,7 +690,7 @@
 "eob-FH-psQ.text" = "Label";
 
 /* Class = "UILabel"; text = "Signup to see groups you’re invited to"; ObjectID = "erT-O4-BFM"; */
-"erT-O4-BFM.text" = "Signup to see groups you’re invited to";
+"erT-O4-BFM.text" = "Snapgroup";
 
 /* Class = "UILabel"; text = "Group Title"; ObjectID = "f9A-em-zVN"; */
 "f9A-em-zVN.text" = "Group Title";
@@ -723,7 +723,7 @@
 "gVN-Up-iNh.text" = "Notifications";
 
 /* Class = "UILabel"; text = "Signup to see groups you’re invited to"; ObjectID = "gYH-b2-QwA"; */
-"gYH-b2-QwA.text" = "Signup to see groups you’re invited to";
+"gYH-b2-QwA.text" = "Snapgroup";
 
 /* Class = "UILabel"; text = "Pair accepted"; ObjectID = "gej-SX-trx"; */
 "gej-SX-trx.text" = "Pair accepted";
@@ -933,7 +933,7 @@
 "sTy-47-qeC.normalTitle" = "Click here to show the group ";
 
 /* Class = "UILabel"; text = "Signup to see groups you’re invited to"; ObjectID = "sUY-rn-1CV"; */
-"sUY-rn-1CV.text" = "Signup to see groups you’re invited to";
+"sUY-rn-1CV.text" = "Snapgroup";
 
 /* Class = "UILabel"; text = "From Jerusalem, Israel"; ObjectID = "shW-bp-T5c"; */
 "shW-bp-T5c.text" = "From Jerusalem, Israel";

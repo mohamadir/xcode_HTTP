@@ -20,6 +20,11 @@ import Alamofire
 import FBSDKLoginKit
 import FBSDKCoreKit
 import ARSLineProgress
+import Firebase
+import FacebookCore
+import FacebookLogin
+
+
 
 class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate, CountryPickerViewDelegate, CountryPickerViewDataSource, FBSDKLoginButtonDelegate{
     func loginButton(_ loginButton: FBSDKLoginButton!, didCompleteWith result: FBSDKLoginManagerLoginResult!, error: Error!) {
@@ -162,16 +167,17 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
             print("user indfo \(userInfo)")
             //The url is nested 3 layers deep into the result so it's pretty messy
             if let imageURL = ((userInfo["picture"] as? [String: Any])?["data"] as? [String: Any])?["url"] as? String {
-                let url = URL(string: imageURL)
+                _ = URL(string: imageURL)
                 //self.profileImage.kf.setImage(with: url)
                 // print("Image utl is \(imageURL)")
                 //Download image from imageURL
             }
             
-            var facebookMember : FacebookMember = FacebookMember(first_name: userInfo["first_name"] != nil ? userInfo["first_name"] as? String : "", last_name: userInfo["last_name"] != nil ? userInfo["last_name"] as? String : "", facebook_id: userInfo["id"] != nil ? userInfo["id"] as? String : "", facebook_profile_image: ((userInfo["picture"] as? [String: Any])?["data"] as? [String: Any])?["url"] as? String)
+            let facebookMember3 : FacebookMember = FacebookMember(first_name: userInfo["first_name"] != nil ? userInfo["first_name"] as? String : "", last_name: userInfo["last_name"] != nil ? userInfo["last_name"] as? String : "", facebook_id: userInfo["id"] != nil ? userInfo["id"] as? String : "", facebook_profile_image: ((userInfo["picture"] as? [String: Any])?["data"] as? [String: Any])?["url"] as? String)
             self.dismiss(animated: true, completion: nil)
-            
-            SwiftEventBus.post("facebookLogin3", sender: facebookMember)
+            self.facebookMember = facebookMember3
+            self.checkIfMember(textFeild: (self.facebookMember?.facebook_id!)!, type: "facebook_id",facebookMember: self.facebookMember)
+            //SwiftEventBus.post("facebookLogin3", sender: facebookMember)
         })
         
         
@@ -413,7 +419,8 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
                             //
                             MyVriables.kindRegstir = "phone-join"
                             MyVriables.phoneNumberr = self.phoneNumber!
-                            self.performSegue(withIdentifier: "showTerms", sender: self)
+                    self.checkIfMember(textFeild: self.phoneNumber!,type: "phone", facebookMember: self.facebookMember)
+
                     
                     
                 }))
@@ -556,8 +563,8 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
                             self.dismiss(animated: true,completion: nil)
                             MyVriables.phoneNumber = textFeild
                         }
-                        self.performSegue(withIdentifier: "showGdbr", sender: self)
-                        
+                        let vc = self.storyboard?.instantiateViewController(withIdentifier: "PrivacyDialogVc") as! PrivacyDialogVc
+                        self.present(vc, animated: true, completion: nil)
                     }
                 }
             }
@@ -655,7 +662,7 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
                 params = ["device_id": deviceToken,"login_type": "ios", "facebook_id": facebookMember.facebook_id!, "type": "facebook", "first_name": facebookMember.first_name!,"last_name": facebookMember.last_name!,"facebook_profile_image": facebookMember.facebook_profile_image != nil ? facebookMember.facebook_profile_image! : nil, "gdpr":gdprArr]
             }
             else{
-                params = ["device_id": deviceToken,"login_type": "ios", "facebook_id": facebookMember.facebook_id!, "type": "facebook", "first_name": facebookMember.first_name!,"last_name": facebookMember.last_name!,"facebook_profile_image": facebookMember.facebook_profile_image != nil ? facebookMember.facebook_profile_image! : nil]
+                params = ["device_id": deviceToken,"login_type": "ios", "facebook_id": facebookMember.facebook_id!, "type": "facebook", "first_name": facebookMember.first_name!,"last_name": facebookMember.last_name!,"facebook_profile_image": facebookMember.facebook_profile_image != nil ? (facebookMember.facebook_profile_image)! : nil]
             }
             ARSLineProgress.show()
 
@@ -682,8 +689,10 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
                     
                     //SwiftEventBus.post("refreshGroupRolee")
                     self.currentMember = member
-                    
-                    
+                    Analytics.logEvent("SignupSucess", parameters: [
+                        "member_id": "\((member.member?.id)!)"
+                        ])
+                    logSignupSucessEvent(member_id: (member.member?.id)!)
                     MyVriables.shouldRefresh = true
                     self.setToUserDefaults(value: true, key: "isLogged")
                     //  print(self.currentMember?.profile!)
@@ -705,6 +714,7 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
                         MyVriables.fromGroup = ""
                         
                     }
+                    SwiftEventBus.post("changeProfileInfo")
                     ARSLineProgress.hide()
 
                     MyVriables.fromGroup = ""
@@ -712,7 +722,7 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
                         ARSLineProgress.hide()
 
                         //self.getGroup(memberId: "\((self.currentMember?.profile?.member_id!)!)")
-                        self.joinGroupRequest(memberid: (self.currentMember?.profile?.member_id)!, firstname: (self.firstNameTextFeild.text)!, lastName: (self.lastNameTextFeild.text)!)
+                        self.joinGroupRequest(memberid: (self.currentMember?.profile?.member_id)!, firstname: "", lastName: "")
                         
                         if Messaging.messaging().fcmToken != nil {
                             MyVriables.TopicSubscribe = true
@@ -812,10 +822,12 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
                     setCheckTrue(type: "member_logged", groupID: -1)
                     let  member = try JSONDecoder().decode(CurrentMember.self, from: response.data)
                     print(member)
-                    
+                    Analytics.logEvent("SignupSucess", parameters: [
+                        "member_id": "\((member.member?.id)!)"
+                        ])
                     SwiftEventBus.post("refreshGroupRolee")
                     self.currentMember = member
-            
+                    logSignupSucessEvent(member_id: (member.member?.id)!)
 
                     MyVriables.shouldRefresh = true
                     self.setToUserDefaults(value: true, key: "isLogged")
@@ -926,13 +938,28 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
         
         
     }
-    
+    func logJoinedGroupEvent(grroup_id : Int, member_id : Int) {
+        let params : AppEvent.ParametersDictionary = [
+            "grroup_id" : NSNumber(value:grroup_id),
+            "member_id" : NSNumber(value:member_id)
+        ]
+        let event = AppEvent(name: "joinedGroup", parameters: params)
+        AppEventsLogger.log(event)
+    }
     public func joinGroupRequest(memberid: Int,firstname: String,lastName: String){
+        var  parametersss: [String:Any] = ["" : ""]
+        if firstname == "" && lastName == "" {
+             parametersss = ["" :""]
 
-        HTTP.POST(ApiRouts.Api + "/groups/\((MyVriables.currentGroup?.id!)!)/members/\(memberid)/join", parameters: ["first_name" : firstname , "last_name" : lastName ]) { response in
+        }else {
+           parametersss = ["first_name" : firstname , "last_name" : lastName ]
+
+        }
+        
+        HTTP.POST(ApiRouts.Api + "/groups/\((MyVriables.currentGroup?.id!)!)/members/\(memberid)/join", parameters: parametersss) { response in
             if response.error != nil {
                 
-                print("errory \( response.statusCode!)")
+                print("errory \( response.error!)")
                 if response.statusCode! == 406
                 {
                     DispatchQueue.main.async {
@@ -940,7 +967,15 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
                         snackbar.icon = UIImage(named: "AppIcon")
                         snackbar.show()
                     }
-                   
+
+                }else {
+                     if response.statusCode! == 400
+                     {
+                        DispatchQueue.main.async {
+                          self.changeStatusTo(type: "member")
+                        }
+                        
+                    }
                 }
                 
                 return
@@ -951,6 +986,13 @@ class JoinViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDat
                     MyVriables.currentGroup?.role = "member"
                     SwiftEventBus.post("changeProfileInfo")
                     //changeProfileInfo
+                    print("\((MyVriables.currentGroup?.id)!)  \((MyVriables.currentGroup?.translations?[0].title)!)   \((MyVriables.currentMember?.id)!)")
+                    Analytics.logEvent("Joinedgroup", parameters: [
+                        "group_id": "\((MyVriables.currentGroup?.id)!)",
+                        "group_name": "\((MyVriables.currentGroup?.translations?[0].title)!)",
+                        "member_id": "\((MyVriables.currentMember?.id)!)"
+                        ])
+                    self.logJoinedGroupEvent(grroup_id: (MyVriables.currentGroup?.id)!, member_id: memberid)
                     if Messaging.messaging().fcmToken != nil {
                         MyVriables.TopicSubscribe = true
                         print("/topics/\(MyVriables.CurrentTopic)")

@@ -31,6 +31,13 @@ class GroupLeaderViewController: UIViewController,UITableViewDelegate,UITableVie
     @IBOutlet weak var tableViewHeightConstrans: NSLayoutConstraint!
     
     
+    @IBOutlet weak var emailStack: UIStackView!
+    @IBOutlet weak var genderStack: UIStackView!
+    @IBOutlet weak var ageStack: UIStackView!
+    @IBOutlet weak var nameStack: UIStackView!
+    @IBOutlet weak var emailLbl: UILabel!
+    @IBOutlet weak var genderLbl: UILabel!
+    @IBOutlet weak var ageLbl: UILabel!
     @IBOutlet weak var companyName: UILabel!
     @IBOutlet weak var isCompanyView: UIView!
     @IBAction func allReviewClick(_ sender: Any) {
@@ -80,10 +87,29 @@ class GroupLeaderViewController: UIViewController,UITableViewDelegate,UITableVie
         groupNameLbl.text = singleGroup?.translations?.count != 0 ? singleGroup?.translations?[0].title! : "There is no group name"
         activeGroupLbl.text = singleGroup?.translations?.count != 0 ? singleGroup?.translations?[0].title! : ""
         leadeAboutLbl.text = singleGroup?.group_leader_about != nil ? singleGroup?.group_leader_about : "There no description right now"
-        leaderEmailLbl.text = singleGroup?.group_leader_email != nil ? singleGroup?.group_leader_email : "There is no email"
-        leaderGenderLbl.text = singleGroup?.group_leader_gender != nil ? singleGroup?.group_leader_gender : "There is no gender"
+        if singleGroup?.group_leader_email != nil {
+             leaderEmailLbl.text = singleGroup?.group_leader_email != nil ? singleGroup?.group_leader_email : ""
+        }else{
+            emailStack.isHidden = true
+            leaderEmailLbl.text = ""
+            emailLbl.text = ""
+        }
+        if singleGroup?.group_leader_gender != nil {
+            leaderGenderLbl.text = singleGroup?.group_leader_gender != nil ? singleGroup?.group_leader_gender : ""
+        }else{
+            genderStack.isHidden = true
+            leaderGenderLbl.text = ""
+            genderLbl.text = ""
+        }
+        if singleGroup?.group_leader_birth_date != nil {
+          leaderBiryhdayLbl.text = singleGroup?.group_leader_birth_date != nil ? singleGroup?.group_leader_birth_date : ""
+        }else{
+            ageStack.isHidden = true
+            leaderBiryhdayLbl.text = ""
+            ageLbl.text = ""
+        }
         
-        leaderBiryhdayLbl.text = singleGroup?.group_leader_birth_date != nil ? singleGroup?.group_leader_birth_date : "There is no Birthday"
+        
         if singleGroup?.group_leader_first_name != nil && singleGroup?.group_leader_last_name != nil {
             leaderNameLbl.text = "\((singleGroup?.group_leader_first_name)!) \((singleGroup?.group_leader_last_name)!)" as String
         }

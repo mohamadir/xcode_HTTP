@@ -615,7 +615,7 @@ class GroupMapViewController: UIViewController , GMSMapViewDelegate
     }
 
     func getDays(){
-            self.markerList = []
+        self.markerList = []
         self.mapDays = []
         ARSLineProgress.show()
         print("Url == " + ApiRouts.Web+"/api/days/group/\((MyVriables.currentGroup?.id)!)")
@@ -666,9 +666,9 @@ class GroupMapViewController: UIViewController , GMSMapViewDelegate
                     UIGraphicsEndImageContext()
                     self.markcon = imageConverted
 
-                    self.markerList[self.markerList.count-1].icon = self.markcon
-
-                    
+                    if self.markerList.count != nil && self.markerList.count > 0 {
+                        self.markerList[self.markerList.count-1].icon = self.markcon
+                    }
                     ARSLineProgress.hide()
                     self.fitAllMarkers()
                 }

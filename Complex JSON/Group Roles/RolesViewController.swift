@@ -12,12 +12,12 @@ import SwiftHTTP
 
 extension String {
     
-    var utfData: Data? {
+    var utfData2: Data? {
         return self.data(using: .utf8)
     }
     
-    var attributedHtmlString: NSAttributedString? {
-        guard let data = self.utfData else {
+    var attributedHtmlString2: NSAttributedString? {
+        guard let data = self.utfData2 else {
             return nil
         }
         do {
@@ -35,9 +35,14 @@ extension String {
 
 extension UITextView {
     func setHtmlText(_ html: String) {
-        if let attributedText = html.attributedHtmlString {
-            self.attributedText = attributedText
-        }
+        let modifiedFont = NSString(format:"<span style=\"font-family: \(self.font!.fontName); font-size: \(self.font!.pointSize)\">%@</span>" as NSString, html)
+        
+        let attrStr = try! NSAttributedString(
+            data: modifiedFont.data(using: String.Encoding.unicode.rawValue, allowLossyConversion: true)!,
+            options: [NSAttributedString.DocumentReadingOptionKey.documentType:NSAttributedString.DocumentType.html, NSAttributedString.DocumentReadingOptionKey.characterEncoding: String.Encoding.utf8.rawValue],
+            documentAttributes: nil)
+        
+        self.attributedText = attrStr
     }
 }
 
@@ -58,7 +63,7 @@ class RolesViewController: UIViewController {
         super.viewDidLoad()
         textview.isEditable = false
         
-        var htmlText: String = """
+        var _: String = """
             <ul>
               <li>Coffee</li>
               <li>Tea</li>

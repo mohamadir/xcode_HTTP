@@ -75,10 +75,10 @@ class HeaderViewController: UIViewController,UITextFieldDelegate,  CountryPicker
             }
             
             VerifyAlert.addAction(UIAlertAction(title: NSLocalizedString("Yes", comment: "Default action"), style: .`default`, handler: { _ in
-                        MyVriables.kindRegstir = "phone-Header"
-                        self.performSegue(withIdentifier: "showTerms", sender: self)
+                
                         MyVriables.phoneNumberr =  self.contryCodeString+self.phoneLbl.text!
                         MyVriables.currentPhoneNumber = self.contryCodeString+self.phoneLbl.text!
+                        self.checkIfMember(textFeild: (MyVriables.currentPhoneNumber)!,type: "phone", facebookMember: self.facebookMember)
 
                 
                 
@@ -152,7 +152,7 @@ class HeaderViewController: UIViewController,UITextFieldDelegate,  CountryPicker
                             MyVriables.facebookMember = facebookMember
                             self.view.endEditing(true)
 
-                            let vc = self.storyboard?.instantiateViewController(withIdentifier: "GdprViewControler") as! GdbrViewController
+                            let vc = self.storyboard?.instantiateViewController(withIdentifier: "PrivacyDialogVc") as! PrivacyDialogVc
                             self.present(vc, animated: true, completion: nil)
                         }else {
                             print("Im here from phone")
@@ -162,7 +162,7 @@ class HeaderViewController: UIViewController,UITextFieldDelegate,  CountryPicker
                             MyVriables.phoneNumber = textFeild
                             MyVriables.phoneNumberr = textFeild
                             
-                            let vc = self.storyboard?.instantiateViewController(withIdentifier: "GdprViewControler") as! GdbrViewController
+                            let vc = self.storyboard?.instantiateViewController(withIdentifier: "PrivacyDialogVc") as! PrivacyDialogVc
                             self.present(vc, animated: true, completion: nil)
 
                         }
@@ -182,6 +182,9 @@ class HeaderViewController: UIViewController,UITextFieldDelegate,  CountryPicker
     }
     @IBAction func cancelAction(_ sender: Any) {
         self.registerView.isHidden = false
+        self.chatView.isHidden = true
+        self.inboxView.isHidden = true
+        self.pickerView.isHidden = true
     }
     func isValidPhone(phone: String) -> Bool {
         let phoneNumberKit = PhoneNumberKit()
@@ -209,17 +212,25 @@ class HeaderViewController: UIViewController,UITextFieldDelegate,  CountryPicker
     
     override func viewDidLoad() {
         super.viewDidLoad()
-      
+        countryPickerView.textColor = UIColor.white
+        
+        phoneLbl.attributedPlaceholder = NSAttributedString(string: "Enter a phone ..",
+                                                             attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
+     // phoneLbl.setPlaceholderTextColorTo(color: UIColor.white)
         let defaults = UserDefaults.standard
         let isLogged = defaults.bool(forKey: "isLogged")
         print("ISLOGGED = \(isLogged)")
         if isLogged == true{
             pickerView.isHidden = true
             self.registerView.isHidden = true
+            self.chatView.isHidden = false
+            self.inboxView.isHidden = false
             
         }else {
             self.registerView.isHidden = false
-            pickerView.isHidden = false
+            self.chatView.isHidden = true
+            self.inboxView.isHidden = true
+           // pickerView.isHidden = false
         }
         countryPickerView.delegate = self
         countryPickerView.dataSource = self
@@ -268,6 +279,8 @@ class HeaderViewController: UIViewController,UITextFieldDelegate,  CountryPicker
         SwiftEventBus.onMainThread(self, name: "changeProfileInfoHeader") { result in
             self.pickerView.isHidden = true
             self.registerView.isHidden = true
+            self.chatView.isHidden = false
+            self.inboxView.isHidden = false
             
         }
         SwiftEventBus.onMainThread(self, name: "facebookLogin2") { result in
@@ -278,7 +291,7 @@ class HeaderViewController: UIViewController,UITextFieldDelegate,  CountryPicker
             
         }
         SwiftEventBus.onMainThread(self, name: "facebook-Header") { result in
-            
+            self.facebookMember = result?.object as! FacebookMember
             self.checkIfMember(textFeild: (self.facebookMember?.facebook_id!)!, type: "facebook_id",facebookMember: self.facebookMember)
             
         }
@@ -286,6 +299,8 @@ class HeaderViewController: UIViewController,UITextFieldDelegate,  CountryPicker
             self.pickerView.isHidden = true
             self.registerView.isHidden = true
             self.phoneRegisterView.isHidden = true
+            self.chatView.isHidden = false
+            self.inboxView.isHidden = false
         }
 
         SwiftEventBus.onMainThread(self, name: "phone-Header") { result in
@@ -298,6 +313,8 @@ class HeaderViewController: UIViewController,UITextFieldDelegate,  CountryPicker
             print("Im here in refresh header")
             self.pickerView.isHidden = true
             self.registerView.isHidden = true
+            self.chatView.isHidden = false
+            self.inboxView.isHidden = false
         }
         let defaults = UserDefaults.standard
         let isLogged = defaults.bool(forKey: "isLogged")
@@ -305,6 +322,8 @@ class HeaderViewController: UIViewController,UITextFieldDelegate,  CountryPicker
         if isLogged == true{
             pickerView.isHidden = true
             self.registerView.isHidden = true
+            self.chatView.isHidden = false
+            self.inboxView.isHidden = false
             
         }
         backView.addTapGestureRecognizer {
@@ -316,6 +335,8 @@ class HeaderViewController: UIViewController,UITextFieldDelegate,  CountryPicker
         phoneRegisterView.addTapGestureRecognizer {
             setCheckTrue(type: "telephone_header", groupID: -1)
             self.registerView.isHidden = true
+            self.chatView.isHidden = true
+            self.inboxView.isHidden = true
             self.pickerView.isHidden = false
 
         }
@@ -435,6 +456,10 @@ class HeaderViewController: UIViewController,UITextFieldDelegate,  CountryPicker
                     print(member)
                     self.currentMember = member
                     self.setToUserDefaults(value: true, key: "isLogged")
+                    Analytics.logEvent("SignupSucess", parameters: [
+                        "member_id": "\((member.member?.id)!)"
+                        ])
+                    logSignupSucessEvent(member_id: (member.member?.id)!)
                     //  print(self.currentMember?.profile!)
                     self.setToUserDefaults(value: self.currentMember?.member?.id!, key: "member_id")
                     self.setToUserDefaults(value: self.currentMember?.profile?.first_name , key: "first_name")
@@ -469,6 +494,8 @@ class HeaderViewController: UIViewController,UITextFieldDelegate,  CountryPicker
                     DispatchQueue.main.async {
                         self.pickerView.isHidden = true
                         self.registerView.isHidden = true
+                        self.chatView.isHidden = false
+                        self.inboxView.isHidden = false
                     }
                     SwiftEventBus.post("refreshGroupRolee")
 
@@ -479,6 +506,8 @@ class HeaderViewController: UIViewController,UITextFieldDelegate,  CountryPicker
                     DispatchQueue.main.async {
                         self.pickerView.isHidden = false
                         self.registerView.isHidden = false
+                        self.chatView.isHidden = true
+                        self.inboxView.isHidden = true
                     }
                     self.setToUserDefaults(value: false, key: "isLogged")
                     
@@ -538,6 +567,10 @@ class HeaderViewController: UIViewController,UITextFieldDelegate,  CountryPicker
                     setCheckTrue(type: "member_logged", groupID: -1)
                     let  member = try JSONDecoder().decode(CurrentMember.self, from: response.data)
                     print(member)
+                    Analytics.logEvent("SignupSucess", parameters: [
+                        "member_id": "\((member.member?.id)!)"
+                        ])
+                    logSignupSucessEvent(member_id: (member.member?.id)!)
                     self.currentMember = member
                     self.setToUserDefaults(value: true, key: "isLogged")
                     //  print(self.currentMember?.profile!)
@@ -578,6 +611,8 @@ class HeaderViewController: UIViewController,UITextFieldDelegate,  CountryPicker
                     DispatchQueue.main.async {
                          self.pickerView.isHidden = true
                          self.registerView.isHidden = true
+                        self.chatView.isHidden = false
+                        self.inboxView.isHidden = false
                     }
                     
 
@@ -590,6 +625,8 @@ class HeaderViewController: UIViewController,UITextFieldDelegate,  CountryPicker
                     DispatchQueue.main.async {
                         self.pickerView.isHidden = false
                         self.registerView.isHidden = false
+                        self.chatView.isHidden = true
+                        self.inboxView.isHidden = true
 
                     }
                     self.setToUserDefaults(value: false, key: "isLogged")
@@ -630,7 +667,6 @@ class HeaderViewController: UIViewController,UITextFieldDelegate,  CountryPicker
             let  group2  = try JSONDecoder().decode(InboxGroup.self, from: response.data)
             MyVriables.currentGroup = group2.group
             DispatchQueue.main.async {
-              print("Role is \((MyVriables.currentGroup?.role!)!)")
             if MyVriables.currentGroup?.role != nil {
             self.changeStatusTo(type: (MyVriables.currentGroup?.role!)!)
             }
@@ -748,6 +784,10 @@ class HeaderViewController: UIViewController,UITextFieldDelegate,  CountryPicker
                     let  member = try JSONDecoder().decode(CurrentMember.self, from: response.data)
                     print(member)
                     self.currentMember = member
+                    Analytics.logEvent("SignupSucess", parameters: [
+                        "member_id": "\((member.member?.id)!)"
+                        ])
+                    logSignupSucessEvent(member_id: (member.member?.id)!)
                     self.setToUserDefaults(value: true, key: "isLogged")
                     //  print(self.currentMember?.profile!)
                     self.setToUserDefaults(value: self.currentMember?.member?.id!, key: "member_id")
@@ -781,6 +821,8 @@ class HeaderViewController: UIViewController,UITextFieldDelegate,  CountryPicker
                         DispatchQueue.main.async {
                             self.pickerView.isHidden = true
                             self.registerView.isHidden = true
+                            self.chatView.isHidden = false
+                            self.inboxView.isHidden = false
 
                         }
                         //                                    self.chatHeaderStackView.isHidden = false
@@ -796,6 +838,8 @@ class HeaderViewController: UIViewController,UITextFieldDelegate,  CountryPicker
                     DispatchQueue.main.async {
                             self.pickerView.isHidden = false
                         self.registerView.isHidden = false
+                        self.chatView.isHidden = true
+                        self.inboxView.isHidden = true
 
                     }
        
@@ -862,7 +906,9 @@ class HeaderViewController: UIViewController,UITextFieldDelegate,  CountryPicker
              print("Access token is \(FBSDKAccessToken.current())")
             let facebookMember : FacebookMember = FacebookMember(first_name: userInfo["first_name"] != nil ? userInfo["first_name"] as? String : "", last_name: userInfo["last_name"] != nil ? userInfo["last_name"] as? String : "", facebook_id: userInfo["id"] != nil ? userInfo["id"] as? String : "", facebook_profile_image: ((userInfo["picture"] as? [String: Any])?["data"] as? [String: Any])?["url"] as? String)
             self.dismiss(animated: true, completion: nil)
-            SwiftEventBus.post("facebookLogin2", sender: facebookMember)
+            self.facebookMember = facebookMember
+            self.checkIfMember(textFeild: (self.facebookMember?.facebook_id!)!, type: "facebook_id",facebookMember: self.facebookMember)
+          //  SwiftEventBus.post("facebookLogin2", sender: facebookMember)
             
         })
     
@@ -877,3 +923,4 @@ class HeaderViewController: UIViewController,UITextFieldDelegate,  CountryPicker
    
 
 }
+

@@ -39,6 +39,7 @@ class ItemViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBOutlet weak var transportsLbl: UILabel!
     @IBOutlet weak var toursLbl: UILabel!
     
+    @IBOutlet weak var scrolViewInterry: UIScrollView!
     // variabls
     public var number: Int = 0
     public var daynNumber: Int = 0
@@ -50,46 +51,12 @@ class ItemViewController: UIViewController, UITableViewDelegate, UITableViewData
     public var currentDay: Day?
     
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-       dayNumberLbl.text = "\(number)"
-        print("im here item veiw")
-       descriptionLbl.text = dayDescription
-        dateLbl.text = date
-        dayTitleLb.text = dayTitle
-        print(self.currentDay!)
-        setHiddenServices()
-        
-        
-//        tourGuideView.gone()
-//        transportsView.gone()
-        
-//        activitiesView.gone()
-        if dayImagePath == nil || dayImagePath == "" {
-            dayImageView.image = UIImage(named: "Group Placeholder")
-        }
-        else{
-            var urlString = ApiRouts.Media + dayImagePath
-            urlString = urlString.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)!
-            var url = URL(string: urlString)
-            //print("URL STRING \(url!)")
-//            do{
-//                try dayImageView.downloadedFrom(url: url!)
-//            }
-//            catch let error{
-//                print(error)
-//            }
-            if url != nil{
-                dayImageView.sd_setShowActivityIndicatorView(true)
-                dayImageView.sd_setIndicatorStyle(UIActivityIndicatorViewStyle.gray)
-                dayImageView.sd_setImage(with: url!, completed: nil)
-            }
-        }
+    fileprivate func viewsClicked() {
         restaurantView.addTapGestureRecognizer {
             //
             
             ProviderInfo.currentProviderName =  "Restaurants"
-   
+            
             print("current day = \((self.currentDay?.day_number)!) and the array size is \((self.currentDay?.restaurants?.count)!)")
             //self.performSegue(withIdentifier: "showServiceProvider", sender: self)
             //showServiceModalSeque
@@ -97,21 +64,21 @@ class ItemViewController: UIViewController, UITableViewDelegate, UITableViewData
             {
                 ProviderInfo.currentProviderId =  self.currentDay?.restaurants?[0].id
                 self.performSegue(withIdentifier: "showServiceProvider", sender: self)
-//                let vc = ServiceModalViewController()
-//                self.present(vc, animated: true, completion: nil)
-
+                //                let vc = ServiceModalViewController()
+                //                self.present(vc, animated: true, completion: nil)
+                
             }
             else
             {
-            ProviderInfo.currentServiceDay = (self.currentDay?.restaurants)!
-               self.performSegue(withIdentifier: "showServiceModalSeque", sender: self)
+                ProviderInfo.currentServiceDay = (self.currentDay?.restaurants)!
+                self.performSegue(withIdentifier: "showServiceModalSeque", sender: self)
             }
             
             
         }
         hotelsView.addTapGestureRecognizer {
             print("current day = \((self.currentDay?.day_number)!) and the array size is \((self.currentDay?.hotels?.count)!)")
-
+            
             ProviderInfo.currentProviderName =  "Hotels"
             if  (self.currentDay?.hotels?.count)! == 1
             {
@@ -126,7 +93,7 @@ class ItemViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
         activitiesView.addTapGestureRecognizer {
             print("current day = \((self.currentDay?.day_number)!) and the array size is \((self.currentDay?.activities?.count)!)")
-
+            
             ProviderInfo.currentProviderName =  "Activities"
             if   (self.currentDay?.activities?.count)! == 1
             {
@@ -141,7 +108,7 @@ class ItemViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
         placesViews.addTapGestureRecognizer {
             print("current day = \((self.currentDay?.day_number)!) and the array size is \((self.currentDay?.places?.count)!)")
-
+            
             ProviderInfo.currentProviderName =  "Places"
             if   (self.currentDay?.places?.count)! == 1
             {
@@ -170,7 +137,7 @@ class ItemViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
         tourGuideView.addTapGestureRecognizer {
             print("current day = \((self.currentDay?.day_number)!) and the array size is \((self.currentDay?.tour_guides?.count)!)")
-
+            
             ProviderInfo.currentProviderName =  "Tourguides"
             if   (self.currentDay?.tour_guides?.count)! == 1
             {
@@ -183,8 +150,49 @@ class ItemViewController: UIViewController, UITableViewDelegate, UITableViewData
                 self.performSegue(withIdentifier: "showServiceModalSeque", sender: self)
             }
         }
-        
     }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+       dayNumberLbl.text = "\(number)"
+        print("im here item veiw")
+       descriptionLbl.text = dayDescription
+        dateLbl.text = date
+        dayTitleLb.text = dayTitle
+        print(self.currentDay!)
+        setHiddenServices()
+        
+        if MyVriables.currentGroup?.rotation != nil && (MyVriables.currentGroup?.rotation)! == "reccuring"
+        {
+            dateLbl.isHidden = true
+            // MyVriables.currentGroup.reg
+        }else{
+            dateLbl.isHidden = false
+        }
+        if dayImagePath == nil || dayImagePath == "" {
+            dayImageView.image = UIImage(named: "Group Placeholder")
+        }
+        else{
+            var urlString = ApiRouts.Media + dayImagePath
+            urlString = urlString.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)!
+            var url = URL(string: urlString)
+            //print("URL STRING \(url!)")
+//            do{
+//                try dayImageView.downloadedFrom(url: url!)
+//            }
+//            catch let error{
+//                print(error)
+//            }
+            if url != nil{
+                dayImageView.sd_setShowActivityIndicatorView(true)
+                dayImageView.sd_setIndicatorStyle(UIActivityIndicatorViewStyle.gray)
+                dayImageView.sd_setImage(with: url!, completed: nil)
+            }
+        }
+        viewsClicked()
+        print("Scroll view \(scrolViewInterry.heightAnchor)")
+    }
+    
     
     func setHiddenServices() {
         let hotelInStack = stackServices.arrangedSubviews[0]

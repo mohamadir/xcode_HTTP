@@ -155,7 +155,7 @@ class ContentVC: UIViewController, ISHPullUpContentDelegate, GMSMapViewDelegate,
                         self.googleMapConstrate.constant = 56
                     }
                     else{
-                        let snackbar = TTGSnackbar(message: "You must be join to the group to see members map", duration: .middle)
+                        let snackbar = TTGSnackbar(message: "You have to be a member of the group in order to view the members location", duration: .middle)
                         snackbar.icon = UIImage(named: "AppIcon")
                         snackbar.show()
                     }
@@ -427,8 +427,12 @@ class ContentVC: UIViewController, ISHPullUpContentDelegate, GMSMapViewDelegate,
         if marker.accessibilityLabel == "false" {
             let customInfoWindow = UINib(nibName: "MapMarkerWindowView", bundle: nil).instantiate(withOwner: self, options: nil).first as! MapMarkerWindow
             var dayNumber:Int? = Int(marker.snippet!)! + 1
-            customInfoWindow.dayNumber.text = "Day \((dayNumber!))"
             customInfoWindow.locationName.text = marker.title!
+            if self.mapDays.count > 1 {
+                customInfoWindow.dayNumber.text = "Day \((dayNumber!))"
+            }else {
+                customInfoWindow.dayNumber.text = ""
+            }
             customInfoWindow.viewclick.addTapGestureRecognizer {
                 print("Im clicked here")
                 self.openWaze(location: marker.position)

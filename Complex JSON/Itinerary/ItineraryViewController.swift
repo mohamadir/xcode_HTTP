@@ -50,15 +50,15 @@ class ItineraryViewController: UIViewController, BmoViewPagerDelegate, BmoViewPa
     func pickerView(_ pickerView: UIPickerView, viewForRow  row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
         
         let view = UIView()
-        view.frame = CGRect(x: 0 , y: 0 , width: 60, height: 60)
+        view.frame = CGRect(x: 0 , y: 0 , width: 60, height: 40)
         let label = UILabel()
         label.numberOfLines = 0
-        label.frame = CGRect(x: 0 , y: 0 , width: 60, height: 60)
+        label.frame = CGRect(x: 0 , y: 0 , width: 60, height: 40)
    //     label.topAnchor.constraint(equalTo: view.topAnchor, constant: 30)
         
       
         
-        
+    
         label.textAlignment = .center
         label.font = UIFont(name:"HelveticaNeue-Bold" , size: 12)
         label.text = "Day\n\(self.planDays[row].day_number!)"
@@ -71,6 +71,7 @@ class ItineraryViewController: UIViewController, BmoViewPagerDelegate, BmoViewPa
         label.transform =  CGAffineTransform(rotationAngle:  ( 90 * (.pi/180) ) )
 
         view.addSubview(label)
+        
         return view
 
     }
@@ -93,7 +94,7 @@ class ItineraryViewController: UIViewController, BmoViewPagerDelegate, BmoViewPa
         daysPicker.transform = CGAffineTransform(rotationAngle: rotationAngle )
      //   var y = daysPicker.frame.origin.y
 //
-        daysPicker.frame = CGRect(x: 0 , y: 130, width: view.frame.width , height: 45)
+        daysPicker.frame = CGRect(x: 0 , y: 0, width: view.frame.width , height: 45)
 //        let shadowPath = UIBezierPath()
 //        shadowPath.move(to: CGPoint(x: daysPicker.bounds.origin.y, y: daysPicker.frame.size.width))
 //        shadowPath.addLine(to: CGPoint(x: daysPicker.bounds.height / 2, y: daysPicker.bounds.width + 7.0))

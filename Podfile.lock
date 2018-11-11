@@ -22,6 +22,19 @@ PODS:
   - Digger (0.0.5)
   - ExpandableLabel (0.4.1)
   - Fabric (1.7.13)
+  - FacebookCore (0.4.0):
+    - Bolts (~> 1.9)
+    - FBSDKCoreKit (~> 4.36)
+  - FacebookLogin (0.4.0):
+    - Bolts (~> 1.9)
+    - FacebookCore (~> 0.4)
+    - FBSDKCoreKit (~> 4.36)
+    - FBSDKLoginKit (~> 4.36)
+  - FacebookShare (0.4.0):
+    - Bolts (~> 1.9)
+    - FacebookCore (~> 0.4)
+    - FBSDKCoreKit (~> 4.36)
+    - FBSDKShareKit (~> 4.36)
   - FBSDKCoreKit (4.37.0):
     - Bolts (~> 1.7)
   - FBSDKLoginKit (4.37.0):
@@ -167,12 +180,16 @@ DEPENDENCIES:
   - Crashlytics (~> 3.10.0)
   - Digger
   - ExpandableLabel
+  - FacebookCore
+  - FacebookLogin
+  - FacebookShare
   - FBSDKCoreKit
   - FBSDKLoginKit
   - FBSDKShareKit
   - Firebase/Core
   - Firebase/Database
   - Firebase/Messaging
+  - FirebaseAnalytics
   - FTPopOverMenu_Swift (~> 0.1.1)
   - GoneVisible
   - GoogleMaps
@@ -236,6 +253,9 @@ SPEC CHECKSUMS:
   Digger: c474bde76a91e0a36f12101c5dfe7e86774b15d3
   ExpandableLabel: 1ad99072d1d90f1db5925b8d04d56bf8607e5f9b
   Fabric: 25d0963b691fc97be566392243ff0ecef5a68338
+  FacebookCore: 770e57cfe250a4de4458b682191c0ff062dee247
+  FacebookLogin: eb0f2251aca835a94d70a5f7e580edc46d1e1603
+  FacebookShare: ec48492ba748f971c6a13661963f7aae38140111
   FBSDKCoreKit: fe5f3474499a81963e11e3f3a5c753d0a95ca2b4
   FBSDKLoginKit: 2f7249686d1e30ce8a5ef5400eedf50b3e3df332
   FBSDKShareKit: 52e0083222c38e930eb6878007478326599195c3
@@ -288,6 +308,6 @@ SPEC CHECKSUMS:
   XLPagerTabStrip: c908b17cbf42fcd2598ee1adfc49bae25444d88a
   YNExpandableCell: 47bf7cff721aa535c0e9e1163bf22b5573441bb4
 
-PODFILE CHECKSUM: a711a89f437e9ec3962886f70f2e5553e0aed888
+PODFILE CHECKSUM: 1c884c02ab17dbdbfe1996c859b315babc958f49
 
 COCOAPODS: 1.4.0

@@ -14,6 +14,12 @@ import ARSLineProgress
 
 class ProviderViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
 
+    @IBOutlet weak var ratingStack: UIStackView!
+    @IBOutlet weak var websiteStack: UIStackView!
+    @IBOutlet weak var emailStack: UIStackView!
+    @IBOutlet weak var phoneStack: UIStackView!
+    @IBOutlet weak var adressStack: UIStackView!
+    @IBOutlet weak var nameStack: UIStackView!
     @IBOutlet weak var tableViewHeightConstrans: NSLayoutConstraint!
     @IBOutlet weak var tableViewRatings: UITableView!
     @IBOutlet weak var slideShow: ImageSlideshow!
@@ -55,6 +61,7 @@ class ProviderViewController: UIViewController,UITableViewDelegate,UITableViewDa
         slideShow.circular = false
         slideShow.zoomEnabled = true
         slideShow.isMultipleTouchEnabled = false
+        slideShow.contentScaleMode = .scaleAspectFill
         slideShow.pageControlPosition = .insideScrollView
         slideShow.activityIndicator = DefaultActivityIndicator(style: .gray, color: UIColor.red)
         tableViewRatings.reloadData()
@@ -204,9 +211,11 @@ class ProviderViewController: UIViewController,UITableViewDelegate,UITableViewDa
     func getProvider(){
         
         print("^^^^ "+urlGetService!)
+        ARSLineProgress.show()
         HTTP.GET(urlGetService!, parameters:[])
         { response in
             if let err = response.error {
+                ARSLineProgress.hide()
                 print("error: \(err.localizedDescription)")
                 return //also notify app of failure as needed
             }
@@ -219,17 +228,13 @@ class ProviderViewController: UIViewController,UITableViewDelegate,UITableViewDa
                 DispatchQueue.main.sync {
                  ///  print("!!!!!!!!!!!!!! \(self.providerModel?.translations![0].)")
                     if self.providerModel?.images != nil {
-                          print("%%%%%%%%%%%%%%%%%%%% \(self.providerModel?.images?.count)")
                         if self.providerModel?.images?.count == 0 {
                         
                             self.slideShow.setImageInputs([
                                 ImageSource(image: UIImage(named: "Group Placeholder")!)])
                         }
                         else{
-                             print("%%%%%%%%%%%%%%%%%%%% \(self.providerModel?.images!)")
                             var images2: [InputSource] = []
-                            
-                            
                             for image in (self.providerModel?.images)! {
                                 if image.path !=  nil {
                                     let image_path: String = "\(ApiRouts.Media)\(image.path!)"
@@ -243,8 +248,9 @@ class ProviderViewController: UIViewController,UITableViewDelegate,UITableViewDa
                                 
                             }
                             print("after print \(images2.count)")
-                            //self.slideShow.setImageInputs(images2)
+                            self.slideShow.contentScaleMode = .scaleAspectFill
                             self.slideShow.setImageInputs(images2)
+                            self.slideShow.contentScaleMode = .scaleAspectFill
                             let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(ProviderViewController.didTap))
                             self.slideShow.addGestureRecognizer(gestureRecognizer)
                             
@@ -270,6 +276,8 @@ class ProviderViewController: UIViewController,UITableViewDelegate,UITableViewDa
                     if self.providerModel?.rating != nil {
                         self.rating.text = "\((self.providerModel?.rating)!) out of 10"
                         ProviderInfo.ratings = "\((self.providerModel?.rating)!) out of 10"
+                    }else{
+                        self.ratingStack.isHidden = true
                     }
                     if self.providerModel?.company_name != nil
                     {
@@ -293,27 +301,23 @@ class ProviderViewController: UIViewController,UITableViewDelegate,UITableViewDa
                         }
                         
                     }
-                     self.location.text =  ( self.providerModel?.city != nil ? self.providerModel?.city : "there is not exits")!
+                    if self.providerModel?.city != nil {
+                        self.location.text =  ( self.providerModel?.city != nil ? self.providerModel?.city : "there is not exits")!
+                    }else {
+                        self.adressStack.isHidden = true
+                    }
+                    
                     if self.providerModel?.phone != nil
                     {
                          self.phoneNumber.text = self.providerModel?.phone
                     }
                     else{
+                        self.phoneStack.isHidden = true
                         self.phoneNumber.text = "there no phone number"
                         self.phoneNumber.alpha = 0.3
 
                     }
-                    
-                    
-                    if  self.providerModel?.phone != nil
-                    {
-                          self.phoneNumber.text = (self.providerModel?.phone)!
-                    }
-                    else
-                    {
-                        self.phoneNumber.text = "there no phone number"
-
-                    }
+    
                     if  self.providerModel?.contacts != nil
                     {
                         if  (self.providerModel?.contacts?.count)! > 0
@@ -321,7 +325,7 @@ class ProviderViewController: UIViewController,UITableViewDelegate,UITableViewDa
                             if (self.providerModel?.contacts![0].email) == nil
                             {
                                 self.email.text = "no email"
-                                self.email.alpha = 0.3
+                                self.emailStack.isHidden = true
                             }
                             else{
                              self.email.text =  (self.providerModel?.contacts![0].email)
@@ -329,32 +333,36 @@ class ProviderViewController: UIViewController,UITableViewDelegate,UITableViewDa
                         }
                         else
                         {
+                            
                              self.email.text = "no email"
-                            self.email.alpha = 0.3
+                            self.emailStack.isHidden = true
+                            
                         }
                     }
                     else
                     {
                         self.email.text = "no email"
-                        self.email.alpha = 0.3
+                        self.emailStack.isHidden = true
                     }
                     if self.providerModel?.webSite != nil
                     {
                         self.website.text = (self.providerModel?.webSite)
                     }
                     else{
-                        self.website.text = "there is no website"
+                       self.websiteStack.isHidden = true
                         self.website.alpha = 0.3
                     }
-                    
+                     ARSLineProgress.hide()
                    
 
                 }
+                 ARSLineProgress.hide()
 
                 
                 print("after Decoding \(self.providerModel)")
             }
              catch let error {
+                 ARSLineProgress.hide()
             }
       }
             

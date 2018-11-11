@@ -156,44 +156,18 @@ class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UI
         print("hioooosh")
         self.setAlphaView()
     }
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        paymentLbl.text = "Booking"
-              print("view xcontroler 231 \(MyVriables.shouldRefreshBusStation)")
-        self.singleGroup  = MyVriables.currentGroup!
-        if singleGroup?.translations?.count == 0 {
-            self.groupNameLbl.text = singleGroup?.title
-        }
-        else {
-            self.groupNameLbl.text = singleGroup?.translations?[0].title
-
-        }
-        
-        
-        if (self.singleGroup?.group_tools?.arrival_confirmation!)! == true
-        {
-            getArriveChecked()
-        }
-        setAlphaView()
-        print("group tools \((self.singleGroup?.group_tools?.chat!)!)")
-        self.groupNameLbl.numberOfLines = 0
-        self.groupNameLbl.lineBreakMode = .byWordWrapping
-     //   self.membersTp.addTarget(self, action: #selector(membersClick), for: .touchUpInside)
+    func viewsClick() {
         membersView.addTapGestureRecognizer {
             
             if (self.singleGroup?.group_tools?.members!)! == true
             {
                 if (self.singleGroup?.role) != nil && (self.singleGroup?.role)! != "observer"
                 {
-                self.performSegue(withIdentifier: "showMembers", sender: self)
+                    self.performSegue(withIdentifier: "showMembers", sender: self)
                 }
             }
-        
+            
         }
-//        backToDeatils.addTapGestureRecognizer {
-//            self.tabBarController?.selectedIndex = 0
-//
-//        }
         backView.addTapGestureRecognizer {
             self.tabBarController?.selectedIndex = 0
             
@@ -213,7 +187,7 @@ class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UI
                     self.navigationController?.pushViewController(vc,animated: true)
                 }
             }
-
+            
         }
         rolesView.addTapGestureRecognizer {
             self.performSegue(withIdentifier: "rolesSegue", sender: self)
@@ -224,7 +198,7 @@ class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UI
             {
                 self.performSegue(withIdentifier: "showMainMap", sender: self)
                 //showMainMap
-                 //self.performSegue(withIdentifier: "showTest", sender: self)
+                //self.performSegue(withIdentifier: "showTest", sender: self)
             }
             
         }
@@ -247,12 +221,12 @@ class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UI
             {
                 if (self.singleGroup?.role) != nil && (self.singleGroup?.role)! != "observer"
                 {
-                   self.performSegue(withIdentifier: "showDocsSegue", sender: self)
+                    self.performSegue(withIdentifier: "showDocsSegue", sender: self)
                 }
-
+                
             }
-           
-
+            
+            
         }
         groupChatView.addTapGestureRecognizer {
             if (self.singleGroup?.group_tools?.chat!)! == true
@@ -271,11 +245,11 @@ class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UI
             {
                 if (self.singleGroup?.role) != nil && (self.singleGroup?.role)! != "observer"
                 {
-                 self.performSegue(withIdentifier: "showCheckList", sender: self)
+                    self.performSegue(withIdentifier: "showCheckList", sender: self)
                 }
             }
-           
-
+            
+            
         }
         leaderView.addTapGestureRecognizer {
             if (self.singleGroup?.group_tools?.group_leader!)! == true
@@ -288,14 +262,40 @@ class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UI
             {
                 if (self.singleGroup?.role) != nil && (self.singleGroup?.role)! != "observer"
                 {
-                self.performSegue(withIdentifier: "showArrivalConfirmation", sender: self)
+                    self.performSegue(withIdentifier: "showArrivalConfirmation", sender: self)
                 }
             }
         }
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        paymentLbl.text = "Booking"
+              print("view xcontroler 231 \(MyVriables.shouldRefreshBusStation)")
+        self.singleGroup  = MyVriables.currentGroup!
+        if singleGroup?.translations?.count == 0 {
+            self.groupNameLbl.text = singleGroup?.title
+        }
+        else {
+            self.groupNameLbl.text = singleGroup?.translations?[0].title
+
+        }
+        
+        
+        if (self.singleGroup?.group_tools?.arrival_confirmation!)! == true
+        {
+            getArriveChecked()
+        }
+        setAlphaView()
+        print("group tools \((self.singleGroup?.group_tools?.chat!)!)")
+        self.groupNameLbl.numberOfLines = 0
+        self.groupNameLbl.lineBreakMode = .byWordWrapping
+        viewsClick()
         
         startTimer()
         // Do any additional setup after loading the view.
     }
+    
     @objc func runScheduledTask(_ runningTimer: Timer) {
         var hour: Int
         var minute: Int
@@ -334,28 +334,28 @@ class MenuViewController: UIViewController , UIImagePickerControllerDelegate, UI
         dateFormatter.dateFormat = "yyyy-MM-dd"
         let date2 = dateFormatter.date(from: date)!
         print("REG END DATE: "+dateFormatter.string(from: date2))
-        var days = Calendar.current.dateComponents([.day], from: currentDate, to: date2).day! as? Int
-        var hours = Calendar.current.dateComponents([.day,.hour,.minute,.month], from: currentDate, to: date2).hour! as? Int
-        var mintus = Calendar.current.dateComponents([.day,.hour,.minute,.month], from: currentDate, to: date2).minute! as? Int
-        var seconds = Calendar.current.dateComponents([.day,.second,.hour,.minute,.month], from: currentDate, to: date2).second! as? Int
-        var minToSecs = mintus! * 60
-        var hourstoSecs = hours! * 60 * 60
-        var daysToSecs = days! * 24 * 60 * 60
-        var allSec = minToSecs + hourstoSecs + daysToSecs + seconds!
+        let days = Calendar.current.dateComponents([.day], from: currentDate, to: date2).day!
+        let hours = Calendar.current.dateComponents([.day,.hour,.minute,.month], from: currentDate, to: date2).hour!
+        let mintus = Calendar.current.dateComponents([.day,.hour,.minute,.month], from: currentDate, to: date2).minute!
+        let seconds = Calendar.current.dateComponents([.day,.second,.hour,.minute,.month], from: currentDate, to: date2).second!
+        let minToSecs = mintus * 60
+        let hourstoSecs = hours * 60 * 60
+        let daysToSecs = days * 24 * 60 * 60
+        let allSec = minToSecs + hourstoSecs + daysToSecs + seconds
      
-        print("days: \(days!) , hours: \(hours!)")
-        if days! < 0 || hours! < 0 {
+        print("days: \(days) , hours: \(hours)")
+        if days < 0 || hours < 0 {
             print("Closed")
         }
         else{
-            daysLbl.text = String(format: "%02d", days!)
-            minLbl.text = String(format: "%02d", mintus!)
-            secLbl.text = String(format: "%02d", seconds!)
-            hoursLbl.text = String(format: "%02d", hours!)
+            daysLbl.text = String(format: "%02d", days)
+            minLbl.text = String(format: "%02d", mintus)
+            secLbl.text = String(format: "%02d", seconds)
+            hoursLbl.text = String(format: "%02d", hours)
             self.secondsLeft = allSec
             
             self.timer1  = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.runScheduledTask), userInfo: nil, repeats: true)
-            print("\(days!) d' \(hours!) h'  and \(mintus!) mintus and \(seconds!) sec to join")
+            print("\(days) d' \(hours) h'  and \(mintus) mintus and \(seconds) sec to join")
         }
         
         //   print(date)

@@ -19,6 +19,7 @@ import SwiftHTTP
 import TTGSnackbar
 import FBSDKCoreKit
 
+
 class Counters: Codable{
     var total_unread_messages: Int?
     var total_unread_notifications: Int?
@@ -180,12 +181,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
         print("Im here in notfaction fire base function 1")
         getAccessToken()
         
+    
+
+        
+      
+        UIApplication.shared.statusBarView?.backgroundColor = Colors.backgroundStatusBar
+        UIApplication.shared.statusBarStyle = .lightContent
         // Override point for customization after application launch.
         //        UNUserNotificationCenter.current().delegate = self
         
         
         
         FirebaseApp.configure()
+        
         print("Sdk facebook im before didFinishLaunchingWithOptions ")
         // FBSDKApplicationDelegate.sharedInstance().application(application,didFinishLaunchingWithOptions: launchOptions)
         print("Sdk facebook im after didFinishLaunchingWithOptions ")
@@ -227,7 +235,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
         }
     }
     func subscribeToMyGroups(id: Int) {
-        HTTP.GET(ApiRouts.Api+"/groups?member_id=\((id))&my_groups=true&roles[]=group_leader&roles[]=member") { response in
+        HTTP.POST(ApiRouts.Api+"/filter/my_groups", parameters: ["member_id" : id , "sort" : true]) { response in
             if let error = response.error {
                 print("V2 error is \(error)")
                 return
@@ -236,16 +244,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
             do {
                 print("V2 Response iss \(response.description)")
                 let  groups : SubscribeGroups = try JSONDecoder().decode(SubscribeGroups.self, from: response.data)
-                if (groups.groups?.count) != 0
+                if (groups.data?.count) != 0
                 {
                    //    print("Groups subscribe \(groups.groups!)")
                     DispatchQueue.main.async {
-                        for group in (groups.groups)!
+                        for group in (groups.data)!
                         {
                             if Messaging.messaging().fcmToken != nil {
-                                print("Sucbscribe to " + "/topics/IOS-LOCATION-\((group.id)!)")
-                                print("Sucbscribe to " + "/topics/IOS-GROUP-\(String(describing: (group.id!)))")
-                                print("Sucbscribe to " + "/topics/IOS-CHAT-GROUP-\(String(describing: (group.id!)))")
+//                                print("Sucbscribe to " + "/topics/IOS-LOCATION-\((group.id)!)")
+//                                print("Sucbscribe to " + "/topics/IOS-GROUP-\(String(describing: (group.id!)))")
+//                                print("Sucbscribe to " + "/topics/IOS-CHAT-GROUP-\(String(describing: (group.id!)))")
                                 Messaging.messaging().subscribe(toTopic: "/topics/IOS-LOCATION-\((group.id)!)")
                                 Messaging.messaging().subscribe(toTopic: "/topics/IOS-GROUP-\((group.id)!)")
                                 Messaging.messaging().subscribe(toTopic: "/topics/IOS-CHAT-GROUP-\((group.id)!)")
@@ -622,3 +630,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
 }
 
 
+extension UIApplication {
+    var statusBarView: UIView? {
+        if responds(to: Selector("statusBar")) {
+            return value(forKey: "statusBar") as? UIView
+        }
+        return nil
+    }
+}

@@ -232,7 +232,7 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
     @IBOutlet weak var newFilterView: UIView!
     @IBOutlet var settingClick: UIButton!
     /******* VARIABLES *********/
-    var menuIcon: String = "iMenuIcon"
+    var menuIcon: String = "menuheader-white"
     var myGrous: [GroupItemObject] = []
     var currentGroup: GroupItemObject?
     @IBOutlet weak var fbBt: UIButton!
@@ -331,10 +331,8 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
 
-        
-        
-        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -443,6 +441,8 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
                 self.groupCollectionView.reloadData()
                 print("Refresh groups without filter")
                 self.phoneNumberFeild.text = ""
+                self.filterClickView.isHidden = true
+                self.filterButton.isHidden = true
                 self.phoneNumberStackView.isHidden = false
                 self.registerView.isHidden = false
                 self.chatHeaderStackView.isHidden = true
@@ -509,17 +509,7 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
             // showToast("My Message", 3.0)
             self.refreshData()
         }
-//         item2 = PopoverItem(title: "Public groups", titleColor: self.clickes[2] == true ? Colors.PrimaryColor : UIColor.black, image : UIImage(named: "")) { debugPrint($0.title)
-//            self.clickes[0] = false
-//            self.clickes[1] = false
-//            self.clickes[3] = false
-//            self.clickes[2] = true
-//            self.clickes[4] = false
-//            self.search = ""
-//            self.filter = "open"
-//            self.sort = "created_at&order=desc"
-//            self.refreshData()
-//        }
+
          item3 = PopoverItem(title: "One day groups", titleColor: self.clickes[2] == true ? Colors.PrimaryColor : UIColor.black, image: UIImage(named: "")) { debugPrint($0.titleColor)
             print("asd")
             self.clickes[0] = false
@@ -573,11 +563,52 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
     @objc func myTargetFunction(textField: UITextField) {
     present(placesSearchController, animated: true, completion: nil)
     }
+    
+    @IBOutlet weak var filterClickView: UIView!
+    @IBOutlet weak var hidePhonePicker: UIView!
+    @IBOutlet weak var hideSearchView: UIView!
+    @IBOutlet weak var searchView: UIView!
+    @IBOutlet weak var newSearcIcon: UIView!
     override func viewDidLoad() {
         super.viewDidLoad()
         print("hiosh")
+//       Analytics.logEvent("TestEvent", parameters: nil)
+        countyCodePickerView.textColor = UIColor.white
+        phoneNumberFeild.attributedPlaceholder = NSAttributedString(string: "Enter a phone ..",
+                                                            attributes: [NSAttributedString.Key.foregroundColor: Colors.whiteLight])
         searchDestantion.addTarget(self, action: #selector(myTargetFunction), for: UIControlEvents.touchDown)
-
+        hidePhonePicker.addTapGestureRecognizer {
+             self.registerView.isHidden = false
+        }
+        hideSearchView.addTapGestureRecognizer {
+            self.searchView.fadeOut(completion: {
+                (finished: Bool) -> Void in
+                self.searchView.isHidden = true
+                self.chatView.fadeIn()
+                self.inboxView.fadeIn()
+                self.menuView.fadeIn()
+                self.chatView.isHidden = false
+                self.inboxView.isHidden = false
+                self.menuView.isHidden = false
+                
+            })
+            self.view.endEditing(true)
+            
+        }
+        newSearcIcon.addTapGestureRecognizer {
+            self.inboxView.fadeOut(completion: {
+                (finished: Bool) -> Void in
+                self.menuView.isHidden = true
+                self.chatView.isHidden = true
+                self.inboxView.isHidden = true
+                self.searchView.fadeIn()
+                self.searchView.isHidden = false
+                
+            })
+            self.searchBarFilter.becomeFirstResponder()
+        }
+       searchBarFilter.setImage(UIImage(), for: .search, state: .normal)
+       searchBarFilter.setPlaceholderTextColorTo(color: UIColor.white)
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "dismissKeyboardd")
         
         //Uncomment the line below if you want the tap not not interfere and cancel other interactions.
@@ -741,7 +772,7 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
                     UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded();})
                 }
                 
-                self.menuImage.image = UIImage(named: "arrow right")
+                self.menuImage.image = UIImage(named: "backbutton-white")
                 UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded();})
                 self.memberLeadingConstraints.constant = 0
                 UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded();})
@@ -787,6 +818,11 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
         setMemberMenuView()
     }
 
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        print("Clcikced cencel")
+    }
+    
+    
     @objc func handleCustomFBLogin() {
         setCheckTrue(type: "facebook_header", groupID: -1)
         FBSDKLoginManager().logIn(withReadPermissions: ["email"], from: self) { (result, err) in
@@ -831,9 +867,12 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
                 //Download image from imageURL
             }
             
-            let facebookMember : FacebookMember = FacebookMember(first_name: userInfo["first_name"] != nil ? userInfo["first_name"] as? String : "", last_name: userInfo["last_name"] != nil ? userInfo["last_name"] as? String : "", facebook_id: userInfo["id"] != nil ? userInfo["id"] as? String : "", facebook_profile_image: ((userInfo["picture"] as? [String: Any])?["data"] as? [String: Any])?["url"] as? String)
+            let facebookMember2 : FacebookMember = FacebookMember(first_name: userInfo["first_name"] != nil ? userInfo["first_name"] as? String : "", last_name: userInfo["last_name"] != nil ? userInfo["last_name"] as? String : "", facebook_id: userInfo["id"] != nil ? userInfo["id"] as? String : "", facebook_profile_image: ((userInfo["picture"] as? [String: Any])?["data"] as? [String: Any])?["url"] as? String)
             self.dismiss(animated: true, completion: nil)
-            SwiftEventBus.post("facebookLogin", sender: facebookMember)
+            
+            self.facebookMember = facebookMember2
+            self.checkIfMember(textFeild: (self.facebookMember?.facebook_id!)!, type: "facebook_id",facebookMember: self.facebookMember)
+           // SwiftEventBus.post("facebookLogin", sender: facebookMember)
         })
         
         
@@ -1073,13 +1112,17 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
         print("Im in  isLogged \(isLogged)")
         
         if isLogged == true{
+            self.filterClickView.isHidden = false
+            self.filterButton.isHidden = false
           //  self.searchbarButrnsView.isHidden = false
             self.lastitem = 0
             print("IS logged = true")
             filter = "all"
             self.getMember(memberId: id)
             setBadges()
-                self.isLogged = true
+            self.filterClickView.isHidden = false
+            self.filterButton.isHidden = false
+            self.isLogged = true
                 self.noGroupsView.isHidden = true
                 self.id = id
                 self.registerView.isHidden = true
@@ -1089,28 +1132,23 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
                 self.profileImageView.layer.masksToBounds = false
                 self.profileImageView.layer.cornerRadius = self.profileImageView.frame.height/2
                 self.profileImageView.clipsToBounds = true
-//            self.managamentBt.setTitleColor(UIColor.black, for: .normal)
-//            self.publicGroupsbt.setTitleColor(UIColor.black, for: .normal)
-//            self.multiDaysBt.setTitleColor(UIColor.black, for: .normal)
-//            if #available(iOS 11.0, *) {
-//                self.myGroupsBt.setTitleColor(UIColor(named: "Primary"), for: .normal)
-//            } else {
-//                // Fallback on earlier versions
-//                self.myGroupsBt.setTitleColor(Colors.PrimaryColor, for: .normal)
-//           }
-//            self.allGroupsBt.setTitleColor(UIColor.black, for: .normal)
-//            self.oneDayBt.setTitleColor(UIColor.black, for: .normal)
+
             self.sort = standart_sort
+            self.page = 1
+            self.lastitem = 0
+            self.myGrous = []
             self.hasLoadMore = true
           
             self.getGroupsByFilter()
-                // myGroupByPhoneView.isHidden = true
+         
             
             
             
             
             
         }else{
+            self.filterClickView.isHidden = true
+            self.filterButton.isHidden = true
             //self.searchbarButrnsView.isHidden = false
            // self.tableView.tableHeaderView = nil
             self.lastitem = 0
@@ -1257,7 +1295,10 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
                         MyVriables.phoneNumberr = textFeild
                         MyVriables.phoneNumber = textFeild
                     }
-                    self.performSegue(withIdentifier: "showGdbr", sender: self)
+                            let vc = self.storyboard?.instantiateViewController(withIdentifier: "PrivacyDialogVc") as! PrivacyDialogVc
+                            self.present(vc, animated: true, completion: nil)
+                    
+                   // self.performSegue(withIdentifier: "showGdbr", sender: self)
                 }
             }
             }
@@ -1320,12 +1361,8 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
         VerifyAlert.addAction(UIAlertAction(title: NSLocalizedString("Yes", comment: "Default action"), style: .`default`, handler: { _ in
                 MyVriables.kindRegstir = "phone"
                 MyVriables.phoneNumberr = self.phoneNumber
-                self.performSegue(withIdentifier: "showTerms", sender: self)
-        
-            
-            
-          
-            
+                //self.performSegue(withIdentifier: "showTerms", sender: self)
+            self.checkIfMember(textFeild: "\(self.contryCodeString)\(self.phoneNumberFeild.text!)",type: "phone", facebookMember: self.facebookMember)
         }))
         VerifyAlert.addAction(UIAlertAction(title: NSLocalizedString("No", comment: "Default action"), style: .`default`, handler: { _ in
             print("no")
@@ -1376,6 +1413,10 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
                   setCheckTrue(type: "member_logged", groupID: -1)
                 let  member = try JSONDecoder().decode(CurrentMember.self, from: response.data)
                 self.currentMember = member
+                Analytics.logEvent("SignupSucess", parameters: [
+                    "member_id": "\((member.member?.id)!)"
+                    ])
+                logSignupSucessEvent(member_id: (member.member?.id)!)
                 self.setToUserDefaults(value: true, key: "isLogged")
                 self.setToUserDefaults(value: self.currentMember?.profile?.member_id!, key: "member_id")
                 self.setToUserDefaults(value: self.currentMember?.profile?.first_name , key: "first_name")
@@ -1472,6 +1513,10 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
 
                     let  member = try JSONDecoder().decode(CurrentMember.self, from: response.data)
                     print(member)
+                    Analytics.logEvent("SignupSucess", parameters: [
+                        "member_id": "\((member.member?.id)!)"
+                        ])
+                    logSignupSucessEvent(member_id: (member.member?.id)!)
                     self.currentMember = member
                     self.setToUserDefaults(value: true, key: "isLogged")
                     //  print(self.currentMember?.profile!)
@@ -1985,6 +2030,12 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
             cell.groupTitle.text = ""
         }
         }
+        if self.myGrous[currentIndex].special_price != nil {
+            cell.iSspecialPrice.isHidden = false
+           
+        }else{
+            cell.iSspecialPrice.isHidden = true
+        }
         return cell
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -2022,13 +2073,7 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
                 print("is Logged - has Loaded More true")
                 self.getGroupsByFilter()
             }else{
-                print("Filter is \(self.filter)")
-                if self.filter == "search"{
-                    self.getGroupsByFilter()
-                }else {
-                    self.getSwiftGroups()
-
-                }
+                self.getSwiftGroups()
                 print("Not  Logged - has Loaded More false")
                 
             }
@@ -2057,22 +2102,46 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
          // var currentIndex = isLogged ? indexPath.row-1 : indexPath.row
         let currentIndex = indexPath.row
         let cell : CustomTableViewCell = tableView.dequeueReusableCell(withIdentifier: "customCell",for: indexPath) as! CustomTableViewCell
+        cell.tableviewCell.layer.cornerRadius = 1
+        
+        // border
+        cell.tableviewCell.layer.cornerRadius = 1
+        cell.tableviewCell.layer.shadowColor = UIColor.gray.cgColor
+        cell.tableviewCell.layer.shadowOffset = CGSize(width: 0.0, height: 0.0)
+        cell.tableviewCell.layer.shadowRadius = 12.0
+        cell.tableviewCell.layer.shadowOpacity = 0.7
+        
+
         cell.viewInfo.tag = currentIndex
         cell.viewInfo.addTapGestureRecognizer(action: ShowModel)
         if self.myGrous[currentIndex].special_price != nil {
             cell.isSaleGroup.isHidden = false
+            cell.newPrice.text = "£\((self.myGrous[currentIndex].special_price)!)"
+            if self.myGrous[currentIndex].price != nil {
+                cell.oldPrice.text = "£\((self.myGrous[currentIndex].price)!)"
+                cell.slashImage.isHidden = false
+            }else
+            {
+                cell.oldPrice.text = ""
+                cell.slashImage.isHidden = true
+                
+            }
         }else{
+            if self.myGrous[currentIndex].price != nil {
+                cell.newPrice.text = "£\((self.myGrous[currentIndex].price)!)"
+                cell.slashImage.isHidden = true
+                cell.oldPrice.text = ""
+            }else
+            {
+                cell.oldPrice.text = ""
+                cell.slashImage.isHidden = true
+                cell.newPrice.text = ""
+                
+            }
            cell.isSaleGroup.isHidden = true
         }
         cell.totalDaysLbl.text = self.myGrous[currentIndex].days != nil ? "\((self.myGrous[currentIndex].days)!)" : ""
         
-//        if self.myGrous[currentIndex].target_members != nil{
-//            cell.totalMembersLbl.text = "\(self.myGrous[currentIndex].target_members!)"
-//        }else{
-//            if self.myGrous[currentIndex].max_members != nil {
-//                cell.totalMembersLbl.text = "\(self.myGrous[currentIndex].max_members!)"
-//            }
-//        }
         if self.myGrous[currentIndex].translations?.count != 0
         {
             cell.membersLbl.numberOfLines = 2
@@ -2103,6 +2172,7 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
             //cell.membersIcon.isHidden = true
             if self.myGrous[currentIndex].frequency != nil
             {
+                cell.frequencyLbl.text = self.myGrous[currentIndex].frequency != nil ? "\((self.myGrous[currentIndex].frequency)!.capitalizingFirstLetter()) Tour": ""
                 cell.tagLinefrequencyView.isHidden = false
                 cell.startDayLbl.text = (self.myGrous[currentIndex].frequency)!
             }else
@@ -2111,11 +2181,12 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
                 cell.startDayLbl.text = "" 
             }
             
-            
+            cell.dateAndNightsLbl.text = ""
             //cell.startDayLbl.text = getStartDate(date: self.myGrous[currentIndex].start_date!)
             cell.isReccuring.image = UIImage(named: "dailyicon")
         }else
         {
+            cell.dateAndNightsLbl.text = "\(self.myGrous[currentIndex].start_date!.split(separator: "-")[2]) \(getMonthName(month: String(self.myGrous[currentIndex].start_date!.split(separator: "-")[1]))) \(self.myGrous[currentIndex].start_date!.split(separator: "-")[0]) \n\((self.myGrous[currentIndex].days)!) Days"
             cell.daysLbl.text = "Days"
             cell.tagLinefrequencyView.isHidden = true
             cell.ItineraryImage.isHidden = false
@@ -2124,6 +2195,7 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
             cell.isReccuring.image = UIImage(named: "calendar")
             
         }
+        
         if currentIndex > -1 && currentIndex < self.myGrous.count {
         if self.myGrous[currentIndex].images != nil && (self.myGrous[currentIndex].images?.count)! > 0{
             do{
@@ -2318,7 +2390,14 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
         
         var currentIndex = indexPath.row
         let cell : YoutubeGroupCell = tableView.dequeueReusableCell(withIdentifier: "YoutubeGroupCell",for: indexPath) as! YoutubeGroupCell
+        cell.youtubeCellView.layer.cornerRadius = 1
         
+        // border
+        cell.youtubeCellView.layer.cornerRadius = 1
+        cell.youtubeCellView.layer.shadowColor = UIColor.gray.cgColor
+        cell.youtubeCellView.layer.shadowOffset = CGSize(width: 0.0, height: 0.0)
+        cell.youtubeCellView.layer.shadowRadius = 12.0
+        cell.youtubeCellView.layer.shadowOpacity = 0.7
                 if self.myGrous[currentIndex].images != nil && (self.myGrous[currentIndex].images?.count)! > 0{
                         do{
                             var urlString: String = try ApiRouts.Media + (self.myGrous[currentIndex].images?[0].path)!
@@ -2348,7 +2427,53 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
         
                         cell.groupImage.image = UIImage(named: "Group Placeholder")
                     }
-        cell.date.text = "\((self.myGrous[currentIndex].start_date)!)   \((self.myGrous[currentIndex].days) != nil ? "\((self.myGrous[currentIndex].days)!)Days" : "")"
+        
+        if self.myGrous[currentIndex].rotation != nil && (self.myGrous[currentIndex].rotation)! == "reccuring"
+        {
+            cell.date.text  = ""
+            cell.members.textColor = Colors.PrimaryColor
+              cell.members.text = self.myGrous[currentIndex].frequency != nil ? "\((self.myGrous[currentIndex].frequency)!.capitalizingFirstLetter()) Tour": ""
+        }else
+        {
+            cell.members.textColor = UIColor.black
+
+
+            
+            cell.date.text = "\(self.myGrous[currentIndex].start_date!.split(separator: "-")[2]) \(getMonthName(month: String(self.myGrous[currentIndex].start_date!.split(separator: "-")[1]))) \(self.myGrous[currentIndex].start_date!.split(separator: "-")[0])"
+            cell.members.text = "\((self.myGrous[currentIndex].days!)) Days"
+        }
+        if self.myGrous[currentIndex].translations?.count != 0 {
+            cell.groupTitle.text = self.myGrous[currentIndex].translations?[0].title
+            
+        }else{
+            cell.groupTitle.text = ""
+        }
+        if self.myGrous[currentIndex].special_price != nil {
+            cell.isSaleGroup.isHidden = false
+            cell.newPrice.text = "£\((Int(self.myGrous[currentIndex].special_price!)))"
+            if self.myGrous[currentIndex].price != nil {
+                cell.oldPrice.text = "£\(((self.myGrous[currentIndex].price!)))"
+                cell.slashImage.isHidden = false
+            }else
+            {
+                cell.oldPrice.text = ""
+                cell.slashImage.isHidden = true
+                
+            }
+        }else{
+            if self.myGrous[currentIndex].price != nil {
+                cell.newPrice.text = "£\(((self.myGrous[currentIndex].price!)))"
+                cell.slashImage.isHidden = true
+                cell.oldPrice.text = ""
+            }else
+            {
+                cell.oldPrice.text = ""
+                cell.slashImage.isHidden = true
+                cell.newPrice.text = ""
+                
+            }
+            cell.isSaleGroup.isHidden = true
+        }
         
      
 //            cell.startDayLbl.text = getStartDate(date: self.myGrous[currentIndex].start_date!)
@@ -2366,81 +2491,81 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
 //
 //            // if company
         
-        if self.myGrous[currentIndex].is_company == 0 {
-            if self.myGrous[currentIndex].group_leader != nil {
-                if self.myGrous[currentIndex].group_leader?.profile != nil {
-                    cell.groupleadername.text = self.myGrous[currentIndex].group_leader?.profile?.first_name != nil ?"\((self.myGrous[currentIndex].group_leader?.profile?.first_name)!) \((self.myGrous[currentIndex].group_leader?.profile?.last_name)!)": ""
-                }
-                
-                if self.myGrous[currentIndex].group_leader?.images != nil && (self.myGrous[currentIndex].group_leader?.images?.count)! > 0 {
-                    do{
-                        var urlString =  ApiRouts.Media + (self.myGrous[currentIndex].group_leader?.images?[0].path)!
-                        urlString = urlString.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)!
-                        
-                        var url = URL(string: urlString)
-                        if url == nil {
-                        }else {
-                            cell.groupleaderIm.sd_setImage(with: url!, completed: nil)
-                            cell.groupleaderIm.layer.cornerRadius = cell.groupleaderIm.frame.size.width / 2;
-                            cell.groupleaderIm.clipsToBounds = true;
-                            cell.groupleaderIm.layer.borderWidth = 1.0
-                            cell.groupleaderIm.layer.borderColor = UIColor.gray.cgColor
-                            cell.groupleaderIm.contentMode = .scaleAspectFill
-                        }
-                    }
-                    catch let error{
-                    }
-                    
-                }
-                else
-                {
-                    cell.groupleaderIm.image = UIImage(named: "default user")
-                    cell.groupleaderIm.layer.borderWidth = 0
-                    cell.groupleaderIm.layer.cornerRadius = 0;
-                    cell.groupleaderIm.clipsToBounds = false;
-                }
-            }
-            
-        } // if just group leader
-        else{
-            if self.myGrous[currentIndex].group_leader != nil {
-                if self.myGrous[currentIndex].group_leader?.profile != nil {
-                    cell.groupleadername.text = self.myGrous[currentIndex].group_leader?.profile?.company_name != nil ? (self.myGrous[currentIndex].group_leader?.profile?.company_name)! : "Company"
-                }
-                
-                
-                if self.myGrous[currentIndex].group_leader?.profile?.company_image != nil{
-                    
-                    do{
-                        var urlString = try ApiRouts.Media + (self.myGrous[currentIndex].group_leader?.profile?.company_image)!
-                        urlString = urlString.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)!
-                        var url = URL(string: urlString)
-                        if url == nil {
-                        }else {
-                            cell.groupleaderIm.sd_setImage(with: url!, completed: nil)
-                            
-                        }
-                    }catch {
-                        
-                    }
-                }
-                else
-                {
-                    cell.groupleaderIm.image = UIImage(named: "group tools title")
-                }
-                cell.groupleaderIm.layer.borderWidth = 0
-                cell.groupleaderIm.layer.cornerRadius = 0;
-                cell.groupleaderIm.clipsToBounds = false;
-                cell.groupleaderIm.contentMode = .scaleAspectFit
-            }
-        }
-            cell.selectionStyle = .none
-            if self.myGrous[currentIndex].translations?.count != 0 {
-                cell.groupTitle.text = self.myGrous[currentIndex].translations?[0].title
-
-            }else{
-                cell.groupTitle.text = ""
-        }
+//        if self.myGrous[currentIndex].is_company == 0 {
+//            if self.myGrous[currentIndex].group_leader != nil {
+//                if self.myGrous[currentIndex].group_leader?.profile != nil {
+//                    cell.groupleadername.text = self.myGrous[currentIndex].group_leader?.profile?.first_name != nil ?"\((self.myGrous[currentIndex].group_leader?.profile?.first_name)!) \((self.myGrous[currentIndex].group_leader?.profile?.last_name)!)": ""
+//                }
+//                
+//                if self.myGrous[currentIndex].group_leader?.images != nil && (self.myGrous[currentIndex].group_leader?.images?.count)! > 0 {
+//                    do{
+//                        var urlString =  ApiRouts.Media + (self.myGrous[currentIndex].group_leader?.images?[0].path)!
+//                        urlString = urlString.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)!
+//                        
+//                        var url = URL(string: urlString)
+//                        if url == nil {
+//                        }else {
+//                            cell.groupleaderIm.sd_setImage(with: url!, completed: nil)
+//                            cell.groupleaderIm.layer.cornerRadius = cell.groupleaderIm.frame.size.width / 2;
+//                            cell.groupleaderIm.clipsToBounds = true;
+//                            cell.groupleaderIm.layer.borderWidth = 1.0
+//                            cell.groupleaderIm.layer.borderColor = UIColor.gray.cgColor
+//                            cell.groupleaderIm.contentMode = .scaleAspectFill
+//                        }
+//                    }
+//                    catch let error{
+//                    }
+//                    
+//                }
+//                else
+//                {
+//                    cell.groupleaderIm.image = UIImage(named: "default user")
+//                    cell.groupleaderIm.layer.borderWidth = 0
+//                    cell.groupleaderIm.layer.cornerRadius = 0;
+//                    cell.groupleaderIm.clipsToBounds = false;
+//                }
+//            }
+//            
+//        } // if just group leader
+//        else{
+//            if self.myGrous[currentIndex].group_leader != nil {
+//                if self.myGrous[currentIndex].group_leader?.profile != nil {
+//                    cell.groupleadername.text = self.myGrous[currentIndex].group_leader?.profile?.company_name != nil ? (self.myGrous[currentIndex].group_leader?.profile?.company_name)! : "Company"
+//                }
+//                
+//                
+//                if self.myGrous[currentIndex].group_leader?.profile?.company_image != nil{
+//                    
+//                    do{
+//                        var urlString = try ApiRouts.Media + (self.myGrous[currentIndex].group_leader?.profile?.company_image)!
+//                        urlString = urlString.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)!
+//                        var url = URL(string: urlString)
+//                        if url == nil {
+//                        }else {
+//                            cell.groupleaderIm.sd_setImage(with: url!, completed: nil)
+//                            
+//                        }
+//                    }catch {
+//                        
+//                    }
+//                }
+//                else
+//                {
+//                    cell.groupleaderIm.image = UIImage(named: "group tools title")
+//                }
+//                cell.groupleaderIm.layer.borderWidth = 0
+//                cell.groupleaderIm.layer.cornerRadius = 0;
+//                cell.groupleaderIm.clipsToBounds = false;
+//                cell.groupleaderIm.contentMode = .scaleAspectFit
+//            }
+//        }
+//            cell.selectionStyle = .none
+//            if self.myGrous[currentIndex].translations?.count != 0 {
+//                cell.groupTitle.text = self.myGrous[currentIndex].translations?[0].title
+//
+//            }else{
+//                cell.groupTitle.text = ""
+//        }
 //        cell.members.text =  self.myGrous[currentIndex].target_members != nil ? "\((self.myGrous[currentIndex].target_members)!) Members" : ""
 
         
@@ -2515,6 +2640,34 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
         
     }
 
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if let searchTextField = searchBar.value(forKey: "searchField") as? UITextField , let clearButton = searchTextField.value(forKey: "_clearButton")as? UIButton {
+            
+            if let img3 = clearButton.image(for: .highlighted) {
+                clearButton.isHidden = false
+                let tintedClearImage = img3.imageWithColor(color1: UIColor.white)
+                clearButton.setImage(tintedClearImage, for: .normal)
+                clearButton.setImage(tintedClearImage, for: .highlighted)
+            }else{
+                clearButton.isHidden = true
+            }
+            clearButton.addTarget(self, action: #selector(ViewController.handleSend), for: .touchUpInside)
+        }
+        
+    }
+    @objc func handleSend(_ sender: UIGestureRecognizer){
+        self.page = 1
+        self.lastitem = 0
+        self.myGrous = []
+        self.hasLoadMore = true
+        filter = "all"
+        self.tableView.reloadData()
+        self.groupCollectionView.reloadData()
+        self.getGroupsByFilter()
+        ARSLineProgress.hide()
+        //self.refreshData()
+        view.endEditing(true)
+    }
 
  
     
@@ -2574,6 +2727,7 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
             do {
                 let  group2  = try JSONDecoder().decode(InboxGroup.self, from: response.data)
                 MyVriables.currentGroup = group2.group
+               setCheckGroupTrue(member_id: (MyVriables.currentMember?.id)!, groupID: (MyVriables.currentGroup?.id)!)
                 DispatchQueue.main.sync {
                     MyVriables.currentGroup = group2.group
                     self.hud.dismiss()
@@ -2646,12 +2800,7 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
                 self.getGroupsByFilter()
             }else{
                 print("Filter is \(self.filter)")
-                if self.filter == "search"{
-                    self.getGroupsByFilter()
-                }else {
-                    self.getSwiftGroups()
-                    
-                }
+                self.getSwiftGroups()
                 print("Not  Logged - has Loaded More false")
                 
             }
@@ -2969,6 +3118,10 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
 
                     let  member = try JSONDecoder().decode(CurrentMember.self, from: response.data)
                     print(member)
+                    Analytics.logEvent("SignupSucess", parameters: [
+                        "member_id": "\((member.member?.id)!)"
+                        ])
+                    logSignupSucessEvent(member_id: (member.member?.id)!)
                     self.currentMember = member
                     self.setToUserDefaults(value: true, key: "isLogged")
                     //  print(self.currentMember?.profile!)
@@ -3110,5 +3263,35 @@ extension String {
     
     mutating func capitalizeFirstLetter() {
         self = self.capitalizingFirstLetter()
+    }
+}
+extension UISearchBar
+{
+    func setPlaceholderTextColorTo(color: UIColor)
+    {
+        let textFieldInsideSearchBar = self.value(forKey: "searchField") as? UITextField
+        textFieldInsideSearchBar?.textColor = color
+        let textFieldInsideSearchBarLabel = textFieldInsideSearchBar!.value(forKey: "placeholderLabel") as? UILabel
+        textFieldInsideSearchBarLabel?.textColor = color
+    }
+}
+extension UIImage {
+    func imageWithColor(color1: UIColor) -> UIImage {
+        UIGraphicsBeginImageContextWithOptions(self.size, false, self.scale)
+        color1.setFill()
+        
+        let context = UIGraphicsGetCurrentContext()
+        context?.translateBy(x: 0, y: self.size.height)
+        context?.scaleBy(x: 1.0, y: -1.0)
+        context?.setBlendMode(CGBlendMode.normal)
+        
+        let rect = CGRect(origin: .zero, size: CGSize(width: self.size.width, height: self.size.height))
+        context?.clip(to: rect, mask: self.cgImage!)
+        context?.fill(rect)
+        
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return newImage!
     }
 }

@@ -14,9 +14,12 @@ class YoutubeGroupCell: UITableViewCell {
     @IBOutlet weak var groupImage: UIImageView!
     @IBOutlet weak var groupTitle: UILabel!
     @IBOutlet weak var date: UILabel!
+    @IBOutlet weak var youtubeCellView: UIView!
     @IBOutlet weak var members: UILabel!
-    @IBOutlet weak var groupleadername: UILabel!
-    @IBOutlet weak var groupleaderIm: UIImageView!
-    
 
+    @IBOutlet weak var oldPrice: UILabel!
+    @IBOutlet weak var newPrice: UILabel!
+    @IBOutlet weak var slashImage: UIImageView!
+    @IBOutlet weak var isSaleGroup: UIView!
+    
 }

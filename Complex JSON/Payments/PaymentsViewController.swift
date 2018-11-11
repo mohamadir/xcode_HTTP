@@ -9,6 +9,7 @@
 import UIKit
 import WebKit
 import SwiftEventBus
+import Firebase
 
 class PaymentsViewController: UIViewController , UIGestureRecognizerDelegate , UIWebViewDelegate, WKNavigationDelegate, UIScrollViewDelegate{
 
@@ -18,8 +19,12 @@ class PaymentsViewController: UIViewController , UIGestureRecognizerDelegate , U
     @IBOutlet weak var coverWebView: UIView!
     override func viewDidLoad() {
         super.viewDidLoad()
-        // webview.frame =
-        //webview.frame  = self.overview.frame
+        Analytics.logEvent("GroupBookNowPressed", parameters: [
+            "group_id": "\((MyVriables.currentGroup?.id)!)",
+            "group_name": "\((MyVriables.currentGroup?.translations?[0].title)!)",
+            "member_id": "\((MyVriables.currentMember?.id)!)"
+            ])
+        logGroupBookNowPressedEvent(grroup_id: (MyVriables.currentGroup?.id)!, member_id: (MyVriables.currentMember?.id)!)
         webview?.scrollView.delegate = self
         progress.startAnimating()
         webview?.frame = CGRect(x: 0, y: 0, width: self.coverWebView.frame.width, height: self.coverWebView.frame.height)

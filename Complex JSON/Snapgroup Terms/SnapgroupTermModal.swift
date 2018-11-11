@@ -24,6 +24,9 @@ class SnapgroupTermModal: UIViewController, UIGestureRecognizerDelegate , UIWebV
         super.viewDidLoad()
        // webview.frame =
         progress.startAnimating()
+        dismissLabel.addTapGestureRecognizer {
+            self.dismiss(animated: true, completion: nil)
+        }
        //webview.frame  = self.overview.frame
         webview?.scrollView.delegate = self
         webview?.frame = CGRect(x: 0, y: 0, width: self.coverWebView.frame.width, height: self.coverWebView.frame.height)
@@ -39,6 +42,7 @@ class SnapgroupTermModal: UIViewController, UIGestureRecognizerDelegate , UIWebV
             urlString)! as URL))
         self.webview?.navigationDelegate = self
 
+        
        // self.webview?.allowsBackForwardNavigationGestures = true
        // self.webview?.scrollView.bounces = true
       //  self.webview?.sizeToFit()
@@ -50,7 +54,8 @@ class SnapgroupTermModal: UIViewController, UIGestureRecognizerDelegate , UIWebV
 
         self.dismiss(animated: true, completion: nil)
     }
-   
+    @IBOutlet weak var dismissLabel: UILabel!
+    
     
     @IBAction func scrollToBottom(_ sender: Any) {
         let scrollPoint = CGPoint(x: 0, y: webview!.scrollView.contentSize.height - webview!.frame.size.height)
@@ -97,7 +102,7 @@ class SnapgroupTermModal: UIViewController, UIGestureRecognizerDelegate , UIWebV
         print("yessss \(webView.tag)")
         self.progress.hide()
         self.progress.isHidden = true
-         buttonScoll.isHidden = false
+        // buttonScoll.isHidden = false
         webView.frame = self.coverWebView.frame
         
         //        webView.frame.size = webView.sizeThatFits(CGSize.zero)

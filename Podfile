@@ -55,7 +55,10 @@ pod ‘SwiftRangeSlider’
 pod 'JGProgressHUD'
 pod "TTRangeSlider"
 pod 'GooglePlacesSearchController'
-
+pod 'FirebaseAnalytics'
+pod 'FacebookCore'
+pod 'FacebookLogin'
+pod 'FacebookShare'
 
 
 

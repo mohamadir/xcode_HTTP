@@ -12,5 +12,6 @@ class GroupMediaCell: UICollectionViewCell {
     
     @IBOutlet weak var groupImage: UIImageView!
     @IBOutlet weak var groupTitle: UILabel!
+    @IBOutlet weak var iSspecialPrice: UIView!
     
 }

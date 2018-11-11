@@ -13,10 +13,15 @@ class CustomTableViewCell: UITableViewCell {
     @IBOutlet weak var imageosh: UIImageView!
     @IBOutlet weak var totalMembersLbl: UILabel!
     @IBOutlet weak var startDayLbl: UILabel!
+    @IBOutlet weak var tableviewCell: UIView!
     @IBOutlet weak var cellView: UIView!
+    @IBOutlet weak var oldPrice: UILabel!
     @IBOutlet weak var groupLeaderLbl: UILabel!
+    @IBOutlet weak var newPrice: UILabel!
     @IBOutlet weak var groupLeaderImageView: UIImageView!
     @IBOutlet weak var frequencyDescrptionLbl: UILabel!
+    @IBOutlet weak var slashImage: UIImageView!
+    @IBOutlet weak var dateAndNightsLbl: UILabel!
     @IBOutlet weak var frequencyLbl: UILabel!
     @IBOutlet weak var tagLinefrequencyView: UIView!
     @IBOutlet weak var contsratWidthImage: NSLayoutConstraint!

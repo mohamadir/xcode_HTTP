@@ -9,6 +9,8 @@
 import Foundation
 import SwiftHTTP
 import SwiftEventBus
+import FacebookCore
+
 // ********************************    CURRENT OPJECT *****************************
 struct MyVriables {
     
@@ -98,6 +100,24 @@ func setCheckTrue(type:String,groupID: Int) {
         }
         print("SETchek true \(response.description)")
 
+    }
+    
+}
+func setCheckGroupTrue(member_id:Int,groupID: Int) {
+    var params: [String : Any] = ["" : ""]
+    if member_id != -1 {
+        params = ["member_id" : member_id,"group_id" : groupID]
+    }else {
+        params = ["device_id" : "\(UIDevice.current.identifierForVendor!.uuidString)","group_id" : groupID]
+    }
+    let strMethod: String = ApiRouts.Api + "/clicks"
+    HTTP.POST(strMethod, parameters: params) { response in
+        if response.error != nil {
+            print("error \(String(describing: response.error?.localizedDescription))")
+            return
+        }
+        print("SETchek true \(response.description)")
+        
     }
     
 }
@@ -390,6 +410,7 @@ struct GroupItemObject: Codable {
     var translations: [GroupTranslation]?
     var images: [ImageStruct]?
     var role: String?
+    var price: String?
 }
 struct GroupLeaderStruct: Codable{
     var id: Int?
@@ -583,7 +604,7 @@ struct DayImage: Codable {
     var path: String?
 }
 struct SubscribeGroups: Codable {
-    var groups: [TourGroup]?
+    var data: [TourGroup]?
 }
 struct FacebookMember: Codable {
     var first_name: String?
@@ -593,7 +614,21 @@ struct FacebookMember: Codable {
 
 }
 
-
+func logSignupSucessEvent(member_id : Int) {
+    let params : AppEvent.ParametersDictionary = [
+        "GroupBookNowPressed" : NSNumber(value:member_id)
+    ]
+    let event = AppEvent(name: "SignupSucess", parameters: params)
+    AppEventsLogger.log(event)
+}
+func logGroupBookNowPressedEvent(grroup_id : Int, member_id : Int) {
+    let params : AppEvent.ParametersDictionary = [
+        "grroup_id" : NSNumber(value:grroup_id),
+        "member_id" : NSNumber(value:member_id)
+    ]
+    let event = AppEvent(name: "GroupBookNowPressed", parameters: params)
+    AppEventsLogger.log(event)
+}
 struct dayLocation: Codable{
     var id: Int?
     var day_id: Int?
