@@ -1554,7 +1554,15 @@ extension UIView {
             slideInFromLeftTransition.subtype = kCATransitionFromRight
 
         }else{
-            slideInFromLeftTransition.subtype = kCATransitionFromLeft
+            if type == "down" {
+                slideInFromLeftTransition.subtype = kCATransitionFromBottom
+            }else {
+                if type == "top" {
+                    slideInFromLeftTransition.subtype = kCATransitionFromTop
+                }else {
+                    slideInFromLeftTransition.subtype = kCATransitionFromLeft
+                }
+            }
 
         }
         // Customize the animation's properties

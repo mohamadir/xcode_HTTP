@@ -18,7 +18,7 @@ import CountryPickerView
 import FBSDKLoginKit
 import FBSDKCoreKit
 
-class SignUpVC: UIViewController, UIPickerViewDelegate, UITextFieldDelegate, UIPickerViewDataSource, CountryPickerViewDelegate, CountryPickerViewDataSource, FBSDKLoginButtonDelegate {
+class SignUpVC: UIViewController, UITextFieldDelegate, UIPickerViewDataSource, CountryPickerViewDelegate, UIPickerViewDelegate, CountryPickerViewDataSource, FBSDKLoginButtonDelegate {
 
     
     func countryPickerView(_ countryPickerView: CountryPickerView, didSelectCountry country: Country) {
@@ -132,7 +132,7 @@ class SignUpVC: UIViewController, UIPickerViewDelegate, UITextFieldDelegate, UIP
         let date = NSDate()
         let calendar = NSCalendar.current
         let components = calendar.dateComponents([.year,.month], from: date as Date)
-        let startOfMonth = calendar.date(from: components)
+        _ = calendar.date(from: components)
         if profile_image != nil {
             if profile_image! != "no value"{
                 let urlString: String

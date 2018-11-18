@@ -59,6 +59,10 @@ pod 'FirebaseAnalytics'
 pod 'FacebookCore'
 pod 'FacebookLogin'
 pod 'FacebookShare'
+pod 'AAMultiSelectController'
+pod 'SwiftCheckboxDialog'
+pod 'CheckboxList', '~> 1.0'
+pod 'UIScrollView-InfiniteScroll', '~> 1.1.0'
 
 
 

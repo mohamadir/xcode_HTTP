@@ -13,7 +13,9 @@ import FacebookCore
 
 // ********************************    CURRENT OPJECT *****************************
 struct MyVriables {
-    
+    static var filterCatgory:  [FilterCatgory]?
+    static var filterComapnies: [FilterCompanies]?
+     static var isCatgory: Bool = false
     static var currentIndexCompanion: Int = 0
     static var currentComapnion: CompanionInfo = CompanionInfo(first_name: "", last_name: "", group_id: -1, gender: "male", birth_date: "01/01/18", id: -1)
     static var currentPhoneNumber: String?
@@ -636,6 +638,22 @@ struct dayLocation: Codable{
     var lat: String?
     var long: String?
     var title: String?
+}
+struct FilterGetSelect: Codable{
+
+    var categories: [FilterCatgory]?
+    var companies: [FilterCompanies]?
+}
+struct FilterCatgory: Codable{
+    var id: Int?
+    var title: String?
+    var index: Int? = 0
+    var isChecked: Bool? = false
+}
+struct FilterCompanies: Codable{
+    var name: String?
+    var index: Int? = 0
+    var isChecked: Bool? = false
 }
 
 //CHECKLIST

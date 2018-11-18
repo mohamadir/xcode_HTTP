@@ -31,7 +31,12 @@ import PopoverSwift
 import BetterSegmentedControl
 import GooglePlacesSearchController
 import JGProgressHUD
-
+import AAMultiSelectController
+import SwiftCheckboxDialog
+import CheckboxList
+import SwiftyPickerPopover
+import TTRangeSlider
+import UIScrollView_InfiniteScroll
 
 //import FTPopOverMenu_Swift
 
@@ -40,7 +45,13 @@ import JGProgressHUD
 /***********************************************      VIEW CONTROLLER     *************************************************************/
 
 
-class ViewController: UIViewController,UICollectionViewDelegate, UICollectionViewDataSource, UITableViewDelegate, UITableViewDataSource ,  MRCountryPickerDelegate , UIImagePickerControllerDelegate, UINavigationControllerDelegate, UISearchBarDelegate, CountryPickerViewDelegate, CountryPickerViewDataSource, FBSDKLoginButtonDelegate,UICollectionViewDelegateFlowLayout,GooglePlacesAutocompleteViewControllerDelegate {
+class ViewController: UIViewController,UICollectionViewDelegate, UICollectionViewDataSource, UITableViewDelegate, UITableViewDataSource ,  MRCountryPickerDelegate , UIImagePickerControllerDelegate, UINavigationControllerDelegate, UISearchBarDelegate, CountryPickerViewDelegate, CountryPickerViewDataSource, FBSDKLoginButtonDelegate,UICollectionViewDelegateFlowLayout,GooglePlacesAutocompleteViewControllerDelegate, CheckboxDialogViewDelegate,UIPickerViewDelegate, UIScrollViewDelegate {
+
+    func onCheckboxPickerValueChange(_ component: DialogCheckboxViewEnum, values: TranslationDictionary) {
+        print(component)
+        print(values)
+    }
+    
     func viewController(didAutocompleteWith place: PlaceDetails) {
         print(place.description)
         placesSearchController.isActive = false
@@ -50,8 +61,217 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
     func loginButtonDidLogOut(_ loginButton: FBSDKLoginButton!) {
         
     }
-    var menuOptionNameArray = ["All groups", "My groups", "One day groups","Multi days groups"]
     
+    @IBOutlet weak var pricessRange: TTRangeSlider!
+    @IBOutlet weak var rangeDays: TTRangeSlider!
+    var filterUrl: String = ""
+    var groupIndex: Int = 0
+    var groupBothIndex: Int = 0
+    var grroupsType: [String] = ["Unique Groups", "Both",  "Reccuring Groups"]
+    var groupsTypeAfterReg: [String] = ["All Groups", "My Groups", "Specials", "Groups I Own"]
+    var groupsTypeBeforeReg: [String] = ["All Groups", "Specials"]
+    var menuOptionNameArray = ["All groups", "My groups", "One day groups","Multi days groups"]
+    var minimumDate : Date?
+    var maximumDate : Date?
+    var dateString: String?
+    @IBAction func start_date(_ sender: Any) {
+        /// Create StringPickerPopover:
+        let p = DatePickerPopover(title: "Birth Date")
+        p.setDateMode(.date)
+        let currentDate: Date = Date()
+        
+//        p.setMaximumDate(self.maximumDate!)
+//        p.setMinimumDate(self.minimumDate!)
+        p.setSelectedDate(Date())
+        p.setDoneButton(color: Colors.PrimaryColor, action: { popover, selectedDate in print("selectedDate \(selectedDate + 1)")
+            
+            self.dateString = selectedDate.description
+            let myString: String = self.dateString!;
+            var myStringArr = myString.components(separatedBy: " ")
+
+            if (self.endDateLbl.titleLabel?.text)! != "Set Date" {
+                if (self.checkTimeStamp(end_date:(self.endDateLbl.titleLabel?.text)!, start_date: self.setDate(mydateis: myStringArr [0]), isBig: true)) {
+                    self.startDateLbl.setTitle(self.setDate(mydateis: myStringArr [0]), for: .normal)
+
+                }else {
+                    let snackbar = TTGSnackbar(message: "Start date must be less than end date.", duration: .middle)
+                    snackbar.icon = UIImage(named: "AppIcon")
+                    snackbar.show()
+                }
+            }else{
+                self.startDateLbl.setTitle(self.setDate(mydateis: myStringArr [0]), for: .normal)
+
+            }
+            
+        })
+        
+        p.setCancelButton(color: Colors.PrimaryColor, action: { _, _ in
+            print("cancel")})
+        p.appear(originView: sender as! UIView, baseViewController: self)
+    }
+    @IBOutlet weak var radiosLbl: UITextField!
+    @IBAction func resetFilter(_ sender: Any) {
+        self.rangeDays.selectedMaximum = 100.0
+        self.rangeDays.selectedMinimum = 1.0
+        self.pricessRange.selectedMaximum = 5000.0
+        self.pricessRange.selectedMinimum = 0.0
+        radiosLbl.text = ""
+        searchDestantion.text = ""
+        self.endDateLbl.setTitle("Set Date", for: .normal)
+        self.startDateLbl.setTitle("Set Date", for: .normal)
+        catgoreyLbl.text = "Categories.."
+        companyLbl.text = "Companies.."
+        self.filterCatgory = []
+        self.filterCompany = []
+    }
+    fileprivate func setFilterUrl() {
+        if isLogged {
+            switch self.groupsTypeAfterReg[groupIndex] {
+            case "All Groups":
+                self.filterUrl = ApiRouts.ApiV3 + "/groups?member_id=\(self.id)&page=\(self.page)&sort=\(self.sort)"
+            case "My Groups":
+                self.filterUrl = ApiRouts.ApiV3 + "/groups?member_id=\(self.id)&my_groups=true&page=\(self.page)&sort=\(self.sort)"
+            case "Specials":
+                self.filterUrl = ApiRouts.ApiV3 + "/groups?member_id=\(self.id)&page=\(self.page)&sort=\(self.sort)&special_price=true"
+            case "Groups I Own":
+                self.filterUrl = ApiRouts.ApiV3 + "/groups?member_id=\(self.id)&my_groups=true&page=\(self.page)&sort=\(self.sort)&roles[]=group_leader"
+            default:
+                print("")
+            }
+            
+        }
+        else {
+            switch self.groupsTypeBeforeReg[groupIndex] {
+            case "All Groups":
+                self.filterUrl = ApiRouts.ApiV3 + "/groups?page=\(self.page)&sort=created_at&order=des"
+            case "Specials":
+                self.filterUrl = ApiRouts.ApiV3 + "/groups?page=\(self.page)&sort=created_at&order=des&special_price=true"
+            default:
+                print("")
+            }
+            
+        }
+        switch self.grroupsType[self.groupBothIndex] {
+        case "Unique Groups":
+            self.filterUrl = self.filterUrl + "&rotation=one_time"
+        case "Reccuring Groups":
+            self.filterUrl = self.filterUrl + "&rotation=reccuring"
+        default:
+            print("")
+        }
+        self.filterUrl = self.filterUrl + "&min_days=\((Int((self.rangeDays.selectedMinimum).rounded())))&max_days=\((Int((self.rangeDays.selectedMaximum).rounded())))" + "&min_price=\((Int((self.pricessRange.selectedMinimum).rounded())))&max_price=\((Int((self.pricessRange.selectedMaximum).rounded())))"
+        if searchDestantion.text != nil && (searchDestantion.text)! != "" {
+            if radiosLbl.text != nil && (radiosLbl.text)! != "" {
+                self.filterUrl = self.filterUrl + "&destination=\((searchDestantion.text)!)&radius=\((radiosLbl.text)!)"
+            }else {
+                self.filterUrl = self.filterUrl + "&destination=\((searchDestantion.text)!)"
+            }
+        }
+        if (startDateLbl.titleLabel?.text)! != "Set Date" {
+            self.filterUrl = self.filterUrl + "&start_date=\((startDateLbl.titleLabel?.text)!)"
+        }
+        if (endDateLbl.titleLabel?.text)! != "Set Date" {
+            self.filterUrl = self.filterUrl + "&end_date=\((endDateLbl.titleLabel?.text)!)"
+        }
+        if (catgoreyLbl.text)! != "Categories.." {
+            self.filterUrl = self.filterUrl + "&\(catgoryString)"
+        }
+        if (companyLbl.text)! != "Companies.." {
+            self.filterUrl = self.filterUrl + "&\(companiesString)"
+        }
+    }
+    
+    fileprivate func hideFilter() {
+        UIView.animate(withDuration: 0.1, delay: 0, options: .curveLinear, animations: {
+            
+            self.scrollFilter.slideInFromLeft(type: "top")
+        }) { (success) in
+            
+            UIView.animate(withDuration: 0.1, delay: 0, options: .curveLinear, animations: {
+                self.scrollFilter.isHidden = true
+            }, completion: nil)
+        }
+    }
+    
+    @IBAction func updateFilter(_ sender: Any) {
+        self.page = 1
+        setFilterUrl()
+
+      //  print("The url is page \(self.page)")
+        self.lastitem = 0
+        self.myGrous = []
+        self.hasLoadMore = true
+        self.filter = "filter"
+        self.tableView.reloadData()
+        
+        //print("The url is page \(self.page)")
+        self.getGroupsByFilter()
+        
+        hideFilter()
+        // self.scrollFilter.isHidden = true
+        
+        
+        
+    }
+    @IBAction func end_date(_ sender: Any) {
+        /// Create StringPickerPopover:
+        let p = DatePickerPopover(title: "Birth Date")
+        p.setDateMode(.date)
+        let currentDate: Date = Date()
+        
+//        p.setMaximumDate(self.maximumDate!)
+//        p.setMinimumDate(self.minimumDate!)
+        p.setSelectedDate(Date())
+        p.setDoneButton(color: Colors.PrimaryColor, action: { popover, selectedDate in print("selectedDate \(selectedDate + 1)")
+            
+            self.dateString = selectedDate.description
+            var myString: String = self.dateString!;
+            var myStringArr = myString.components(separatedBy: " ")
+            if (self.startDateLbl.titleLabel?.text)! != "Set Date" {
+                if (self.checkTimeStamp(end_date: self.setDate(mydateis: myStringArr [0]), start_date: (self.startDateLbl.titleLabel?.text)!, isBig: true)) {
+                    self.endDateLbl.setTitle(self.setDate(mydateis: myStringArr [0]), for: .normal)
+                }else {
+                    let snackbar = TTGSnackbar(message: "End date must be greater than start date.", duration: .middle)
+                    snackbar.icon = UIImage(named: "AppIcon")
+                    snackbar.show()
+                }
+            }else{
+                
+                self.endDateLbl.setTitle(self.setDate(mydateis: myStringArr [0]), for: .normal)
+            }
+        })
+        
+        p.setCancelButton(color: Colors.PrimaryColor, action: { _, _ in
+            print("cancel")})
+        p.appear(originView: sender as! UIView, baseViewController: self)
+    }
+    func checkTimeStamp(end_date: String!, start_date: String!, isBig: Bool) -> Bool {
+        let dateFormatter: DateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        let datecomponents = dateFormatter.date(from: end_date)
+        
+        let dateFormatter2: DateFormatter = DateFormatter()
+        dateFormatter2.dateFormat = "yyyy-MM-dd"
+        let datecomponents2 = dateFormatter2.date(from: start_date)
+
+        if isBig {
+        if (datecomponents! > datecomponents2!) || (datecomponents! == datecomponents2!) {
+            return true
+        } else {
+            return false
+        }
+        } else{
+            if (datecomponents! > datecomponents2!) || (datecomponents! == datecomponents2!) {
+                return true
+            } else {
+                return false
+            }
+        }
+    }
+    @IBOutlet weak var endDateLbl: UIButton!
+    @IBOutlet weak var startDateLbl: UIButton!
+    @IBOutlet weak var scrollFilter: UIScrollView!
+    @IBOutlet weak var frequncyTabs: BetterSegmentedControl!
     @IBOutlet weak var gridImage: UIImageView!
     @IBOutlet weak var instgramImage: UIImageView!
     @IBOutlet weak var lisviewImage: UIImageView!
@@ -124,8 +344,15 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
     @IBOutlet var allGroupsBt: UIButton!
     @IBOutlet weak var filterButton: UIButton!
     
+    @IBOutlet weak var tourSupplierViewSelect: UIView!
+    @IBOutlet weak var categoryViewSelect: UIView!
+    @IBOutlet weak var clearTextFild: UIView!
     let hud = JGProgressHUD(style: .dark)
    
+     /****** Filter  ************/
+    
+    
+    
     /****** Sort Buttons ************/
     
     @IBOutlet var DepratureSortBt: UIButton!
@@ -149,6 +376,38 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
       
         
     }
+    func setDate(mydateis : String) -> String {
+        var cerntdate = mydateis.components(separatedBy: "-")
+        let year:Int? = Int(cerntdate[0])
+        let mounth:Int? = Int(cerntdate[1])
+        let day:Int? = Int(cerntdate[2])
+        let calendar = Calendar.current
+        
+        var dateComponents: DateComponents? = calendar.dateComponents([.hour, .minute, .second], from: Date())
+        dateComponents?.day = day!
+        dateComponents?.month = mounth!
+        dateComponents?.year = year!
+        let date: Date? = calendar.date(from: dateComponents!)
+        let tomorrow = date?.add(days: 1)
+        print("THIUS \(tomorrow!) year \(year!)")
+        var finalDate = date?.description.components(separatedBy: " ")
+        return finalDate![0]
+    }
+    func set18YearValidation() {
+        let currentDate: Date = Date()
+        var calendar: Calendar = Calendar(identifier: Calendar.Identifier.gregorian)
+        calendar.timeZone = TimeZone(identifier: "UTC")!
+        var components: DateComponents = DateComponents()
+        components.calendar = calendar
+        components.year = +5
+        
+        let maxDate: Date = calendar.date(byAdding: components, to: currentDate)!
+        components.year = -5
+        let minDate: Date = calendar.date(byAdding: components, to: currentDate)!
+        self.minimumDate = minDate
+        self.maximumDate = maxDate
+    }
+
     @IBAction func savePhone(_ sender: Any) {
         //api/members/{member_id}/phone?no_password=true
         DispatchQueue.global(qos: .userInitiated).async {
@@ -227,7 +486,7 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
         self.navigationController?.pushViewController(vc,animated: true)
     }
     @IBAction func closeNewFilter(_ sender: Any) {
-        newFilterView.isHidden = true
+        hideFilter()
     }
     @IBOutlet weak var newFilterView: UIView!
     @IBOutlet var settingClick: UIButton!
@@ -259,7 +518,18 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
     var isMemberMenuShowing: Bool = false
     
     @IBAction func filterClick(_ sender: Any) {
-        newFilterView.isHidden = false
+        
+        UIView.animate(withDuration: 0.5, delay: 0, options: .curveLinear, animations: {
+            
+            self.scrollFilter.slideInFromLeft(type: "top")
+        }) { (success) in
+            
+            UIView.animate(withDuration: 0.5, delay: 0, options: .curveLinear, animations: {
+                self.scrollFilter.isHidden = false
+            }, completion: nil)
+        }
+        
+        
 //        print("Im clicked")
 //        let config = FTConfiguration.shared
 //        config.backgoundTintColor = UIColor.white
@@ -325,12 +595,57 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
 //
 //       isFilterShowing = !isFilterShowing
     }
-    
+    @IBOutlet weak var companyLbl: UILabel!
+    var  filterCompany : [FilterCompanies]?
+    var filterCatgory : [FilterCatgory]?
+    @IBOutlet weak var catgoreyLbl: UILabel!
     @IBAction func settingsClick(_ sender: Any) {
         performSegue(withIdentifier: "showSettings", sender: sender)
     }
+    var companiesString: String = ""
+    var catgoryString: String = ""
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        SwiftEventBus.onMainThread(self, name: "MultiSelect") { result in
+            var st: String = ""
+            
+            if MyVriables.isCatgory{
+                self.filterCatgory  = result!.object as? [FilterCatgory]
+                self.catgoryString = ""
+                if self.filterCatgory != nil && (self.filterCatgory?.count)! > 0 {
+                    for filter in self.filterCatgory! {
+                        st = st + "\((filter.title)!) , "
+                        self.catgoryString = self.catgoryString + "categories[]=\((filter.title)!)&"
+                    }
+                    self.catgoryString = String(self.catgoryString.dropLast())
+                    st = String(st.dropLast())
+                    st = String(st.dropLast())
+                    self.catgoreyLbl.text = st
+                }else {
+                    self.catgoreyLbl.text = "Categories.."
+                }
+
+            }else {
+                self.companiesString = ""
+                self.filterCompany = result!.object as? [FilterCompanies]
+                if  self.filterCompany != nil &&  (self.filterCompany?.count)! > 0 {
+                    for filter in self.filterCompany! {
+                        st = st + "\((filter.name)!) , "
+                        self.companiesString = self.companiesString + "companies[]=\((filter.name)!)&"
+                    }
+                    self.companiesString = String(self.companiesString.dropLast())
+                    st = String(st.dropLast())
+                    st = String(st.dropLast())
+                    self.companyLbl.text = st
+                }else {
+                    self.companyLbl.text = "Companies.."
+                }
+
+                
+            }
+           
+        }
         
 
     }
@@ -410,8 +725,8 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
             MyVriables.shouldRefresh = false
         }
         let defaults = UserDefaults.standard
-        let isLogged = defaults.bool(forKey: "isLogged")
-        if isLogged == true
+        self.isLogged = defaults.bool(forKey: "isLogged")
+        if self.isLogged == true
         {
             self.setBadges()
 
@@ -476,65 +791,79 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
         }
     }
     @objc func pressButton(_ sender: UIButton){
-        
-       // newFilterView.isHidden = false
-            if isMemberMenuShowing {
-                menuImage.image = UIImage(named: menuIcon)
-                UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded();})
-                memberLeadingConstraints.constant = 190
-                isMemberMenuShowing = !isMemberMenuShowing
-                UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded();})
-            }
-        isFilterShowing = !isFilterShowing
-        var items : [PopoverItem] = []
-        var controller: PopoverController?
-        var item1,item0,item2,item3,item4 : PopoverItem?
-        item0 = PopoverItem(title: "All groups", titleColor: self.clickes[0] == true ? Colors.PrimaryColor : UIColor.black, image : UIImage(named: "")) { debugPrint($0.title)
-            self.clickes[0] = true
-            self.clickes[1] = false
-            self.clickes[2] = false
-            self.clickes[3] = false
-            self.filter = "all"
-            self.sort = "created_at&order=desc"
-            self.refreshData()
+        if self.memberLeadingConstraints.constant == 0 {
+        self.menuImage.image = UIImage(named: self.menuIcon)
+        UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded();})
+        self.memberLeadingConstraints.constant = 190
+        UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded();})
         }
-        item1 = PopoverItem(title: "My groups", titleColor: self.clickes[1] == true ? Colors.PrimaryColor : UIColor.black, image : UIImage(named: "")) { debugPrint($0.title)
-            self.clickes[0] = false
-            self.clickes[2] = false
-            self.clickes[3] = false
-            self.clickes[1] = true
-            self.search = ""
-            self.sort = self.standart_sort
-            self.filter = "no-filter"
-            // showToast("My Message", 3.0)
-            self.refreshData()
+        UIView.animate(withDuration: 0.1, delay: 0, options: .curveLinear, animations: {
+            
+            self.scrollFilter.slideInFromLeft(type: "down")
+        }) { (success) in
+            
+            UIView.animate(withDuration: 0.1, delay: 0, options: .curveLinear, animations: {
+                self.scrollFilter.isHidden = false
+            }, completion: nil)
         }
-
-         item3 = PopoverItem(title: "One day groups", titleColor: self.clickes[2] == true ? Colors.PrimaryColor : UIColor.black, image: UIImage(named: "")) { debugPrint($0.titleColor)
-            print("asd")
-            self.clickes[0] = false
-            self.clickes[1] = false
-            self.clickes[3] = false
-            self.clickes[2] = true
-            self.search = ""
-            self.filter = "day"
-            self.sort = "created_at&order=desc"
-            self.refreshData()
-        }
-         item4 = PopoverItem(title: "Multi days groups", titleColor: self.clickes[3] == true ? Colors.PrimaryColor : UIColor.black, image: UIImage(named: "")) { debugPrint($0.title)
-            self.clickes[0] = false
-            self.clickes[1] = false
-            self.clickes[2] = false
-            self.clickes[3] = true
-            self.filter = "days"
-            self.sort = "created_at&order=desc"
-            self.refreshData()
-        }
-
-        print("Im here in filter")
-         items = [item0!, item1!,item3!, item4!]
-        controller = PopoverController(items: items, fromView: filterButton, direction: .down, style: .normal)
-        popover(controller!)
+       scrollFilter.isHidden = false
+//            if isMemberMenuShowing {
+//                menuImage.image = UIImage(named: menuIcon)
+//                UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded();})
+//                memberLeadingConstraints.constant = 190
+//                isMemberMenuShowing = !isMemberMenuShowing
+//                UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded();})
+//            }
+//        isFilterShowing = !isFilterShowing
+//        var items : [PopoverItem] = []
+//        var controller: PopoverController?
+//        var item1,item0,item2,item3,item4 : PopoverItem?
+//        item0 = PopoverItem(title: "All groups", titleColor: self.clickes[0] == true ? Colors.PrimaryColor : UIColor.black, image : UIImage(named: "")) { debugPrint($0.title)
+//            self.clickes[0] = true
+//            self.clickes[1] = false
+//            self.clickes[2] = false
+//            self.clickes[3] = false
+//            self.filter = "all"
+//            self.sort = "created_at&order=desc"
+//            self.refreshData()
+//        }
+//        item1 = PopoverItem(title: "My groups", titleColor: self.clickes[1] == true ? Colors.PrimaryColor : UIColor.black, image : UIImage(named: "")) { debugPrint($0.title)
+//            self.clickes[0] = false
+//            self.clickes[2] = false
+//            self.clickes[3] = false
+//            self.clickes[1] = true
+//            self.search = ""
+//            self.sort = self.standart_sort
+//            self.filter = "no-filter"
+//            // showToast("My Message", 3.0)
+//            self.refreshData()
+//        }
+//
+//         item3 = PopoverItem(title: "One day groups", titleColor: self.clickes[2] == true ? Colors.PrimaryColor : UIColor.black, image: UIImage(named: "")) { debugPrint($0.titleColor)
+//            print("asd")
+//            self.clickes[0] = false
+//            self.clickes[1] = false
+//            self.clickes[3] = false
+//            self.clickes[2] = true
+//            self.search = ""
+//            self.filter = "day"
+//            self.sort = "created_at&order=desc"
+//            self.refreshData()
+//        }
+//         item4 = PopoverItem(title: "Multi days groups", titleColor: self.clickes[3] == true ? Colors.PrimaryColor : UIColor.black, image: UIImage(named: "")) { debugPrint($0.title)
+//            self.clickes[0] = false
+//            self.clickes[1] = false
+//            self.clickes[2] = false
+//            self.clickes[3] = true
+//            self.filter = "days"
+//            self.sort = "created_at&order=desc"
+//            self.refreshData()
+//        }
+//
+//        print("Im here in filter")
+//         items = [item0!, item1!,item3!, item4!]
+//        controller = PopoverController(items: items, fromView: filterButton, direction: .down, style: .normal)
+//        popover(controller!)
     }
     
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
@@ -560,10 +889,12 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
         //Optional: controller.searchBar.barTintColor = .black
         return controller
     }()
-    @objc func myTargetFunction(textField: UITextField) {
+     func myTargetFunction() {
+        print("im in myTargetFunction")
     present(placesSearchController, animated: true, completion: nil)
     }
     
+    @IBOutlet weak var checkList: ChecklistView!
     @IBOutlet weak var filterClickView: UIView!
     @IBOutlet weak var hidePhonePicker: UIView!
     @IBOutlet weak var hideSearchView: UIView!
@@ -572,15 +903,98 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
     override func viewDidLoad() {
         super.viewDidLoad()
         print("hiosh")
-//       Analytics.logEvent("TestEvent", parameters: nil)
+        set18YearValidation()
+        clearTextFild.addTapGestureRecognizer {
+            self.searchDestantion.text = ""
+        }
+        tourSupplierViewSelect.addTapGestureRecognizer {
+            MyVriables.isCatgory = false
+            if self.filterCompany != nil {
+                MyVriables.filterComapnies = self.filterCompany
+            }
+            let vc = self.storyboard?.instantiateViewController(withIdentifier: "MultiSelectViewController") as! MultiSelectViewController
+            self.present(vc, animated: true, completion: nil)
+            // multy
+        }
+        //tableView.beginInfiniteScroll(true)
+        self.groupCollectionView.addInfiniteScroll { (groupCollectionView) -> Void in
+            groupCollectionView.performBatchUpdates({ () -> Void in
+                if  self.hasLoadMore == true && !self.isLoading{
+                    
+                    self.isLoading = true
+                    
+                    print("Reach last")
+                    
+                    if self.filter == "filter" {
+                        self.getGroupsByFilter()
+                    }
+                    else {
+                        if self.isLogged {
+                            print("is Logged - has Loaded More true")
+                            self.getGroupsByFilter()
+                        }else{
+                            self.getSwiftGroups()
+                            print("Not  Logged - has Loaded More false")
+                            
+                        }
+                    }
+                    
+                }
+            }, completion: { (finished) -> Void in
+                // finish infinite scroll animations
+                self.groupCollectionView.finishInfiniteScroll()
+            });
+        }
+        
+        self.tableView.addInfiniteScroll(handler: { (tableView) in
+                if  self.hasLoadMore == true && !self.isLoading{
+                    
+                    self.isLoading = true
+                    
+                    print("Reach last")
+                    
+                    if self.filter == "filter" {
+                        self.getGroupsByFilter()
+                    }
+                    else {
+                        if self.isLogged {
+                            print("is Logged - has Loaded More true")
+                            self.getGroupsByFilter()
+                        }else{
+                            self.getSwiftGroups()
+                            print("Not  Logged - has Loaded More false")
+                            
+                        }
+                    }
+                    
+                }
+                self.tableView.finishInfiniteScroll()
+                print("Im here addInfiniteScroll")
+            })
+        
+        
+        categoryViewSelect.addTapGestureRecognizer {
+            MyVriables.isCatgory = true
+            if self.filterCatgory != nil {
+                MyVriables.filterCatgory = self.filterCatgory
+            }
+            let vc = self.storyboard?.instantiateViewController(withIdentifier: "MultiSelectViewController") as! MultiSelectViewController
+            self.present(vc, animated: true, completion: nil)
+            // multy
+        }
+        
         countyCodePickerView.textColor = UIColor.white
         phoneNumberFeild.attributedPlaceholder = NSAttributedString(string: "Enter a phone ..",
                                                             attributes: [NSAttributedString.Key.foregroundColor: Colors.whiteLight])
-        searchDestantion.addTarget(self, action: #selector(myTargetFunction), for: UIControlEvents.touchDown)
+        searchDestantion.addTapGestureRecognizer {
+            self.myTargetFunction()
+        }
+//        searchDestantion.addTarget(self, action: #selector(myTargetFunction), for: UIControlEvents.touchDown)
         hidePhonePicker.addTapGestureRecognizer {
              self.registerView.isHidden = false
         }
         hideSearchView.addTapGestureRecognizer {
+           
             self.searchView.fadeOut(completion: {
                 (finished: Bool) -> Void in
                 self.searchView.isHidden = true
@@ -596,8 +1010,10 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
             
         }
         newSearcIcon.addTapGestureRecognizer {
+          
             self.inboxView.fadeOut(completion: {
                 (finished: Bool) -> Void in
+                
                 self.menuView.isHidden = true
                 self.chatView.isHidden = true
                 self.inboxView.isHidden = true
@@ -664,12 +1080,16 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
         }
         var secondsFromGMT: Int { return TimeZone.current.secondsFromGMT() }
         var localTimeZoneName: String { return TimeZone.current.identifier }
-        filtersBtton.segments = LabelSegment.segments(withTitles: ["All Groups", "My Groups", "Groups I Own"],
-                                                  normalFont: UIFont(name: "HelveticaNeue-Light", size: 13.0)!,
-                                                  normalTextColor: Colors.PrimaryColor,
-                                                  selectedFont: UIFont(name: "HelveticaNeue-Bold", size: 13.0)!, selectedTextColor: UIColor.white)
+        
         filterButton.tintColor = Colors.PrimaryColor
         filterButton.titleLabel?.textColor = Colors.PrimaryColor
+        
+        
+        frequncyTabs.segments = LabelSegment.segments(withTitles: grroupsType,
+                                                      normalFont: UIFont(name: "HelveticaNeue-Light", size: 11.0)!,
+                                                      normalTextColor: Colors.PrimaryColor,
+                                                      selectedFont: UIFont(name: "HelveticaNeue-Bold", size: 12.0)!, selectedTextColor: UIColor.white)
+        frequncyTabs.tintColor = Colors.PrimaryColor
         
         //filterButton.currentTitleColor = Colors.PrimaryColor
         //filterButton.color
@@ -694,7 +1114,7 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
         self.navigationController?.setNavigationBarHidden(true, animated: true)
       
         let defaults = UserDefaults.standard
-        let isLogged = defaults.bool(forKey: "isLogged")
+         self.isLogged = defaults.bool(forKey: "isLogged")
 
         let deviceToken = UIDevice.current.identifierForVendor!.uuidString
         let countryName = Locale.current.localizedString(forRegionCode: Locale.current.regionCode!)
@@ -740,9 +1160,12 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
         fPickerView.delegate = self
         countyCodePickerView.delegate = self
         countyCodePickerView.dataSource = self
-        
+       
         let destination = DownloadRequest.suggestedDownloadDestination(for: .documentDirectory)
         notficationView.addTapGestureRecognizer {
+            if !(self.scrollFilter.isHidden) {
+                self.hideFilter()
+            }
             if  MyVriables.currentMember?.gdpr?.push_notifications != nil
             {
                 if MyVriables.currentMember?.gdpr?.push_notifications! == true
@@ -760,6 +1183,9 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
         }
 
         menuView.addTapGestureRecognizer {
+            if !(self.scrollFilter.isHidden) {
+                self.hideFilter()
+            }
             if self.isMemberMenuShowing {
                 self.menuImage.image = UIImage(named: self.menuIcon)
                 UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded();})
@@ -793,6 +1219,9 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
         
         
         chatView.addTapGestureRecognizer {
+            if !(self.scrollFilter.isHidden) {
+                self.hideFilter()
+            }
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let vc = storyboard.instantiateViewController(withIdentifier: "Chat") as! ChatViewController
             
@@ -802,6 +1231,9 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
            
         }
         inboxView.addTapGestureRecognizer {
+            if !(self.scrollFilter.isHidden) {
+                self.hideFilter()
+            }
             self.performSegue(withIdentifier: "showNotifications", sender: self)
         }
         
@@ -816,7 +1248,10 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
        
         setFilterView()
         setMemberMenuView()
+        filtersBtton.addTarget(self, action: #selector(ViewController.navigationSegmentedControlValueChanged(_:)), for: .valueChanged)
+        frequncyTabs.addTarget(self, action: #selector(ViewController.navigationSegmentedControlValueChangedd(_:)), for: .valueChanged)
     }
+    
 
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         print("Clcikced cencel")
@@ -824,6 +1259,9 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
     
     
     @objc func handleCustomFBLogin() {
+        if !(self.scrollFilter.isHidden) {
+            self.hideFilter()
+        }
         setCheckTrue(type: "facebook_header", groupID: -1)
         FBSDKLoginManager().logIn(withReadPermissions: ["email"], from: self) { (result, err) in
             if (result?.isCancelled)! {
@@ -880,6 +1318,35 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
         //
         //            print(result)
         //        }
+    }
+    var checkboxDialogViewController: CheckboxDialogViewController!
+    typealias TranslationTuple = (name: String, translated: String)
+    typealias TranslationDictionary = [String : String]
+    @IBAction func showMulty(_ sender: Any) {
+        let tableData :[(name: String, translated: String)] = [("Angola", "Angole"),
+                                                               ("Croatia", "Croatia"),
+                                                               ("Germany", "Germany"),
+                                                               ("Ireland", "Ireland"),
+                                                               ("Spain", "Spain"),
+                                                               ("United Kingdom", "United Kingdom"),
+                                                               ("Venezuela", "Venezuela"),("Angola", "Angole"),
+                                                               ("Croatia", "Croatia"),
+                                                               ("Germany", "Germany"),
+                                                               ("Irelanda", "Ireland"),
+                                                               ("Spain", "Spain"),
+                                                               ("United Kingdom", "United Kingdom"),
+                                                               ("Venezuela", "Venezuela")]
+        
+        
+        self.checkboxDialogViewController = CheckboxDialogViewController()
+        self.checkboxDialogViewController.titleDialog = "Countries"
+        self.checkboxDialogViewController.tableData = tableData
+        self.checkboxDialogViewController.defaultValues = [tableData[3]]
+     
+        self.checkboxDialogViewController.componentName = DialogCheckboxViewEnum.countries
+        self.checkboxDialogViewController.delegateDialogTableView = self
+        self.checkboxDialogViewController.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
+        self.present(self.checkboxDialogViewController, animated: false, completion: nil)
     }
     
     func setMemberMenuView(){
@@ -1103,11 +1570,17 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
     @IBAction func onSearchClcik(_ sender: Any) {
       present(placesSearchController, animated: true, completion: nil)
     }
+    @objc func navigationSegmentedControlValueChanged(_ sender: BetterSegmentedControl) {
+        self.groupIndex = Int(sender.index)
+    }
+    @objc func navigationSegmentedControlValueChangedd(_ sender: BetterSegmentedControl) {
+        self.groupBothIndex = Int(sender.index)
+    }
     func checkCurrentUser(){
         print("im in check current user Func")
         let defaults = UserDefaults.standard
         let id = defaults.integer(forKey: "member_id")
-        let isLogged = defaults.bool(forKey: "isLogged")
+        self.isLogged = defaults.bool(forKey: "isLogged")
         let phone = defaults.string(forKey: "phone")
         print("Im in  isLogged \(isLogged)")
         
@@ -1120,6 +1593,13 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
             filter = "all"
             self.getMember(memberId: id)
             setBadges()
+            
+            filtersBtton.segments = LabelSegment.segments(withTitles: self.groupsTypeAfterReg,
+                                                          normalFont: UIFont(name: "HelveticaNeue-Light", size: 11.0)!,
+                                                          normalTextColor: Colors.PrimaryColor,
+                                                          selectedFont: UIFont(name: "HelveticaNeue-Bold", size: 12.0)!, selectedTextColor: UIColor.white)
+            
+
             self.filterClickView.isHidden = false
             self.filterButton.isHidden = false
             self.isLogged = true
@@ -1147,10 +1627,11 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
             
             
         }else{
-            self.filterClickView.isHidden = true
-            self.filterButton.isHidden = true
-            //self.searchbarButrnsView.isHidden = false
-           // self.tableView.tableHeaderView = nil
+            filtersBtton.segments = LabelSegment.segments(withTitles: self.groupsTypeBeforeReg,
+                                                          normalFont: UIFont(name: "HelveticaNeue-Light", size: 11.0)!,
+                                                          normalTextColor: Colors.PrimaryColor,
+                                                          selectedFont: UIFont(name: "HelveticaNeue-Bold", size: 12.0)!, selectedTextColor: UIColor.white)
+           
             self.lastitem = 0
             self.page = 1
             self.myGrous = []
@@ -1213,6 +1694,10 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
         self.hasLoadMore = true
         self.tableView.reloadData()
         self.groupCollectionView.reloadData()
+        if self.filter == "filter" {
+            self.getGroupsByFilter()
+        }
+        else {
         if self.isLogged {
                 self.getGroupsByFilter()
             
@@ -1221,6 +1706,7 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
             
                 self.getSwiftGroups()
             
+        }
         }
         
         
@@ -1337,9 +1823,9 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
     
     @IBAction func sendClick(_ sender: Any) {
         
-        
-        /// check if member
-     
+        if !(self.scrollFilter.isHidden) {
+            self.hideFilter()
+        }
         
         if isValidPhone(phone: contryCodeString+phoneNumberFeild.text!)
         {
@@ -1695,20 +2181,20 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
     }
     
     func getGroupsByFilter() {
-        print("request PAGE = \(self.page)")
+        print("request PAGE = \(self.page) and filter url is \(self.filterUrl)")
         var searchUrl: String = ""
         self.myGroupByPhoneView.isHidden = true
         var groups: [GroupItemObject]?
         let withoutFilter = "/groups?member_id=\(self.id)&my_groups=true&page=\(self.page)&sort=\(self.sort)"
        // let withoutFilter = "/api/groups?page=\(self.page)&sort=\(self.sort)"
-        let withRole = "/groups/members/\(self.id)?page=\(self.page)&role=group_leader&sort=\(self.sort)"
-        let daysGroup = "/groups?member_id=\(self.id)&page=\(self.page)&filter=days&sort=\(self.sort)"
-        let oneDayGroup = "/groups?member_id=\(self.id)&page=\(self.page)&filter=day&sort=\(self.sort)"
-        let allGroupsFilter = "/groups?member_id=\(self.id)&page=\(self.page)&sort=\(self.sort)"
+        let withRole = ApiRouts.ApiV3 + "/groups/members/\(self.id)?page=\(self.page)&role=group_leader&sort=\(self.sort)"
+        let daysGroup = ApiRouts.ApiV3 + "/groups?member_id=\(self.id)&page=\(self.page)&filter=days&sort=\(self.sort)"
+        let oneDayGroup = ApiRouts.ApiV3 + "/groups?member_id=\(self.id)&page=\(self.page)&filter=day&sort=\(self.sort)"
+        let allGroupsFilter = ApiRouts.ApiV3 + "/groups?member_id=\(self.id)&page=\(self.page)&sort=\(self.sort)"
         if self.id == -1 {
-            searchUrl  = "/groups?page=\(self.page)&sort=\(self.sort)&search=\(self.search)"
+            searchUrl  = ApiRouts.ApiV3 + "/groups?page=\(self.page)&sort=\(self.sort)&search=\(self.search)"
         }else {
-        searchUrl  = "/groups?member_id=\(self.id)&page=\(self.page)&sort=\(self.sort)&search=\(self.search)"
+        searchUrl  = ApiRouts.ApiV3 + "/groups?member_id=\(self.id)&page=\(self.page)&sort=\(self.sort)&search=\(self.search)"
         }
         var lastFilter: String = ""
         if filter == "all" {
@@ -1731,6 +2217,10 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
             noGroupText.text = " You currently do not have any groups that you create or mange."
             lastFilter = daysGroup
         }
+        if filter == "filter" {
+            setFilterUrl()
+            lastFilter = self.filterUrl
+        }
         if filter == "no-filter" {
             print("Im here in filter == no-filter")
             let defaults = UserDefaults.standard
@@ -1747,8 +2237,8 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
         }
         hud.textLabel.text = ""
         hud.show(in: self.view)
-        print("The url is \(ApiRouts.Api+lastFilter)")
-        HTTP.GET(ApiRouts.ApiV3+lastFilter) { response in
+        print("The url is \(lastFilter)")
+        HTTP.GET(lastFilter) { response in
             if let error = response.error {
                 print(error)
                 self.hud.dismiss()
@@ -1789,33 +2279,42 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
                         self.noGroupsView.isHidden = true
                     }
                 }
-                if groups2.last_page! < self.page {
-
-                    self.hasLoadMore = false
-                    return
-                }else {
-
-                }
+               
                 
                 
                 
-                DispatchQueue.main.sync {
+                DispatchQueue.main.async {
                     for group in groups! {
                         if !self.myGrous.contains(where: { (tGroup) -> Bool in
                             return tGroup.id == group.id
                         }) {
                             self.myGrous.append(group)
                         }
+                       
                     }
+                    self.page = self.page + 1
+                    print("FILTER URL IS \(self.filterUrl)")
+                    
                     self.hud.dismiss()
                     //   self.myGrous = groups!
                     self.tableView.reloadData()
                     
                     self.groupCollectionView.reloadData()
+                    
                     if self.refresher.isRefreshing{
                         self.refresher.endRefreshing()
                     }
-                    self.page += 1
+                    //print("The url is last_page = \(groups2.last_page) and page is \(self.page)")
+                    
+                    
+                    if self.page > groups2.last_page!
+                    {
+                        self.hud.dismiss()
+                        
+                        self.hasLoadMore = false
+                        self.refresher.endRefreshing()
+                        return
+                    }
                     self.isLoading = false
                 }
                 }
@@ -2054,31 +2553,62 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
     
     /////////////////////////////// Tableview initialize ///////////////////////////
     
-    
-    // pagination loadmore : check last item
-    
+ 
+//    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+//
+//        if scrollView == tableView{
+//
+//            if ((scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height)
+//            {
+//                print("Im reach scroll")
+//                if  self.hasLoadMore == true && !self.isLoading{
+//
+//                    self.isLoading = true
+//
+//                    print("Reach last")
+//
+//                    if self.filter == "filter" {
+//                        self.getGroupsByFilter()
+//                    }
+//                    else {
+//                        if isLogged {
+//                            print("is Logged - has Loaded More true")
+//                            self.getGroupsByFilter()
+//                        }else{
+//                            self.getSwiftGroups()
+//                            print("Not  Logged - has Loaded More false")
+//
+//                        }
+//                    }
+//
+//                }
+//            }
+//        }
+//    }
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        
-      //  lastitem =  self.myGrous.count
-        //let currentIndex : Int = indexPath.row + 1
-       // print("Last item is \(lastitem) and index is \(indexPath.row)")
 
-        if indexPath.row + 1 == self.lastitem && hasLoadMore == true && !self.isLoading{
-               print("Last item is \(lastitem) and index is \(indexPath.row)")
-            self.isLoading = true
-
-            print("Reach last")
-
-            if isLogged {
-                print("is Logged - has Loaded More true")
-                self.getGroupsByFilter()
-            }else{
-                self.getSwiftGroups()
-                print("Not  Logged - has Loaded More false")
-                
-            }
-           
-        }
+//        print("Last item  \(indexPath.row + 1 == self.lastitem) and hasLoadMore is \(hasLoadMore) and \(!self.isLoading)")
+//        if indexPath.row  == self.myGrous.count - 1 && hasLoadMore == true && !self.isLoading{
+//               print("Last item is \(lastitem) and index is \(indexPath.row)")
+//            self.isLoading = true
+//
+//            print("Reach last")
+//
+//            if self.filter == "filter" {
+//                self.getGroupsByFilter()
+//            }
+//            else {
+//            if isLogged {
+//                print("is Logged - has Loaded More true")
+//                self.getGroupsByFilter()
+//            }else{
+//                self.getSwiftGroups()
+//                print("Not  Logged - has Loaded More false")
+//
+//            }
+//            }
+//
+//        }
     }
     
     @IBAction func cancelClick(_ sender: Any) {
@@ -2601,7 +3131,9 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
     }
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
             print(searchBar.text)
-        
+            if !(self.scrollFilter.isHidden) {
+                self.hideFilter()
+            }
             self.myGroupsBt.setTitleColor(UIColor.black, for: .normal)
             self.publicGroupsbt.setTitleColor(UIColor.black, for: .normal)
             self.multiDaysBt.setTitleColor(UIColor.black, for: .normal)
@@ -2789,12 +3321,14 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
     }
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
        
-        if indexPath.row + 1 == self.lastitem && hasLoadMore == true && !self.isLoading{
+        if indexPath.row + 1 == self.myGrous.count && hasLoadMore == true && !self.isLoading{
             print("Last item is \(lastitem) and index is \(indexPath.row)")
             self.isLoading = true
             
             print("Reach last")
-            
+            if self.filter == "filter" {
+                self.getGroupsByFilter()
+            }else {
             if isLogged {
                 print("is Logged - has Loaded More true")
                 self.getGroupsByFilter()
@@ -2803,6 +3337,7 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
                 self.getSwiftGroups()
                 print("Not  Logged - has Loaded More false")
                 
+            }
             }
             
         }
@@ -2934,7 +3469,7 @@ class ViewController: UIViewController,UICollectionViewDelegate, UICollectionVie
         self.oneDayBt.setTitleColor(UIColor.black, for: .normal)
         self.closeFilterSlide()
         sort = standart_sort
-        filter = "all"
+       
        // showToast("My Message", 3.0)
         self.refreshData()
     }
@@ -3294,4 +3829,28 @@ extension UIImage {
         
         return newImage!
     }
+}
+extension UIScrollView {
+    
+    var isAtTop: Bool {
+        return contentOffset.y <= verticalOffsetForTop
+    }
+    
+    var isAtBottom: Bool {
+        return contentOffset.y >= verticalOffsetForBottom
+    }
+    
+    var verticalOffsetForTop: CGFloat {
+        let topInset = contentInset.top
+        return -topInset
+    }
+    
+    var verticalOffsetForBottom: CGFloat {
+        let scrollViewHeight = bounds.height
+        let scrollContentSizeHeight = contentSize.height
+        let bottomInset = contentInset.bottom
+        let scrollViewBottomOffset = scrollContentSizeHeight + bottomInset - scrollViewHeight
+        return scrollViewBottomOffset
+    }
+    
 }

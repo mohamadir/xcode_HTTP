@@ -1,4 +1,6 @@
 PODS:
+  - AAMultiSelectController (0.5.0):
+    - Masonry
   - Alamofire (4.7.3)
   - AlamofireImage (3.4.1):
     - Alamofire (~> 4.7)
@@ -16,6 +18,7 @@ PODS:
     - Bolts/Tasks
   - Bolts/Tasks (1.9.0)
   - CCAutocomplete (0.0.4)
+  - CheckboxList (1.0.2)
   - CountryPickerView (2.1.1)
   - Crashlytics (3.10.9):
     - Fabric (~> 1.7.13)
@@ -122,6 +125,7 @@ PODS:
   - JGProgressHUD (2.0.3)
   - leveldb-library (1.20)
   - M13Checkbox (3.2.2)
+  - Masonry (1.1.0)
   - moa (9.0.2)
   - ModernSearchBar (1.5)
   - MRCountryPicker (0.0.8)
@@ -152,6 +156,7 @@ PODS:
     - Starscream (~> 3.0.2)
   - Starscream (3.0.5)
   - SVProgressHUD (2.2.5)
+  - SwiftCheckboxDialog (1.0.0)
   - SwiftEventBus (2.2.0)
   - SwiftHTTP (3.0.1)
   - SwiftRangeSlider (2.0.0)
@@ -160,6 +165,7 @@ PODS:
   - Toast-Swift (3.0.1)
   - TTGSnackbar (1.7.4)
   - TTRangeSlider (1.0.6)
+  - UIScrollView-InfiniteScroll (1.1.0)
   - VideoPlaybackKit (0.2.3):
     - Alamofire (~> 4.4)
     - AlamofireImage (~> 3.1)
@@ -169,6 +175,7 @@ PODS:
   - YNExpandableCell (1.1.0)
 
 DEPENDENCIES:
+  - AAMultiSelectController
   - Alamofire (~> 4.7)
   - ARNTransitionAnimator
   - ARSLineProgress (~> 2.0)
@@ -176,6 +183,7 @@ DEPENDENCIES:
   - BetterSegmentedControl (~> 1.0)
   - BmoViewPager (~> 4.0.0)
   - CCAutocomplete
+  - CheckboxList (~> 1.0)
   - CountryPickerView
   - Crashlytics (~> 3.10.0)
   - Digger
@@ -215,6 +223,7 @@ DEPENDENCIES:
   - SkyFloatingLabelTextField (~> 3.0)
   - Socket.IO-Client-Swift
   - SVProgressHUD
+  - SwiftCheckboxDialog
   - SwiftEventBus (from `https://github.com/cesarferreira/SwiftEventBus.git`, tag `3.0.0`)
   - SwiftHTTP (~> 3.0.1)
   - SwiftRangeSlider
@@ -223,6 +232,7 @@ DEPENDENCIES:
   - Toast-Swift (~> 3.0.1)
   - TTGSnackbar
   - TTRangeSlider
+  - UIScrollView-InfiniteScroll (~> 1.1.0)
   - VideoPlaybackKit
   - XLPagerTabStrip (~> 8.0)
   - YNExpandableCell
@@ -238,6 +248,7 @@ CHECKOUT OPTIONS:
     :tag: 3.0.0
 
 SPEC CHECKSUMS:
+  AAMultiSelectController: 7aeca25d94fa7651287cd22591d00ec282591293
   Alamofire: c7287b6e5d7da964a70935e5db17046b7fde6568
   AlamofireImage: 78d67ccbb763d87ba44b21583d2153500a195630
   ARNTransitionAnimator: 2b9bb180e4250dd847af59bda677fcbae4d2da99
@@ -248,6 +259,7 @@ SPEC CHECKSUMS:
   BmoViewPager: 1bbba2f3d9bad4e255b0e397dc035e9a0c434eb5
   Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
   CCAutocomplete: 7e54cab43d10eb9e5385d5b3409e9dee0b7af714
+  CheckboxList: 08627283f4b543d8aa902616c5f79f87b813800f
   CountryPickerView: 8b20263f2d4e1953045e608c2594b50e8a2ee65c
   Crashlytics: 55e24fc23989680285a21cb1146578d9d18e432c
   Digger: c474bde76a91e0a36f12101c5dfe7e86774b15d3
@@ -278,6 +290,7 @@ SPEC CHECKSUMS:
   JGProgressHUD: 12b20a8f4ffe05258f8635c1ab92816e451f904d
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
   M13Checkbox: a8c2491cfbbca10797925fd0b9154a782bf40d89
+  Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   moa: b73dc5e0efa1fad00711c4608e41b197f4d15b12
   ModernSearchBar: 5dd19c94b1e04f1f83dd9b9950d05153ef2535e5
   MRCountryPicker: 1aeea66de25cdef79dce3b91d8ad9db643c1cc01
@@ -296,6 +309,7 @@ SPEC CHECKSUMS:
   Socket.IO-Client-Swift: 79f8f85fa44881838175a20f9bd2c32bef2c9d37
   Starscream: faf918b2f2eff7d5dd21180646bf015a669673bd
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
+  SwiftCheckboxDialog: 961526e6a278298b2c7857cd4a5a1e7f034ddb6b
   SwiftEventBus: 667baca2f107fa0c9c2068950298dbfd6a4111cc
   SwiftHTTP: e94f1aa8cde58637dcc0100f6349de31a3337fde
   SwiftRangeSlider: f86e3b637c961120158fa1a89277c8343845cbe4
@@ -304,10 +318,11 @@ SPEC CHECKSUMS:
   Toast-Swift: ba0b01b095aada709d915f9beb1d38184a2721c3
   TTGSnackbar: 07314250181c0817a9284f92c115131ac9ccd8c5
   TTRangeSlider: 78188bea83f6471a06f75adbc88da5e990baeafe
+  UIScrollView-InfiniteScroll: 3ef456bcbe759c19f510a383cff96e6647c98c98
   VideoPlaybackKit: b963b83ebfe80f002191fc3721eb596459174a1e
   XLPagerTabStrip: c908b17cbf42fcd2598ee1adfc49bae25444d88a
   YNExpandableCell: 47bf7cff721aa535c0e9e1163bf22b5573441bb4
 
-PODFILE CHECKSUM: 1c884c02ab17dbdbfe1996c859b315babc958f49
+PODFILE CHECKSUM: 1ce817a8e26ad23bd197fe3dea9d2d6773810d31
 
 COCOAPODS: 1.4.0

@@ -12,6 +12,8 @@
 		6CDDC9F893AE0BE7F11C3AC8 /* Pods_SnapgroupTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EE6866909E660EDD3CCCEB5 /* Pods_SnapgroupTests.framework */; };
 		740254A8211C4680002BB719 /* AddCompanionsModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 740254A7211C4680002BB719 /* AddCompanionsModal.swift */; };
 		7404F38220569F220017762F /* ItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7404F38120569F220017762F /* ItemViewController.swift */; };
+		7408818F219ADD1600B1AA12 /* MultiSelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7408818E219ADD1500B1AA12 /* MultiSelectViewController.swift */; };
+		74088191219ADD3400B1AA12 /* MultiSelectCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74088190219ADD3400B1AA12 /* MultiSelectCell.swift */; };
 		740FD77020F38F2500FAD766 /* FilterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 740FD76F20F38F2500FAD766 /* FilterCell.swift */; };
 		74138E0220440E9D00F37028 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74138E0120440E9D00F37028 /* MenuViewController.swift */; };
 		74138E042044207700F37028 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74138E032044207700F37028 /* ChatViewController.swift */; };
@@ -167,6 +169,8 @@
 		4CF86BF3C56B0D575EA7CC1C /* Pods-Complex JSON.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Complex JSON.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Complex JSON/Pods-Complex JSON.debug.xcconfig"; sourceTree = "<group>"; };
 		740254A7211C4680002BB719 /* AddCompanionsModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCompanionsModal.swift; sourceTree = "<group>"; };
 		7404F38120569F220017762F /* ItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemViewController.swift; sourceTree = "<group>"; };
+		7408818E219ADD1500B1AA12 /* MultiSelectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiSelectViewController.swift; sourceTree = "<group>"; };
+		74088190219ADD3400B1AA12 /* MultiSelectCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiSelectCell.swift; sourceTree = "<group>"; };
 		740FD76F20F38F2500FAD766 /* FilterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterCell.swift; sourceTree = "<group>"; };
 		74138E0120440E9D00F37028 /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 		74138E032044207700F37028 /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
@@ -376,6 +380,15 @@
 			path = Companions;
 			sourceTree = "<group>";
 		};
+		7408818D219ADCF700B1AA12 /* Multi Selcet */ = {
+			isa = PBXGroup;
+			children = (
+				7408818E219ADD1500B1AA12 /* MultiSelectViewController.swift */,
+				74088190219ADD3400B1AA12 /* MultiSelectCell.swift */,
+			);
+			path = "Multi Selcet";
+			sourceTree = "<group>";
+		};
 		74138E052044211400F37028 /* Private Chat */ = {
 			isa = PBXGroup;
 			children = (
@@ -527,6 +540,7 @@
 		743A207F203C1B12008DF1AA /* Complex JSON */ = {
 			isa = PBXGroup;
 			children = (
+				7408818D219ADCF700B1AA12 /* Multi Selcet */,
 				741630E121663799005EFF6A /* Payments */,
 				74D4B885215CF0B3001A4111 /* New Filter */,
 				740254A6211C45CA002BB719 /* Companions */,
@@ -1134,6 +1148,7 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-Snapgroup/Pods-Snapgroup-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/AAMultiSelectController/AAMultiSelectController.framework",
 				"${BUILT_PRODUCTS_DIR}/ARNTransitionAnimator/ARNTransitionAnimator.framework",
 				"${BUILT_PRODUCTS_DIR}/ARSLineProgress/ARSLineProgress.framework",
 				"${BUILT_PRODUCTS_DIR}/ASValueTrackingSlider/ASValueTrackingSlider.framework",
@@ -1144,6 +1159,7 @@
 				"${BUILT_PRODUCTS_DIR}/BmoViewPager/BmoViewPager.framework",
 				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
 				"${BUILT_PRODUCTS_DIR}/CCAutocomplete/CCAutocomplete.framework",
+				"${BUILT_PRODUCTS_DIR}/CheckboxList/CheckboxList.framework",
 				"${BUILT_PRODUCTS_DIR}/CountryPickerView/CountryPickerView.framework",
 				"${BUILT_PRODUCTS_DIR}/Digger/Digger.framework",
 				"${BUILT_PRODUCTS_DIR}/ExpandableLabel/ExpandableLabel.framework",
@@ -1162,6 +1178,7 @@
 				"${BUILT_PRODUCTS_DIR}/JGProgressHUD/JGProgressHUD.framework",
 				"${BUILT_PRODUCTS_DIR}/M13Checkbox/M13Checkbox.framework",
 				"${BUILT_PRODUCTS_DIR}/MRCountryPicker/MRCountryPicker.framework",
+				"${BUILT_PRODUCTS_DIR}/Masonry/Masonry.framework",
 				"${BUILT_PRODUCTS_DIR}/ModernSearchBar/ModernSearchBar.framework",
 				"${BUILT_PRODUCTS_DIR}/PageControl/PageControl.framework",
 				"${BUILT_PRODUCTS_DIR}/PhoneNumberKit/PhoneNumberKit.framework",
@@ -1177,6 +1194,7 @@
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
 				"${BUILT_PRODUCTS_DIR}/Socket.IO-Client-Swift/SocketIO.framework",
 				"${BUILT_PRODUCTS_DIR}/Starscream/Starscream.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftCheckboxDialog/SwiftCheckboxDialog.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftEventBus/SwiftEventBus.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftHTTP/SwiftHTTP.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftRangeSlider/SwiftRangeSlider.framework",
@@ -1185,6 +1203,7 @@
 				"${BUILT_PRODUCTS_DIR}/TTGSnackbar/TTGSnackbar.framework",
 				"${BUILT_PRODUCTS_DIR}/TTRangeSlider/TTRangeSlider.framework",
 				"${BUILT_PRODUCTS_DIR}/Toast-Swift/Toast_Swift.framework",
+				"${BUILT_PRODUCTS_DIR}/UIScrollView-InfiniteScroll/UIScrollView_InfiniteScroll.framework",
 				"${BUILT_PRODUCTS_DIR}/VideoPlaybackKit/VideoPlaybackKit.framework",
 				"${BUILT_PRODUCTS_DIR}/XLPagerTabStrip/XLPagerTabStrip.framework",
 				"${BUILT_PRODUCTS_DIR}/YNExpandableCell/YNExpandableCell.framework",
@@ -1194,6 +1213,7 @@
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AAMultiSelectController.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ARNTransitionAnimator.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ARSLineProgress.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ASValueTrackingSlider.framework",
@@ -1204,6 +1224,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BmoViewPager.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bolts.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CCAutocomplete.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CheckboxList.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CountryPickerView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Digger.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ExpandableLabel.framework",
@@ -1222,6 +1243,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JGProgressHUD.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/M13Checkbox.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MRCountryPicker.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Masonry.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ModernSearchBar.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PageControl.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PhoneNumberKit.framework",
@@ -1237,6 +1259,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SocketIO.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Starscream.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftCheckboxDialog.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftEventBus.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftHTTP.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftRangeSlider.framework",
@@ -1245,6 +1268,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TTGSnackbar.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TTRangeSlider.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Toast_Swift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/UIScrollView_InfiniteScroll.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/VideoPlaybackKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/XLPagerTabStrip.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/YNExpandableCell.framework",
@@ -1378,6 +1402,7 @@
 				74B3CDF0205538F700440EB0 /* Colors.swift in Sources */,
 				74FBD10E20528D2D002D223A /* Models.swift in Sources */,
 				746BA81F211728D200C87608 /* HelpCenterViewController.swift in Sources */,
+				74088191219ADD3400B1AA12 /* MultiSelectCell.swift in Sources */,
 				74490C1D2052B8F0007AD4FA /* KeyboardViewController.swift in Sources */,
 				74730C4F205666680091D657 /* ItineraryViewController.swift in Sources */,
 				7EBD078320A1A9E700369E36 /* MeFileCell.swift in Sources */,
@@ -1444,6 +1469,7 @@
 				7E2ED4BD20985633002921A5 /* ArrivleConfirmationViewController.swift in Sources */,
 				7E2D7B202090C06900DAC98F /* Section.swift in Sources */,
 				74F7AAA320595D6B00E66DF8 /* ItineraryServiceViewControllerCell.swift in Sources */,
+				7408818F219ADD1600B1AA12 /* MultiSelectViewController.swift in Sources */,
 				748B842620C038DB005D45D4 /* ServicesViewController.swift in Sources */,
 				7E8F2C6C20A9C13400854AF0 /* ReviewsViewController.swift in Sources */,
 				7472404720C7C62B0054FB35 /* UploadFile.swift in Sources */,
